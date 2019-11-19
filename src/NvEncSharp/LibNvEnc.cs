@@ -4,32 +4,57 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
+    public enum LibNcEncInitializeStatus
+    {
+        Success,
+        DllNotFound,
+        UnsupportedVersion,
+        Failure
+    }
+
     public static class LibNvEnc
     {
+#if X64PLATFORM
         private const string _path = "nvEncodeAPI64.dll";
+#else
+        private const string _path = "nvEncodeAPI.dll";
+#endif
 
+        // ReSharper disable InconsistentNaming
+        // ReSharper disable UnusedMember.Global
         public const uint NVENCAPI_MAJOR_VERSION = 9;
         public const uint NVENCAPI_MINOR_VERSION = 1;
 
         public const uint NVENCAPI_VERSION = NVENCAPI_MAJOR_VERSION | (NVENCAPI_MINOR_VERSION << 24);
 
-        public static uint NV_ENCODE_API_FUNCTION_LIST_VER = StructVersion(2);
-        public static uint NV_ENC_OPEN_ENCODE_SESSION_EX_PARAMS_VER = StructVersion(1);
-        public static uint NV_ENC_INITIALIZE_PARAMS_VER = StructVersion(5, (long)1 << 31);
-        public static uint NV_ENC_CONFIG_VER = StructVersion(7, (long)1 << 31);
-        public static uint NV_ENC_PRESET_CONFIG_VER = StructVersion(4, (long)1 << 31);
+        public static readonly uint NV_ENC_CAPS_PARAM_VER = StructVersion(1);
+        public static readonly uint NV_ENC_ENCODE_OUT_PARAMS_VER = StructVersion(1);
+        public static readonly uint NV_ENC_CREATE_INPUT_BUFFER_VER = StructVersion(1);
+        public static readonly uint NV_ENC_CREATE_BITSTREAM_BUFFER_VER = StructVersion(1);
+        public static readonly uint NV_ENC_CREATE_MV_BUFFER_VER = StructVersion(1);
+        public static readonly uint NV_ENC_RC_PARAMS_VER = StructVersion(1);
+        public static readonly uint NV_ENC_CONFIG_VER = StructVersion(7, (uint)1 << 31);
+        public static readonly uint NV_ENC_INITIALIZE_PARAMS_VER = StructVersion(5, (uint)1 << 31);
+        public static readonly uint NV_ENC_RECONFIGURE_PARAMS_VER = StructVersion(1, (uint)1 << 31);
+        public static readonly uint NV_ENC_PRESET_CONFIG_VER = StructVersion(4, (uint)1 << 31);
+        public static readonly uint NV_ENC_PIC_PARAMS_MVC_VER = StructVersion(1);
+        public static readonly uint NV_ENC_PIC_PARAMS_VER = StructVersion(4, (uint)1 << 31);
+        public static readonly uint NV_ENC_MEONLY_PARAMS_VER = StructVersion(3);
+        public static readonly uint NV_ENC_LOCK_BITSTREAM_VER = StructVersion(1);
+        public static readonly uint NV_ENC_LOCK_INPUT_BUFFER_VER = StructVersion(1);
+        public static readonly uint NV_ENC_MAP_INPUT_RESOURCE_VER = StructVersion(4);
+        public static readonly uint NV_ENC_REGISTER_RESOURCE_VER = StructVersion(3);
+        public static readonly uint NV_ENC_STAT_VER = StructVersion(1);
+        public static readonly uint NV_ENC_SEQUENCE_PARAM_PAYLOAD_VER = StructVersion(1);
+        public static readonly uint NV_ENC_EVENT_PARAMS_VER = StructVersion(1);
+        public static readonly uint NV_ENC_OPEN_ENCODE_SESSION_EX_PARAMS_VER = StructVersion(1);
+        public static readonly uint NV_ENCODE_API_FUNCTION_LIST_VER = StructVersion(2);
+        // ReSharper restore UnusedMember.Global
+        // ReSharper restore InconsistentNaming
 
+        public static NvEncApiFunctionList FunctionList;
 
-        public static NvEncApiFunctionList FunctionList => GetFunctionList();
-
-        public static uint StructVersion(uint ver, long and = 0)
-        {
-            // #define NVENCAPI_STRUCT_VERSION(ver) ((uint32_t)NVENCAPI_VERSION | ((ver)<<16) | (0x7 << 28))
-            return NVENCAPI_VERSION | (ver << 16) | (0x7 << 28) | (uint)and;
-        }
-
-        private static readonly Lazy<NvEncApiFunctionList> _functionList =
-            new Lazy<NvEncApiFunctionList>(GetFunctionList);
+        private static bool _isInitialized = false;
 
         [DllImport(_path, SetLastError = true)]
         public static extern NvEncStatus NvEncodeAPICreateInstance(ref NvEncApiFunctionList functionList);
@@ -37,24 +62,92 @@ namespace Lennox.NvEncSharp
         [DllImport(_path, SetLastError = true)]
         public static extern NvEncStatus NvEncodeAPIGetMaxSupportedVersion(out uint version);
 
-        public static bool CheckSupportedVersion()
+        private static uint StructVersion(uint ver, uint and = 0)
         {
-            NvEncodeAPIGetMaxSupportedVersion(out var supportedVersion);
-
-            return true;
+            // #define NVENCAPI_STRUCT_VERSION(ver) ((uint32_t)NVENCAPI_VERSION | ((ver)<<16) | (0x7 << 28))
+            return NVENCAPI_VERSION | (ver << 16) | (0x7 << 28) | and;
         }
 
-        public static NvEncoder OpenEncoder(ref NvEncOpenEncodeSessionexParams sessionParams)
+        public static LibNcEncInitializeStatus TryInitialize(out string failedDescription)
         {
-            CheckResult(default, _functionList.Value.
-                OpenEncodeSessionEx(ref sessionParams, out var encoder));
+            failedDescription = null;
+
+            // Thread safety isn't an issue as there's no loss on successful
+            // re-entrance.
+            if (_isInitialized) return LibNcEncInitializeStatus.Success;
+
+            uint version;
+            NvEncStatus status;
+
+            try
+            {
+                status = NvEncodeAPIGetMaxSupportedVersion(out version);
+            }
+            catch (DllNotFoundException e)
+            {
+                failedDescription = e.ToString();
+                return LibNcEncInitializeStatus.DllNotFound;
+            }
+
+            if (status != NvEncStatus.Success)
+            {
+                failedDescription = $"{nameof(NvEncodeAPIGetMaxSupportedVersion)} returned unexpected status, {status}";
+                return LibNcEncInitializeStatus.Failure;
+            }
+
+            const uint currentVersion = (NVENCAPI_MAJOR_VERSION << 4) | NVENCAPI_MINOR_VERSION;
+
+            if (currentVersion > version)
+            {
+                failedDescription = $"Installed NvEnc version is {version >> 4}.{version & 0xF}, version must be at least {NVENCAPI_MAJOR_VERSION}.{NVENCAPI_MINOR_VERSION}. Please upgrade the nvidia display drivers.";
+                return LibNcEncInitializeStatus.UnsupportedVersion;
+            }
+
+            var functionList = new NvEncApiFunctionList
+            {
+                Version = NV_ENCODE_API_FUNCTION_LIST_VER
+            };
+
+            status = NvEncodeAPICreateInstance(ref functionList);
+
+            if (status != NvEncStatus.Success)
+            {
+                failedDescription = $"{nameof(NvEncodeAPICreateInstance)} returned unexpected status, {status}";
+                return LibNcEncInitializeStatus.Failure;
+            }
+
+            FunctionList = functionList;
+
+            _isInitialized = true;
+
+            return LibNcEncInitializeStatus.Success;
+        }
+
+        public static void Initialize()
+        {
+            if (_isInitialized) return;
+
+            if (TryInitialize(out var description) !=
+                LibNcEncInitializeStatus.Success)
+            {
+                throw new NotSupportedException(description);
+            }
+        }
+
+        public static NvEncoder OpenEncoder(
+            ref NvEncOpenEncodeSessionExParams sessionParams)
+        {
+            Initialize();
+
+            CheckResult(default, FunctionList
+                .OpenEncodeSessionEx(ref sessionParams, out var encoder));
 
             return encoder;
         }
 
         public static NvEncoder OpenEncoderForDirectX(IntPtr deviceHandle)
         {
-            var ps = new NvEncOpenEncodeSessionexParams
+            var ps = new NvEncOpenEncodeSessionExParams
             {
                 Version = NV_ENC_OPEN_ENCODE_SESSION_EX_PARAMS_VER,
                 ApiVersion = NVENCAPI_VERSION,
@@ -63,17 +156,6 @@ namespace Lennox.NvEncSharp
             };
 
             return OpenEncoder(ref ps);
-        }
-
-        public static NvEncApiFunctionList GetFunctionList()
-        {
-            var functionList = new NvEncApiFunctionList
-            {
-                Version = NV_ENCODE_API_FUNCTION_LIST_VER
-            };
-
-            var status = NvEncodeAPICreateInstance(ref functionList);
-            return functionList;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -89,5 +171,4 @@ namespace Lennox.NvEncSharp
             }
         }
     }
-
 }

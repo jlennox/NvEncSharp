@@ -3,6 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncInputPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncOutputPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncRegisteredPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncCustreamPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncoder { public IntPtr Handle; }
+
     /// <summary>NV_ENCODE_API_FUNCTION_LIST</summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct NvEncApiFunctionList
@@ -67,7 +73,7 @@ namespace Lennox.NvEncSharp
         public DestroyEncoderFn DestroyEncoder;
         public delegate NvEncStatus InvalidateRefFramesFn(NvEncoder encoder, ulong invalidRefFrameTimeStamp);
         public InvalidateRefFramesFn InvalidateRefFrames;
-        public delegate NvEncStatus OpenEncodeSessionExFn(ref NvEncOpenEncodeSessionexParams openSessionExParams, out NvEncoder encoder);
+        public delegate NvEncStatus OpenEncodeSessionExFn(ref NvEncOpenEncodeSessionExParams openSessionExParams, out NvEncoder encoder);
         public OpenEncodeSessionExFn OpenEncodeSessionEx;
         public delegate NvEncStatus RegisterResourceFn(NvEncoder encoder, ref NvEncRegisterResource registerResParams);
         public RegisterResourceFn RegisterResource;
