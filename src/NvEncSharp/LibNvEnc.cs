@@ -72,8 +72,8 @@ namespace Lennox.NvEncSharp
         {
             failedDescription = null;
 
-            // Thread safety isn't an issue as there's no loss on successful
-            // re-entrance.
+            // Thread safety isn't an issue because there's no loss on
+            // successful re-entrance.
             if (_isInitialized) return LibNcEncInitializeStatus.Success;
 
             uint version;
@@ -87,6 +87,11 @@ namespace Lennox.NvEncSharp
             {
                 failedDescription = e.ToString();
                 return LibNcEncInitializeStatus.DllNotFound;
+            }
+            catch (Exception e)
+            {
+                failedDescription = e.ToString();
+                return LibNcEncInitializeStatus.Failure;
             }
 
             if (status != NvEncStatus.Success)
