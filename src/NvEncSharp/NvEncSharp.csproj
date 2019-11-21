@@ -9,7 +9,7 @@
 
     <PackageId>Lennox.NvEncSharp</PackageId>
     <Title>NvEncSharp</Title>
-    <PackageDescription>NvEncSharp provides an interface to Nvidia's NvEnc video encoder for dotnet core and .net framework applications.</PackageDescription>
+    <PackageDescription>NvEncSharp provides an interface to Nvidia's NvEnc hardware video encoder for dotnet core and .net framework applications.</PackageDescription>
     <Authors>Joseph Lennox</Authors>
     <Copyright>Joseph Lennox</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
