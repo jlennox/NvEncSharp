@@ -5,8 +5,8 @@ dotnet core and .net framework applications. [Official SDK](https://developer.nv
 
 # How to use
 
-* Add the nuget package (coming soon)
-* Reference the sample code (coming soon)
+* [Add the nuget package.](https://www.nuget.org/packages/Lennox.NvEncSharp)
+* [Reference the sample code: Capturing the screen as a video.](src/NvEncSharp.Sample.ScreenCapture/Program.cs)
 
 # Welcome contributions
 
