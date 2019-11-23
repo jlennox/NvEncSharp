@@ -3,14 +3,14 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncInputPtr { public IntPtr Handle; }
-    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncOutputPtr { public IntPtr Handle; }
-    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncRegisteredPtr { public IntPtr Handle; }
-    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncCustreamPtr { public IntPtr Handle; }
-    [StructLayout(LayoutKind.Sequential, Pack = 1)] public struct NvEncoder { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential)] public struct NvEncInputPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential)] public struct NvEncOutputPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential)] public struct NvEncRegisteredPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential)] public struct NvEncCustreamPtr { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential)] public struct NvEncoder { public IntPtr Handle; }
 
     /// <summary>NV_ENCODE_API_FUNCTION_LIST</summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncApiFunctionList
     {
         public uint Version;
@@ -27,7 +27,7 @@ namespace Lennox.NvEncSharp
         public GetEncodeGuidsFn GetEncodeGuids;
         public delegate NvEncStatus GetInputFormatCountFn(NvEncoder encoder, Guid encodeGuid, ref uint inputFmtCount);
         public GetInputFormatCountFn GetInputFormatCount;
-        public delegate NvEncStatus GetInputFormatsFn(NvEncoder encoder, Guid encodeGuid, ref NvEncBufferFormat inputFmts, uint inputFmtArraySize, ref uint inputFmtCount);
+        public delegate NvEncStatus GetInputFormatsFn(NvEncoder encoder, Guid encodeGuid, NvEncBufferFormat* inputFmts, uint inputFmtArraySize, ref uint inputFmtCount);
         public GetInputFormatsFn GetInputFormats;
         public delegate NvEncStatus GetEncodeCapsFn(NvEncoder encoder, Guid encodeGuid, ref NvEncCapsParam capsParam, ref int capsVal);
         public GetEncodeCapsFn GetEncodeCaps;

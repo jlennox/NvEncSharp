@@ -197,6 +197,13 @@ namespace Lennox.NvEncSharp
             CheckResult(encoder, Fn.GetInputFormatCount(encoder, encodeGuid, ref inputFmtCount));
         }
 
+        public static uint GetInputFormatCount(this NvEncoder encoder, Guid encodeGuid)
+        {
+            uint inputFmtCount = 0;
+            CheckResult(encoder, Fn.GetInputFormatCount(encoder, encodeGuid, ref inputFmtCount));
+            return inputFmtCount;
+        }
+
         /// <summary>Retrieves an array of supported Input formats
         ///
         /// Returns an array of supported input formats  The client must use the input
@@ -223,10 +230,22 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetInputFormats(this NvEncoder encoder, Guid encodeGuid, ref NvEncBufferFormat inputFmts, uint inputFmtArraySize, out uint inputFmtCount)
+        public static void GetInputFormats(this NvEncoder encoder, Guid encodeGuid, Span<NvEncBufferFormat> inputFmts, out uint inputFmtCount)
         {
             inputFmtCount = 0;
-            CheckResult(encoder, Fn.GetInputFormats(encoder, encodeGuid, ref inputFmts, inputFmtArraySize, ref inputFmtCount));
+            fixed (NvEncBufferFormat* ptr = inputFmts)
+            {
+                CheckResult(encoder, Fn.GetInputFormats(encoder, encodeGuid, ptr, (uint)inputFmts.Length, ref inputFmtCount));
+            }
+        }
+
+        public static IReadOnlyList<NvEncBufferFormat> GetInputFormats(this NvEncoder encoder, Guid encodeGuid)
+        {
+            var count = encoder.GetInputFormatCount(encodeGuid);
+            if (count == 0) return Array.Empty<NvEncBufferFormat>();
+            Span<NvEncBufferFormat> formats = stackalloc NvEncBufferFormat[(int)count];
+            encoder.GetInputFormats(encodeGuid, formats, out var actualCount);
+            return formats.Slice(0, (int)actualCount).ToArray();
         }
 
         /// <summary>Retrieves the capability value for a specified encoder attribute.
@@ -764,6 +783,20 @@ namespace Lennox.NvEncSharp
             CheckResult(encoder, Fn.LockBitstream(encoder, ref lockBitstreamBufferParams));
         }
 
+        public static NvEncLockBitstream LockBitstream(this NvEncoder encoder, NvEncCreateBitstreamBuffer buffer, bool doNotWait = false)
+        {
+            var lockBitstreamBufferParams = new NvEncLockBitstream
+            {
+                Version = NV_ENC_LOCK_BITSTREAM_VER,
+                OutputBitstream = buffer.BitstreamBuffer.Handle,
+                DoNotWait = doNotWait
+            };
+
+            CheckResult(encoder, Fn.LockBitstream(encoder, ref lockBitstreamBufferParams));
+
+            return lockBitstreamBufferParams;
+        }
+
         /// <summary>Unlock the output bitstream buffer
         ///
         /// This function is used to unlock the output bitstream buffer after the client
@@ -1274,6 +1307,27 @@ namespace Lennox.NvEncSharp
 
             var ptr = Fn.GetLastError(encoder);
             return ptr == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(ptr);
+        }
+    }
+
+    public static class NvEncRegisterResourceEx
+    {
+        public static NvEncInputPtr AsInputPointer(
+            this NvEncRegisterResource resource)
+        {
+            return new NvEncInputPtr
+            {
+                Handle = resource.RegisteredResource.Handle
+            };
+        }
+
+        public static NvEncOutputPtr AsOutputPointer(
+            this NvEncRegisterResource resource)
+        {
+            return new NvEncOutputPtr
+            {
+                Handle = resource.RegisteredResource.Handle
+            };
         }
     }
 }
