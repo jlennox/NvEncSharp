@@ -29,7 +29,7 @@ namespace Lennox.NvEncSharp
         public NvEncConfigHevcMeonly HevcMeOnlyConfig;
         /// <summary>reserved[320]: [in]: Reserved and must be set to 0</summary>
         [FieldOffset(0)]
-        public fixed uint Reserved[320];
+        private fixed uint Reserved[320];
     }
 
     /// <summary>NV_ENC_PIC_PARAMS_H264_EXT
@@ -43,7 +43,7 @@ namespace Lennox.NvEncSharp
         public NvEncPicParamsMvc MvcPicParams;
         /// <summary>reserved1[32]: [in]: Reserved and must be set to 0.</summary>
         [FieldOffset(0)]
-        public fixed uint Reserved1[32];
+        private fixed uint Reserved1[32];
     }
 
     /// <summary>NV_ENC_CODEC_PIC_PARAMS
@@ -59,7 +59,7 @@ namespace Lennox.NvEncSharp
         public NvEncPicParamsHevc HevcPicParams;
         /// <summary>reserved[256]: [in]: Reserved and must be set to 0.</summary>
         [FieldOffset(0)]
-        public fixed uint Reserved[256];
+        private fixed uint Reserved[256];
     }
 
     /// <summary>NVENC_RECT
@@ -88,7 +88,7 @@ namespace Lennox.NvEncSharp
         /// <summary>capsToQuery: [in]: Specifies the encode capability to be queried. Client should pass a member for ::NV_ENC_CAPS enum.</summary>
         public NvEncCaps CapsToQuery;
         /// <summary>reserved[62]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved[62];
+        private fixed uint Reserved[62];
     }
 
     /// <summary>NV_ENC_ENCODE_OUT_PARAMS
@@ -101,7 +101,7 @@ namespace Lennox.NvEncSharp
         /// <summary>bitstreamSizeInBytes: [out]: Encoded bitstream size in bytes</summary>
         public uint BitstreamSizeInBytes;
         /// <summary>reserved[62]: [out]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved[62];
+        private fixed uint Reserved[62];
     }
 
     /// <summary>NV_ENC_CREATE_INPUT_BUFFER
@@ -120,19 +120,79 @@ namespace Lennox.NvEncSharp
         /// <summary>bufferFmt: [in]: Input buffer format</summary>
         public NvEncBufferFormat BufferFmt;
         /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        public uint Reserved;
+        private uint Reserved;
         /// <summary>inputBuffer: [out]: Pointer to input buffer</summary>
         public NvEncInputPtr InputBuffer;
         /// <summary>pSysMemBuffer: [in]: Pointer to existing sysmem buffer</summary>
         public IntPtr PSysMemBuffer;
         /// <summary>reserved1[57]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[57];
+        private fixed uint Reserved1[57];
         /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[63];
-#else
-        public fixed uint Reserved2[63];
-#endif
+        #region Reserved2[63]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        #endregion Reserved2[63]
     }
 
     /// <summary>NV_ENC_CREATE_BITSTREAM_BUFFER
@@ -147,19 +207,80 @@ namespace Lennox.NvEncSharp
         /// <summary>memoryHeap: [in]: Deprecated. Do not use</summary>
         public NvEncMemoryHeap MemoryHeap;
         /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        public uint Reserved;
+        private uint Reserved;
         /// <summary>bitstreamBuffer: [out]: Pointer to the output bitstream buffer</summary>
         public NvEncOutputPtr BitstreamBuffer;
         /// <summary>bitstreamBufferPtr: [out]: Reserved and should not be used</summary>
         public IntPtr BitstreamBufferPtr;
         /// <summary>reserved1[58]: [in]: Reserved and should be set to 0</summary>
-        public fixed uint Reserved1[58];
+        private fixed uint Reserved1[58];
         /// <summary>reserved2[64]: [in]: Reserved and should be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_MVECTOR
@@ -188,7 +309,7 @@ namespace Lennox.NvEncSharp
         /// <summary>partitionType: Specifies the block partition type. 0:16x16, 1:8x8, 2:16x8, 3:8x16</summary>
         public byte PartitionType;
         /// <summary>reserved: reserved padding for alignment</summary>
-        public ushort Reserved;
+        private ushort Reserved;
         /// <summary>mbCost</summary>
         public uint MbCost;
     }
@@ -225,13 +346,73 @@ namespace Lennox.NvEncSharp
         /// <summary>mvBuffer: [out]: Pointer to the output motion vector buffer</summary>
         public NvEncOutputPtr MvBuffer;
         /// <summary>reserved1[255]: [in]: Reserved and should be set to 0</summary>
-        public fixed uint Reserved1[255];
+        private fixed uint Reserved1[255];
         /// <summary>reserved2[63]: [in]: Reserved and should be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[63];
-#else
-        public fixed uint Reserved2[63];
-#endif
+        #region Reserved2[63]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        #endregion Reserved2[63]
     }
 
     /// <summary>NV_ENC_QP
@@ -348,7 +529,7 @@ namespace Lennox.NvEncSharp
         /// <summary>lookaheadDepth: [in]: Maximum depth of lookahead with range 0-32 (only used if enableLookahead=1)</summary>
         public ushort LookaheadDepth;
         /// <summary>reserved1</summary>
-        public uint Reserved1;
+        private uint Reserved1;
         /// <summary>qpMapMode: [in]: This flag is used to interpret values in array specified by NV_ENC_PIC_PARAMS::qpDeltaMap.
         /// Set this to NV_ENC_QP_MAP_EMPHASIS to treat values specified by NV_ENC_PIC_PARAMS::qpDeltaMap as Emphasis Level Map.
         /// Emphasis Level can be assigned any value specified in enum NV_ENC_EMPHASIS_MAP_LEVEL.
@@ -365,7 +546,7 @@ namespace Lennox.NvEncSharp
         /// Other values are reserved for future use.</summary>
         public NvEncQpMapMode QpMapMode;
         /// <summary>reserved[7]</summary>
-        public fixed uint Reserved[7];
+        private fixed uint Reserved[7];
     }
 
     /// <summary>NV_ENC_CONFIG_H264_VUI_PARAMETERS
@@ -401,7 +582,7 @@ namespace Lennox.NvEncSharp
         /// <summary>bitstreamRestrictionFlag: [in]: if set to 1, it specifies the bitstream restriction parameters are present in the bitstream.</summary>
         public uint BitstreamRestrictionFlag;
         /// <summary>reserved[15]</summary>
-        public fixed uint Reserved[15];
+        private fixed uint Reserved[15];
     }
 
     /// <summary>NVENC_EXTERNAL_ME_HINT_COUNTS_PER_BLOCKTYPE
@@ -436,7 +617,7 @@ namespace Lennox.NvEncSharp
         internal fixed byte BitField3[2];
         /// <summary>reserved: [in]: Reserved for padding.</summary>
         /// <summary>reserved1[3]: [in]: Reserved for future use.</summary>
-        public fixed uint Reserved1[3];
+        private fixed uint Reserved1[3];
     }
 
     /// <summary>NVENC_EXTERNAL_ME_HINT
@@ -673,13 +854,74 @@ namespace Lennox.NvEncSharp
         /// Check support for numRefL1 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
         public NvEncNumRefFrames NumRefL1;
         /// <summary>reserved1[267]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[267];
+        private fixed uint Reserved1[267];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_CONFIG_HEVC
@@ -821,13 +1063,74 @@ namespace Lennox.NvEncSharp
         /// Check support for numRefL1 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
         public NvEncNumRefFrames NumRefL1;
         /// <summary>reserved1[214]: [in]: Reserved and must be set to 0.</summary>
-        public fixed uint Reserved1[214];
+        private fixed uint Reserved1[214];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_CONFIG_H264_MEONLY
@@ -869,13 +1172,74 @@ namespace Lennox.NvEncSharp
         }
         /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
         /// <summary>reserved1 [255]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1 [255];
+        private fixed uint Reserved1 [255];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_CONFIG_HEVC_MEONLY
@@ -885,13 +1249,74 @@ namespace Lennox.NvEncSharp
     public unsafe struct NvEncConfigHevcMeonly
     {
         /// <summary>reserved [256]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved [256];
+        private fixed uint Reserved [256];
         /// <summary>reserved1[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved1[64];
-#else
-        public fixed uint Reserved1[64];
-#endif
+        #region Reserved1[64]
+        private IntPtr Reserved10;
+        private IntPtr Reserved11;
+        private IntPtr Reserved12;
+        private IntPtr Reserved13;
+        private IntPtr Reserved14;
+        private IntPtr Reserved15;
+        private IntPtr Reserved16;
+        private IntPtr Reserved17;
+        private IntPtr Reserved18;
+        private IntPtr Reserved19;
+        private IntPtr Reserved110;
+        private IntPtr Reserved111;
+        private IntPtr Reserved112;
+        private IntPtr Reserved113;
+        private IntPtr Reserved114;
+        private IntPtr Reserved115;
+        private IntPtr Reserved116;
+        private IntPtr Reserved117;
+        private IntPtr Reserved118;
+        private IntPtr Reserved119;
+        private IntPtr Reserved120;
+        private IntPtr Reserved121;
+        private IntPtr Reserved122;
+        private IntPtr Reserved123;
+        private IntPtr Reserved124;
+        private IntPtr Reserved125;
+        private IntPtr Reserved126;
+        private IntPtr Reserved127;
+        private IntPtr Reserved128;
+        private IntPtr Reserved129;
+        private IntPtr Reserved130;
+        private IntPtr Reserved131;
+        private IntPtr Reserved132;
+        private IntPtr Reserved133;
+        private IntPtr Reserved134;
+        private IntPtr Reserved135;
+        private IntPtr Reserved136;
+        private IntPtr Reserved137;
+        private IntPtr Reserved138;
+        private IntPtr Reserved139;
+        private IntPtr Reserved140;
+        private IntPtr Reserved141;
+        private IntPtr Reserved142;
+        private IntPtr Reserved143;
+        private IntPtr Reserved144;
+        private IntPtr Reserved145;
+        private IntPtr Reserved146;
+        private IntPtr Reserved147;
+        private IntPtr Reserved148;
+        private IntPtr Reserved149;
+        private IntPtr Reserved150;
+        private IntPtr Reserved151;
+        private IntPtr Reserved152;
+        private IntPtr Reserved153;
+        private IntPtr Reserved154;
+        private IntPtr Reserved155;
+        private IntPtr Reserved156;
+        private IntPtr Reserved157;
+        private IntPtr Reserved158;
+        private IntPtr Reserved159;
+        private IntPtr Reserved160;
+        private IntPtr Reserved161;
+        private IntPtr Reserved162;
+        private IntPtr Reserved163;
+        #endregion Reserved1[64]
     }
 
     /// <summary>NV_ENC_CONFIG
@@ -921,13 +1346,74 @@ namespace Lennox.NvEncSharp
         /// <summary>encodeCodecConfig: [in]: Specifies the codec specific config parameters through this union.</summary>
         public NvEncCodecConfig EncodeCodecConfig;
         /// <summary>reserved [278]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved [278];
+        private fixed uint Reserved [278];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_INITIALIZE_PARAMS
@@ -1011,13 +1497,74 @@ namespace Lennox.NvEncSharp
         public NvEncExternalMeHintCountsPerBlocktype MaxMEHintCountsPerBlock0;
         public NvEncExternalMeHintCountsPerBlocktype MaxMEHintCountsPerBlock1;
         /// <summary>reserved [289]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved [289];
+        private fixed uint Reserved [289];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_RECONFIGURE_PARAMS
@@ -1071,13 +1618,74 @@ namespace Lennox.NvEncSharp
         /// <summary>presetCfg: [out]: preset config returned by the Nvidia Video Encoder interface.</summary>
         public NvEncConfig PresetCfg;
         /// <summary>reserved1[255]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[255];
+        private fixed uint Reserved1[255];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_PIC_PARAMS_MVC
@@ -1095,13 +1703,18 @@ namespace Lennox.NvEncSharp
         /// <summary>priorityID: [in]: Specifies the priority ID associated with the current input view. Reserved and ignored by the NvEncodeAPI interface.</summary>
         public uint PriorityID;
         /// <summary>reserved1[12]: [in]: Reserved and must be set to 0.</summary>
-        public fixed uint Reserved1[12];
+        private fixed uint Reserved1[12];
         /// <summary>reserved2[8]: [in]: Reserved and must be set to NULL.</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[8];
-#else
-        public fixed uint Reserved2[8];
-#endif
+        #region Reserved2[8]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        #endregion Reserved2[8]
     }
 
     /// <summary>NV_ENC_SEI_PAYLOAD
@@ -1127,7 +1740,7 @@ namespace Lennox.NvEncSharp
         /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
         public uint DisplayPOCSyntax;
         /// <summary>reserved3: [in]: Reserved and must be set to 0</summary>
-        public uint Reserved3;
+        private uint Reserved3;
         /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public uint RefPicFlag;
         /// <summary>colourPlaneId: [in]: Specifies the colour plane ID associated with the current input.</summary>
@@ -1194,13 +1807,71 @@ namespace Lennox.NvEncSharp
         /// <summary>h264ExtPicParams: [in]: Specifies the H264 extension config parameters using this config.</summary>
         public NvEncPicParamsH264Ext H264ExtPicParams;
         /// <summary>reserved [210]: [in]: Reserved and must be set to 0.</summary>
-        public fixed uint Reserved [210];
+        private fixed uint Reserved [210];
         /// <summary>reserved2[61]: [in]: Reserved and must be set to NULL.</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[61];
-#else
-        public fixed uint Reserved2[61];
-#endif
+        #region Reserved2[61]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        #endregion Reserved2[61]
     }
 
     /// <summary>NV_ENC_PIC_PARAMS_HEVC
@@ -1270,17 +1941,75 @@ namespace Lennox.NvEncSharp
         /// <summary>seiPayloadArrayCnt: [in]: Specifies the number of elements allocated in seiPayloadArray array.</summary>
         public uint SeiPayloadArrayCnt;
         /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        public uint Reserved;
+        private uint Reserved;
         /// <summary>seiPayloadArray: [in]: Array of SEI payloads which will be inserted for this frame.</summary>
         public NvEncSeiPayload* SeiPayloadArray;
         /// <summary>reserved2 [244]: [in]: Reserved and must be set to 0.</summary>
-        public fixed uint Reserved2 [244];
+        private fixed uint Reserved2 [244];
         /// <summary>reserved3[61]: [in]: Reserved and must be set to NULL.</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved3[61];
-#else
-        public fixed uint Reserved3[61];
-#endif
+        #region Reserved3[61]
+        private IntPtr Reserved30;
+        private IntPtr Reserved31;
+        private IntPtr Reserved32;
+        private IntPtr Reserved33;
+        private IntPtr Reserved34;
+        private IntPtr Reserved35;
+        private IntPtr Reserved36;
+        private IntPtr Reserved37;
+        private IntPtr Reserved38;
+        private IntPtr Reserved39;
+        private IntPtr Reserved310;
+        private IntPtr Reserved311;
+        private IntPtr Reserved312;
+        private IntPtr Reserved313;
+        private IntPtr Reserved314;
+        private IntPtr Reserved315;
+        private IntPtr Reserved316;
+        private IntPtr Reserved317;
+        private IntPtr Reserved318;
+        private IntPtr Reserved319;
+        private IntPtr Reserved320;
+        private IntPtr Reserved321;
+        private IntPtr Reserved322;
+        private IntPtr Reserved323;
+        private IntPtr Reserved324;
+        private IntPtr Reserved325;
+        private IntPtr Reserved326;
+        private IntPtr Reserved327;
+        private IntPtr Reserved328;
+        private IntPtr Reserved329;
+        private IntPtr Reserved330;
+        private IntPtr Reserved331;
+        private IntPtr Reserved332;
+        private IntPtr Reserved333;
+        private IntPtr Reserved334;
+        private IntPtr Reserved335;
+        private IntPtr Reserved336;
+        private IntPtr Reserved337;
+        private IntPtr Reserved338;
+        private IntPtr Reserved339;
+        private IntPtr Reserved340;
+        private IntPtr Reserved341;
+        private IntPtr Reserved342;
+        private IntPtr Reserved343;
+        private IntPtr Reserved344;
+        private IntPtr Reserved345;
+        private IntPtr Reserved346;
+        private IntPtr Reserved347;
+        private IntPtr Reserved348;
+        private IntPtr Reserved349;
+        private IntPtr Reserved350;
+        private IntPtr Reserved351;
+        private IntPtr Reserved352;
+        private IntPtr Reserved353;
+        private IntPtr Reserved354;
+        private IntPtr Reserved355;
+        private IntPtr Reserved356;
+        private IntPtr Reserved357;
+        private IntPtr Reserved358;
+        private IntPtr Reserved359;
+        private IntPtr Reserved360;
+        #endregion Reserved3[61]
     }
 
     /// <summary>NV_ENC_PIC_PARAMS
@@ -1335,13 +2064,12 @@ namespace Lennox.NvEncSharp
         /// + 4*meHintCountsPerBlock[Lx].numCandsPerBlk8x8. For frames using bidirectional ME , the total number of candidates for single macroblock is sum of total number of candidates per MB for each direction (L0 and L1)</summary>
         public NvEncExternalMeHint *meExternalHints;
         /// <summary>reserved1[6]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[6];
+        private fixed uint Reserved1[6];
         /// <summary>reserved2[2]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[2];
-#else
-        public fixed uint Reserved2[2];
-#endif
+        #region Reserved2[2]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        #endregion Reserved2[2]
         /// <summary>*qpDeltaMap: [in]: Specifies the pointer to signed byte array containing value per MB in raster scan order for the current picture, which will be interpreted depending on NV_ENC_RC_PARAMS::qpMapMode.
         /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_DELTA, qpDeltaMap specifies QP modifier per MB. This QP modifier will be applied on top of the QP chosen by rate control.
         /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_EMPHASIS, qpDeltaMap specifies Emphasis Level Map per MB. This level value along with QP chosen by rate control is used to
@@ -1351,18 +2079,75 @@ namespace Lennox.NvEncSharp
         /// <summary>qpDeltaMapSize: [in]: Specifies the size in bytes of qpDeltaMap surface allocated by client and pointed to by NV_ENC_PIC_PARAMS::qpDeltaMap. Surface (array) should be picWidthInMbs * picHeightInMbs</summary>
         public uint QpDeltaMapSize;
         /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        public uint ReservedBitFields;
+        private uint ReservedBitFields;
         /// <summary>meHintRefPicDist[2]: [in]: Specifies temporal distance for reference picture (NVENC_EXTERNAL_ME_HINT::refidx = 0) used during external ME with NV_ENC_INITALIZE_PARAMS::enablePTD = 1 . meHintRefPicDist[0] is for L0 hints and meHintRefPicDist[1] is for L1 hints.
         /// If not set, will internally infer distance of 1. Ignored for NV_ENC_INITALIZE_PARAMS::enablePTD = 0</summary>
         public fixed ushort MeHintRefPicDist[2];
         /// <summary>reserved3[286]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved3[286];
+        private fixed uint Reserved3[286];
         /// <summary>reserved4[60]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved4[60];
-#else
-        public fixed uint Reserved4[60];
-#endif
+        #region Reserved4[60]
+        private IntPtr Reserved40;
+        private IntPtr Reserved41;
+        private IntPtr Reserved42;
+        private IntPtr Reserved43;
+        private IntPtr Reserved44;
+        private IntPtr Reserved45;
+        private IntPtr Reserved46;
+        private IntPtr Reserved47;
+        private IntPtr Reserved48;
+        private IntPtr Reserved49;
+        private IntPtr Reserved410;
+        private IntPtr Reserved411;
+        private IntPtr Reserved412;
+        private IntPtr Reserved413;
+        private IntPtr Reserved414;
+        private IntPtr Reserved415;
+        private IntPtr Reserved416;
+        private IntPtr Reserved417;
+        private IntPtr Reserved418;
+        private IntPtr Reserved419;
+        private IntPtr Reserved420;
+        private IntPtr Reserved421;
+        private IntPtr Reserved422;
+        private IntPtr Reserved423;
+        private IntPtr Reserved424;
+        private IntPtr Reserved425;
+        private IntPtr Reserved426;
+        private IntPtr Reserved427;
+        private IntPtr Reserved428;
+        private IntPtr Reserved429;
+        private IntPtr Reserved430;
+        private IntPtr Reserved431;
+        private IntPtr Reserved432;
+        private IntPtr Reserved433;
+        private IntPtr Reserved434;
+        private IntPtr Reserved435;
+        private IntPtr Reserved436;
+        private IntPtr Reserved437;
+        private IntPtr Reserved438;
+        private IntPtr Reserved439;
+        private IntPtr Reserved440;
+        private IntPtr Reserved441;
+        private IntPtr Reserved442;
+        private IntPtr Reserved443;
+        private IntPtr Reserved444;
+        private IntPtr Reserved445;
+        private IntPtr Reserved446;
+        private IntPtr Reserved447;
+        private IntPtr Reserved448;
+        private IntPtr Reserved449;
+        private IntPtr Reserved450;
+        private IntPtr Reserved451;
+        private IntPtr Reserved452;
+        private IntPtr Reserved453;
+        private IntPtr Reserved454;
+        private IntPtr Reserved455;
+        private IntPtr Reserved456;
+        private IntPtr Reserved457;
+        private IntPtr Reserved458;
+        private IntPtr Reserved459;
+        #endregion Reserved4[60]
     }
 
     /// <summary>NV_ENC_MEONLY_PARAMS
@@ -1407,13 +2192,69 @@ namespace Lennox.NvEncSharp
         /// + 4*meHintCountsPerBlock[Lx].numCandsPerBlk8x8. For frames using bidirectional ME , the total number of candidates for single macroblock is sum of total number of candidates per MB for each direction (L0 and L1)</summary>
         public NvEncExternalMeHint *meExternalHints;
         /// <summary>reserved1[243]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[243];
+        private fixed uint Reserved1[243];
         /// <summary>reserved2[59]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[59];
-#else
-        public fixed uint Reserved2[59];
-#endif
+        #region Reserved2[59]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        #endregion Reserved2[59]
     }
 
     /// <summary>NV_ENC_LOCK_BITSTREAM
@@ -1474,7 +2315,7 @@ namespace Lennox.NvEncSharp
         /// <summary>ltrFrameBitmap: [out]: Bitmap of LTR frames indices which were used for encoding this frame. Value of 0 if no LTR frames were used.</summary>
         public uint LtrFrameBitmap;
         /// <summary>reserved[13]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved[13];
+        private fixed uint Reserved[13];
         /// <summary>intraMBCount: [out]: For H264, Number of Intra MBs in the encoded frame. For HEVC, Number of Intra CTBs in the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
         public uint IntraMBCount;
         /// <summary>interMBCount: [out]: For H264, Number of Inter MBs in the encoded frame, includes skip MBs. For HEVC, Number of Inter CTBs in the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
@@ -1484,13 +2325,74 @@ namespace Lennox.NvEncSharp
         /// <summary>averageMVY: [out]: Average Motion Vector in y direction for the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
         public int AverageMVY;
         /// <summary>reserved1[219]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[219];
+        private fixed uint Reserved1[219];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_LOCK_INPUT_BUFFER
@@ -1515,13 +2417,74 @@ namespace Lennox.NvEncSharp
         /// <summary>pitch: [out]: Pitch of the locked input buffer.</summary>
         public uint Pitch;
         /// <summary>reserved1[251]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[251];
+        private fixed uint Reserved1[251];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_MAP_INPUT_RESOURCE
@@ -1543,13 +2506,73 @@ namespace Lennox.NvEncSharp
         /// <summary>mappedBufferFmt: [out]: Buffer format of the outputResource. This buffer format must be used in NV_ENC_PIC_PARAMS::bufferFmt if client using the above mapped resource pointer.</summary>
         public NvEncBufferFormat MappedBufferFmt;
         /// <summary>reserved1[251]: [in]: Reserved and must be set to 0.</summary>
-        public fixed uint Reserved1[251];
+        private fixed uint Reserved1[251];
         /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[63];
-#else
-        public fixed uint Reserved2[63];
-#endif
+        #region Reserved2[63]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        #endregion Reserved2[63]
     }
 
     /// <summary>NV_ENC_INPUT_RESOURCE_OPENGL_TEX
@@ -1607,13 +2630,72 @@ namespace Lennox.NvEncSharp
         /// <summary>bufferUsage: [in]: Usage of resource to be registered.</summary>
         public NvEncBufferUsage BufferUsage;
         /// <summary>reserved1[247]: [in]: Reserved and must be set to 0.</summary>
-        public fixed uint Reserved1[247];
+        private fixed uint Reserved1[247];
         /// <summary>reserved2[62]: [in]: Reserved and must be set to NULL.</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[62];
-#else
-        public fixed uint Reserved2[62];
-#endif
+        #region Reserved2[62]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        #endregion Reserved2[62]
     }
 
     /// <summary>NV_ENC_STAT
@@ -1625,7 +2707,7 @@ namespace Lennox.NvEncSharp
         /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_STAT_VER.</summary>
         public uint Version;
         /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        public uint Reserved;
+        private uint Reserved;
         /// <summary>outputBitStream: [out]: Specifies the pointer to output bitstream.</summary>
         public NvEncOutputPtr OutputBitStream;
         /// <summary>bitStreamSize: [out]: Size of generated bitstream in bytes.</summary>
@@ -1639,13 +2721,74 @@ namespace Lennox.NvEncSharp
         /// <summary>picIdx: [out]: Picture number</summary>
         public uint PicIdx;
         /// <summary>reserved1[233]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[233];
+        private fixed uint Reserved1[233];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_SEQUENCE_PARAM_PAYLOAD
@@ -1667,13 +2810,74 @@ namespace Lennox.NvEncSharp
         /// <summary>outSPSPPSPayloadSize: [out]: Size of the sequence and picture header in bytes written by the NvEncodeAPI interface to the SPSPPSBuffer.</summary>
         public uint* OutSPSPPSPayloadSize;
         /// <summary>reserved [250]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved [250];
+        private fixed uint Reserved [250];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_EVENT_PARAMS</summary>
@@ -1683,17 +2887,78 @@ namespace Lennox.NvEncSharp
         /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_EVENT_PARAMS_VER.</summary>
         public uint Version;
         /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        public uint Reserved;
+        private uint Reserved;
         /// <summary>completionEvent: [in]: Handle to event to be registered/unregistered with the NvEncodeAPI interface.</summary>
         public IntPtr CompletionEvent;
         /// <summary>reserved1[253]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[253];
+        private fixed uint Reserved1[253];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
     /// <summary>NV_ENC_OPEN_ENCODE_SESSIONEX_PARAMS
@@ -1708,17 +2973,78 @@ namespace Lennox.NvEncSharp
         /// <summary>device: [in]: Pointer to client device.</summary>
         public IntPtr Device;
         /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        public IntPtr Reserved;
+        private IntPtr Reserved;
         /// <summary>apiVersion: [in]: API version. Should be set to NVENCAPI_VERSION.</summary>
         public uint ApiVersion;
         /// <summary>reserved1[253]: [in]: Reserved and must be set to 0</summary>
-        public fixed uint Reserved1[253];
+        private fixed uint Reserved1[253];
         /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-#if X64PLATFORM
-        public fixed ulong Reserved2[64];
-#else
-        public fixed uint Reserved2[64];
-#endif
+        #region Reserved2[64]
+        private IntPtr Reserved20;
+        private IntPtr Reserved21;
+        private IntPtr Reserved22;
+        private IntPtr Reserved23;
+        private IntPtr Reserved24;
+        private IntPtr Reserved25;
+        private IntPtr Reserved26;
+        private IntPtr Reserved27;
+        private IntPtr Reserved28;
+        private IntPtr Reserved29;
+        private IntPtr Reserved210;
+        private IntPtr Reserved211;
+        private IntPtr Reserved212;
+        private IntPtr Reserved213;
+        private IntPtr Reserved214;
+        private IntPtr Reserved215;
+        private IntPtr Reserved216;
+        private IntPtr Reserved217;
+        private IntPtr Reserved218;
+        private IntPtr Reserved219;
+        private IntPtr Reserved220;
+        private IntPtr Reserved221;
+        private IntPtr Reserved222;
+        private IntPtr Reserved223;
+        private IntPtr Reserved224;
+        private IntPtr Reserved225;
+        private IntPtr Reserved226;
+        private IntPtr Reserved227;
+        private IntPtr Reserved228;
+        private IntPtr Reserved229;
+        private IntPtr Reserved230;
+        private IntPtr Reserved231;
+        private IntPtr Reserved232;
+        private IntPtr Reserved233;
+        private IntPtr Reserved234;
+        private IntPtr Reserved235;
+        private IntPtr Reserved236;
+        private IntPtr Reserved237;
+        private IntPtr Reserved238;
+        private IntPtr Reserved239;
+        private IntPtr Reserved240;
+        private IntPtr Reserved241;
+        private IntPtr Reserved242;
+        private IntPtr Reserved243;
+        private IntPtr Reserved244;
+        private IntPtr Reserved245;
+        private IntPtr Reserved246;
+        private IntPtr Reserved247;
+        private IntPtr Reserved248;
+        private IntPtr Reserved249;
+        private IntPtr Reserved250;
+        private IntPtr Reserved251;
+        private IntPtr Reserved252;
+        private IntPtr Reserved253;
+        private IntPtr Reserved254;
+        private IntPtr Reserved255;
+        private IntPtr Reserved256;
+        private IntPtr Reserved257;
+        private IntPtr Reserved258;
+        private IntPtr Reserved259;
+        private IntPtr Reserved260;
+        private IntPtr Reserved261;
+        private IntPtr Reserved262;
+        private IntPtr Reserved263;
+        #endregion Reserved2[64]
     }
 
 }

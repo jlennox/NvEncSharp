@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using SharpDX.Direct3D11;
@@ -30,8 +31,13 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
         private unsafe void Run(ProgramArguments args)
         {
-            using var duplicate = GetDisplayDuplicate(args.DisplayName);
+            using var duplicate = GetDisplayDuplicate(
+                args.DisplayName, out var outputDescription);
             using var output = File.OpenWrite(args.OutputPath);
+
+            Console.WriteLine($"Process: {(Environment.Is64BitProcess ? "64" : "32")} bits");
+            Console.WriteLine($"Display: {outputDescription.DeviceName}");
+            Console.WriteLine($"Output: {output.Name}");
 
             while (true)
             {
@@ -108,9 +114,12 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
                 Thread.Sleep(_frameDuration);
             }
+
+            // ReSharper disable once FunctionNeverReturns
         }
 
-        private OutputDuplication GetDisplayDuplicate(string displayName)
+        private static OutputDuplication GetDisplayDuplicate(
+            string displayName, out OutputDescription description)
         {
             // This much simpler code will grab an arbitrary display but
             // works in most single output systems. It's useful for enabling
@@ -145,6 +154,8 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                .Single(t => t.Description.DeviceName == foundDeviceName);
 
             using var output1 = dxgiOutput.QueryInterface<Output1>();
+
+            description = output1.Description;
 
             return output1.DuplicateOutput(device);
         }

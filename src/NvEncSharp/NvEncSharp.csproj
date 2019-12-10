@@ -17,9 +17,6 @@
     <PackageProjectUrl>https://github.com/jlennox/NvEncSharp/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jlennox/NvEncSharp/</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)' == 'x64'">
-     <DefineConstants>X64PLATFORM</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>

@@ -14,11 +14,8 @@ namespace Lennox.NvEncSharp
 
     public static class LibNvEnc
     {
-#if X64PLATFORM
-        private const string _path = "nvEncodeAPI64.dll";
-#else
-        private const string _path = "nvEncodeAPI.dll";
-#endif
+        private const string _path64 = "nvEncodeAPI64.dll";
+        private const string _path32 = "nvEncodeAPI.dll";
 
         // ReSharper disable InconsistentNaming
         // ReSharper disable UnusedMember.Global
@@ -56,11 +53,31 @@ namespace Lennox.NvEncSharp
 
         private static bool _isInitialized = false;
 
-        [DllImport(_path, SetLastError = true)]
-        public static extern NvEncStatus NvEncodeAPICreateInstance(ref NvEncApiFunctionList functionList);
+        [DllImport(_path64, SetLastError = true, EntryPoint = "NvEncodeAPICreateInstance")]
+        private static extern NvEncStatus NvEncodeAPICreateInstance64(ref NvEncApiFunctionList functionList);
 
-        [DllImport(_path, SetLastError = true)]
-        public static extern NvEncStatus NvEncodeAPIGetMaxSupportedVersion(out uint version);
+        [DllImport(_path64, SetLastError = true, EntryPoint = "NvEncodeAPIGetMaxSupportedVersion")]
+        private static extern NvEncStatus NvEncodeAPIGetMaxSupportedVersion64(out uint version);
+
+        [DllImport(_path32, SetLastError = true, EntryPoint = "NvEncodeAPICreateInstance")]
+        private static extern NvEncStatus NvEncodeAPICreateInstance32(ref NvEncApiFunctionList functionList);
+
+        [DllImport(_path32, SetLastError = true, EntryPoint = "NvEncodeAPIGetMaxSupportedVersion")]
+        private static extern NvEncStatus NvEncodeAPIGetMaxSupportedVersion32(out uint version);
+
+        // ReSharper disable InconsistentNaming
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static NvEncStatus NvEncodeAPICreateInstance(ref NvEncApiFunctionList functionList) =>
+            Environment.Is64BitProcess
+                ? NvEncodeAPICreateInstance64(ref functionList)
+                : NvEncodeAPICreateInstance32(ref functionList);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static NvEncStatus NvEncodeAPIGetMaxSupportedVersion(out uint version) =>
+            Environment.Is64BitProcess
+                ? NvEncodeAPIGetMaxSupportedVersion64(out version)
+                : NvEncodeAPIGetMaxSupportedVersion32(out version);
+        // ReSharper restore InconsistentNaming
 
         private static uint StructVersion(uint ver, uint and = 0)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -189,7 +190,7 @@ namespace Lennox.NvEncSharp.Test
             var header = LoadNvencHeader();
 
             var skippedStructs = new HashSet<string> { "NV_ENCODE_API_FUNCTION_LIST" };
-            var validForFixed = new HashSet<string> { "bool", "byte", "short", "int", "long", "char", "sbyte", "ushort", "uint", "ulong", "float", "double", _sysintname };
+            var validForFixed = new HashSet<string> { "bool", "byte", "short", "int", "long", "char", "sbyte", "ushort", "uint", "ulong", "float", "double" };
 
             // The way comments are matched is not the best.
             var exp = new Regex(@"((?<=/\*)(?<comment>[^/]+)\*/\s+)?typedef (?<type>struct|union) _(?<name>[^\s{]+).+?\s*?\r\n\s*?}.+?;\s*?\r\n",
@@ -209,11 +210,7 @@ namespace Lennox.NvEncSharp.Test
                     return;
                 }
 
-                output.Append("#if X64PLATFORM\r\n");
-                output.Append(line.Replace(_sysintname, "ulong"));
-                output.Append("#else\r\n");
-                output.Append(line.Replace(_sysintname, "uint"));
-                output.Append("#endif\r\n");
+                output.Append(line.Replace(_sysintname, "IntPtr"));
             }
 
             void PrintEntry(StructEntry entry)
@@ -221,19 +218,26 @@ namespace Lennox.NvEncSharp.Test
                 var type = FixTypename(entry);
                 if (entry.Attribute != null) output.Append($"    {entry.Attribute}\r\n");
 
+                var visibility = entry.Name.StartsWith(
+                        "Reserved", StringComparison.InvariantCultureIgnoreCase)
+                    ? "private"
+                    : "public";
+
                 if (entry.ArraySize > 0 && !validForFixed.Contains(type))
                 {
-                    var name = FixStructMemeberName(entry.Name);
-                    name = name.Substring(0, name.IndexOf('['));
+                    var fixedName = FixStructMemeberName(entry.Name);
+                    var name = fixedName.Substring(0, fixedName.IndexOf('['));
+                    if (type == _sysintname) output.Append($"        #region {fixedName}\r\n");
                     for (var i2 = 0; i2 < entry.ArraySize; ++i2)
                     {
-                        PrintLine(type, $"        public {type}{entry.PointerDescription} {name}{i2};\r\n");
+                        PrintLine(type, $"        {visibility} {type}{entry.PointerDescription} {name}{i2};\r\n");
                     }
+                    if (type == _sysintname) output.Append($"        #endregion {fixedName}\r\n");
 
                     return;
                 }
 
-                PrintLine(type, $"        public {(entry.ArraySize > 0 ? "fixed " : "")}{type}{entry.PointerDescription} {FixStructMemeberName(entry.Name)};\r\n");
+                PrintLine(type, $"        {visibility} {(entry.ArraySize > 0 ? "fixed " : "")}{type}{entry.PointerDescription} {FixStructMemeberName(entry.Name)};\r\n");
             }
 
             void PrintDefinition(string name, Match match, LayoutKind layoutKind)

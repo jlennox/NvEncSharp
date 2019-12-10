@@ -16,7 +16,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                     if (i + 1 > args.Length - 1)
                     {
                         throw new ArgumentNullException(
-                            args[i], "Arguming required.");
+                            args[i], "Argument required.");
                     }
 
                     return args[++i];
@@ -32,6 +32,9 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                     case "-o":
                         OutputPath = GetNextArgument();
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            args[i], "Unknown argument.");
                 }
             }
 
