@@ -49,6 +49,13 @@ namespace Lennox.NvEncSharp
         // ReSharper restore UnusedMember.Global
         // ReSharper restore InconsistentNaming
 
+        /// <summary>
+        /// The NvEncApiFunctionList that is created by calling Initialize or
+        /// TryInitialize. This is natively the result of calling
+        /// NvEncodeAPICreateInstance.
+        /// </summary>
+        /// <seealso cref="TryInitialize(out string)"/>
+        /// <seealso cref="Initialize()"/>
         public static NvEncApiFunctionList FunctionList;
 
         private static bool _isInitialized = false;
@@ -66,12 +73,31 @@ namespace Lennox.NvEncSharp
         private static extern NvEncStatus NvEncodeAPIGetMaxSupportedVersion32(out uint version);
 
         // ReSharper disable InconsistentNaming
+
+        /// <summary>
+        /// Directly call native method NvEncodeAPICreateInstance. This should
+        /// not need to be directly called. Instead calling Initialize() and
+        /// then accessing the function list using LibNvEnc.FunctionList.
+        /// </summary>
+        /// <param name="functionList"></param>
+        /// <returns></returns>
+        /// <seealso cref="TryInitialize(out string)"/>
+        /// <seealso cref="Initialize()"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static NvEncStatus NvEncodeAPICreateInstance(ref NvEncApiFunctionList functionList) =>
             Environment.Is64BitProcess
                 ? NvEncodeAPICreateInstance64(ref functionList)
                 : NvEncodeAPICreateInstance32(ref functionList);
 
+        /// <summary>
+        /// Directly call native method NvEncodeAPIGetMaxSupportedVersion. This
+        /// should not need to be directly called. Initialize/TryInitialize
+        /// will fail if the installed version is not supported.
+        /// </summary>
+        /// <param name="version">The version which is supported.</param>
+        /// <returns></returns>
+        /// <seealso cref="TryInitialize(out string)"/>
+        /// <seealso cref="Initialize()"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static NvEncStatus NvEncodeAPIGetMaxSupportedVersion(out uint version) =>
             Environment.Is64BitProcess
@@ -85,7 +111,17 @@ namespace Lennox.NvEncSharp
             return NVENCAPI_VERSION | (ver << 16) | (0x7 << 28) | and;
         }
 
-        public static LibNcEncInitializeStatus TryInitialize(out string failedDescription)
+        /// <summary>
+        /// Try to initialize NvEnc. Exceptions will not be thrown for failure.
+        /// Once called, LibNvEnc.FunctionList becomes available. Calling after
+        /// a successful initialization has no effect.
+        /// </summary>
+        /// <param name="failedDescription">Null if successful pr a detailed
+        /// textual description of the failure reason.</param>
+        /// <returns>Success or the category of failure.</returns>
+        /// <seealso cref="Initialize()"/>
+        public static LibNcEncInitializeStatus TryInitialize(
+            out string failedDescription)
         {
             failedDescription = null;
 
@@ -145,6 +181,11 @@ namespace Lennox.NvEncSharp
             return LibNcEncInitializeStatus.Success;
         }
 
+        /// <summary>
+        /// Initialize NvEnc. An exception is thrown if initialization was
+        /// unsuccessful. Once called, LibNvEnc.FunctionList becomes available.
+        /// Calling after a successful initialization has no effect.</summary>
+        /// <seealso cref="TryInitialize(out string)"/>
         public static void Initialize()
         {
             if (_isInitialized) return;
@@ -156,6 +197,11 @@ namespace Lennox.NvEncSharp
             }
         }
 
+        /// <summary>
+        /// A short hand for calling OpenEncodeSessionEx and Initialize().
+        /// </summary>
+        /// <param name="sessionParams">The parameters to use for OpenEncodeSessionEx</param>
+        /// <returns>The created NvEncoder.</returns>
         public static NvEncoder OpenEncoder(
             ref NvEncOpenEncodeSessionExParams sessionParams)
         {
@@ -167,6 +213,11 @@ namespace Lennox.NvEncSharp
             return encoder;
         }
 
+        /// <summary>
+        /// A short hand for creating an encoder that uses DirectX and
+        /// Initialize().
+        /// </summary>
+        /// <returns>The created NvEncoder.</returns>
         public static NvEncoder OpenEncoderForDirectX(IntPtr deviceHandle)
         {
             var ps = new NvEncOpenEncodeSessionExParams
@@ -180,6 +231,14 @@ namespace Lennox.NvEncSharp
             return OpenEncoder(ref ps);
         }
 
+        /// <summary>
+        /// Throw LibNvEncException when the status is not success.
+        /// </summary>
+        /// <param name="encoder">The encoder. Allows GetLastError to be called
+        /// on failure statuses to provide additional details when possible.
+        /// </param>
+        /// <param name="status">The status to be checked.</param>
+        /// <param name="callerName">The caller name. Do not manually pass.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CheckResult(
             NvEncoder encoder,
