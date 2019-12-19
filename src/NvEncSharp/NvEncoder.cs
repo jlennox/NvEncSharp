@@ -15,10 +15,7 @@ namespace Lennox.NvEncSharp
         /// The function returns the number of codec Guids supported by the NvEncodeAPI
         /// interface.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [out] encodeGuidCount
-        ///   Number of supported encode Guids.
+        /// <param name="encodeGuidCount">Number of supported encode Guids.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -52,15 +49,8 @@ namespace Lennox.NvEncSharp
         /// The Nvidia Encoding interface returns the number of codec Guids it has actually
         /// filled in the Guid array in the \p GuidCount parameter.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] GuidArraySize
-        ///   Number of Guids to retrieved. Should be set to the number retrieved using
-        ///   ::NvEncGetEncodeGuidCount.
-        /// \param [out] Guids
-        ///   Array of supported Encode Guids.
-        /// \param [out] GuidCount
-        ///   Number of supported Encode Guids.
+        /// <param name="guids">Array of supported Encode Guids.</param>
+        /// <param name="guidCount">Number of supported Encode Guids.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -76,7 +66,7 @@ namespace Lennox.NvEncSharp
             fixed (Guid* ptr = guids)
             {
                 var status = Fn.GetEncodeGuids(
-                    this, ptr, (uint) guids.Length, ref guidCount);
+                    this, ptr, (uint)guids.Length, ref guidCount);
                 CheckResult(this, status);
             }
         }
@@ -98,12 +88,8 @@ namespace Lennox.NvEncSharp
         /// interface to determine the number of profile Guids supported for a particular
         /// codec Guid.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   The codec Guid for which the profile Guids are being enumerated.
-        /// \param [out] encodeProfileGuidCount
-        ///   Number of encode profiles supported for the given encodeGuid.
+        /// <param name="encodeGuid">The codec Guid for which the profile Guids are being enumerated.</param>
+        /// <param name="encodeProfileGuidCount">Number of encode profiles supported for the given encodeGuid.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -140,17 +126,9 @@ namespace Lennox.NvEncSharp
         /// NvEncodeAPI interface supports the Guid the client wants to pass as \p encodeGuid
         /// parameter.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   The encode Guid whose profile Guids are being enumerated.
-        /// \param [in] GuidArraySize
-        ///   Number of Guids to be retrieved. Should be set to the number retrieved using
-        ///   ::NvEncGetEncodeProfileGuidCount.
-        /// \param [out] profileGuids
-        ///   Array of supported Encode Profile Guids
-        /// \param [out] GuidCount
-        ///   Number of valid encode profile Guids in \p profileGuids array.
+        /// <param name="encodeGuid">The encode Guid whose profile Guids are being enumerated.</param>
+        /// <param name="profileGuids">Array of supported Encode Profile Guids</param>
+        /// <param name="guidCount">Number of valid encode profile Guids in \p profileGuids array.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -169,7 +147,7 @@ namespace Lennox.NvEncSharp
             {
                 var status = Fn.GetEncodeProfileGuids(
                     this, encodeGuid, ptr,
-                    (uint) profileGuids.Length, ref guidCount);
+                    (uint)profileGuids.Length, ref guidCount);
                 CheckResult(this, status);
             }
         }
@@ -189,13 +167,9 @@ namespace Lennox.NvEncSharp
         /// query the NvEncodeAPI interface to determine the supported input formats
         /// before creating the input surfaces.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   Encode Guid, corresponding to which the number of supported input formats
-        ///   is to be retrieved.
-        /// \param [out] inputFmtCount
-        ///   Number of input formats supported for specified Encode Guid.
+        /// <param name="encodeGuid">Encode Guid, corresponding to which the number of supported input formats
+        ///   is to be retrieved.</param>
+        /// <param name="inputFmtCount">Number of input formats supported for specified Encode Guid.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -228,18 +202,11 @@ namespace Lennox.NvEncSharp
         /// Returns an array of supported input formats  The client must use the input
         /// format to create input surface using ::NvEncCreateInputBuffer() API.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   Encode Guid, corresponding to which the number of supported input formats
-        ///   is to be retrieved.
-        ///\param [in] inputFmtArraySize
-        ///   Size input format count array passed in \p inputFmts.
-        ///\param [out] inputFmts
-        ///   Array of input formats supported for this Encode Guid.
-        ///\param [out] inputFmtCount
-        ///   The number of valid input format types returned by the NvEncodeAPI
-        ///   interface in \p inputFmts array.
+        /// <param name="encodeGuid">Encode Guid, corresponding to which the number of supported input formats
+        ///   is to be retrieved.</param>
+        /// <param name="inputFmts">Array of input formats supported for this Encode Guid.</param>
+        /// <param name="inputFmtCount">The number of valid input format types returned by the NvEncodeAPI
+        ///   interface in \p inputFmts array.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -258,7 +225,7 @@ namespace Lennox.NvEncSharp
             {
                 var status = Fn.GetInputFormats(
                     this, encodeGuid, ptr,
-                    (uint) inputFmts.Length, ref inputFmtCount);
+                    (uint)inputFmts.Length, ref inputFmtCount);
                 CheckResult(this, status);
             }
         }
@@ -279,15 +246,9 @@ namespace Lennox.NvEncSharp
         /// calling this function. The encoder attribute being queried are enumerated in
         /// ::NV_ENC_CAPS_PARAM enum.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   Encode Guid, corresponding to which the capability attribute is to be retrieved.
-        /// \param [in] capsParam
-        ///   Used to specify attribute being queried. Refer ::NV_ENC_CAPS_PARAM for  more
-        /// details.
-        /// \param [out] capsVal
-        ///   The value corresponding to the capability attribute being queried.
+        /// <param name="encodeGuid">Encode Guid, corresponding to which the capability attribute is to be retrieved.</param>
+        /// <param name="capsParam">Used to specify attribute being queried. Refer ::NV_ENC_CAPS_PARAM for  more details.</param>
+        /// <param name="capsVal">The value corresponding to the capability attribute being queried.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -311,13 +272,9 @@ namespace Lennox.NvEncSharp
         /// The client must validate the codec Guid using ::NvEncGetEncodeGuids() API
         /// before calling this function.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   Encode Guid, corresponding to which the number of supported presets is to
-        ///   be retrieved.
-        /// \param [out] encodePresetGuidCount
-        ///   Receives the number of supported preset Guids.
+        /// <param name="encodeGuid">Encode Guid, corresponding to which the number of supported presets is to
+        ///   be retrieved.</param>
+        /// <param name="encodePresetGuidCount">Receives the number of supported preset Guids.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -359,19 +316,9 @@ namespace Lennox.NvEncSharp
         /// API.</summary>
         ///
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   Encode Guid, corresponding to which the list of supported presets is to be
-        ///   retrieved.
-        /// \param [in] GuidArraySize
-        ///   Size of array of preset Guids passed in \p preset Guids
-        /// \param [out] presetGuids
-        ///   Array of supported Encode preset Guids from the NvEncodeAPI interface
-        ///   to client.
-        /// \param [out] encodePresetGuidCount
-        ///   Receives the number of preset Guids returned by the NvEncodeAPI
-        ///   interface.
+        /// <param name="encodeGuid">Encode Guid, corresponding to which the list of supported presets is to be retrieved.</param>
+        /// <param name="presetGuids">Array of supported Encode preset Guids from the NvEncodeAPI interface to client.</param>
+        /// <param name="encodePresetGuidCount">Receives the number of preset Guids returned by the NvEncodeAPI interface.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -389,7 +336,7 @@ namespace Lennox.NvEncSharp
             fixed (Guid* ptr = presetGuids)
             {
                 var status = Fn.GetEncodePresetGuids(
-                    this, encodeGuid, ptr, (uint) presetGuids.Length,
+                    this, encodeGuid, ptr, (uint)presetGuids.Length,
                     ref encodePresetGuidCount);
                 CheckResult(this, status);
             }
@@ -414,17 +361,9 @@ namespace Lennox.NvEncSharp
         /// wants to modify the NvEncodeAPI preset configuration, otherwise it can
         /// directly use the preset Guid.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] encodeGuid
-        ///   Encode Guid, corresponding to which the list of supported presets is to be
-        ///   retrieved.
-        /// \param [in] presetGuid
-        ///   Preset Guid, corresponding to which the Encoding configurations is to be
-        ///   retrieved.
-        /// \param [out] presetConfig
-        ///   The requested Preset Encoder Attribute set. Refer ::_NV_ENC_CONFIG for
-        ///    more details.
+        /// <param name="encodeGuid">Encode Guid, corresponding to which the list of supported presets is to be retrieved.</param>
+        /// <param name="presetGuid">Preset Guid, corresponding to which the Encoding configurations is to be retrieved.</param>
+        /// <param name="presetConfig">The requested Preset Encoder Attribute set. Refer ::_NV_ENC_CONFIG for more details.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -526,10 +465,7 @@ namespace Lennox.NvEncSharp
         /// NV_ENC_INITIALIZE_PARAMS::enablePTD to 1 and send the input pictures in display
         /// order.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] createEncodeParams
-        ///   Refer ::_NV_ENC_INITIALIZE_PARAMS for details.
+        /// <param name="createEncodeParams">Refer ::_NV_ENC_INITIALIZE_PARAMS for details.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -540,6 +476,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_GENERIC</return>
+        /// <seealso cref="NvEncInitializeParams"/>
         public void InitializeEncoder(
             ref NvEncInitializeParams createEncodeParams)
         {
@@ -556,10 +493,7 @@ namespace Lennox.NvEncSharp
         /// ::NvEncEncodePicture() API. The number of input buffers to be allocated by the
         /// client must be at least 4 more than the number of B frames being used for encoding.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] createInputBufferParams
-        ///  Pointer to the ::NV_ENC_CREATE_INPUT_BUFFER structure.
+        /// <param name="createInputBufferParams">Pointer to the ::NV_ENC_CREATE_INPUT_BUFFER structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -601,10 +535,7 @@ namespace Lennox.NvEncSharp
         /// input buffers by calling this function. The client must release the input
         /// buffers before destroying the encoder using ::NvEncDestroyEncoder() API.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] inputBuffer
-        ///   Pointer to the input buffer to be released.
+        /// <param name="inputBuffer">Pointer to the input buffer to be released.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -630,15 +561,11 @@ namespace Lennox.NvEncSharp
         /// in that call will replace the previously-used streams.
         /// This API is supported for NVCUVID interface only.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] inputStream
-        ///   Pointer to CUstream which is used to process ::NV_ENC_PIC_PARAMS::inputFrame for encode.
+        /// <param name="inputStream">Pointer to CUstream which is used to process ::NV_ENC_PIC_PARAMS::inputFrame for encode.
         ///   In case of ME-only mode, inputStream is used to process ::NV_ENC_MEONLY_PARAMS::inputBuffer and
-        ///   ::NV_ENC_MEONLY_PARAMS::referenceFrame
-        /// \param [in] outputStream
-        ///  Pointer to CUstream which is used to process ::NV_ENC_PIC_PARAMS::outputBuffer for encode.
-        ///  In case of ME-only mode, outputStream is used to process ::NV_ENC_MEONLY_PARAMS::mvBuffer
+        ///   ::NV_ENC_MEONLY_PARAMS::referenceFrame</param>
+        /// <param name="outputStream">Pointer to CUstream which is used to process ::NV_ENC_PIC_PARAMS::outputBuffer for encode.
+        ///  In case of ME-only mode, outputStream is used to process ::NV_ENC_MEONLY_PARAMS::mvBuffer</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -668,10 +595,7 @@ namespace Lennox.NvEncSharp
         /// bitsteam data by locking the \p bitstreamBuffer using the ::NvEncLockBitstream()
         /// function.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] createBitstreamBufferParams
-        ///   Pointer ::NV_ENC_CREATE_BITSTREAM_BUFFER for details.
+        /// <param name="createBitstreamBufferParams">Pointer ::NV_ENC_CREATE_BITSTREAM_BUFFER for details.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -711,10 +635,7 @@ namespace Lennox.NvEncSharp
         /// the ::NvEncCreateBitstreamBuffer() function. The client must release the output
         /// bitstreamBuffer using this function before destroying the encoder session.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] bitstreamBuffer
-        ///   Pointer to the bitstream buffer being released.
+        /// <param name="bitstreamBuffer">Pointer to the bitstream buffer being released.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -781,10 +702,7 @@ namespace Lennox.NvEncSharp
         /// output bitstreams to read the encoded bitstream data. The following example
         /// explains the scenario with synchronous encoding with 2 B frames.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] encodePicParams
-        ///   Pointer to the ::_NV_ENC_PIC_PARAMS structure.
+        /// <param name="encodePicParams">Pointer to the ::_NV_ENC_PIC_PARAMS structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -818,10 +736,7 @@ namespace Lennox.NvEncSharp
         /// a fatal failure if NV_ENC_LOCK_BITSTREAM::doNotWait is set to 1. In the above case the client can
         /// retry the function after few milliseconds.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] lockBitstreamBufferParams
-        ///   Pointer to the ::_NV_ENC_LOCK_BITSTREAM structure.
+        /// <param name="lockBitstreamBufferParams">Pointer to the ::_NV_ENC_LOCK_BITSTREAM structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -866,10 +781,7 @@ namespace Lennox.NvEncSharp
         /// function. Using a locked bitstream buffer in ::NvEncEncodePicture() API will cause
         /// the function to fail.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] bitstreamBuffer
-        ///   bitstream buffer pointer being unlocked
+        /// <param name="bitstreamBuffer">bitstream buffer pointer being unlocked</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -894,10 +806,7 @@ namespace Lennox.NvEncSharp
         /// The NvEncodeAPI interface returns pointer to client accessible input buffer
         /// memory in NV_ENC_LOCK_INPUT_BUFFER::bufferDataPtr field.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] lockInputBufferParams
-        ///   Pointer to the ::_NV_ENC_LOCK_INPUT_BUFFER structure
+        /// <param name="lockInputBufferParams">Pointer to the ::_NV_ENC_LOCK_INPUT_BUFFER structure</param>
         ///
         /// <return>\return
         /// ::NV_ENC_SUCCESS
@@ -924,10 +833,7 @@ namespace Lennox.NvEncSharp
         /// uploading YUV pixel data. The input buffer must be unlocked before being used
         /// again for encoding, otherwise NvEncodeAPI will fail the ::NvEncEncodePicture()</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] inputBuffer
-        ///   Pointer to the input buffer that is being unlocked.
+        /// <param name="inputBuffer">Pointer to the input buffer that is being unlocked.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -949,10 +855,7 @@ namespace Lennox.NvEncSharp
         /// This function is used to retrieve the encoding statistics.
         /// This API is not supported when encode device type is CUDA.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] encodeStats
-        ///   Pointer to the ::_NV_ENC_STAT structure.
+        /// <param name="encodeStats">Pointer to the ::_NV_ENC_STAT structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -982,10 +885,7 @@ namespace Lennox.NvEncSharp
         /// The client must call  ::NvEncGetSequenceParams() function from the same thread which is
         /// being used to call ::NvEncEncodePicture() function.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] sequenceParamPayload
-        ///   Pointer to the ::_NV_ENC_SEQUENCE_PARAM_PAYLOAD structure.
+        /// <param name="sequenceParamPayload">Pointer to the ::_NV_ENC_SEQUENCE_PARAM_PAYLOAD structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1013,10 +913,7 @@ namespace Lennox.NvEncSharp
         /// completion of the encoding process using this event. Only after the event is
         /// signalled the client can get the encoded data using ::NvEncLockBitstream() function.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] eventParams
-        ///   Pointer to the ::_NV_ENC_EVENT_PARAMS structure.
+        /// <param name="eventParams">Pointer to the ::_NV_ENC_EVENT_PARAMS structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1039,10 +936,7 @@ namespace Lennox.NvEncSharp
         /// registered using ::NvEncRegisterAsyncEvent() function. The client must unregister
         /// all events before destroying the encoder using ::NvEncDestroyEncoder() function.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] eventParams
-        ///   Pointer to the ::_NV_ENC_EVENT_PARAMS structure.
+        /// <param name="eventParams">Pointer to the ::_NV_ENC_EVENT_PARAMS structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1072,10 +966,7 @@ namespace Lennox.NvEncSharp
         /// the input resource was submitted to the default stream.
         /// The client should not access any input buffer while they are mapped by the </summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] mapInputResParams
-        ///   Pointer to the ::_NV_ENC_MAP_INPUT_RESOURCE structure.
+        /// <param name="mapInputResParams">Pointer to the ::_NV_ENC_MAP_INPUT_RESOURCE structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1104,10 +995,7 @@ namespace Lennox.NvEncSharp
         /// work submitted using the mapped input buffer.</summary>
         ///
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] mappedInputBuffer
-        ///   Pointer to the NV_ENC_INPUT_PTR
+        /// <param name="mappedInputBuffer">Pointer to the NV_ENC_INPUT_PTR</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1138,9 +1026,6 @@ namespace Lennox.NvEncSharp
         /// in asynchronous mode, it must also unregister the completion events previously
         /// registered.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
@@ -1167,10 +1052,7 @@ namespace Lennox.NvEncSharp
         /// for motion estimation when the newer reference frames have been invalidated.
         /// This API can be called multiple times.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] invalidRefFrameTimeStamp
-        ///   Timestamp of the invalid reference frames which needs to be invalidated.
+        /// <param name="invalidRefFrameTimeStamp">Timestamp of the invalid reference frames which needs to be invalidated.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1191,11 +1073,7 @@ namespace Lennox.NvEncSharp
         /// Registers a resource with the Nvidia Video Encoder Interface for book keeping.
         /// The client is expected to pass the registered resource handle as well, while calling ::NvEncMapInputResource API.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NVEncodeAPI interface.
-        ///
-        /// \param [in] registerResParams
-        ///   Pointer to a ::_NV_ENC_REGISTER_RESOURCE structure
+        /// <param name="registerResParams">Pointer to a ::_NV_ENC_REGISTER_RESOURCE structure</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1222,11 +1100,7 @@ namespace Lennox.NvEncSharp
         /// The client is expected to unregister any resource that it has registered with the
         /// Nvidia Video Encoder Interface before destroying the resource.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NVEncodeAPI interface.
-        ///
-        /// \param [in] registeredResource
-        ///   The registered resource pointer that was returned in ::NvEncRegisterResource.
+        /// <param name="registeredResource">The registered resource pointer that was returned in ::NvEncRegisterResource.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1259,11 +1133,8 @@ namespace Lennox.NvEncSharp
         /// Resolution change is possible only if maxEncodeWidth & maxEncodeHeight of NV_ENC_INITIALIZE_PARAMS
         /// is set while creating encoder session.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NVEncodeAPI interface.
+        /// <param name="reInitEncodeParams"> Pointer to a ::NV_ENC_RECONFIGURE_PARAMS structure.</param>
         ///
-        /// \param [in] reInitEncodeParams
-        ///    Pointer to a ::NV_ENC_RECONFIGURE_PARAMS structure.
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_NO_ENCODE_DEVICE
@@ -1288,10 +1159,7 @@ namespace Lennox.NvEncSharp
         /// ::NvEncRunMotionEstimationOnly() API.
         /// Client must lock ::NV_ENC_CREATE_MV_BUFFER::mvBuffer using ::NvEncLockBitstream() API to get the motion vector data.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in,out] createMVBufferParams
-        ///  Pointer to the ::NV_ENC_CREATE_MV_BUFFER structure.
+        /// <param name="createMvBufferParams">Pointer to the ::NV_ENC_CREATE_MV_BUFFER structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1315,10 +1183,7 @@ namespace Lennox.NvEncSharp
         /// the ::NvEncCreateMVBuffer() function. The client must release the output
         /// mvBuffer using this function before destroying the encoder session.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] mvBuffer
-        ///   Pointer to the mvBuffer being released.
+        /// <param name="mvBuffer">Pointer to the mvBuffer being released.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1343,10 +1208,7 @@ namespace Lennox.NvEncSharp
         /// Client must lock ::NV_ENC_CREATE_MV_BUFFER::mvBuffer using ::NvEncLockBitstream() API to get the motion vector data.
         /// to get motion vector data.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        /// \param [in] meOnlyParams
-        ///   Pointer to the ::_NV_ENC_MEONLY_PARAMS structure.
+        /// <param name="meOnlyParams">Pointer to the ::_NV_ENC_MEONLY_PARAMS structure.</param>
         ///
         /// <return>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -1370,13 +1232,10 @@ namespace Lennox.NvEncSharp
         /// This function returns a null-terminated string that can be used by clients to better understand the reason
         /// for failure of a previous API call.</summary>
         ///
-        /// \param [in] encoder
-        ///   Pointer to the NvEncodeAPI interface.
-        ///
         /// <return>Pointer to buffer containing the details of the last error encountered by the API.</return>
         public string GetLastError()
         {
-            if (Handle == IntPtr.Zero) return "No ";
+            if (Handle == IntPtr.Zero) return "No NvEncoder.";
 
             var ptr = Fn.GetLastError(this);
             return ptr == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(ptr);
