@@ -5,7 +5,8 @@ using static Lennox.NvEncSharp.LibNvEnc;
 
 namespace Lennox.NvEncSharp
 {
-    public static unsafe class NvEncoderEx
+    // ReSharper disable UnusedMember.Global
+    public partial struct NvEncoder
     {
         private static NvEncApiFunctionList Fn => FunctionList;
 
@@ -27,16 +28,18 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodeGuidCount(this NvEncoder encoder, out uint encodeGuidCount)
+        public void GetEncodeGuidCount(out uint encodeGuidCount)
         {
             encodeGuidCount = 0;
-            CheckResult(encoder, Fn.GetEncodeGuidCount(encoder, ref encodeGuidCount));
+            var status = Fn.GetEncodeGuidCount(this, ref encodeGuidCount);
+            CheckResult(this, status);
         }
 
-        public static uint GetEncodeGuidCount(this NvEncoder encoder)
+        public uint GetEncodeGuidCount()
         {
             uint encodeGuidCount = 0;
-            CheckResult(encoder, Fn.GetEncodeGuidCount(encoder, ref encodeGuidCount));
+            var status = Fn.GetEncodeGuidCount(this, ref encodeGuidCount);
+            CheckResult(this, status);
             return encodeGuidCount;
         }
 
@@ -67,21 +70,23 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodeGuids(this NvEncoder encoder, Span<Guid> guids, out uint guidCount)
+        public unsafe void GetEncodeGuids(Span<Guid> guids, out uint guidCount)
         {
             guidCount = 0;
             fixed (Guid* ptr = guids)
             {
-                CheckResult(encoder, Fn.GetEncodeGuids(encoder, ptr, (uint)guids.Length, ref guidCount));
+                var status = Fn.GetEncodeGuids(
+                    this, ptr, (uint) guids.Length, ref guidCount);
+                CheckResult(this, status);
             }
         }
 
-        public static IReadOnlyList<Guid> GetEncodeGuids(this NvEncoder encoder)
+        public IReadOnlyList<Guid> GetEncodeGuids()
         {
-            var count = encoder.GetEncodeGuidCount();
+            var count = GetEncodeGuidCount();
             if (count == 0) return Array.Empty<Guid>();
             Span<Guid> guids = stackalloc Guid[(int)count];
-            encoder.GetEncodeGuids(guids, out var actualCount);
+            GetEncodeGuids(guids, out var actualCount);
             return guids.Slice(0, (int)actualCount).ToArray();
         }
 
@@ -108,16 +113,21 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodeProfileGuidCount(this NvEncoder encoder, Guid encodeGuid, out uint encodeProfileGuidCount)
+        public void GetEncodeProfileGuidCount(
+            Guid encodeGuid, out uint encodeProfileGuidCount)
         {
             encodeProfileGuidCount = 0;
-            CheckResult(encoder, Fn.GetEncodeProfileGuidCount(encoder, encodeGuid, ref encodeProfileGuidCount));
+            var status = Fn.GetEncodeProfileGuidCount(
+                this, encodeGuid, ref encodeProfileGuidCount);
+            CheckResult(this, status);
         }
 
-        public static uint GetEncodeProfileGuidCount(this NvEncoder encoder, Guid encodeGuid)
+        public uint GetEncodeProfileGuidCount(Guid encodeGuid)
         {
             uint encodeProfileGuidCount = 0;
-            CheckResult(encoder, Fn.GetEncodeProfileGuidCount(encoder, encodeGuid, ref encodeProfileGuidCount));
+            var status = Fn.GetEncodeProfileGuidCount(
+                this, encodeGuid, ref encodeProfileGuidCount);
+            CheckResult(this, status);
             return encodeProfileGuidCount;
         }
 
@@ -150,22 +160,26 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodeProfileGuids(this NvEncoder encoder, Guid encodeGuid, Span<Guid> profileGuids, out uint guidCount)
+        public unsafe void GetEncodeProfileGuids(
+            Guid encodeGuid, Span<Guid> profileGuids, out uint guidCount)
         {
             guidCount = 0;
 
             fixed (Guid* ptr = profileGuids)
             {
-                CheckResult(encoder, Fn.GetEncodeProfileGuids(encoder, encodeGuid, ptr, (uint)profileGuids.Length, ref guidCount));
+                var status = Fn.GetEncodeProfileGuids(
+                    this, encodeGuid, ptr,
+                    (uint) profileGuids.Length, ref guidCount);
+                CheckResult(this, status);
             }
         }
 
-        public static IReadOnlyList<Guid> GetEncodeProfileGuids(this NvEncoder encoder, Guid encodeGuid)
+        public IReadOnlyList<Guid> GetEncodeProfileGuids(Guid encodeGuid)
         {
-            var count = encoder.GetEncodeProfileGuidCount(encodeGuid);
+            var count = GetEncodeProfileGuidCount(encodeGuid);
             if (count == 0) return Array.Empty<Guid>();
             Span<Guid> guids = stackalloc Guid[(int)count];
-            encoder.GetEncodeProfileGuids(encodeGuid, guids, out var actualCount);
+            GetEncodeProfileGuids(encodeGuid, guids, out var actualCount);
             return guids.Slice(0, (int)actualCount).ToArray();
         }
 
@@ -191,16 +205,21 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetInputFormatCount(this NvEncoder encoder, Guid encodeGuid, out uint inputFmtCount)
+        public void GetInputFormatCount(
+            Guid encodeGuid, out uint inputFmtCount)
         {
             inputFmtCount = 0;
-            CheckResult(encoder, Fn.GetInputFormatCount(encoder, encodeGuid, ref inputFmtCount));
+            var status = Fn.GetInputFormatCount(
+                this, encodeGuid, ref inputFmtCount);
+            CheckResult(this, status);
         }
 
-        public static uint GetInputFormatCount(this NvEncoder encoder, Guid encodeGuid)
+        public uint GetInputFormatCount(Guid encodeGuid)
         {
             uint inputFmtCount = 0;
-            CheckResult(encoder, Fn.GetInputFormatCount(encoder, encodeGuid, ref inputFmtCount));
+            var status = Fn.GetInputFormatCount(
+                this, encodeGuid, ref inputFmtCount);
+            CheckResult(this, status);
             return inputFmtCount;
         }
 
@@ -230,21 +249,26 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetInputFormats(this NvEncoder encoder, Guid encodeGuid, Span<NvEncBufferFormat> inputFmts, out uint inputFmtCount)
+        public unsafe void GetInputFormats(
+            Guid encodeGuid, Span<NvEncBufferFormat> inputFmts,
+            out uint inputFmtCount)
         {
             inputFmtCount = 0;
             fixed (NvEncBufferFormat* ptr = inputFmts)
             {
-                CheckResult(encoder, Fn.GetInputFormats(encoder, encodeGuid, ptr, (uint)inputFmts.Length, ref inputFmtCount));
+                var status = Fn.GetInputFormats(
+                    this, encodeGuid, ptr,
+                    (uint) inputFmts.Length, ref inputFmtCount);
+                CheckResult(this, status);
             }
         }
 
-        public static IReadOnlyList<NvEncBufferFormat> GetInputFormats(this NvEncoder encoder, Guid encodeGuid)
+        public IReadOnlyList<NvEncBufferFormat> GetInputFormats(Guid encodeGuid)
         {
-            var count = encoder.GetInputFormatCount(encodeGuid);
+            var count = GetInputFormatCount(encodeGuid);
             if (count == 0) return Array.Empty<NvEncBufferFormat>();
             Span<NvEncBufferFormat> formats = stackalloc NvEncBufferFormat[(int)count];
-            encoder.GetInputFormats(encodeGuid, formats, out var actualCount);
+            GetInputFormats(encodeGuid, formats, out var actualCount);
             return formats.Slice(0, (int)actualCount).ToArray();
         }
 
@@ -273,9 +297,12 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodeCaps(this NvEncoder encoder, Guid encodeGuid, ref NvEncCapsParam capsParam, ref int capsVal)
+        public void GetEncodeCaps(
+            Guid encodeGuid, ref NvEncCapsParam capsParam, ref int capsVal)
         {
-            CheckResult(encoder, Fn.GetEncodeCaps(encoder, encodeGuid, ref capsParam, ref capsVal));
+            var status = Fn.GetEncodeCaps(
+                this, encodeGuid, ref capsParam, ref capsVal);
+            CheckResult(this, status);
         }
 
         /// <summary>Retrieves the number of supported preset Guids.
@@ -300,16 +327,21 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodePresetCount(this NvEncoder encoder, Guid encodeGuid, out uint encodePresetGuidCount)
+        public void GetEncodePresetCount(
+            Guid encodeGuid, out uint encodePresetGuidCount)
         {
             encodePresetGuidCount = 0;
-            CheckResult(encoder, Fn.GetEncodePresetCount(encoder, encodeGuid, ref encodePresetGuidCount));
+            var status = Fn.GetEncodePresetCount(
+                this, encodeGuid, ref encodePresetGuidCount);
+            CheckResult(this, status);
         }
 
-        public static uint GetEncodePresetCount(this NvEncoder encoder, Guid encodeGuid)
+        public uint GetEncodePresetCount(Guid encodeGuid)
         {
             uint encodePresetGuidCount = 0;
-            CheckResult(encoder, Fn.GetEncodePresetCount(encoder, encodeGuid, ref encodePresetGuidCount));
+            var status = Fn.GetEncodePresetCount(
+                this, encodeGuid, ref encodePresetGuidCount);
+            CheckResult(this, status);
             return encodePresetGuidCount;
         }
 
@@ -349,21 +381,26 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodePresetGuids(this NvEncoder encoder, Guid encodeGuid, Span<Guid> presetGuids, out uint encodePresetGuidCount)
+        public unsafe void GetEncodePresetGuids(
+            Guid encodeGuid, Span<Guid> presetGuids,
+            out uint encodePresetGuidCount)
         {
             encodePresetGuidCount = 0;
             fixed (Guid* ptr = presetGuids)
             {
-                CheckResult(encoder, Fn.GetEncodePresetGuids(encoder, encodeGuid, ptr, (uint)presetGuids.Length, ref encodePresetGuidCount));
+                var status = Fn.GetEncodePresetGuids(
+                    this, encodeGuid, ptr, (uint) presetGuids.Length,
+                    ref encodePresetGuidCount);
+                CheckResult(this, status);
             }
         }
 
-        public static IReadOnlyList<Guid> GetEncodePresetGuids(this NvEncoder encoder, Guid encodeGuid)
+        public IReadOnlyList<Guid> GetEncodePresetGuids(Guid encodeGuid)
         {
-            var count = encoder.GetEncodePresetCount(encodeGuid);
+            var count = GetEncodePresetCount(encodeGuid);
             if (count == 0) return Array.Empty<Guid>();
             Span<Guid> guids = stackalloc Guid[(int)count];
-            encoder.GetEncodePresetGuids(encodeGuid, guids, out var actualCount);
+            GetEncodePresetGuids(encodeGuid, guids, out var actualCount);
             return guids.Slice(0, (int)actualCount).ToArray();
         }
 
@@ -400,12 +437,17 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_GENERIC</return>
         ///
         /// <summary>NV_ENC_CONFIG</summary>
-        public static void GetEncodePresetConfig(this NvEncoder encoder, Guid encodeGuid, Guid presetGuid, ref NvEncPresetConfig presetConfig)
+        public void GetEncodePresetConfig(
+            Guid encodeGuid, Guid presetGuid,
+            ref NvEncPresetConfig presetConfig)
         {
-            CheckResult(encoder, Fn.GetEncodePresetConfig(encoder, encodeGuid, presetGuid, ref presetConfig));
+            var status = Fn.GetEncodePresetConfig(
+                this, encodeGuid, presetGuid, ref presetConfig);
+            CheckResult(this, status);
         }
 
-        public static NvEncPresetConfig GetEncodePresetConfig(this NvEncoder encoder, Guid encodeGuid, Guid presetGuid)
+        public NvEncPresetConfig GetEncodePresetConfig(
+            Guid encodeGuid, Guid presetGuid)
         {
             var presetConfig = new NvEncPresetConfig
             {
@@ -416,13 +458,13 @@ namespace Lennox.NvEncSharp
                 }
             };
 
-            encoder.GetEncodePresetConfig(encodeGuid, presetGuid, ref presetConfig);
+            GetEncodePresetConfig(encodeGuid, presetGuid, ref presetConfig);
             return presetConfig;
         }
 
-        /// <summary>Initialize the encoder.
+        /// <summary>Initialize the
         ///
-        /// This API must be used to initialize the encoder. The initialization parameter
+        /// This API must be used to initialize the  The initialization parameter
         /// is passed using \p///createEncodeParams  The client must send the following
         /// fields of the _NV_ENC_INITIALIZE_PARAMS structure with a valid value.
         /// - NV_ENC_INITIALIZE_PARAMS::encodeGuid
@@ -455,7 +497,7 @@ namespace Lennox.NvEncSharp
         /// ::NvEncEncodePicture() API. The client can create another thread and wait on
         /// the event object to be signalled by NvEncodeAPI interface on completion of the
         /// encoding process for the output frame. This should unblock the main thread from
-        /// submitting work to the encoder. When the event is signalled the client can call
+        /// submitting work to the  When the event is signalled the client can call
         /// NvEncodeAPI interfaces to copy the bitstream data using ::NvEncLockBitstream()
         /// API. This is the preferred mode of operation.
         ///
@@ -498,9 +540,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void InitializeEncoder(this NvEncoder encoder, ref NvEncInitializeParams createEncodeParams)
+        public void InitializeEncoder(
+            ref NvEncInitializeParams createEncodeParams)
         {
-            CheckResult(encoder, Fn.InitializeEncoder(encoder, ref createEncodeParams));
+            var status = Fn.InitializeEncoder(this, ref createEncodeParams);
+            CheckResult(this, status);
         }
 
         /// <summary>Allocates Input buffer.
@@ -526,12 +570,15 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void CreateInputBuffer(this NvEncoder encoder, ref NvEncCreateInputBuffer createInputBufferParams)
+        public void CreateInputBuffer(
+            ref NvEncCreateInputBuffer createInputBufferParams)
         {
-            CheckResult(encoder, Fn.CreateInputBuffer(encoder, ref createInputBufferParams));
+            var status = Fn.CreateInputBuffer(this, ref createInputBufferParams);
+            CheckResult(this, status);
         }
 
-        public static NvEncCreateInputBuffer CreateInputBuffer(this NvEncoder encoder, int width, int height, NvEncBufferFormat bufferFormat)
+        public NvEncCreateInputBuffer CreateInputBuffer(
+            int width, int height, NvEncBufferFormat bufferFormat)
         {
             var createInputBufferParams = new NvEncCreateInputBuffer
             {
@@ -541,7 +588,8 @@ namespace Lennox.NvEncSharp
                 BufferFmt = bufferFormat
             };
 
-            CheckResult(encoder, Fn.CreateInputBuffer(encoder, ref createInputBufferParams));
+            var status = Fn.CreateInputBuffer(this, ref createInputBufferParams);
+            CheckResult(this, status);
 
             return createInputBufferParams;
         }
@@ -567,9 +615,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void DestroyInputBuffer(this NvEncoder encoder, NvEncInputPtr inputBuffer)
+        public void DestroyInputBuffer(NvEncInputPtr inputBuffer)
         {
-            CheckResult(encoder, Fn.DestroyInputBuffer(encoder, inputBuffer));
+            CheckResult(this, Fn.DestroyInputBuffer(this, inputBuffer));
         }
 
         /// <summary>Set input and output CUDA stream for specified encoder attribute.
@@ -601,9 +649,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void SetIOCudaStreams(this NvEncoder encoder, NvEncCustreamPtr inputStream, NvEncCustreamPtr outputStream)
+        public void SetIOCudaStreams(
+            NvEncCustreamPtr inputStream, NvEncCustreamPtr outputStream)
         {
-            CheckResult(encoder, Fn.SetIOCudaStreams(encoder, inputStream, outputStream));
+            var status = Fn.SetIOCudaStreams(this, inputStream, outputStream);
+            CheckResult(this, status);
         }
 
         /// <summary>Allocates an output bitstream buffer
@@ -633,19 +683,24 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void CreateBitstreamBuffer(this NvEncoder encoder, ref NvEncCreateBitstreamBuffer createBitstreamBufferParams)
+        public void CreateBitstreamBuffer(
+            ref NvEncCreateBitstreamBuffer createBitstreamBufferParams)
         {
-            CheckResult(encoder, Fn.CreateBitstreamBuffer(encoder, ref createBitstreamBufferParams));
+            var status = Fn.CreateBitstreamBuffer(
+                this, ref createBitstreamBufferParams);
+            CheckResult(this, status);
         }
 
-        public static NvEncCreateBitstreamBuffer CreateBitstreamBuffer(this NvEncoder encoder)
+        public NvEncCreateBitstreamBuffer CreateBitstreamBuffer()
         {
             var createBitstreamBufferParams = new NvEncCreateBitstreamBuffer
             {
                 Version = NV_ENC_CREATE_BITSTREAM_BUFFER_VER
             };
 
-            CheckResult(encoder, Fn.CreateBitstreamBuffer(encoder, ref createBitstreamBufferParams));
+            var status = Fn.CreateBitstreamBuffer(
+                this, ref createBitstreamBufferParams);
+            CheckResult(this, status);
 
             return createBitstreamBufferParams;
         }
@@ -671,9 +726,10 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void DestroyBitstreamBuffer(this NvEncoder encoder, NvEncOutputPtr bitstreamBuffer)
+        public void DestroyBitstreamBuffer(NvEncOutputPtr bitstreamBuffer)
         {
-            CheckResult(encoder, Fn.DestroyBitstreamBuffer(encoder, bitstreamBuffer));
+            var status = Fn.DestroyBitstreamBuffer(this, bitstreamBuffer);
+            CheckResult(this, status);
         }
 
         /// <summary>Submit an input picture for encoding.
@@ -742,9 +798,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_NEED_MORE_INPUT
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void EncodePicture(this NvEncoder encoder, ref NvEncPicParams encodePicParams)
+        public void EncodePicture(ref NvEncPicParams encodePicParams)
         {
-            CheckResult(encoder, Fn.EncodePicture(encoder, ref encodePicParams));
+            CheckResult(this, Fn.EncodePicture(this, ref encodePicParams));
         }
 
         /// <summary>Lock output bitstream buffer
@@ -778,12 +834,16 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_LOCK_BUSY
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void LockBitstream(this NvEncoder encoder, ref NvEncLockBitstream lockBitstreamBufferParams)
+        public void LockBitstream(
+            ref NvEncLockBitstream lockBitstreamBufferParams)
         {
-            CheckResult(encoder, Fn.LockBitstream(encoder, ref lockBitstreamBufferParams));
+            var status = Fn.LockBitstream(this, ref lockBitstreamBufferParams);
+            CheckResult(this, status);
         }
 
-        public static NvEncLockBitstream LockBitstream(this NvEncoder encoder, NvEncCreateBitstreamBuffer buffer, bool doNotWait = false)
+        public NvEncLockBitstream LockBitstream(
+            NvEncCreateBitstreamBuffer buffer,
+            bool doNotWait = false)
         {
             var lockBitstreamBufferParams = new NvEncLockBitstream
             {
@@ -792,7 +852,8 @@ namespace Lennox.NvEncSharp
                 DoNotWait = doNotWait
             };
 
-            CheckResult(encoder, Fn.LockBitstream(encoder, ref lockBitstreamBufferParams));
+            var status = Fn.LockBitstream(this, ref lockBitstreamBufferParams);
+            CheckResult(this, status);
 
             return lockBitstreamBufferParams;
         }
@@ -819,9 +880,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void UnlockBitstream(this NvEncoder encoder, NvEncOutputPtr bitstreamBuffer)
+        public void UnlockBitstream(NvEncOutputPtr bitstreamBuffer)
         {
-            CheckResult(encoder, Fn.UnlockBitstream(encoder, bitstreamBuffer));
+            CheckResult(this, Fn.UnlockBitstream(this, bitstreamBuffer));
         }
 
         /// <summary>Locks an input buffer
@@ -850,9 +911,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_LOCK_BUSY
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void LockInputBuffer(this NvEncoder encoder, ref NvEncLockInputBuffer lockInputBufferParams)
+        public void LockInputBuffer(
+            ref NvEncLockInputBuffer lockInputBufferParams)
         {
-            CheckResult(encoder, Fn.LockInputBuffer(encoder, ref lockInputBufferParams));
+            var status = Fn.LockInputBuffer(this, ref lockInputBufferParams);
+            CheckResult(this, status);
         }
 
         /// <summary>Unlocks the input buffer
@@ -876,9 +939,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void UnlockInputBuffer(this NvEncoder encoder, NvEncInputPtr inputBuffer)
+        public void UnlockInputBuffer(NvEncInputPtr inputBuffer)
         {
-            CheckResult(encoder, Fn.UnlockInputBuffer(encoder, inputBuffer));
+            CheckResult(this, Fn.UnlockInputBuffer(this, inputBuffer));
         }
 
         /// <summary>Get encoding statistics.
@@ -900,9 +963,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetEncodeStats(this NvEncoder encoder, ref NvEncStat encodeStats)
+        public void GetEncodeStats(ref NvEncStat encodeStats)
         {
-            CheckResult(encoder, Fn.GetEncodeStats(encoder, ref encodeStats));
+            CheckResult(this, Fn.GetEncodeStats(this, ref encodeStats));
         }
 
         /// <summary>Get encoded sequence and picture header.
@@ -934,9 +997,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void GetSequenceParams(this NvEncoder encoder, ref NvEncSequenceParamPayload sequenceParamPayload)
+        public void GetSequenceParams(
+            ref NvEncSequenceParamPayload sequenceParamPayload)
         {
-            CheckResult(encoder, Fn.GetSequenceParams(encoder, ref sequenceParamPayload));
+            var status = Fn.GetSequenceParams(this, ref sequenceParamPayload);
+            CheckResult(this, status);
         }
 
         /// <summary>Register event for notification to encoding completion.
@@ -963,9 +1028,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void RegisterAsyncEvent(this NvEncoder encoder, ref NvEncEventParams eventParams)
+        public void RegisterAsyncEvent(ref NvEncEventParams eventParams)
         {
-            CheckResult(encoder, Fn.RegisterAsyncEvent(encoder, ref eventParams));
+            CheckResult(this, Fn.RegisterAsyncEvent(this, ref eventParams));
         }
 
         /// <summary>Unregister completion event.
@@ -989,9 +1054,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void UnregisterAsyncEvent(this NvEncoder encoder, ref NvEncEventParams eventParams)
+        public void UnregisterAsyncEvent(ref NvEncEventParams eventParams)
         {
-            CheckResult(encoder, Fn.UnregisterAsyncEvent(encoder, ref eventParams));
+            CheckResult(this, Fn.UnregisterAsyncEvent(this, ref eventParams));
         }
 
         /// <summary>Map an externally created input resource pointer for encoding.
@@ -1005,7 +1070,7 @@ namespace Lennox.NvEncSharp
         /// on the input buffer is completed before the buffer is used for encoding. This is
         /// also true for compute(i.e. CUDA) work, provided that the previous workload using
         /// the input resource was submitted to the default stream.
-        /// The client should not access any input buffer while they are mapped by the encoder.</summary>
+        /// The client should not access any input buffer while they are mapped by the </summary>
         ///
         /// \param [in] encoder
         ///   Pointer to the NvEncodeAPI interface.
@@ -1024,9 +1089,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_RESOURCE_NOT_REGISTERED
         /// ::NV_ENC_ERR_MAP_FAILED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void MapInputResource(this NvEncoder encoder, ref NvEncMapInputResource mapInputResParams)
+        public void MapInputResource(ref NvEncMapInputResource mapInputResParams)
         {
-            CheckResult(encoder, Fn.MapInputResource(encoder, ref mapInputResParams));
+            CheckResult(this, Fn.MapInputResource(this, ref mapInputResParams));
         }
 
         /// <summary>UnMaps a NV_ENC_INPUT_PTR  which was mapped for encoding
@@ -1056,9 +1121,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_RESOURCE_NOT_REGISTERED
         /// ::NV_ENC_ERR_RESOURCE_NOT_MAPPED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void UnmapInputResource(this NvEncoder encoder, NvEncInputPtr mappedInputBuffer)
+        public void UnmapInputResource(NvEncInputPtr mappedInputBuffer)
         {
-            CheckResult(encoder, Fn.UnmapInputResource(encoder, mappedInputBuffer));
+            CheckResult(this, Fn.UnmapInputResource(this, mappedInputBuffer));
         }
 
         /// <summary>Destroy Encoding Session
@@ -1069,7 +1134,7 @@ namespace Lennox.NvEncSharp
         /// wait for the ::NvEncEncodePicture() function to return in synchronous mode or wait
         /// for the flush event to be signaled by the encoder in asynchronous mode.
         /// The client must free all the input and output resources created using the
-        /// NvEncodeAPI interface before destroying the encoder. If the client is operating
+        /// NvEncodeAPI interface before destroying the  If the client is operating
         /// in asynchronous mode, it must also unregister the completion events previously
         /// registered.</summary>
         ///
@@ -1084,9 +1149,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void DestroyEncoder(this NvEncoder encoder)
+        public void DestroyEncoder()
         {
-            CheckResult(encoder, Fn.DestroyEncoder(encoder));
+            CheckResult(this, Fn.DestroyEncoder(this));
         }
 
         /// <summary>Invalidate reference frames
@@ -1115,9 +1180,10 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void InvalidateRefFrames(this NvEncoder encoder, ulong invalidRefFrameTimeStamp)
+        public void InvalidateRefFrames(ulong invalidRefFrameTimeStamp)
         {
-            CheckResult(encoder, Fn.InvalidateRefFrames(encoder, invalidRefFrameTimeStamp));
+            var status = Fn.InvalidateRefFrames(this, invalidRefFrameTimeStamp);
+            CheckResult(this, status);
         }
 
         /// <summary>Registers a resource with the Nvidia Video Encoder Interface.
@@ -1143,9 +1209,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_RESOURCE_REGISTER_FAILED
         /// ::NV_ENC_ERR_GENERIC
         /// ::NV_ENC_ERR_UNIMPLEMENTED</return>
-        public static void RegisterResource(this NvEncoder encoder, ref NvEncRegisterResource registerResParams)
+        public void RegisterResource(
+            ref NvEncRegisterResource registerResParams)
         {
-            CheckResult(encoder, Fn.RegisterResource(encoder, ref registerResParams));
+            var status = Fn.RegisterResource(this, ref registerResParams);
+            CheckResult(this, status);
         }
 
         /// <summary>Unregisters a resource previously registered with the Nvidia Video Encoder Interface.
@@ -1172,9 +1240,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_RESOURCE_NOT_REGISTERED
         /// ::NV_ENC_ERR_GENERIC
         /// ::NV_ENC_ERR_UNIMPLEMENTED</return>
-        public static void UnregisterResource(this NvEncoder encoder, NvEncRegisteredPtr registeredResource)
+        public void UnregisterResource(NvEncRegisteredPtr registeredResource)
         {
-            CheckResult(encoder, Fn.UnregisterResource(encoder, registeredResource));
+            CheckResult(this, Fn.UnregisterResource(this, registeredResource));
         }
 
         /// <summary>Reconfigure an existing encoding session.
@@ -1204,9 +1272,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void ReconfigureEncoder(this NvEncoder encoder, ref NvEncReconfigureParams reInitEncodeParams)
+        public void ReconfigureEncoder(
+            ref NvEncReconfigureParams reInitEncodeParams)
         {
-            CheckResult(encoder, Fn.ReconfigureEncoder(encoder, ref reInitEncodeParams));
+            var status = Fn.ReconfigureEncoder(this, ref reInitEncodeParams);
+            CheckResult(this, status);
         }
 
         /// <summary>Allocates output MV buffer for ME only mode.
@@ -1232,9 +1302,11 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void CreateMvBuffer(this NvEncoder encoder, ref NvEncCreateMvBuffer createMvBufferParams)
+        public void CreateMvBuffer(
+            ref NvEncCreateMvBuffer createMvBufferParams)
         {
-            CheckResult(encoder, Fn.CreateMvBuffer(encoder, ref createMvBufferParams));
+            var status = Fn.CreateMvBuffer(this, ref createMvBufferParams);
+            CheckResult(this, status);
         }
 
         /// <summary>Release an output MV buffer for ME only mode.
@@ -1258,9 +1330,9 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void DestroyMvBuffer(this NvEncoder encoder, NvEncOutputPtr mvBuffer)
+        public void DestroyMvBuffer(NvEncOutputPtr mvBuffer)
         {
-            CheckResult(encoder, Fn.DestroyMvBuffer(encoder, mvBuffer));
+            CheckResult(this, Fn.DestroyMvBuffer(this, mvBuffer));
         }
 
         /// <summary>Submit an input picture and reference frame for motion estimation in ME only mode.
@@ -1287,9 +1359,10 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_NEED_MORE_INPUT
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_GENERIC</return>
-        public static void RunMotionEstimationOnly(this NvEncoder encoder, ref NvEncMeonlyParams meOnlyParams)
+        public void RunMotionEstimationOnly(ref NvEncMeonlyParams meOnlyParams)
         {
-            CheckResult(encoder, Fn.RunMotionEstimationOnly(encoder, ref meOnlyParams));
+            var status = Fn.RunMotionEstimationOnly(this, ref meOnlyParams);
+            CheckResult(this, status);
         }
 
         /// <summary>Get the description of the last error reported by the API.
@@ -1301,33 +1374,12 @@ namespace Lennox.NvEncSharp
         ///   Pointer to the NvEncodeAPI interface.
         ///
         /// <return>Pointer to buffer containing the details of the last error encountered by the API.</return>
-        public static string GetLastError(this NvEncoder encoder)
+        public string GetLastError()
         {
-            if (encoder.Handle == IntPtr.Zero) return "No encoder.";
+            if (Handle == IntPtr.Zero) return "No ";
 
-            var ptr = Fn.GetLastError(encoder);
+            var ptr = Fn.GetLastError(this);
             return ptr == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(ptr);
-        }
-    }
-
-    public static class NvEncRegisterResourceEx
-    {
-        public static NvEncInputPtr AsInputPointer(
-            this NvEncRegisterResource resource)
-        {
-            return new NvEncInputPtr
-            {
-                Handle = resource.RegisteredResource.Handle
-            };
-        }
-
-        public static NvEncOutputPtr AsOutputPointer(
-            this NvEncRegisterResource resource)
-        {
-            return new NvEncOutputPtr
-            {
-                Handle = resource.RegisteredResource.Handle
-            };
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)] public struct NvEncOutputPtr { public IntPtr Handle; }
     [StructLayout(LayoutKind.Sequential)] public struct NvEncRegisteredPtr { public IntPtr Handle; }
     [StructLayout(LayoutKind.Sequential)] public struct NvEncCustreamPtr { public IntPtr Handle; }
-    [StructLayout(LayoutKind.Sequential)] public struct NvEncoder { public IntPtr Handle; }
+    [StructLayout(LayoutKind.Sequential)] public partial struct NvEncoder { public IntPtr Handle; }
 
     /// <summary>NV_ENCODE_API_FUNCTION_LIST</summary>
     [StructLayout(LayoutKind.Sequential)]

@@ -83,6 +83,7 @@ namespace Lennox.NvEncSharp
         /// <returns></returns>
         /// <seealso cref="TryInitialize(out string)"/>
         /// <seealso cref="Initialize()"/>
+        /// <seealso cref="FunctionList"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static NvEncStatus NvEncodeAPICreateInstance(ref NvEncApiFunctionList functionList) =>
             Environment.Is64BitProcess
@@ -120,6 +121,7 @@ namespace Lennox.NvEncSharp
         /// textual description of the failure reason.</param>
         /// <returns>Success or the category of failure.</returns>
         /// <seealso cref="Initialize()"/>
+        /// <seealso cref="FunctionList"/>
         public static LibNcEncInitializeStatus TryInitialize(
             out string failedDescription)
         {
