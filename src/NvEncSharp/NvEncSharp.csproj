@@ -5,8 +5,9 @@
     <Platforms>x64</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>Lennox.NvEncSharp</RootNamespace>
+    <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
 
     <PackageId>Lennox.NvEncSharp</PackageId>
     <Title>NvEncSharp</Title>
