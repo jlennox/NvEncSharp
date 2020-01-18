@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lennox.NvEncSharp.Sample.ScreenCapture
 {
@@ -7,13 +8,13 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
         public string DisplayName { get; set; }
         public string OutputPath { get; set; }
 
-        public ProgramArguments(string[] args)
+        public ProgramArguments(IReadOnlyList<string> args)
         {
-            for (var i = 0; i < args.Length; ++i)
+            for (var i = 0; i < args.Count; ++i)
             {
                 string GetNextArgument()
                 {
-                    if (i + 1 > args.Length - 1)
+                    if (i + 1 > args.Count - 1)
                     {
                         throw new ArgumentNullException(
                             args[i], "Argument required.");

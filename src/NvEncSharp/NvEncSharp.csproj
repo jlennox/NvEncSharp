@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461;netcoreapp2.0</TargetFrameworks>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
@@ -21,4 +21,10 @@
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NvEncSharp.Cuda.Library\NvEncSharp.Cuda.Library.vcxproj" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y &quot;$(SolutionDir)NvEncSharp.Cuda.Library\bin\$(PlatformName).$(ConfigurationName)\NvEncSharp.Cuda.Library.dll&quot; &quot;$(OutDir)&quot;" />
+  </Target>
 </Project>

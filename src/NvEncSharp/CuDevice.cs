@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using static Lennox.NvEncSharp.LibCuda;
 
 namespace Lennox.NvEncSharp
 {
@@ -26,16 +27,16 @@ namespace Lennox.NvEncSharp
     {
         public static CuDevice GetDevice(int ordinal)
         {
-            var result = LibCuda.DeviceGet(out var device, ordinal);
-            LibNvVideo.CheckResult(result);
+            var result = DeviceGet(out var device, ordinal);
+            CheckResult(result);
 
             return device;
         }
 
         public static int GetCount()
         {
-            var result = LibCuda.DeviceGetCount(out var count);
-            LibNvVideo.CheckResult(result);
+            var result = DeviceGetCount(out var count);
+            CheckResult(result);
 
             return count;
         }
@@ -54,15 +55,15 @@ namespace Lennox.NvEncSharp
         {
             const int inputLength = 256;
             var name = stackalloc byte[inputLength];
-            var result = LibCuda.DeviceGetName(name, inputLength, this);
-            LibNvVideo.CheckResult(result);
+            var result = DeviceGetName(name, inputLength, this);
+            CheckResult(result);
             return Marshal.PtrToStringAnsi((IntPtr)name, inputLength);
         }
 
         public long GetTotalMemory()
         {
-            var result = LibCuda.DeviceTotalMemory(out var memorySize, this);
-            LibNvVideo.CheckResult(result);
+            var result = DeviceTotalMemory(out var memorySize, this);
+            CheckResult(result);
 
             return memorySize.ToInt64();
         }
@@ -74,9 +75,9 @@ namespace Lennox.NvEncSharp
 
         public int GetAttribute(CuDeviceAttribute attribute)
         {
-            var result = LibCuda.DeviceGetAttribute(
+            var result = DeviceGetAttribute(
                 out var output, attribute, this);
-            LibNvVideo.CheckResult(result);
+            CheckResult(result);
 
             return output;
         }
@@ -84,7 +85,10 @@ namespace Lennox.NvEncSharp
         public CuContext CreateContext(
             CuContextFlags flags = CuContextFlags.SchedAuto)
         {
-            return LibCuda.CtxCreate(this, flags);
+            var result = CtxCreate(out var ctx, flags, this);
+            CheckResult(result);
+
+            return ctx;
         }
     }
 }

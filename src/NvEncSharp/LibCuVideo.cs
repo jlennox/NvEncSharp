@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
-using static Lennox.NvEncSharp.LibNvVideo;
+using static Lennox.NvEncSharp.LibCuda;
+using static Lennox.NvEncSharp.LibCuVideo;
 
 // ReSharper disable PureAttributeOnVoidMethod
 
@@ -20,6 +19,7 @@ namespace Lennox.NvEncSharp
 
         public bool IsEmpty => Handle == IntPtr.Zero;
 
+        /// <inheritdoc cref="DestroyVideoSource(CuVideoSource)"/>
         public void Dispose()
         {
             var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
@@ -40,49 +40,55 @@ namespace Lennox.NvEncSharp
 
         public bool IsEmpty => Handle == IntPtr.Zero;
 
+        /// <inheritdoc cref="StreamCreate(out CuStream, CuStreamFlags)"/>
         public static CuStream Create(
             CuStreamFlags flags = CuStreamFlags.Default)
         {
-            var result = LibCuda.StreamCreate(out var stream, flags);
+            var result = StreamCreate(out var stream, flags);
             CheckResult(result);
 
             return stream;
         }
 
+        /// <inheritdoc cref="StreamCreateWithPriority(out CuStream, CuStreamFlags, int)"/>
         public static CuStream Create(
             int priority,
             CuStreamFlags flags = CuStreamFlags.Default)
         {
-            var result = LibCuda.StreamCreateWithPriority(
+            var result = StreamCreateWithPriority(
                 out var stream, flags, priority);
             CheckResult(result);
 
             return stream;
         }
 
+        /// <inheritdoc cref="StreamQuery(CuStream)"/>
         public CuResult Query()
         {
-            return LibCuda.StreamQuery(this);
+            return StreamQuery(this);
         }
 
+        /// <inheritdoc cref="StreamQuery(CuStream)"/>
         public bool HasPendingOperations()
         {
-            return LibCuda.StreamQuery(this) == CuResult.ErrorNotReady;
+            return StreamQuery(this) == CuResult.ErrorNotReady;
         }
 
+        /// <inheritdoc cref="StreamSynchronize(CuStream)"/>
         public void Synchronize()
         {
-            var result = LibCuda.StreamSynchronize(this);
+            var result = StreamSynchronize(this);
             CheckResult(result);
         }
 
+        /// <inheritdoc cref="StreamDestroy(CuStream)"/>
         public void Dispose()
         {
             var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
             if (handle == IntPtr.Zero) return;
             var obj = new CuStream { Handle = handle };
 
-            CheckResult(LibCuda.StreamDestroy(obj));
+            CheckResult(StreamDestroy(obj));
         }
     }
 
@@ -107,6 +113,7 @@ namespace Lennox.NvEncSharp
 
         public bool IsEmpty => Handle == IntPtr.Zero;
 
+        /// <inheritdoc cref="CreateDecoder(out CuVideoDecoder, ref CuVideoDecodeCreateInfo)"/>
         public static CuVideoDecoder Create(ref CuVideoDecodeCreateInfo pdci)
         {
             var result = CreateDecoder(out var decoder, ref pdci);
@@ -114,14 +121,16 @@ namespace Lennox.NvEncSharp
             return decoder;
         }
 
+        /// <inheritdoc cref="LibCuVideo.GetDecodeStatus(CuVideoDecoder, int, out CuVideoDecodeStatus)"/>
         public CuVideoDecodeStatus GetDecodeStatus(int picIndex = 0)
         {
-            var result = LibNvVideo.GetDecodeStatus(
+            var result = LibCuVideo.GetDecodeStatus(
                 this, picIndex, out var status);
             CheckResult(result);
             return status;
         }
 
+        /// <inheritdoc cref="ReconfigureDecoder(CuVideoDecoder, ref CuVideoReconfigureDecoderInfo)"/>
         public void Reconfigure(
             ref CuVideoReconfigureDecoderInfo decReconfigParams)
         {
@@ -129,6 +138,7 @@ namespace Lennox.NvEncSharp
             CheckResult(result);
         }
 
+        /// <inheritdoc cref="ReconfigureDecoder(CuVideoDecoder, ref CuVideoReconfigureDecoderInfo)"/>
         public void Reconfigure(ref CuVideoFormat format)
         {
             // TODO
@@ -140,31 +150,34 @@ namespace Lennox.NvEncSharp
             Reconfigure(ref info);
         }
 
+        /// <inheritdoc cref="LibCuVideo.DecodePicture(CuVideoDecoder, ref CuVideoPicParams)"/>
         public void DecodePicture(ref CuVideoPicParams param)
         {
-            var result = LibNvVideo.DecodePicture(this, ref param);
+            var result = LibCuVideo.DecodePicture(this, ref param);
             CheckResult(result);
         }
 
-        public CuDevicePtr MapVideoFrame(
+        /// <inheritdoc cref="LibCuVideo.MapVideoFrame64(CuVideoDecoder, int, out CuDevicePtr, out uint, ref CuVideoProcParams)"/>
+        public CuVideoFrame MapVideoFrame(
             int picIndex, ref CuVideoProcParams param,
-            out uint pitch)
+            out int pitch)
         {
             CuDevicePtr devicePtr;
 
             var result = Environment.Is64BitProcess
-                ? LibNvVideo.MapVideoFrame64(
+                ? LibCuVideo.MapVideoFrame64(
                     this, picIndex, out devicePtr,
                     out pitch, ref param)
-                : LibNvVideo.MapVideoFrame(
+                : LibCuVideo.MapVideoFrame(
                     this, picIndex, out devicePtr,
                     out pitch, ref param);
 
             CheckResult(result);
 
-            return devicePtr;
+            return new CuVideoFrame(devicePtr, this);
         }
 
+        /// <inheritdoc cref="LibCuVideo.DestroyDecoder(CuVideoDecoder)"/>
         public void Dispose()
         {
             var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
@@ -175,31 +188,36 @@ namespace Lennox.NvEncSharp
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
     [DebuggerDisplay("{" + nameof(Handle) + "}")]
-    public struct CuVideoFrame
+    public struct CuVideoFrame : IDisposable
     {
         public IntPtr Handle;
 
+        private readonly CuVideoDecoder _decoder;
+
         public bool IsEmpty => Handle == IntPtr.Zero;
-    }
 
-    [StructLayout(LayoutKind.Sequential)]
-    [DebuggerDisplay("{" + nameof(Handle) + "}")]
-    public struct CuVideoFrame64 //: IDisposable
-    {
-        public long Handle;
-
-        public bool IsEmpty => Handle == 0;
-
-        /*public void Dispose()
+        public CuVideoFrame(CuDevicePtr devicePtr, CuVideoDecoder decoder)
         {
-            var handle = Interlocked.Exchange(ref Handle, 0);
-            if (handle == 0) return;
-            var obj = new CuVideoFrame64 { Handle = handle };
+            Handle = devicePtr.Handle;
+            _decoder = decoder;
+        }
 
-            CheckResult(UnmapVideoFrame64(obj));
-        }*/
+        /// <inheritdoc cref="LibCuVideo.UnmapVideoFrame64(CuVideoDecoder, CuDevicePtr)"/>
+        public void Dispose()
+        {
+            var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
+            if (handle == IntPtr.Zero) return;
+            var obj = new CuDevicePtr { Handle = handle };
+
+            var result = Environment.Is64BitProcess
+                ? UnmapVideoFrame64(_decoder, obj)
+                : UnmapVideoFrame(_decoder, obj);
+
+            CheckResult(result);
+        }
+
+        public static implicit operator CuDevicePtr(CuVideoFrame d) => new CuDevicePtr(d.Handle);
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -210,14 +228,14 @@ namespace Lennox.NvEncSharp
 
         public bool IsEmpty => Handle == IntPtr.Zero;
 
-        [Pure]
+        /// <inheritdoc cref="LibCuVideo.ParseVideoData(CuVideoParser, ref CuVideoSourceDataPacket)"/>
         public void ParseVideoData(ref CuVideoSourceDataPacket packet)
         {
-            var result = LibNvVideo.ParseVideoData(this, ref packet);
+            var result = LibCuVideo.ParseVideoData(this, ref packet);
             CheckResult(result);
         }
 
-        [Pure]
+        /// <inheritdoc cref="LibCuVideo.ParseVideoData(CuVideoParser, ref CuVideoSourceDataPacket)"/>
         public void ParseVideoData(
             Span<byte> payload,
             CuVideoPacketFlags flags = CuVideoPacketFlags.None,
@@ -237,7 +255,7 @@ namespace Lennox.NvEncSharp
             }
         }
 
-        [Pure]
+        /// <inheritdoc cref="LibCuVideo.ParseVideoData(CuVideoParser, ref CuVideoSourceDataPacket)"/>
         public void ParseVideoData(
             IntPtr payload,
             int payloadLength,
@@ -255,7 +273,7 @@ namespace Lennox.NvEncSharp
             ParseVideoData(ref packet);
         }
 
-        [Pure]
+        /// <inheritdoc cref="LibCuVideo.ParseVideoData(CuVideoParser, ref CuVideoSourceDataPacket)"/>
         public void SendEndOfStream()
         {
             var eosPacket = new CuVideoSourceDataPacket
@@ -266,6 +284,7 @@ namespace Lennox.NvEncSharp
             ParseVideoData(ref eosPacket);
         }
 
+        /// <inheritdoc cref="LibCuVideo.CreateVideoParser(out CuVideoParser, ref CuVideoParserParams)"/>
         public static CuVideoParser Create(ref CuVideoParserParams @params)
         {
             var result = CreateVideoParser(out var parser, ref @params);
@@ -273,6 +292,7 @@ namespace Lennox.NvEncSharp
             return parser;
         }
 
+        /// <inheritdoc cref="LibCuVideo.DestroyVideoParser(CuVideoParser)"/>
         public void Dispose()
         {
             var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
@@ -315,7 +335,13 @@ namespace Lennox.NvEncSharp
             Handle = (IntPtr)handle;
         }
 
+        public CuDevicePtr(long handle)
+        {
+            Handle = (IntPtr)handle;
+        }
+
         public static implicit operator ulong(CuDevicePtr d) => (ulong)d.Handle.ToInt64();
+        public static implicit operator CuDevicePtr(byte* d) => new CuDevicePtr(d);
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -368,12 +394,22 @@ namespace Lennox.NvEncSharp
 
         public static CuDeviceMemory Allocate(IntPtr bytesize)
         {
+            if (bytesize.ToInt64() < 0) throw new ArgumentOutOfRangeException(nameof(bytesize));
+
             var result = LibCuda.MemAlloc(out var device, bytesize);
             CheckResult(result);
 
             return new CuDeviceMemory(device);
         }
 
+        public static CuDeviceMemory Allocate(int bytesize)
+        {
+            if (bytesize < 0) throw new ArgumentOutOfRangeException(nameof(bytesize));
+
+            return Allocate((IntPtr) bytesize);
+        }
+
+        /// <inheritdoc cref="LibCuda.MemAllocPitch(out CuDevicePtr, out IntPtr, IntPtr, IntPtr, uint)"/>
         public static CuDeviceMemory AllocatePitch(
             out IntPtr pitch, IntPtr widthInBytes,
             IntPtr height, uint elementSizeBytes)
@@ -387,6 +423,25 @@ namespace Lennox.NvEncSharp
             return new CuDeviceMemory(device);
         }
 
+        public unsafe byte[] CopyToHost(int size)
+        {
+            var host = new byte[size];
+
+            fixed (byte* hostPtr = host)
+            {
+                CopyToHost(hostPtr, size);
+            }
+
+            return host;
+        }
+
+        public unsafe void CopyToHost(byte* hostDestination, int size)
+        {
+            var result = MemcpyDtoH((IntPtr)hostDestination, this, (IntPtr)size);
+            CheckResult(result);
+        }
+
+        /// <inheritdoc cref="LibCuda.MemFree(CuDevicePtr)"/>
         public void Dispose()
         {
             var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
@@ -408,7 +463,7 @@ namespace Lennox.NvEncSharp
 
         public ByteBool(bool b)
         {
-            Value = (byte) (b ? 1 : 0);
+            Value = (byte)(b ? 1 : 0);
         }
 
         public static implicit operator bool(ByteBool d) => d.Value != 0;
@@ -426,31 +481,38 @@ namespace Lennox.NvEncSharp
         public struct AutoCuVideoContextLock : IDisposable
         {
             private readonly CuVideoContextLock _lock;
+            private int _disposed;
 
             public AutoCuVideoContextLock(CuVideoContextLock lok)
             {
                 _lock = lok;
+                _disposed = 0;
             }
 
+            /// <inheritdoc cref="LibCuVideo.CtxUnlock(CuVideoContextLock, uint)"/>
             public void Dispose()
             {
+                var disposed = Interlocked.Exchange(ref _disposed, 1);
+                if (disposed != 0) return;
+
                 _lock.Unlock();
             }
         }
 
-        [Pure]
+        /// <inheritdoc cref="LibCuVideo.CtxLock(CuVideoContextLock, uint)"/>
         public AutoCuVideoContextLock Lock()
         {
             CheckResult(CtxLock(this, 0));
             return new AutoCuVideoContextLock(this);
         }
 
-        [Pure]
+        /// <inheritdoc cref="LibCuVideo.CtxUnlock(CuVideoContextLock, uint)"/>
         public void Unlock()
         {
             CheckResult(CtxUnlock(this, 0));
         }
 
+        /// <inheritdoc cref="LibCuVideo.CtxLockDestroy(CuVideoContextLock)"/>
         public void Dispose()
         {
             var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
@@ -461,7 +523,13 @@ namespace Lennox.NvEncSharp
         }
     }
 
-    public unsafe class LibNvVideo
+    public enum CuCallbackResult
+    {
+        Failure = 0,
+        Success = 1
+    }
+
+    public unsafe class LibCuVideo
     {
         private const string _dllpath = "nvcuvid.dll";
 
@@ -469,14 +537,14 @@ namespace Lennox.NvEncSharp
         /// typedef int (CUDAAPI *PFNVIDSOURCECALLBACK)(void *, CUVIDSOURCEDATAPACKET *);
         /// Callback for packet delivery
         /// </summary>
-        public delegate int VideoSourceCallback(byte* data, CuVideoSourceDataPacket* packet);
+        public delegate CuCallbackResult VideoSourceCallback(IntPtr data, ref CuVideoSourceDataPacket packet);
 
         // typedef int (CUDAAPI *PFNVIDSEQUENCECALLBACK)(void *, CUVIDEOFORMAT *);
-        public delegate int VideoSequenceCallback(byte* data, ref CuVideoFormat pvidfmt);
+        public delegate CuCallbackResult VideoSequenceCallback(IntPtr data, ref CuVideoFormat pvidfmt);
         // typedef int (CUDAAPI* PFNVIDDECODECALLBACK) (void*, CUVIDPICPARAMS*);
-        public delegate int VideoDecodeCallback(byte* data, ref CuVideoPicParams param);
+        public delegate CuCallbackResult VideoDecodeCallback(IntPtr data, ref CuVideoPicParams param);
         // typedef int (CUDAAPI* PFNVIDDISPLAYCALLBACK) (void*, CUVIDPARSERDISPINFO*);
-        public delegate int VideoDisplayCallback(byte* data, ref CuVideoParseDisplayInfo info);
+        public delegate CuCallbackResult VideoDisplayCallback(IntPtr data, ref CuVideoParseDisplayInfo info);
 
         #region Obsolete
         /// <summary>
@@ -678,7 +746,7 @@ namespace Lennox.NvEncSharp
         /// </summary>
         [DllImport(_dllpath, EntryPoint = "cuvidMapVideoFrame")]
         public static extern CuResult MapVideoFrame(CuVideoDecoder decoder, int picIdx,
-            out CuDevicePtr devPtr, out uint pitch, ref CuVideoProcParams vpp);
+            out CuDevicePtr devPtr, out int pitch, ref CuVideoProcParams vpp);
 
         /// <summary>
         /// \fn CUresult CuAPI cuvidUnmapVideoFrame(CUvideodecoder hDecoder, unsigned int DevPtr)
@@ -695,7 +763,7 @@ namespace Lennox.NvEncSharp
         /// </summary>
         [DllImport(_dllpath, EntryPoint = "cuvidMapVideoFrame64")]
         public static extern CuResult MapVideoFrame64(CuVideoDecoder decoder, int nPicIdx,
-            out CuDevicePtr devPtr, out uint pitch, ref CuVideoProcParams vpp);
+            out CuDevicePtr devPtr, out int pitch, ref CuVideoProcParams vpp);
 
         /// <summary>
         /// \fn CUresult CuAPI cuvidUnmapVideoFrame64(CUvideodecoder hDecoder, unsigned long long DevPtr);
@@ -703,17 +771,6 @@ namespace Lennox.NvEncSharp
         /// </summary>
         [DllImport(_dllpath, EntryPoint = "cuvidUnmapVideoFrame64")]
         public static extern CuResult UnmapVideoFrame64(CuVideoDecoder decoder, CuDevicePtr devPtr);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CheckResult(
-            CuResult result,
-            [CallerMemberName] string callerName = "")
-        {
-            if (result != CuResult.Success)
-            {
-                throw new LibNvEncException(callerName, result);
-            }
-        }
     }
 
     public enum CuResult
@@ -1195,29 +1252,52 @@ namespace Lennox.NvEncSharp
         /// <summary>IN: CuVideoChromaFormat_XXX</summary>
         public CuVideoChromaFormat ChromaFormat;
         /// <summary>IN: The Value "BitDepth minus 8"</summary>
-        public uint BitDepthMinus8;
+        public int BitDepthMinus8;
         /// <summary>Reserved for future use - set to zero</summary>
         private fixed uint _reserved1[3];
 
         /// <summary>OUT: 1 if codec supported, 0 if not supported</summary>
-        public bool IsSupported;
+        public ByteBool IsSupported;
         /// <summary>Reserved for future use - set to zero</summary>
         private byte _reserved2;
         /// <summary>OUT: each bit represents corresponding CuVideoSurfaceFormat enum</summary>
-        public ushort OutputFormatMask;
+        public CuVideoSurfaceFormat OutputFormatMask
+        {
+            get => (CuVideoSurfaceFormat)_outputFormatMask;
+            set => _outputFormatMask = (short)value;
+        }
+        private short _outputFormatMask;
         /// <summary>OUT: Max supported coded width in pixels</summary>
-        public uint MaxWidth;
+        public int MaxWidth;
         /// <summary>OUT: Max supported coded height in pixels</summary>
-        public uint MaxHeight;
+        public int MaxHeight;
         /// <summary>OUT: Max supported macroblock count
         /// CodedWidth*CodedHeight/256 must be <= nMaxMBCount</summary>
-        public uint MaxMBCount;
+        public int MaxMBCount;
         /// <summary>OUT: Min supported coded width in pixels</summary>
-        public ushort MinWidth;
+        public short MinWidth;
         /// <summary>OUT: Min supported coded height in pixels</summary>
-        public ushort MinHeight;
+        public short MinHeight;
         /// <summary>Reserved for future use - set to zero</summary>
         private fixed uint _reserved3[11];
+
+        public static CuVideoDecodeCaps GetDecoderCaps(
+            CuVideoCodec codecType,
+            CuVideoChromaFormat chromaFormat,
+            int bitDepthMinus8)
+        {
+            var caps = new CuVideoDecodeCaps
+            {
+                CodecType = codecType,
+                ChromaFormat = chromaFormat,
+                BitDepthMinus8 = bitDepthMinus8
+            };
+
+            var result = LibCuVideo.GetDecoderCaps(ref caps);
+            CheckResult(result);
+
+            return caps;
+        }
     }
 
     /// <summary>
@@ -1228,11 +1308,11 @@ namespace Lennox.NvEncSharp
     public unsafe struct CuVideoDecodeCreateInfo
     {
         /// <summary>IN: Coded sequence width in pixels</summary>
-        public uint Width;
+        public int Width;
         /// <summary>IN: Coded sequence height in pixels</summary>
-        public uint Height;
+        public int Height;
         /// <summary>IN: Maximum number of internal decode surfaces</summary>
-        public uint NumDecodeSurfaces;
+        public int NumDecodeSurfaces;
         /// <summary>IN: CuVideoCodec_XXX</summary>
         public CuVideoCodec CodecType;
         /// <summary>IN: CuVideoChromaFormat_XXX</summary>
@@ -1240,17 +1320,17 @@ namespace Lennox.NvEncSharp
         /// <summary>IN: Decoder creation flags (cudaVideoCreateFlags_XXX)</summary>
         public CuVideoCreateFlags CreationFlags;
         /// <summary>IN: The value "BitDepth minus 8"</summary>
-        public uint BitDepthMinus8;
+        public int BitDepthMinus8;
         /// <summary>IN: Set 1 only if video has all intra frames (default value is 0). This will
         /// optimize video memory for Intra frames only decoding. The support is limited
         /// to specific codecs - H264, HEVC, VP9, the flag will be ignored for codecs which
         /// are not supported. However decoding might fail if the flag is enabled in case
         /// of supported codecs for regular bit streams having P and/or B frames.</summary>
-        public uint IntraDecodeOnly;
+        public int IntraDecodeOnly;
         /// <summary>IN: Coded sequence max width in pixels used with reconfigure Decoder</summary>
-        public uint MaxWidth;
+        public int MaxWidth;
         /// <summary>IN: Coded sequence max height in pixels used with reconfigure Decoder</summary>
-        public uint MaxHeight;
+        public int MaxHeight;
         /// <summary>Reserved for future use - set to zero</summary>
         private uint _reserved1;
         /// <summary>IN: area of the frame that should be displayed</summary>
@@ -1261,11 +1341,11 @@ namespace Lennox.NvEncSharp
         /// <summary>IN: CuVideoDeinterlaceMode_XXX</summary>
         public CuVideoDeinterlaceMode DeinterlaceMode;
         /// <summary>IN: Post-processed output width (Should be aligned to 2)</summary>
-        public uint TargetWidth;
+        public int TargetWidth;
         /// <summary>IN: Post-processed output height (Should be aligned to 2)</summary>
-        public uint TargetHeight;
+        public int TargetHeight;
         /// <summary>IN: Maximum number of output surfaces simultaneously mapped</summary>
-        public uint NumOutputSurfaces;
+        public int NumOutputSurfaces;
         /// <summary>IN: If non-NULL, context lock used for synchronizing ownership of
         /// the Cu context. Needed for CuVideoCreate_PreferCUDA decode</summary>
         public CuVideoContextLock VideoLock;
@@ -1273,18 +1353,65 @@ namespace Lennox.NvEncSharp
         public CuRectangleShort TargetRect;
         private fixed uint _reserved2[5];
 
-        public int GetBitsPerPixel()
+        public int GetBytesPerPixel()
         {
             return BitDepthMinus8 > 0 ? 2 : 1;
         }
 
         public IntPtr GetFrameSize()
         {
-            var chromaInfo = new CuVideoChromaFormatInformation(ChromaFormat);
-            var chromaHeight = Height * chromaInfo.HeightFactor;
-            var height = Height + chromaHeight * chromaInfo.PlaneCount;
-            return new IntPtr((long)(Width * height * GetBitsPerPixel()));
+            return GetFrameSize(out _);
         }
+
+        public IntPtr GetFrameSize(out int chromaHeight)
+        {
+            var chromaInfo = new CuVideoChromaFormatInformation(ChromaFormat);
+            chromaHeight = (int)(Height * chromaInfo.HeightFactor);
+            var height = Height + chromaHeight * chromaInfo.PlaneCount;
+            return new IntPtr((long)(Width * height * GetBytesPerPixel()));
+        }
+
+        public int GetBitmapFrameSize(int bytesPerPixel)
+        {
+            return Height * Width * bytesPerPixel;
+        }
+
+        public YuvInformation GetYuvInformation()
+        {
+            var chromaInfo = new CuVideoChromaFormatInformation(ChromaFormat);
+            var bytesPerPixel = GetBytesPerPixel();
+
+            var frameByteSize = GetFrameSize(out var chromaHeight);
+
+            // y = luma
+
+            var lumaPitch = Width;
+            var lumaHeight = Height;
+
+            return new YuvInformation
+            {
+                BytesPerPixel = bytesPerPixel,
+                FrameByteSize = frameByteSize.ToInt32(),
+                LumaHeight = lumaHeight,
+                LumaPitch = lumaPitch,
+                ChromaHeight = chromaHeight,
+                ChromaOffset = bytesPerPixel * lumaPitch * lumaHeight,
+                ChromaPitch = (int)(lumaPitch * chromaInfo.HeightFactor) * 2,
+                ChromaPlaneCount = chromaInfo.PlaneCount
+            };
+        }
+    }
+
+    public struct YuvInformation
+    {
+        public int BytesPerPixel { get; set; }
+        public int FrameByteSize { get; set; }
+        public int LumaHeight { get; set; }
+        public int LumaPitch { get; set; }
+        public int ChromaHeight { get; set; }
+        public int ChromaOffset { get; set; }
+        public int ChromaPitch { get; set; }
+        public int ChromaPlaneCount { get; set; }
     }
 
     public struct CuVideoChromaFormatInformation
@@ -1379,9 +1506,9 @@ namespace Lennox.NvEncSharp
         /// <summary>OUT: Compression format</summary>
         public CuVideoCodec Codec;
         /// <summary>OUT: frame rate numerator   (0 = unspecified or variable frame rate)</summary>
-        public uint FrameRateNumerator;
+        public int FrameRateNumerator;
         /// <summary>OUT: frame rate denominator (0 = unspecified or variable frame rate)</summary>
-        public uint FrameRateDenominator;
+        public int FrameRateDenominator;
         /// <summary>OUT: 0=interlaced, 1=progressive</summary>
         public ByteBool ProgressiveSequence;
         /// <summary>OUT: high bit depth luma. E.g, 2 for 10-bitdepth, 4 for 12-bitdepth</summary>
@@ -1401,14 +1528,14 @@ namespace Lennox.NvEncSharp
         /// returned to parser during sequence callback.</summary>
         public byte MinNumDecodeSurfaces;
         /// <summary>OUT: coded frame width in pixels</summary>
-        public uint CodedWidth;
+        public int CodedWidth;
         /// <summary>OUT: coded frame height in pixels</summary>
-        public uint CodedHeight;
+        public int CodedHeight;
         public CuRectangle DisplayArea;
         /// <summary>OUT:  Chroma format</summary>
         public CuVideoChromaFormat ChromaFormat;
         /// <summary>OUT: video bitrate (bps, 0=unknown)</summary>
-        public uint Bitrate;
+        public int Bitrate;
         /// <summary>OUT: Display Aspect Ratio = x:y (4:3, 16:9, etc)</summary>
         public int DisplayAspectRatioX;
         /// <summary>OUT: Display Aspect Ratio = x:y (4:3, 16:9, etc)</summary>
@@ -1436,7 +1563,7 @@ namespace Lennox.NvEncSharp
         /// <summary>OUT: used in deriving luma and chroma signals from RGB primaries</summary>
         public byte MatrixCoefficients;
         /// <summary>UT: Additional bytes following (CUVIDEOFORMATEX)</summary>
-        public uint SeqhdrDataLength;
+        public int SeqHdrDataLength;
 
         public CuVideoSurfaceFormat GetSurfaceFormat()
         {
@@ -1454,6 +1581,35 @@ namespace Lennox.NvEncSharp
 
             return CuVideoSurfaceFormat.Default;
         }
+
+        public bool IsSupportedByDecoder(out string error)
+        {
+            return IsSupportedByDecoder(out error, out _);
+        }
+
+        public bool IsSupportedByDecoder(
+            out string error,
+            out CuVideoDecodeCaps caps)
+        {
+            caps = CuVideoDecodeCaps.GetDecoderCaps(
+                Codec, ChromaFormat, BitDepthLumaMinus8);
+
+            if (!caps.IsSupported)
+            {
+                error = $"Codec {Codec} is not supported.";
+                return false;
+            }
+
+            if (CodedWidth > caps.MaxWidth ||
+                CodedHeight > caps.MaxHeight)
+            {
+                error = $"Unsupported video dimentions. Requested: {CodedWidth}x{CodedHeight}. Supported max: {caps.MaxWidth}x{caps.MaxHeight}.";
+                return false;
+            }
+
+            error = null;
+            return true;
+        }
     }
 
     /// <summary>
@@ -1467,7 +1623,7 @@ namespace Lennox.NvEncSharp
         /// <summary>OUT: CUVIDEOFORMAT structure</summary>
         public CuVideoFormat Format;
         /// <summary>OUT: Sequence header data</summary>
-        public fixed byte RawSeqhdrData[1024];
+        public fixed byte RawSeqHdrData[1024];
     }
 
     /// <summary>
@@ -1494,14 +1650,11 @@ namespace Lennox.NvEncSharp
         /// <summary>IN: User data for callbacks</summary>
         public IntPtr UserData;
         /// <summary>IN: Called before decoding frames and/or whenever there is a fmt change</summary>
-        //[MarshalAs(UnmanagedType.FunctionPtr)]
-        public LibNvVideo.VideoSequenceCallback SequenceCallback;
+        public VideoSequenceCallback SequenceCallback;
         /// <summary>IN: Called when a picture is ready to be decoded (decode order)</summary>
-        //[MarshalAs(UnmanagedType.FunctionPtr)]
-        public LibNvVideo.VideoDecodeCallback DecodePicture;
+        public VideoDecodeCallback DecodePicture;
         /// <summary>IN: Called whenever a picture is ready to be displayed (display order)</summary>
-        //[MarshalAs(UnmanagedType.FunctionPtr)]
-        public LibNvVideo.VideoDisplayCallback DisplayPicture;
+        public VideoDisplayCallback DisplayPicture;
         private IntPtr _reserved21;
         private IntPtr _reserved22;
         private IntPtr _reserved23;
@@ -1609,16 +1762,16 @@ namespace Lennox.NvEncSharp
     public unsafe struct CuVideoSourceParams
     {
         /// <summary>IN: Time stamp units in Hz (0=default=10000000Hz)</summary>
-        public uint ClockRate;
+        public int ClockRate;
         /// <summary>Reserved for future use - set to zero</summary>
         private fixed uint _reserved1[7];
         /// <summary>IN: User private data passed in to the data handlers</summary>
         public IntPtr UserData;
         /// <summary>IN: Called to deliver video packets</summary>
         // TODO: Fix non-delegate type.
-        public LibNvVideo.VideoSourceCallback VideoDataHandler;
+        public LibCuVideo.VideoSourceCallback VideoDataHandler;
         /// <summary>IN: Called to deliver audio packets.</summary>
-        public LibNvVideo.VideoSourceCallback AudioDataHandler;
+        public LibCuVideo.VideoSourceCallback AudioDataHandler;
         private IntPtr _reserved21;
         private IntPtr _reserved22;
         private IntPtr _reserved23;
@@ -2078,8 +2231,8 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct CuVideoH264SvcExt
     {
-        public byte profile_idc;
-        public byte level_idc;
+        public byte ProfileIdc;
+        public byte LevelIdc;
         public byte DQId;
         public byte DQIdMax;
         public byte disable_inter_layer_deblocking_filter_idc;
@@ -2254,11 +2407,11 @@ namespace Lennox.NvEncSharp
         /// <summary>IN: Number of bytes in bitstream data buffer</summary>
         public uint BitstreamDataLen;
         /// <summary>IN: Ptr to bitstream data for this picture (slice-layer)</summary>
-        public char* BitstreamData;
+        public IntPtr BitstreamData;
         /// <summary>IN: Number of slices in this picture</summary>
         public uint NumSlices;
         /// <summary>IN: nNumSlices entries, contains offset of each slice within the bitstream data buffer</summary>
-        public int* SliceDataOffsets;
+        public IntPtr SliceDataOffsets;
         /// <summary>IN: This picture is a reference picture</summary>
         public int RefPicFlag;
         /// <summary>IN: This picture is entirely intra coded</summary>
@@ -2293,13 +2446,13 @@ namespace Lennox.NvEncSharp
         /// <summary>IN: Input CUdeviceptr for raw YUV extensions</summary>
         public ulong RawInputDptr;
         /// <summary>IN: pitch in bytes of raw YUV input (should be aligned appropriately)</summary>
-        public uint RawInputPitch;
+        public int RawInputPitch;
         /// <summary>IN: Input YUV format (cudaVideoCodec_enum)</summary>
-        public uint RawInputFormat;
+        public CuVideoCodec RawInputFormat;
         /// <summary>IN: Output CUdeviceptr for raw YUV extensions</summary>
         public ulong RawOutputDptr;
         /// <summary>IN: pitch in bytes of raw YUV output (should be aligned appropriately)</summary>
-        public uint RawOutputPitch;
+        public int RawOutputPitch;
         /// <summary>Reserved for future use (set to zero)</summary>
         private uint _reserved1;
         /// <summary>IN: stream object used by cuvidMapVideoFrame</summary>
@@ -2341,15 +2494,15 @@ namespace Lennox.NvEncSharp
     public unsafe struct CuVideoReconfigureDecoderInfo
     {
         /// <summary>IN: Coded sequence width in pixels, MUST be &lt;= ulMaxWidth defined at CUVIDDECODECREATEINFO</summary>
-        public uint Width;
+        public int Width;
         /// <summary>IN: Coded sequence height in pixels, MUST be &lt;= ulMaxHeight defined at CUVIDDECODECREATEINFO</summary>
-        public uint Height;
+        public int Height;
         /// <summary>IN: Post processed output width</summary>
-        public uint TargetWidth;
+        public int TargetWidth;
         /// <summary>IN: Post Processed output height</summary>
-        public uint TargetHeight;
+        public int TargetHeight;
         /// <summary>IN: Maximum number of internal decode surfaces</summary>
-        public uint NumDecodeSurfaces;
+        public int NumDecodeSurfaces;
         /// <summary>Reserved for future use. Set to Zero</summary>
         private fixed uint _reserved1[12];
         /// <summary>* IN: Area of frame to be displayed. Use-case : Source Cropping</summary>
