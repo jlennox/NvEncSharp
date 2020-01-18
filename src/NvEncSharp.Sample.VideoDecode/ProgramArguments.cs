@@ -7,7 +7,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
     internal class ProgramArguments
     {
         public string InputPath { get; set; }
-        public bool UseHostMemory { get; set; } = true;
+        public bool UseHostMemory { get; set; }
         public string BitmapPath { get; set; }
         public bool WriteBitmap { get; set; }
 

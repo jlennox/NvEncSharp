@@ -278,7 +278,7 @@ namespace Lennox.NvEncSharp
         {
             var eosPacket = new CuVideoSourceDataPacket
             {
-                Flags = CuVideoPacketFlags.EndOfStream
+                Flags = CuVideoPacketFlags.EndOfStream | CuVideoPacketFlags.NotifyEos
             };
 
             ParseVideoData(ref eosPacket);
@@ -383,6 +383,8 @@ namespace Lennox.NvEncSharp
     [DebuggerDisplay("{" + nameof(Handle) + "}")]
     public struct CuDeviceMemory : IDisposable
     {
+        public static readonly CuDeviceMemory Empty = new CuDeviceMemory { Handle = IntPtr.Zero };
+
         public IntPtr Handle;
 
         public bool IsEmpty => Handle == IntPtr.Zero;
@@ -540,11 +542,20 @@ namespace Lennox.NvEncSharp
         public delegate CuCallbackResult VideoSourceCallback(IntPtr data, ref CuVideoSourceDataPacket packet);
 
         // typedef int (CUDAAPI *PFNVIDSEQUENCECALLBACK)(void *, CUVIDEOFORMAT *);
-        public delegate CuCallbackResult VideoSequenceCallback(IntPtr data, ref CuVideoFormat pvidfmt);
+        public delegate CuCallbackResult VideoSequenceCallback(IntPtr userData, ref CuVideoFormat pvidfmt);
         // typedef int (CUDAAPI* PFNVIDDECODECALLBACK) (void*, CUVIDPICPARAMS*);
-        public delegate CuCallbackResult VideoDecodeCallback(IntPtr data, ref CuVideoPicParams param);
+        public delegate CuCallbackResult VideoDecodeCallback(IntPtr userData, ref CuVideoPicParams param);
         // typedef int (CUDAAPI* PFNVIDDISPLAYCALLBACK) (void*, CUVIDPARSERDISPINFO*);
-        public delegate CuCallbackResult VideoDisplayCallback(IntPtr data, ref CuVideoParseDisplayInfo info);
+        /// <summary>
+        /// The callback when a decoded frame is ready for display.
+        /// </summary>
+        /// <param name="userData">The pointer passed to `CuVideoParserParams.UserData`</param>
+        /// <param name="infoPtr">A pointer to a `CuVideoParseDisplayInfo` object or `IntPtr.Zero` if
+        /// the end of stream has been reached. Use `CuVideoParseDisplayInfo.IsFinalFrame` to get the
+        /// actual structure.</param>
+        /// <returns></returns>
+        /// <seealso cref="CuVideoParseDisplayInfo.IsFinalFrame(IntPtr, out CuVideoParseDisplayInfo)" />
+        public delegate CuCallbackResult VideoDisplayCallback(IntPtr userData, IntPtr infoPtr);
 
         #region Obsolete
         /// <summary>
@@ -1358,17 +1369,12 @@ namespace Lennox.NvEncSharp
             return BitDepthMinus8 > 0 ? 2 : 1;
         }
 
-        public IntPtr GetFrameSize()
-        {
-            return GetFrameSize(out _);
-        }
-
-        public IntPtr GetFrameSize(out int chromaHeight)
+        public IntPtr GetFrameByteSize(int pitch, out int chromaHeight)
         {
             var chromaInfo = new CuVideoChromaFormatInformation(ChromaFormat);
             chromaHeight = (int)(Height * chromaInfo.HeightFactor);
             var height = Height + chromaHeight * chromaInfo.PlaneCount;
-            return new IntPtr((long)(Width * height * GetBytesPerPixel()));
+            return new IntPtr((long)(pitch * height * GetBytesPerPixel()));
         }
 
         public int GetBitmapFrameSize(int bytesPerPixel)
@@ -1376,12 +1382,12 @@ namespace Lennox.NvEncSharp
             return Height * Width * bytesPerPixel;
         }
 
-        public YuvInformation GetYuvInformation()
+        public YuvInformation GetYuvInformation(int pitch)
         {
             var chromaInfo = new CuVideoChromaFormatInformation(ChromaFormat);
             var bytesPerPixel = GetBytesPerPixel();
 
-            var frameByteSize = GetFrameSize(out var chromaHeight);
+            var frameByteSize = GetFrameByteSize(pitch, out var chromaHeight);
 
             // y = luma
 
@@ -2530,5 +2536,22 @@ namespace Lennox.NvEncSharp
         public int RepeatFirstField;
         /// <summary>OUT: Presentation time stamp</summary>
         public long Timestamp;
+
+        /// Determine if <param name="infoPtr" /> is the final frame. If not,
+        /// the CuVideoParseDisplayInfo is returned as <param name="info" />.
+        public static bool IsFinalFrame(
+            IntPtr infoPtr,
+            out CuVideoParseDisplayInfo info)
+        {
+            if (infoPtr == IntPtr.Zero)
+            {
+                info = default;
+                return true;
+            }
+
+            info = Marshal.PtrToStructure<CuVideoParseDisplayInfo>(infoPtr);
+
+            return false;
+        }
     }
 }

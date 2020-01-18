@@ -74,7 +74,6 @@ namespace Lennox.NvEncSharp
         [DllImport(_dllpath, EntryPoint = "cuMemcpyPeer")]
         public static extern CuResult MemcpyPeer(CuDevicePtr dstDevice, CuContext dstContext, CuDevicePtr srcDevice, CuContext srcContext, IntPtr byteCount);
 
-
         /// <summary>Copies memory from Host to Device
         ///
         /// Copies from host memory to device memory. <c>dstDevice</c> and <c>srcHost</c> are
