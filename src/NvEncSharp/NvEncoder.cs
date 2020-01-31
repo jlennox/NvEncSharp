@@ -5,9 +5,10 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using static Lennox.NvEncSharp.LibNvEnc;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
-    // ReSharper disable UnusedMember.Global
     public partial struct NvEncoder
     {
         private static NvEncApiFunctionList Fn => FunctionList;
