@@ -20,11 +20,13 @@ namespace Lennox.NvEncSharp
             TotalMemory = device.GetTotalMemory();
         }
 
+        /// <inheritdoc cref="LibCuda.DeviceGetAttribute(out int, CuDeviceAttribute, CuDevice)"/>
         public int GetAttribute(CuDeviceAttribute attribute) => Device.GetAttribute(attribute);
     }
 
     public unsafe partial struct CuDevice
     {
+        /// <inheritdoc cref="LibCuda.DeviceGet(out CuDevice, int)"/>
         public static CuDevice GetDevice(int ordinal)
         {
             var result = DeviceGet(out var device, ordinal);
@@ -33,6 +35,7 @@ namespace Lennox.NvEncSharp
             return device;
         }
 
+        /// <inheritdoc cref="LibCuda.DeviceGetCount(out int)"/>
         public static int GetCount()
         {
             var result = DeviceGetCount(out var count);
@@ -51,6 +54,16 @@ namespace Lennox.NvEncSharp
             }
         }
 
+        /// <inheritdoc cref="LibCuda.D3D11GetDevice(out CuDevice, IntPtr)"/>
+        public static CuDevice GetD3D11Device(IntPtr adapter)
+        {
+            var result = D3D11GetDevice(out var device, adapter);
+            CheckResult(result);
+
+            return device;
+        }
+
+        /// <inheritdoc cref="LibCuda.DeviceGetName(byte*, int, CuDevice)"/>
         public string GetName()
         {
             const int inputLength = 256;
@@ -60,6 +73,7 @@ namespace Lennox.NvEncSharp
             return Marshal.PtrToStringAnsi((IntPtr)name, inputLength);
         }
 
+        /// <inheritdoc cref="LibCuda.DeviceTotalMemory(out IntPtr, CuDevice)"/>
         public long GetTotalMemory()
         {
             var result = DeviceTotalMemory(out var memorySize, this);
@@ -73,6 +87,7 @@ namespace Lennox.NvEncSharp
             return new CuDeviceDescription(this);
         }
 
+        /// <inheritdoc cref="LibCuda.DeviceGetAttribute(out int, CuDeviceAttribute, CuDevice)"/>
         public int GetAttribute(CuDeviceAttribute attribute)
         {
             var result = DeviceGetAttribute(
@@ -82,6 +97,7 @@ namespace Lennox.NvEncSharp
             return output;
         }
 
+        /// <inheritdoc cref="LibCuda.CtxCreate(out CuContext, CuContextFlags, CuDevice)"/>
         public CuContext CreateContext(
             CuContextFlags flags = CuContextFlags.SchedAuto)
         {

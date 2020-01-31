@@ -13,6 +13,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
         private bool _initialized = false;
         private NvEncoder _encoder;
         private NvEncCreateBitstreamBuffer _bitstreamBuffer;
+        private readonly object _writeMutex = new object();
 
         private const int _fps = 30;
         private const int _frameDuration = 1000 / _fps;
@@ -29,7 +30,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
             program.Run(new ProgramArguments(args));
         }
 
-        private unsafe void Run(ProgramArguments args)
+        private void Run(ProgramArguments args)
         {
             using var duplicate = GetDisplayDuplicate(
                 args.DisplayName, out var outputDescription);
@@ -75,7 +76,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
                 // Registers the hardware texture surface as a resource for
                 // NvEnc to use.
-                _encoder.RegisterResource(ref reg);
+                using var _ = _encoder.RegisterResource(ref reg);
 
                 var pic = new NvEncPicParams
                 {
@@ -96,17 +97,14 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
                 // The output is written to the bitstream, which is now copied
                 // to the output file.
-                var lockstruct = encoder.LockBitstream(_bitstreamBuffer);
-                using (var sm = new UnmanagedMemoryStream(
-                    (byte*)lockstruct.BitstreamBufferPtr,
-                    lockstruct.BitstreamSizeInBytes))
+                using (var sm = encoder.LockBitstreamAndCreateStream(
+                    ref _bitstreamBuffer))
                 {
-                    sm.CopyTo(output);
+                    lock (_writeMutex)
+                    {
+                        sm.CopyTo(output);
+                    }
                 }
-
-                // Cleanup.
-                encoder.UnlockBitstream(_bitstreamBuffer.BitstreamBuffer);
-                encoder.UnregisterResource(reg.RegisteredResource);
 
                 desktopTexture.Dispose();
                 duplicate.ReleaseFrame();

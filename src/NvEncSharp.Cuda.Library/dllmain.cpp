@@ -71,3 +71,24 @@ extern "C" void __declspec(dllexport) Nv12ToRGB24(uint8_t * dpNv12, int nNv12Pit
 {
     Nv12ToColor24<RGB24>(dpNv12, nNv12Pitch, dpRgb, nRgbPitch, nWidth, nHeight, iMatrix);
 }
+
+// ----
+
+void ResizeNv12Fn(unsigned char* dpDstNv12, int nDstPitch, int nDstWidth, int nDstHeight, unsigned char* dpSrcNv12, int nSrcPitch, int nSrcWidth, int nSrcHeight, unsigned char* dpDstNv12UV = nullptr);
+void ResizeP016(unsigned char* dpDstP016, int nDstPitch, int nDstWidth, int nDstHeight, unsigned char* dpSrcP016, int nSrcPitch, int nSrcWidth, int nSrcHeight, unsigned char* dpDstP016UV = nullptr);
+
+void ScaleYUV420(unsigned char* dpDstY, unsigned char* dpDstU, unsigned char* dpDstV, int nDstPitch, int nDstChromaPitch, int nDstWidth, int nDstHeight,
+    unsigned char* dpSrcY, unsigned char* dpSrcU, unsigned char* dpSrcV, int nSrcPitch, int nSrcChromaPitch, int nSrcWidth, int nSrcHeight, bool bSemiplanar);
+
+extern "C" void __declspec(dllexport) ResizeNv12(unsigned char* dpDstNv12, int nDstPitch, int nDstWidth, int nDstHeight, unsigned char* dpSrcNv12, int nSrcPitch, int nSrcWidth, int nSrcHeight, unsigned char* dpDstNv12UV)
+{
+    ResizeNv12(dpDstNv12, nDstPitch, nDstWidth, nDstHeight, dpSrcNv12, nSrcPitch, nSrcWidth, nSrcHeight, dpDstNv12UV);
+}
+
+// ----
+
+void ComputeCRC(uint8_t* pBuffer, uint32_t* crcValue, CUstream_st* outputCUStream);
+
+// ----
+
+

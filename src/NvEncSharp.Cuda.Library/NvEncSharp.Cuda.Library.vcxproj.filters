@@ -4,6 +4,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ColorSpace.h" />
+    <ClInclude Include="Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -11,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="ColorSpace.cu" />
+    <CudaCompile Include="Resize.cu" />
   </ItemGroup>
 </Project>

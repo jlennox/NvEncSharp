@@ -71,6 +71,16 @@ namespace Lennox.NvEncSharp
             return version;
         }
 
+        /// <inheritdoc cref="CtxGetDevice(out CuDevice)"/>
+        public CuDevice GetDevice()
+        {
+            using var _ = Push();
+            var result = CtxGetDevice(out var device);
+            CheckResult(result);
+
+            return device;
+        }
+
         /// <inheritdoc cref="CtxGetCurrent(out CuContext)"/>
         public static CuContext GetCurrent()
         {
@@ -112,6 +122,15 @@ namespace Lennox.NvEncSharp
             CheckResult(result);
         }
 
+        /// <inheritdoc cref="CtxGetDevice(out CuDevice)"/>
+        public static CuDevice GetCurrentDevice()
+        {
+            var result = CtxGetDevice(out var device);
+            CheckResult(result);
+
+            return device;
+        }
+
         /// <inheritdoc cref="CtxDestroy(CuContext)"/>
         public void Dispose()
         {
@@ -121,6 +140,98 @@ namespace Lennox.NvEncSharp
 
             CtxDestroy(obj);
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuGraphicsResource : IDisposable
+    {
+        public IntPtr Handle;
+
+        /// <inheritdoc cref="GraphicsD3D11RegisterResource(out CuGraphicsResource, IntPtr, CuGraphicsRegisters)"/>
+        public static CuGraphicsResource Register(
+            IntPtr resourcePtr,
+            CuGraphicsRegisters flags = CuGraphicsRegisters.None)
+        {
+            var result = GraphicsD3D11RegisterResource(
+                out var resource, resourcePtr, flags);
+            CheckResult(result);
+
+            return resource;
+        }
+
+        /// <inheritdoc cref="GraphicsResourceSetMapFlags(CuGraphicsResource, CuGraphicsMapResources)"/>
+        public void SetMapFlags(CuGraphicsMapResources flags)
+        {
+            var result = GraphicsResourceSetMapFlags(this, flags);
+            CheckResult(result);
+        }
+
+        /// <inheritdoc cref="GraphicsMapResources(int, CuGraphicsResource*, CuStream)"/>
+        public CuGraphicsMappedResource Map()
+        {
+            return Map(CuStream.Empty);
+        }
+
+        /// <inheritdoc cref="GraphicsMapResources(int, CuGraphicsResource*, CuStream)"/>
+        public unsafe CuGraphicsMappedResource Map(CuStream stream)
+        {
+            var copy = this;
+            var result = GraphicsMapResources(1, &copy, stream);
+            CheckResult(result);
+
+            return new CuGraphicsMappedResource(this, stream);
+        }
+
+        public unsafe struct CuGraphicsMappedResource : IDisposable
+        {
+            private readonly CuGraphicsResource _resource;
+            private readonly CuStream _stream;
+
+            public CuGraphicsMappedResource(
+                CuGraphicsResource resource,
+                CuStream stream)
+            {
+                _resource = resource;
+                _stream = stream;
+            }
+
+            public void Dispose()
+            {
+                var copy = _resource;
+                GraphicsUnmapResources(1, &copy, _stream);
+            }
+        }
+
+        /// <inheritdoc cref="GraphicsSubResourceGetMappedArray(out CuArray, CuGraphicsResource, int, int)"/>
+        public CuArray GetMappedArray(
+            int arrayIndex = 0,
+            int mipLevel = 0)
+        {
+            var result = GraphicsSubResourceGetMappedArray(
+                out var array,
+                this, arrayIndex, mipLevel);
+            CheckResult(result);
+
+            return array;
+        }
+
+        /// <inheritdoc cref="GraphicsUnregisterResource(CuGraphicsResource)"/>
+        public void Dispose()
+        {
+            var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
+            if (handle == IntPtr.Zero) return;
+            var obj = new CuGraphicsResource { Handle = handle };
+
+            GraphicsUnregisterResource(obj);
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuMipMappedArray
+    {
+        public IntPtr Handle;
     }
 
     [Flags]

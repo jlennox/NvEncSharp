@@ -634,5 +634,94 @@ namespace Lennox.NvEncSharp
         /// CUresult CUDAAPI cuCtxGetStreamPriorityRange(int *leastPriority, int *greatestPriority);
         [DllImport(_dllpath, EntryPoint = "cuCtxGetStreamPriorityRange")]
         public static extern CuResult CtxGetStreamPriorityRange(out int leastPriority, out int greatestPriority);
+
+        /// <summary>Returns the device ID for the current context
+        ///
+        /// Returns in \p *device the ordinal of the current context's device.</summary>
+        ///
+        /// <param name="device">Returned device ID for the current context</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuCtxCreate,
+        /// ::cuCtxDestroy,
+        /// ::cuCtxGetApiVersion,
+        /// ::cuCtxGetCacheConfig,
+        /// ::cuCtxGetFlags,
+        /// ::cuCtxGetLimit,
+        /// ::cuCtxPopCurrent,
+        /// ::cuCtxPushCurrent,
+        /// ::cuCtxSetCacheConfig,
+        /// ::cuCtxSetLimit,
+        /// ::cuCtxSynchronize,
+        /// ::cudaGetDevice
+        /// CUresult CUDAAPI cuCtxGetDevice(CUdevice *device);
+        [DllImport(_dllpath, EntryPoint = "cuCtxGetDevice")]
+        public static extern CuResult CtxGetDevice(out CuDevice device);
+
+        /// <summary>Returns the flags for the current context
+        ///
+        /// Returns in \p *flags the flags of the current context. See ::cuCtxCreate
+        /// for flag values.</summary>
+        ///
+        /// <param name="flags">Pointer to store flags of current context</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuCtxCreate,
+        /// ::cuCtxGetApiVersion,
+        /// ::cuCtxGetCacheConfig,
+        /// ::cuCtxGetCurrent,
+        /// ::cuCtxGetDevice
+        /// ::cuCtxGetLimit,
+        /// ::cuCtxGetSharedMemConfig,
+        /// ::cuCtxGetStreamPriorityRange,
+        /// ::cudaGetDeviceFlags
+        /// CUresult CUDAAPI cuCtxGetFlags(unsigned int *flags);
+        [DllImport(_dllpath, EntryPoint = "cuCtxGetFlags")]
+        public static extern CuResult CtxGetFlags(out CuContextFlags flags);
+
+        /// <summary>Block for a context's tasks to complete
+        ///
+        /// Blocks until the device has completed all preceding requested tasks.
+        /// ::cuCtxSynchronize() returns an error if one of the preceding tasks failed.
+        /// If the context was created with the ::CU_CTX_SCHED_BLOCKING_SYNC flag, the
+        /// CPU thread will block until the GPU context has finished its work.</summary>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuCtxCreate,
+        /// ::cuCtxDestroy,
+        /// ::cuCtxGetApiVersion,
+        /// ::cuCtxGetCacheConfig,
+        /// ::cuCtxGetDevice,
+        /// ::cuCtxGetFlags,
+        /// ::cuCtxGetLimit,
+        /// ::cuCtxPopCurrent,
+        /// ::cuCtxPushCurrent,
+        /// ::cuCtxSetCacheConfig,
+        /// ::cuCtxSetLimit,
+        /// ::cudaDeviceSynchronize
+        /// CUresult CUDAAPI cuCtxSynchronize(void);
+        [DllImport(_dllpath, EntryPoint = "cuCtxSynchronize")]
+        public static extern CuResult CtxSynchronize();
     }
 }

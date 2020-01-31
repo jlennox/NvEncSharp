@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="ColorSpace.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="ColorSpace.cu" />
+    <CudaCompile Include="Resize.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

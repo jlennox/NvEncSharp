@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 /*******
@@ -2393,6 +2394,13 @@ namespace Lennox.NvEncSharp
         private IntPtr Reserved262;
         private IntPtr Reserved263;
         #endregion Reserved2[64]
+
+        public UnmanagedMemoryStream CreateUnmanagedMemoryStream()
+        {
+            return new UnmanagedMemoryStream(
+                (byte*) BitstreamBufferPtr,
+                BitstreamSizeInBytes);
+        }
     }
 
     /// <summary>NV_ENC_LOCK_INPUT_BUFFER

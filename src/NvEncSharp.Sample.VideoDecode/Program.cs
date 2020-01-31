@@ -25,53 +25,16 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         private CuVideoContextLock _contextLock;
         private Channel<FrameInformation> _framesChannel;
         private CuVideoDecodeCreateInfo _info;
-        private YuvInformation? _yuvInfo;
         private CancellationTokenSource _cts;
         private Thread _displayThread;
         private ProgramArguments _args;
-        private int _displayedFrames = 0;
+        private int _displayedFrames;
         private readonly Pool<BufferStorage> _nv12BufferPool = new Pool<BufferStorage>(5);
         private readonly ManualResetEventSlim _renderingCompleted = new ManualResetEventSlim(false);
+        private DisplayWindow _window;
 
         private bool _useHostMemory => _args.UseHostMemory;
         private bool _isDisposed = false;
-
-        private class BufferStorage : IDisposable
-        {
-            public IntPtr Bytes { get; set; }
-            public CuMemoryType MemoryType { get; set; }
-            public CuDeviceMemory DeviceMemory { get; set; }
-            public IntPtr Size { get; set; }
-
-            private int _disposed = 0;
-
-            public void Dispose()
-            {
-                if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
-
-                switch (MemoryType)
-                {
-                    case CuMemoryType.Device:
-                        DeviceMemory.Dispose();
-                        DeviceMemory = CuDeviceMemory.Empty;
-                        break;
-                    case CuMemoryType.Host:
-                        Marshal.FreeHGlobal(Bytes);
-                        Bytes = IntPtr.Zero;
-                        break;
-                }
-
-            }
-        }
-
-        private class FrameInformation
-        {
-            public BufferStorage Buffer { get; set; }
-            public int Pitch { get; set; }
-            public CuVideoDecodeCreateInfo Info { get; set; }
-            public YuvInformation YuvInfo { get; set; }
-            public bool FinalFrame { get; set; }
-        }
 
         private int Run(ProgramArguments args)
         {
@@ -116,6 +79,8 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             _context = device.CreateContext(CuContextFlags.SchedBlockingSync);
             _contextLock = _context.CreateLock();
+
+            _window = new DisplayWindow(_context, "Decoded video", 800, 600);
 
             var parserParams = new CuVideoParserParams
             {
@@ -251,7 +216,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             {
                 if (!_framesChannel.Writer.TryWrite(new FrameInformation
                 {
-                    FinalFrame = true
+                    IsFinalFrame = true
                 }))
                 {
                     _renderingCompleted.Set();
@@ -272,13 +237,14 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 info.PictureIndex, ref processingParam,
                 out var pitch);
 
-            _yuvInfo = _info.GetYuvInformation(pitch);
+            var yuvInfo = _info.GetYuvInformation(pitch);
 
             var status = _decoder.GetDecodeStatus(info.PictureIndex);
 
             if (status != CuVideoDecodeStatus.Success)
             {
-                //throw new Exception(status.ToString());
+                // TODO: Determine what to do in this situation. This condition
+                // is non-exceptional but may require different handling?
             }
 
             var frameByteSize = _info.GetFrameByteSize(
@@ -328,7 +294,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 },
                 Pitch = pitch,
                 Info = _info,
-                YuvInfo = _yuvInfo.Value
+                YuvInfo = yuvInfo
             });
 
             return CuCallbackResult.Success;
@@ -395,8 +361,6 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 TargetHeight = format.CodedHeight
             };
 
-            _yuvInfo = null;
-
             _decoder = CuVideoDecoder.Create(ref _info);
 
             return (CuCallbackResult)format.MinNumDecodeSurfaces;
@@ -429,7 +393,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 .ReadAsync(_cts.Token)
                 .AsTask().Result;
 
-            if (frame.FinalFrame)
+            if (frame.IsFinalFrame)
             {
                 _renderingCompleted.Set();
                 return;
@@ -437,6 +401,8 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             using var _lease = _nv12BufferPool.Lease(frame.Buffer);
             using var _ = _context.Push();
+
+            _window.FrameArrived(frame);
 
             if (_args.WriteBitmap)
             {
@@ -454,7 +420,6 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         {
             var width = frame.Info.Width;
             var height = frame.Info.Height;
-            var buffer = frame.Buffer;
 
             using var bitmap = new Bitmap(
                 width, height,
@@ -464,39 +429,15 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.WriteOnly, bitmap.PixelFormat);
 
-            const int rgbBpp = 4;
-            var rgbPtr = (byte*)locked.Scan0;
-            var rgbSize = width * height * rgbBpp;
-
-            switch (buffer.MemoryType)
-            {
-                case CuMemoryType.Host:
-                    LibYuvSharp.LibYuv.NV12ToARGB(
-                        (byte*)buffer.Bytes, frame.YuvInfo.LumaPitch,
-                        (byte*)buffer.Bytes + frame.YuvInfo.ChromaOffset,
-                        frame.YuvInfo.ChromaPitch,
-                        rgbPtr, width * rgbBpp, width, height);
-
-                    break;
-                case CuMemoryType.Device:
-                    using (var destPtr = CuDeviceMemory.Allocate(rgbSize))
-                    {
-                        LibCudaLibrary.Nv12ToBGRA32(
-                            buffer.DeviceMemory.Handle, width,
-                            destPtr, width * rgbBpp, width, height);
-
-                        destPtr.CopyToHost(rgbPtr, rgbSize);
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(buffer.MemoryType));
-            }
+            frame.DecodeToHostRgba32((byte*)locked.Scan0);
 
             bitmap.UnlockBits(locked);
             bitmap.Save(filename, ImageFormat.Bmp);
         }
 
-        private static void PrintInformation(string title, Dictionary<string, object> info)
+        private static void PrintInformation(
+            string title,
+            Dictionary<string, object> info)
         {
             Console.WriteLine(title);
             foreach (var (key, value) in info)
@@ -516,6 +457,138 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             _renderingCompleted.Dispose();
             _cts.Cancel();
             _cts.Dispose();
+        }
+    }
+
+    internal class BufferStorage : IDisposable
+    {
+        public IntPtr Bytes { get; set; }
+        public CuMemoryType MemoryType { get; set; }
+        public CuDeviceMemory DeviceMemory { get; set; }
+        public IntPtr Size { get; set; }
+
+        private int _disposed = 0;
+
+        public void Dispose()
+        {
+            if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+
+            switch (MemoryType)
+            {
+                case CuMemoryType.Device:
+                    DeviceMemory.Dispose();
+                    DeviceMemory = CuDeviceMemory.Empty;
+                    break;
+                case CuMemoryType.Host:
+                    Marshal.FreeHGlobal(Bytes);
+                    Bytes = IntPtr.Zero;
+                    break;
+            }
+        }
+    }
+
+    internal class FrameInformation
+    {
+        public BufferStorage Buffer { get; set; }
+        public int Pitch { get; set; }
+        public CuVideoDecodeCreateInfo Info { get; set; }
+        public YuvInformation YuvInfo { get; set; }
+        public bool IsFinalFrame { get; set; }
+
+        public int GetRgba32Size()
+        {
+            return Info.Width * Info.Height * 4;
+        }
+
+        public unsafe void DecodeToHostRgba32(byte* destinationPtr)
+        {
+            var width = Info.Width;
+            var height = Info.Height;
+            var buffer = Buffer;
+            const int rgbBpp = 4;
+            var rgbSize = GetRgba32Size();
+
+            switch (buffer.MemoryType)
+            {
+                case CuMemoryType.Host:
+                    LibYuvSharp.LibYuv.NV12ToARGB(
+                        (byte*)buffer.Bytes, YuvInfo.LumaPitch,
+                        (byte*)buffer.Bytes + YuvInfo.ChromaOffset,
+                        YuvInfo.ChromaPitch,
+                        destinationPtr, width * rgbBpp, width, height);
+
+                    break;
+                case CuMemoryType.Device:
+                    using (var destPtr = CuDeviceMemory.Allocate(rgbSize))
+                    {
+                        LibCudaLibrary.Nv12ToBGRA32(
+                            buffer.DeviceMemory.Handle, width,
+                            destPtr, width * rgbBpp, width, height);
+
+                        destPtr.CopyToHost(destinationPtr, rgbSize);
+                    }
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(buffer.MemoryType));
+            }
+        }
+
+        public void DecodeToDeviceRgba32(
+            IntPtr destinationPtr,
+            Size? resize = null)
+        {
+            var width = Info.Width;
+            var height = Info.Height;
+            var buffer = Buffer;
+            const int rgbBpp = 4;
+
+            var source = buffer.DeviceMemory;
+            var hasNewSource = false;
+
+            try
+            {
+                // This code path fails with Access violation.
+                if (resize.HasValue)
+                {
+                    var newWidth = resize.Value.Width;
+                    var newHeight = resize.Value.Height;
+
+                    // This buffer size allocation is incorrect but should be
+                    // oversized enough to be fine.
+                    source = CuDeviceMemory.Allocate(
+                        newWidth * newHeight * rgbBpp);
+                    hasNewSource = true;
+
+                    LibCudaLibrary.ResizeNv12(
+                        source, newWidth, newWidth, newHeight,
+                        buffer.DeviceMemory, Pitch, width, height,
+                        CuDevicePtr.Empty);
+
+                    width = newWidth;
+                    height = newHeight;
+                }
+
+                switch (buffer.MemoryType)
+                {
+                    case CuMemoryType.Device:
+                        LibCudaLibrary.Nv12ToBGRA32(
+                            source, width,
+                            destinationPtr, width * rgbBpp, width, height);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(buffer.MemoryType), buffer.MemoryType,
+                            "Unsupported memory type.");
+                }
+            }
+            finally
+            {
+                if (hasNewSource)
+                {
+                    source.Dispose();
+                }
+            }
         }
     }
 }

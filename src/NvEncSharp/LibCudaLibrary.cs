@@ -26,5 +26,11 @@ namespace Lennox.NvEncSharp
         public static extern void Nv12ToRGB24(
             IntPtr nv12, int nv12Pitch,
             IntPtr dest, int destPitch, int width, int height, int matrix = 0);
+
+        [DllImport(_dll, SetLastError = true)]
+        public static extern void ResizeNv12(
+            CuDevicePtr dstNv12, int dstPitch, int dstWidth, int dstHeight,
+            CuDevicePtr srcNv12, int srcPitch, int srcWidth, int srcHeight,
+            CuDevicePtr dstNv12UV);
     }
 }

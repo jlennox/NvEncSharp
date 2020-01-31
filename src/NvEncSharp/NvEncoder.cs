@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using static Lennox.NvEncSharp.LibNvEnc;
 
 namespace Lennox.NvEncSharp
@@ -757,7 +759,7 @@ namespace Lennox.NvEncSharp
         }
 
         public NvEncLockBitstream LockBitstream(
-            NvEncCreateBitstreamBuffer buffer,
+            ref NvEncCreateBitstreamBuffer buffer,
             bool doNotWait = false)
         {
             var lockBitstreamBufferParams = new NvEncLockBitstream
@@ -771,6 +773,44 @@ namespace Lennox.NvEncSharp
             CheckResult(this, status);
 
             return lockBitstreamBufferParams;
+        }
+
+        public NvEncLockedBitstream LockBitstreamAndCreateStream(
+            ref NvEncCreateBitstreamBuffer buffer,
+            bool doNotWait = false)
+        {
+            var locked = LockBitstream(ref buffer, doNotWait);
+
+            return new NvEncLockedBitstream(this, buffer, locked);
+        }
+
+        public unsafe class NvEncLockedBitstream : UnmanagedMemoryStream
+        {
+            private readonly NvEncoder _encoder;
+            private readonly NvEncCreateBitstreamBuffer _buffer;
+            private int _disposed;
+
+            public NvEncLockedBitstream(
+                NvEncoder encoder,
+                NvEncCreateBitstreamBuffer buffer,
+                NvEncLockBitstream bitstream)
+            : base((byte*)bitstream.BitstreamBufferPtr,
+                bitstream.BitstreamSizeInBytes)
+            {
+                _encoder = encoder;
+                _buffer = buffer;
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                if (disposing &&
+                    Interlocked.Exchange(ref _disposed, 1) == 0)
+                {
+                    _encoder.UnlockBitstream(_buffer.BitstreamBuffer);
+                }
+
+                base.Dispose(disposing);
+            }
         }
 
         /// <summary>Unlock the output bitstream buffer
@@ -1087,11 +1127,36 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_RESOURCE_REGISTER_FAILED
         /// ::NV_ENC_ERR_GENERIC
         /// ::NV_ENC_ERR_UNIMPLEMENTED</return>
-        public void RegisterResource(
+        public NvEncRegisteredResource RegisterResource(
             ref NvEncRegisterResource registerResParams)
         {
             var status = Fn.RegisterResource(this, ref registerResParams);
             CheckResult(this, status);
+
+            return new NvEncRegisteredResource(
+                this, registerResParams.RegisteredResource);
+        }
+
+        public class NvEncRegisteredResource : IDisposable
+        {
+            private readonly NvEncoder _encoder;
+            private readonly NvEncRegisteredPtr _resource;
+            private int _disposed;
+
+            public NvEncRegisteredResource(
+                 NvEncoder encoder,
+                NvEncRegisteredPtr resource)
+            {
+                _encoder = encoder;
+                _resource = resource;
+            }
+
+            public void Dispose()
+            {
+                if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+
+                _encoder.UnregisterResource(_resource);
+            }
         }
 
         /// <summary>Unregisters a resource previously registered with the Nvidia Video Encoder Interface.

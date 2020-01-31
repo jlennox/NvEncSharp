@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using static Lennox.NvEncSharp.LibCuda;
@@ -321,6 +322,8 @@ namespace Lennox.NvEncSharp
     [DebuggerDisplay("{" + nameof(Handle) + "}")]
     public unsafe struct CuDevicePtr
     {
+        public static readonly CuDevicePtr Empty = new CuDevicePtr { Handle = IntPtr.Zero };
+
         public IntPtr Handle;
 
         public bool IsEmpty => Handle == IntPtr.Zero;
@@ -450,7 +453,7 @@ namespace Lennox.NvEncSharp
             if (handle == IntPtr.Zero) return;
             var obj = new CuDevicePtr { Handle = handle };
 
-            LibCuda.MemFree(obj);
+            MemFree(obj);
         }
 
         public static implicit operator CuDevicePtr(CuDeviceMemory d) => new CuDevicePtr(d.Handle);
@@ -465,7 +468,7 @@ namespace Lennox.NvEncSharp
 
         public ByteBool(bool b)
         {
-            Value = (byte)(b ? 1 : 0);
+            Value = Unsafe.As<bool, byte>(ref b);
         }
 
         public static implicit operator bool(ByteBool d) => d.Value != 0;
