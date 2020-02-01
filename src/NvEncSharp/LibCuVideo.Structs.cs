@@ -940,34 +940,34 @@ namespace Lennox.NvEncSharp
         public byte LevelIdc;
         public byte DQId;
         public byte DQIdMax;
-        public byte disable_inter_layer_deblocking_filter_idc;
-        public byte ref_layer_chroma_phase_y_plus1;
-        public sbyte inter_layer_slice_alpha_c0_offset_div2;
-        public sbyte inter_layer_slice_beta_offset_div2;
+        public byte DisableInterLayerDeblockingFilterIdc;
+        public byte RefLayerChromaPhaseYPlus1;
+        public sbyte InterLayerSliceAlphaC0OffsetDiv2;
+        public sbyte InterLayerSliceBetaOffsetDiv2;
 
         public ushort DPBEntryValidFlag;
-        public byte inter_layer_deblocking_filter_control_present_flag;
-        public byte extended_spatial_scalability_idc;
-        public byte adaptive_tcoeff_level_prediction_flag;
-        public byte slice_header_restriction_flag;
-        public byte chroma_phase_x_plus1_flag;
-        public byte chroma_phase_y_plus1;
+        public byte InterLayerDeblockingFilterControlPResentFlag;
+        public byte ExtendedSpatialScalabilityIdc;
+        public byte AdaptiveTcoeffLevelPredictionFlag;
+        public byte SliceHeaderRestrictionFlag;
+        public byte ChromaPhaseXPlus1Flag;
+        public byte ChromaPhaseTPlus1;
 
-        public byte tcoeff_level_prediction_flag;
-        public byte constrained_intra_resampling_flag;
-        public byte ref_layer_chroma_phase_x_plus1_flag;
-        public byte store_ref_base_pic_flag;
+        public byte TcoeffLevelPredictionFlag;
+        public byte ConstrainedIntraResamplingFlag;
+        public byte RefLayerChromaPhaseXPlus1Flag;
+        public byte StoreRefBasePicFlag;
         private byte _reserved8BitsA;
         private byte _reserved8BitsB;
 
-        public short scaled_ref_layer_left_offset;
-        public short scaled_ref_layer_top_offset;
-        public short scaled_ref_layer_right_offset;
-        public short scaled_ref_layer_bottom_offset;
+        public short ScaledRefLayerLeftOffet;
+        public short ScaledRefLayerTopOffset;
+        public short ScaledRefLayerRightOffset;
+        public short ScaledRefLayerBottomOffset;
         private ushort _reserved16Bits;
         /// <summary>Points to the PicParams for the next layer to be decoded.
         /// Linked list ends at the target layer.</summary>
-        public CuVideoPicParams* pNextLayer;
+        public CuVideoPicParams* NextLayer;
         /// <summary>whether to store ref base pic</summary>
         public int bRefBaseLayer;
     }
