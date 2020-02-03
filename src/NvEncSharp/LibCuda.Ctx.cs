@@ -723,5 +723,84 @@ namespace Lennox.NvEncSharp
         /// CUresult CUDAAPI cuCtxSynchronize(void);
         [DllImport(_dllpath, EntryPoint = "cuCtxSynchronize")]
         public static extern CuResult CtxSynchronize();
+
+        /// <summary>Increment a context's usage-count
+        ///
+        /// \deprecated
+        ///
+        /// Note that this function is deprecated and should not be used.
+        ///
+        /// Increments the usage count of the context and passes back a context handle
+        /// in <paramref name="*pctx"/> that must be passed to ::cuCtxDetach() when the application is
+        /// done with the context. ::cuCtxAttach() fails if there is no context current
+        /// to the thread.
+        ///
+        /// Currently, the <paramref name="flags"/> parameter must be 0.</summary>
+        ///
+        /// <param name="pctx">Returned context handle of the current context</param>
+        /// <param name="flags">Context attach flags (must be 0)</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuCtxCreate,
+        /// ::cuCtxDestroy,
+        /// ::cuCtxDetach,
+        /// ::cuCtxGetApiVersion,
+        /// ::cuCtxGetCacheConfig,
+        /// ::cuCtxGetDevice,
+        /// ::cuCtxGetFlags,
+        /// ::cuCtxGetLimit,
+        /// ::cuCtxPopCurrent,
+        /// ::cuCtxPushCurrent,
+        /// ::cuCtxSetCacheConfig,
+        /// ::cuCtxSetLimit,
+        /// ::cuCtxSynchronize
+        /// CUresult CUDAAPI cuCtxAttach(CUcontext *pctx, unsigned int flags);
+        [Obsolete]
+        [DllImport(_dllpath, EntryPoint = "cuCtxAttach")]
+        public static extern CuResult CtxAttach(out CuContext pctx, CuContextFlags flags);
+
+        /// <summary>Decrement a context's usage-count
+        ///
+        /// \deprecated
+        ///
+        /// Note that this function is deprecated and should not be used.
+        ///
+        /// Decrements the usage count of the context <paramref name="ctx,"/> and destroys the context
+        /// if the usage count goes to 0. The context must be a handle that was passed
+        /// back by ::cuCtxCreate() or ::cuCtxAttach(), and must be current to the
+        /// calling thread.</summary>
+        ///
+        /// <param name="ctx">Context to destroy</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuCtxCreate,
+        /// ::cuCtxDestroy,
+        /// ::cuCtxGetApiVersion,
+        /// ::cuCtxGetCacheConfig,
+        /// ::cuCtxGetDevice,
+        /// ::cuCtxGetFlags,
+        /// ::cuCtxGetLimit,
+        /// ::cuCtxPopCurrent,
+        /// ::cuCtxPushCurrent,
+        /// ::cuCtxSetCacheConfig,
+        /// ::cuCtxSetLimit,
+        /// ::cuCtxSynchronize
+        /// CUresult CUDAAPI cuCtxDetach(CUcontext ctx);
+        [Obsolete]
+        [DllImport(_dllpath, EntryPoint = "cuCtxDetach")]
+        public static extern CuResult CtxDetach(CuContext ctx);
     }
 }

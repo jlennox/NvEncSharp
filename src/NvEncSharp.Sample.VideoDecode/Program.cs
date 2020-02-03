@@ -70,6 +70,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 PrintInformation($"Device {description.Handle}", new Dictionary<string, object> {
                     ["Memory"] = description.TotalMemory,
                     ["Name"] = description.Name,
+                    ["PciBusId"] = description.GetPciBusId(),
                     ["MaxThreadsPerBlock"] = description.GetAttribute(CuDeviceAttribute.MaxThreadsPerBlock),
                     ["SharedMemoryPerBlock"] = description.GetAttribute(CuDeviceAttribute.SharedMemoryPerBlock)
                 });

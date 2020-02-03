@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using static Lennox.NvEncSharp.LibCuda;
 
 // ReSharper disable UnusedMember.Global
@@ -193,5 +194,46 @@ namespace Lennox.NvEncSharp
         public uint NumChannels;
         /// <summary>Flags</summary>
         public uint Flags;
+    }
+
+    public struct CuStreamMemOpWaitValueParams
+    {
+        public CuStreamBatchMemOpType Operation;
+        public CuDevicePtr Address;
+        public long Value64;
+        public int Flags;
+        /// <summary>For driver internal use. Initial value is unimportant.</summary>
+        public CuDevicePtr Alias;
+    }
+
+    public struct CuStreamMemOpWriteValueParams
+    {
+        public CuStreamBatchMemOpType Operation;
+        public CuDevicePtr Address;
+        public long Value64;
+        public int Flags;
+        /// <summary>For driver internal use. Initial value is unimportant.</summary>
+        public CuDevicePtr Alias;
+    }
+
+    public struct CuStreamMemOpFlushRemoteWritesParams
+    {
+        public CuStreamBatchMemOpType Operation;
+        public int Flags;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    public unsafe struct CuSreamBatchMemOpParams
+    {
+        [FieldOffset(0)]
+        public CuStreamBatchMemOpType Operation;
+        [FieldOffset(0)]
+        public CuStreamMemOpWaitValueParams WaitValue;
+        [FieldOffset(0)]
+        public CuStreamMemOpWriteValueParams WriteValue;
+        [FieldOffset(0)]
+        public CuStreamMemOpFlushRemoteWritesParams FlushRemoteWrites;
+        [FieldOffset(0)]
+        private fixed long _pad[6];
     }
 }

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
-    public static partial class LibCuda
+    public static unsafe partial class LibCuda
     {
         /// <summary>Gets free and total memory
         ///
@@ -157,5 +157,581 @@ namespace Lennox.NvEncSharp
         /// CUresult CUDAAPI cuMemFree(CUdeviceptr dptr);
         [DllImport(_dllpath, EntryPoint = "cuMemFree" + _ver)]
         public static extern CuResult MemFree(CuDevicePtr dptr);
+
+        /// <summary>Set attributes on a previously allocated memory region
+        ///
+        /// The supported attributes are:
+        ///
+        /// - ::CU_POINTER_ATTRIBUTE_SYNC_MEMOPS:
+        ///
+        ///      A boolean attribute that can either be set (1) or unset (0). When set,
+        ///      the region of memory that <paramref name="ptr"/> points to is guaranteed to always synchronize
+        ///      memory operations that are synchronous. If there are some previously initiated
+        ///      synchronous memory operations that are pending when this attribute is set, the
+        ///      function does not return until those memory operations are complete.
+        ///      See further documentation in the section titled "API synchronization behavior"
+        ///      to learn more about cases when synchronous memory operations can
+        ///      exhibit asynchronous behavior.
+        ///      <paramref name="value"/> will be considered as a pointer to an unsigned integer to which this attribute is to be set.</summary>
+        ///
+        /// <param name="value">Pointer to memory containing the value to be set</param>
+        /// <param name="attribute">Pointer attribute to set</param>
+        /// <param name="ptr">Pointer to a memory region allocated using CUDA memory allocation APIs</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_INVALID_DEVICE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuPointerGetAttribute,
+        /// ::cuPointerGetAttributes,
+        /// ::cuMemAlloc,
+        /// ::cuMemFree,
+        /// ::cuMemAllocHost,
+        /// ::cuMemFreeHost,
+        /// ::cuMemHostAlloc,
+        /// ::cuMemHostRegister,
+        /// ::cuMemHostUnregister
+        /// CUresult CUDAAPI cuPointerSetAttribute(const void *value, CUpointer_attribute attribute, CUdeviceptr ptr);
+        [DllImport(_dllpath, EntryPoint = "cuPointerSetAttribute")]
+        public static extern CuResult PointerSetAttribute(IntPtr value, PointerAttribute attribute, CuDeviceMemory ptr);
+
+        /// <summary>Returns information about a pointer.
+        ///
+        /// The supported attributes are (refer to ::cuPointerGetAttribute for attribute descriptions and restrictions):
+        ///
+        /// - ::CU_POINTER_ATTRIBUTE_CONTEXT
+        /// - ::CU_POINTER_ATTRIBUTE_MEMORY_TYPE
+        /// - ::CU_POINTER_ATTRIBUTE_DEVICE_POINTER
+        /// - ::CU_POINTER_ATTRIBUTE_HOST_POINTER
+        /// - ::CU_POINTER_ATTRIBUTE_SYNC_MEMOPS
+        /// - ::CU_POINTER_ATTRIBUTE_BUFFER_ID
+        /// - ::CU_POINTER_ATTRIBUTE_IS_MANAGED</summary>
+        ///
+        /// <param name="numAttributes">Number of attributes to query</param>
+        /// <param name="attributes">An array of attributes to query
+        ///                      (numAttributes and the number of attributes in this array should match)</param>
+        /// <param name="data">A two-dimensional array containing pointers to memory
+        ///                      locations where the result of each attribute query will be written to.</param>
+        /// <param name="ptr">Pointer to query
+        ///
+        /// Unlike ::cuPointerGetAttribute, this function will not return an error when the <paramref name="ptr
+        ///"/> encountered is not a valid CUDA pointer. Instead, the attributes are assigned default NULL values
+        /// and CUDA_SUCCESS is returned.
+        ///
+        /// If <paramref name="ptr"/> was not allocated by, mapped by, or registered with a ::CUcontext which uses UVA
+        /// (Unified Virtual Addressing), ::CUDA_ERROR_INVALID_CONTEXT is returned.</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_INVALID_DEVICE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuPointerGetAttribute,
+        /// ::cuPointerSetAttribute,
+        /// ::cudaPointerGetAttributes
+        /// CUresult CUDAAPI cuPointerGetAttributes(unsigned int numAttributes, CUpointer_attribute *attributes, void **data, CUdeviceptr ptr);
+        [DllImport(_dllpath, EntryPoint = "cuPointerGetAttributes")]
+        public static extern CuResult PointerGetAttributes(int numAttributes, out PointerAttribute[] attributes, out IntPtr[] data, CuDevicePtr ptr);
+
+        /// <summary>Get information on memory allocations
+        ///
+        /// Returns the base address in <paramref name="*pbase"/> and size in <paramref name="*psize"/> of the
+        /// allocation by ::cuMemAlloc() or ::cuMemAllocPitch() that contains the input
+        /// pointer <paramref name="dptr."/> Both parameters <paramref name="pbase"/> and <paramref name="psize"/> are optional. If one
+        /// of them is NULL, it is ignored.</summary>
+        ///
+        /// <param name="pbase">Returned base address</param>
+        /// <param name="psize">Returned size of device memory allocation</param>
+        /// <param name="dptr">Device pointer to query</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_NOT_FOUND,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32
+        /// CUresult CUDAAPI cuMemGetAddressRange(CUdeviceptr *pbase, size_t *psize, CUdeviceptr dptr);
+        [DllImport(_dllpath, EntryPoint = "cuMemGetAddressRange")]
+        public static extern CuResult MemGetAddressRange(out CuDevicePtr pbase, out IntPtr psize, CuDevicePtr dptr);
+
+        /// <summary>Allocates page-locked host memory
+        ///
+        /// Allocates <paramref name="bytesize"/> bytes of host memory that is page-locked and
+        /// accessible to the device. The driver tracks the virtual memory ranges
+        /// allocated with this function and automatically accelerates calls to
+        /// functions such as ::cuMemcpy(). Since the memory can be accessed directly by
+        /// the device, it can be read or written with much higher bandwidth than
+        /// pageable memory obtained with functions such as ::malloc(). Allocating
+        /// excessive amounts of memory with ::cuMemAllocHost() may degrade system
+        /// performance, since it reduces the amount of memory available to the system
+        /// for paging. As a result, this function is best used sparingly to allocate
+        /// staging areas for data exchange between host and device.
+        ///
+        /// Note all host memory allocated using ::cuMemHostAlloc() will automatically
+        /// be immediately accessible to all contexts on all devices which support unified
+        /// addressing (as may be queried using ::CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING).
+        /// The device pointer that may be used to access this host memory from those
+        /// contexts is always equal to the returned host pointer <paramref name="pp"/>.
+        /// See \ref CUDA_UNIFIED for additional details.</summary>
+        ///
+        /// <param name="pp">Returned host pointer to page-locked memory</param>
+        /// <param name="bytesize">Requested allocation size in bytes</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaMallocHost
+        /// CUresult CUDAAPI cuMemAllocHost(void **pp, size_t bytesize);
+        [DllImport(_dllpath, EntryPoint = "cuMemAllocHost")]
+        public static extern CuResult MemAllocHost(out CuHostMemory pp, IntPtr bytesize);
+
+        /// <summary>Frees page-locked host memory
+        ///
+        /// Frees the memory space pointed to by <paramref name="p,"/> which must have been returned by
+        /// a previous call to ::cuMemAllocHost().</summary>
+        ///
+        /// <param name="p">Pointer to memory to free</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaFreeHost
+        /// CUresult CUDAAPI cuMemFreeHost(void *p);
+        [DllImport(_dllpath, EntryPoint = "cuMemFreeHost")]
+        public static extern CuResult MemFreeHost(CuHostMemory p);
+
+        /// <summary>Allocates page-locked host memory
+        ///
+        /// Allocates <paramref name="bytesize"/> bytes of host memory that is page-locked and accessible
+        /// to the device. The driver tracks the virtual memory ranges allocated with
+        /// this function and automatically accelerates calls to functions such as
+        /// ::cuMemcpyHtoD(). Since the memory can be accessed directly by the device,
+        /// it can be read or written with much higher bandwidth than pageable memory
+        /// obtained with functions such as ::malloc(). Allocating excessive amounts of
+        /// pinned memory may degrade system performance, since it reduces the amount
+        /// of memory available to the system for paging. As a result, this function is
+        /// best used sparingly to allocate staging areas for data exchange between
+        /// host and device.
+        ///
+        /// The <paramref name="Flags"/> parameter enables different options to be specified that
+        /// affect the allocation, as follows.
+        ///
+        /// - ::CU_MEMHOSTALLOC_PORTABLE: The memory returned by this call will be
+        ///   considered as pinned memory by all CUDA contexts, not just the one that
+        ///   performed the allocation.
+        ///
+        /// - ::CU_MEMHOSTALLOC_DEVICEMAP: Maps the allocation into the CUDA address
+        ///   space. The device pointer to the memory may be obtained by calling
+        ///   ::cuMemHostGetDevicePointer().
+        ///
+        /// - ::CU_MEMHOSTALLOC_WRITECOMBINED: Allocates the memory as write-combined
+        ///   (WC). WC memory can be transferred across the PCI Express bus more
+        ///   quickly on some system configurations, but cannot be read efficiently by
+        ///   most CPUs. WC memory is a good option for buffers that will be written by
+        ///   the CPU and read by the GPU via mapped pinned memory or host->device
+        ///   transfers.
+        ///
+        /// All of these flags are orthogonal to one another: a developer may allocate
+        /// memory that is portable, mapped and/or write-combined with no restrictions.
+        ///
+        /// The CUDA context must have been created with the ::CU_CTX_MAP_HOST flag in
+        /// order for the ::CU_MEMHOSTALLOC_DEVICEMAP flag to have any effect.
+        ///
+        /// The ::CU_MEMHOSTALLOC_DEVICEMAP flag may be specified on CUDA contexts for
+        /// devices that do not support mapped pinned memory. The failure is deferred
+        /// to ::cuMemHostGetDevicePointer() because the memory may be mapped into
+        /// other CUDA contexts via the ::CU_MEMHOSTALLOC_PORTABLE flag.
+        ///
+        /// The memory allocated by this function must be freed with ::cuMemFreeHost().
+        ///
+        /// Note all host memory allocated using ::cuMemHostAlloc() will automatically
+        /// be immediately accessible to all contexts on all devices which support unified
+        /// addressing (as may be queried using ::CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING).
+        /// Unless the flag ::CU_MEMHOSTALLOC_WRITECOMBINED is specified, the device pointer
+        /// that may be used to access this host memory from those contexts is always equal
+        /// to the returned host pointer <paramref name="pp"/>.  If the flag ::CU_MEMHOSTALLOC_WRITECOMBINED
+        /// is specified, then the function ::cuMemHostGetDevicePointer() must be used
+        /// to query the device pointer, even if the context supports unified addressing.
+        /// See \ref CUDA_UNIFIED for additional details.</summary>
+        ///
+        /// <param name="pp">Returned host pointer to page-locked memory</param>
+        /// <param name="bytesize">Requested allocation size in bytes</param>
+        /// <param name="flags">Flags for allocation request</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaHostAlloc
+        /// CUresult CUDAAPI cuMemHostAlloc(void **pp, size_t bytesize, unsigned int Flags);
+        [DllImport(_dllpath, EntryPoint = "cuMemHostAlloc")]
+        public static extern CuResult MemHostAlloc(out CuHostMemory pp, IntPtr bytesize, MemHostAllocFlags flags);
+
+        /// <summary>Passes back device pointer of mapped pinned memory
+        ///
+        /// Passes back the device pointer <paramref name="pdptr"/> corresponding to the mapped, pinned
+        /// host buffer <paramref name="p"/> allocated by ::cuMemHostAlloc.
+        ///
+        /// ::cuMemHostGetDevicePointer() will fail if the ::CU_MEMHOSTALLOC_DEVICEMAP
+        /// flag was not specified at the time the memory was allocated, or if the
+        /// function is called on a GPU that does not support mapped pinned memory.
+        ///
+        /// For devices that have a non-zero value for the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM, the memory
+        /// can also be accessed from the device using the host pointer <paramref name="p.
+        ///"/> The device pointer returned by ::cuMemHostGetDevicePointer() may or may not
+        /// match the original host pointer <paramref name="p"/> and depends on the devices visible to the
+        /// application. If all devices visible to the application have a non-zero value for the
+        /// device attribute, the device pointer returned by ::cuMemHostGetDevicePointer()
+        /// will match the original pointer <paramref name="p."/> If any device visible to the application
+        /// has a zero value for the device attribute, the device pointer returned by
+        /// ::cuMemHostGetDevicePointer() will not match the original host pointer <paramref name="p,
+        ///"/> but it will be suitable for use on all devices provided Unified Virtual Addressing
+        /// is enabled. In such systems, it is valid to access the memory using either pointer
+        /// on devices that have a non-zero value for the device attribute. Note however that
+        /// such devices should access the memory using only of the two pointers and not both.
+        ///
+        /// <paramref name="flags"/> provides for future releases. For now, it must be set to 0.</summary>
+        ///
+        /// <param name="pdptr">Returned device pointer</param>
+        /// <param name="p">Host pointer</param>
+        /// <param name="flags">Options (must be 0)</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaHostGetDevicePointer
+        /// CUresult CUDAAPI cuMemHostGetDevicePointer(CUdeviceptr *pdptr, void *p, unsigned int Flags);
+        [DllImport(_dllpath, EntryPoint = "cuMemHostGetDevicePointer")]
+        public static extern CuResult MemHostGetDevicePointer(out CuDevicePtr pdptr, CuHostMemory p, int flags = 0);
+
+        /// <summary>Passes back flags that were used for a pinned allocation
+        ///
+        /// Passes back the flags <paramref name="pFlags"/> that were specified when allocating
+        /// the pinned host buffer <paramref name="p"/> allocated by ::cuMemHostAlloc.
+        ///
+        /// ::cuMemHostGetFlags() will fail if the pointer does not reside in
+        /// an allocation performed by ::cuMemAllocHost() or ::cuMemHostAlloc().</summary>
+        ///
+        /// <param name="pFlags">Returned flags word</param>
+        /// <param name="p">Host pointer</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuMemAllocHost,
+        /// ::cuMemHostAlloc,
+        /// ::cudaHostGetFlags
+        /// CUresult CUDAAPI cuMemHostGetFlags(unsigned int *pFlags, void *p);
+        [DllImport(_dllpath, EntryPoint = "cuMemHostGetFlags")]
+        public static extern CuResult MemHostGetFlags(out MemHostAllocFlags pFlags, CuHostMemory p);
+
+        /// <summary>Allocates memory that will be automatically managed by the Unified Memory system
+        ///
+        /// Allocates <paramref name="bytesize"/> bytes of managed memory on the device and returns in
+        /// <paramref name="*dptr"/> a pointer to the allocated memory. If the device doesn't support
+        /// allocating managed memory, ::CUDA_ERROR_NOT_SUPPORTED is returned. Support
+        /// for managed memory can be queried using the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_MANAGED_MEMORY. The allocated memory is suitably
+        /// aligned for any kind of variable. The memory is not cleared. If <paramref name="bytesize
+        ///"/> is 0, ::cuMemAllocManaged returns ::CUDA_ERROR_INVALID_VALUE. The pointer
+        /// is valid on the CPU and on all GPUs in the system that support managed memory.
+        /// All accesses to this pointer must obey the Unified Memory programming model.
+        ///
+        /// <paramref name="flags"/> specifies the default stream association for this allocation.
+        /// <paramref name="flags"/> must be one of ::CU_MEM_ATTACH_GLOBAL or ::CU_MEM_ATTACH_HOST. If
+        /// ::CU_MEM_ATTACH_GLOBAL is specified, then this memory is accessible from
+        /// any stream on any device. If ::CU_MEM_ATTACH_HOST is specified, then the
+        /// allocation should not be accessed from devices that have a zero value for the
+        /// device attribute ::CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS; an explicit call to
+        /// ::cuStreamAttachMemAsync will be required to enable access on such devices.
+        ///
+        /// If the association is later changed via ::cuStreamAttachMemAsync to
+        /// a single stream, the default association as specifed during ::cuMemAllocManaged
+        /// is restored when that stream is destroyed. For __managed__ variables, the
+        /// default association is always ::CU_MEM_ATTACH_GLOBAL. Note that destroying a
+        /// stream is an asynchronous operation, and as a result, the change to default
+        /// association won't happen until all work in the stream has completed.
+        ///
+        /// Memory allocated with ::cuMemAllocManaged should be released with ::cuMemFree.
+        ///
+        /// Device memory oversubscription is possible for GPUs that have a non-zero value for the
+        /// device attribute ::CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS. Managed memory on
+        /// such GPUs may be evicted from device memory to host memory at any time by the Unified
+        /// Memory driver in order to make room for other allocations.
+        ///
+        /// In a multi-GPU system where all GPUs have a non-zero value for the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS, managed memory may not be populated when this
+        /// API returns and instead may be populated on access. In such systems, managed memory can
+        /// migrate to any processor's memory at any time. The Unified Memory driver will employ heuristics to
+        /// maintain data locality and prevent excessive page faults to the extent possible. The application
+        /// can also guide the driver about memory usage patterns via ::cuMemAdvise. The application
+        /// can also explicitly migrate memory to a desired processor's memory via
+        /// ::cuMemPrefetchAsync.
+        ///
+        /// In a multi-GPU system where all of the GPUs have a zero value for the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS and all the GPUs have peer-to-peer support
+        /// with each other, the physical storage for managed memory is created on the GPU which is active
+        /// at the time ::cuMemAllocManaged is called. All other GPUs will reference the data at reduced
+        /// bandwidth via peer mappings over the PCIe bus. The Unified Memory driver does not migrate
+        /// memory among such GPUs.
+        ///
+        /// In a multi-GPU system where not all GPUs have peer-to-peer support with each other and
+        /// where the value of the device attribute ::CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS
+        /// is zero for at least one of those GPUs, the location chosen for physical storage of managed
+        /// memory is system-dependent.
+        /// - On Linux, the location chosen will be device memory as long as the current set of active
+        /// contexts are on devices that either have peer-to-peer support with each other or have a
+        /// non-zero value for the device attribute ::CU_DEVICE_ATTRIBUTE_CONCURRENT_MANAGED_ACCESS.
+        /// If there is an active context on a GPU that does not have a non-zero value for that device
+        /// attribute and it does not have peer-to-peer support with the other devices that have active
+        /// contexts on them, then the location for physical storage will be 'zero-copy' or host memory.
+        /// Note that this means that managed memory that is located in device memory is migrated to
+        /// host memory if a new context is created on a GPU that doesn't have a non-zero value for
+        /// the device attribute and does not support peer-to-peer with at least one of the other devices
+        /// that has an active context. This in turn implies that context creation may fail if there is
+        /// insufficient host memory to migrate all managed allocations.
+        /// - On Windows, the physical storage is always created in 'zero-copy' or host memory.
+        /// All GPUs will reference the data at reduced bandwidth over the PCIe bus. In these
+        /// circumstances, use of the environment variable CUDA_VISIBLE_DEVICES is recommended to
+        /// restrict CUDA to only use those GPUs that have peer-to-peer support.
+        /// Alternatively, users can also set CUDA_MANAGED_FORCE_DEVICE_ALLOC to a
+        /// non-zero value to force the driver to always use device memory for physical storage.
+        /// When this environment variable is set to a non-zero value, all contexts created in
+        /// that process on devices that support managed memory have to be peer-to-peer compatible
+        /// with each other. Context creation will fail if a context is created on a device that
+        /// supports managed memory and is not peer-to-peer compatible with any of the other
+        /// managed memory supporting devices on which contexts were previously created, even if
+        /// those contexts have been destroyed. These environment variables are described
+        /// in the CUDA programming guide under the "CUDA environment variables" section.
+        /// - On ARM, managed memory is not available on discrete gpu with Drive PX-2.</summary>
+        ///
+        /// <param name="dptr">Returned device pointer</param>
+        /// <param name="bytesize">Requested allocation size in bytes</param>
+        /// <param name="flags">Must be one of ::CU_MEM_ATTACH_GLOBAL or ::CU_MEM_ATTACH_HOST</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_NOT_SUPPORTED,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cuDeviceGetAttribute, ::cuStreamAttachMemAsync,
+        /// ::cudaMallocManaged
+        /// CUresult CUDAAPI cuMemAllocManaged(CUdeviceptr *dptr, size_t bytesize, unsigned int flags);
+        [DllImport(_dllpath, EntryPoint = "cuMemAllocManaged")]
+        public static extern CuResult MemAllocManaged(out CuDevicePtr dptr, IntPtr bytesize, CuMemAttachFlags flags);
+
+        /// <summary>Registers an existing host memory range for use by CUDA
+        ///
+        /// Page-locks the memory range specified by <paramref name="p"/> and <paramref name="bytesize"/> and maps it
+        /// for the device(s) as specified by <paramref name="Flags."/> This memory range also is added
+        /// to the same tracking mechanism as ::cuMemHostAlloc to automatically accelerate
+        /// calls to functions such as ::cuMemcpyHtoD(). Since the memory can be accessed
+        /// directly by the device, it can be read or written with much higher bandwidth
+        /// than pageable memory that has not been registered.  Page-locking excessive
+        /// amounts of memory may degrade system performance, since it reduces the amount
+        /// of memory available to the system for paging. As a result, this function is
+        /// best used sparingly to register staging areas for data exchange between
+        /// host and device.
+        ///
+        /// This function has limited support on Mac OS X. OS 10.7 or higher is required.
+        ///
+        /// The <paramref name="Flags"/> parameter enables different options to be specified that
+        /// affect the allocation, as follows.
+        ///
+        /// - ::CU_MEMHOSTREGISTER_PORTABLE: The memory returned by this call will be
+        ///   considered as pinned memory by all CUDA contexts, not just the one that
+        ///   performed the allocation.
+        ///
+        /// - ::CU_MEMHOSTREGISTER_DEVICEMAP: Maps the allocation into the CUDA address
+        ///   space. The device pointer to the memory may be obtained by calling
+        ///   ::cuMemHostGetDevicePointer().
+        ///
+        /// - ::CU_MEMHOSTREGISTER_IOMEMORY: The pointer is treated as pointing to some
+        ///   I/O memory space, e.g. the PCI Express resource of a 3rd party device.
+        ///
+        /// All of these flags are orthogonal to one another: a developer may page-lock
+        /// memory that is portable or mapped with no restrictions.
+        ///
+        /// The CUDA context must have been created with the ::CU_CTX_MAP_HOST flag in
+        /// order for the ::CU_MEMHOSTREGISTER_DEVICEMAP flag to have any effect.
+        ///
+        /// The ::CU_MEMHOSTREGISTER_DEVICEMAP flag may be specified on CUDA contexts for
+        /// devices that do not support mapped pinned memory. The failure is deferred
+        /// to ::cuMemHostGetDevicePointer() because the memory may be mapped into
+        /// other CUDA contexts via the ::CU_MEMHOSTREGISTER_PORTABLE flag.
+        ///
+        /// For devices that have a non-zero value for the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM, the memory
+        /// can also be accessed from the device using the host pointer <paramref name="p"/>.
+        /// The device pointer returned by ::cuMemHostGetDevicePointer() may or may not
+        /// match the original host pointer <paramref name="ptr"/> and depends on the devices visible to the
+        /// application. If all devices visible to the application have a non-zero value for the
+        /// device attribute, the device pointer returned by ::cuMemHostGetDevicePointer()
+        /// will match the original pointer <paramref name="ptr."/> If any device visible to the application
+        /// has a zero value for the device attribute, the device pointer returned by
+        /// ::cuMemHostGetDevicePointer() will not match the original host pointer <paramref name="ptr"/>,
+        /// but it will be suitable for use on all devices provided Unified Virtual Addressing
+        /// is enabled. In such systems, it is valid to access the memory using either pointer
+        /// on devices that have a non-zero value for the device attribute. Note however that
+        /// such devices should access the memory using only of the two pointers and not both.
+        ///
+        /// The memory page-locked by this function must be unregistered with
+        /// ::cuMemHostUnregister().</summary>
+        ///
+        /// <param name="p">Host pointer to memory to page-lock</param>
+        /// <param name="bytesize">Size in bytes of the address range to page-lock</param>
+        /// <param name="Flags">Flags for allocation request</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY,
+        /// ::CUDA_ERROR_HOST_MEMORY_ALREADY_REGISTERED,
+        /// ::CUDA_ERROR_NOT_PERMITTED,
+        /// ::CUDA_ERROR_NOT_SUPPORTED
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuMemHostUnregister,
+        /// ::cuMemHostGetFlags,
+        /// ::cuMemHostGetDevicePointer,
+        /// ::cudaHostRegister
+        /// CUresult CUDAAPI cuMemHostRegister(void *p, size_t bytesize, unsigned int Flags);
+        [DllImport(_dllpath, EntryPoint = "cuMemHostRegister")]
+        public static extern CuResult MemHostRegister(CuHostMemory p, IntPtr bytesize, int Flags);
+
+        /// <summary>Unregisters a memory range that was registered with cuMemHostRegister.
+        ///
+        /// Unmaps the memory range whose base address is specified by <paramref name="p"/>, and makes
+        /// it pageable again.
+        ///
+        /// The base address must be the same one specified to ::cuMemHostRegister().</summary>
+        ///
+        /// <param name="p">Host pointer to memory to unregister</param>
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY,
+        /// ::CUDA_ERROR_HOST_MEMORY_NOT_REGISTERED,
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuMemHostRegister,
+        /// ::cudaHostUnregister
+        /// CUresult CUDAAPI cuMemHostUnregister(void *p);
+        [DllImport(_dllpath, EntryPoint = "cuMemHostUnregister")]
+        public static extern CuResult MemHostUnregister(void* p);
     }
 }

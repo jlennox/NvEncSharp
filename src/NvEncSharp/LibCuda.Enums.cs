@@ -488,4 +488,379 @@ namespace Lennox.NvEncSharp
         /// <summary>Memory can only be accessed by a single stream on the associated device</summary>
         Single = 0x4
     }
+
+    public enum PointerAttribute
+    {
+        /// <summary>The ::CUcontext on which a pointer was allocated or registered</summary>
+        Context = 1,
+        /// <summary>The ::CUmemorytype describing the physical location of a pointer</summary>
+        MemoryType = 2,
+        /// <summary>The address at which a pointer's memory may be accessed on the device</summary>
+        DevicePointer = 3,
+        /// <summary>The address at which a pointer's memory may be accessed on the host</summary>
+        HostPointer = 4,
+        /// <summary>A pair of tokens for use with the nv-p2p.h Linux kernel interface</summary>
+        P2PTokens = 5,
+        /// <summary>Synchronize every synchronous memory operation initiated on this region</summary>
+        SyncMemops = 6,
+        /// <summary>A process-wide unique ID for an allocated memory region*/</summary>
+        BufferId = 7,
+        /// <summary>Indicates if the pointer points to managed memory</summary>
+        IsManaged = 8
+    }
+
+    public enum FunctionAttribute
+    {
+        /// <summary>The maximum number of threads per block, beyond which a launch of the
+        /// function would fail. This number depends on both the function and the
+        /// device on which the function is currently loaded.</summary>
+        MaxThreadsPerBlock = 0,
+
+        /// <summary>The size in bytes of statically-allocated shared memory required by
+        /// this function. This does not include dynamically-allocated shared
+        /// memory requested by the user at runtime.</summary>
+        SharedSizeBytes = 1,
+
+        /// <summary>The size in bytes of user-allocated constant memory required by this
+        /// function.</summary>
+        ConstSizeBytes = 2,
+
+        /// <summary>The size in bytes of local memory used by each thread of this function.</summary>
+        LocalSizeBytes = 3,
+
+        /// <summary>The number of registers used by each thread of this function.</summary>
+        NumRegs = 4,
+
+        /// <summary>The PTX virtual architecture version for which the function was
+        /// compiled. This value is the major PTX version * 10 + the minor PTX
+        /// version, so a PTX version 1.3 function would return the value 13.
+        /// Note that this may return the undefined value of 0 for cubins
+        /// compiled prior to CUDA 3.0.</summary>
+        PtxVersion = 5,
+
+        /// <summary>The binary architecture version for which the function was compiled.
+        /// This value is the major binary version * 10 + the minor binary version,
+        /// so a binary version 1.3 function would return the value 13. Note that
+        /// this will return a value of 10 for legacy cubins that do not have a
+        /// properly-encoded binary architecture version.</summary>
+        BinaryVersion = 6,
+
+        /// <summary>The attribute to indicate whether the function has been compiled with
+        /// user specified option "-Xptxas --dlcm=ca" set .</summary>
+        CacheModeCa = 7,
+
+        /// <summary>The maximum size in bytes of dynamically-allocated shared memory that can be used by
+        /// this function. If the user-specified dynamic shared memory size is larger than this
+        /// value, the launch will fail.</summary>
+        MaxDynamicSharedSizeBytes = 8,
+
+        /// <summary>On devices where the L1 cache and shared memory use the same hardware resources,
+        /// this sets the shared memory carveout preference, in percent of the total resources.
+        /// This is only a hint, and the driver can choose a different ratio if required to execute the function.</summary>
+        PreferredSharedMemoryCarveout = 9,
+        Max
+    }
+
+    public enum JitOption
+    {
+        /// <summary>Max number of registers that a thread may use.
+        /// Option type: unsigned int
+        /// Applies to: compiler only</summary>
+        MaxRegisters = 0,
+
+        /// <summary>IN: Specifies minimum number of threads per block to target compilation
+        /// for
+        /// OUT: Returns the number of threads the compiler actually targeted.
+        /// This restricts the resource utilization fo the compiler (e.g. max
+        /// registers) such that a block with the given number of threads should be
+        /// able to launch based on register limitations. Note, this option does not
+        /// currently take into account any other resource limitations, such as
+        /// shared memory utilization.
+        /// Cannot be combined with ::CU_JIT_TARGET.
+        /// Option type: unsigned int
+        /// Applies to: compiler only</summary>
+        ThreadsPerBlock,
+
+        /// <summary>Overwrites the option value with the total wall clock time, in
+        /// milliseconds, spent in the compiler and linker
+        /// Option type: float
+        /// Applies to: compiler and linker</summary>
+        WallTime,
+
+        /// <summary>Pointer to a buffer in which to print any log messages
+        /// that are informational in nature (the buffer size is specified via
+        /// option ::CU_JIT_INFO_LOG_BUFFER_SIZE_BYTES)
+        /// Option type: char *
+        /// Applies to: compiler and linker</summary>
+        InfoLogBuffer,
+
+        /// <summary>IN: Log buffer size in bytes.  Log messages will be capped at this size
+        /// (including null terminator)
+        /// OUT: Amount of log buffer filled with messages
+        /// Option type: unsigned int
+        /// Applies to: compiler and linker</summary>
+        InfoLogBufferSizeBytes,
+
+        /// <summary>Pointer to a buffer in which to print any log messages that
+        /// reflect errors (the buffer size is specified via option
+        /// ::CU_JIT_ERROR_LOG_BUFFER_SIZE_BYTES)
+        /// Option type: char *
+        /// Applies to: compiler and linker</summary>
+        ErrorLogBuffer,
+
+        /// <summary>IN: Log buffer size in bytes.  Log messages will be capped at this size
+        /// (including null terminator)
+        /// OUT: Amount of log buffer filled with messages
+        /// Option type: unsigned int
+        /// Applies to: compiler and linker</summary>
+        ErrorLogBufferSizeBytes,
+
+        /// <summary>Level of optimizations to apply to generated code (0 - 4), with 4
+        /// being the default and highest level of optimizations.
+        /// Option type: unsigned int
+        /// Applies to: compiler only</summary>
+        OptimizationLevel,
+
+        /// <summary>No option value required. Determines the target based on the current
+        /// attached context (default)
+        /// Option type: No option value needed
+        /// Applies to: compiler and linker</summary>
+        TargetFromCucontext,
+
+        /// <summary>Target is chosen based on supplied ::CUjit_target.  Cannot be
+        /// combined with ::CU_JIT_THREADS_PER_BLOCK.
+        /// Option type: unsigned int for enumerated type ::CUjit_target
+        /// Applies to: compiler and linker</summary>
+        Target,
+
+        /// <summary>Specifies choice of fallback strategy if matching cubin is not found.
+        /// Choice is based on supplied ::CUjit_fallback.  This option cannot be
+        /// used with cuLink* APIs as the linker requires exact matches.
+        /// Option type: unsigned int for enumerated type ::CUjit_fallback
+        /// Applies to: compiler only</summary>
+        FallbackStrategy,
+
+        /// <summary>Specifies whether to create debug information in output (-g)
+        /// (0: false, default)
+        /// Option type: int
+        /// Applies to: compiler and linker</summary>
+        GenerateDebugInfo,
+
+        /// <summary>Generate verbose log messages (0: false, default)
+        /// Option type: int
+        /// Applies to: compiler and linker</summary>
+        LogVerbose,
+
+        /// <summary>Generate line number information (-lineinfo) (0: false, default)
+        /// Option type: int
+        /// Applies to: compiler only</summary>
+        GenerateLineInfo,
+
+        /// <summary>Specifies whether to enable caching explicitly (-dlcm)
+        /// Choice is based on supplied ::CUjit_cacheMode_enum.
+        /// Option type: unsigned int for enumerated type ::CUjit_cacheMode_enum
+        /// Applies to: compiler only</summary>
+        CacheMode,
+
+        /// <summary>The below jit options are used for internal purposes only, in this version of CUDA</summary>
+        NewSm3XOpt,
+        FastCompile,
+        NumOptions
+    }
+
+    public enum JitInputType
+    {
+        /// <summary>Compiled device-class-specific device code\n
+        /// Applicable options: none</summary>
+        Cubin = 0,
+
+        /// <summary>PTX source code\n
+        /// Applicable options: PTX compiler options</summary>
+        Ptx,
+
+        /// <summary>Bundle of multiple cubins and/or PTX of some device code\n
+        /// Applicable options: PTX compiler options, ::CU_JIT_FALLBACK_STRATEGY</summary>
+        Fatbinary,
+
+        /// <summary>Host object with embedded device code\n
+        /// Applicable options: PTX compiler options, ::CU_JIT_FALLBACK_STRATEGY</summary>
+        Object,
+
+        /// <summary>Archive of host objects with embedded device code\n
+        /// Applicable options: PTX compiler options, ::CU_JIT_FALLBACK_STRATEGY</summary>
+        Library,
+        CuJitNumInputTypes
+    }
+
+    /// <summary>Online compilation targets</summary>
+    public enum JitTarget
+    {
+        /// <summary>Compute device class 2.0</summary>
+        TargetCompute20 = 20,
+        /// <summary>Compute device class 2.1</summary>
+        TargetCompute21 = 21,
+        /// <summary>Compute device class 3.0</summary>
+        TargetCompute30 = 30,
+        /// <summary>Compute device class 3.2</summary>
+        TargetCompute32 = 32,
+        /// <summary>Compute device class 3.5</summary>
+        TargetCompute35 = 35,
+        /// <summary>Compute device class 3.7</summary>
+        TargetCompute37 = 37,
+        /// <summary>Compute device class 5.0</summary>
+        TargetCompute50 = 50,
+        /// <summary>Compute device class 5.2</summary>
+        TargetCompute52 = 52,
+        /// <summary>Compute device class 5.3</summary>
+        TargetCompute53 = 53,
+        /// <summary>Compute device class 6.0.*/</summary>
+        TargetCompute60 = 60,
+        /// <summary>Compute device class 6.1.*/</summary>
+        TargetCompute61 = 61,
+        /// <summary>Compute device class 6.2.*/</summary>
+        TargetCompute62 = 62,
+        /// <summary>Compute device class 7.0.*/</summary>
+        TargetCompute70 = 70
+    }
+
+    /// <summary>Cubin matching fallback strategies</summary>
+    public enum JitFallback
+    {
+        /// <summary>Prefer to compile ptx if exact binary match not found</summary>
+        Ptx = 0,
+
+        /// <summary>Prefer to fall back to compatible binary code if exact match not found</summary>
+        Binary
+    }
+
+    /// <summary>Caching modes for dlcm</summary>
+    public enum CitCacheMode
+    {
+        /// <summary>Compile with no -dlcm flag specified</summary>
+        None = 0,
+        /// <summary>Compile with L1 cache disabled</summary>
+        Cg,
+        /// <summary>Compile with L1 cache enabled</summary>
+        Ca
+    }
+
+    public enum DeviceP2PAttribute
+    {
+        /// <summary>A relative value indicating the performance of the link between two devices</summary>
+        PerformanceRank = 0x01,
+        /// <summary>P2P Access is enable</summary>
+        AccessSupported = 0x02,
+        /// <summary>Atomic operation over the link supported</summary>
+        NativeAtomicSupported = 0x03
+    }
+
+    [Flags]
+    public enum MemHostAllocFlags
+    {
+        /// <summary>If set, host memory is portable between CUDA contexts.
+        /// Flag for ::cuMemHostAlloc()</summary>
+        Portable = 0x01,
+
+        /// <summary>If set, host memory is mapped into CUDA address space and
+        /// ::cuMemHostGetDevicePointer() may be called on the host pointer.
+        /// Flag for ::cuMemHostAlloc()</summary>
+        Devicemap = 0x02,
+
+        /// <summary>If set, host memory is allocated as write-combined - fast to write,
+        /// faster to DMA, slow to read except via SSE4 streaming load instruction
+        /// (MOVNTDQA).
+        /// Flag for ::cuMemHostAlloc()</summary>
+        WriteCombined = 0x04
+    }
+
+    [Flags]
+    public enum MemHostRegisterFlags
+    {
+        /// <summary>If set, host memory is portable between CUDA contexts.
+        /// Flag for ::cuMemHostRegister()</summary>
+        Portable = 0x01,
+
+        /// <summary>If set, host memory is mapped into CUDA address space and
+        /// ::cuMemHostGetDevicePointer() may be called on the host pointer.
+        /// Flag for ::cuMemHostRegister()</summary>
+        Devicemap = 0x02,
+
+        /// <summary>If set, the passed memory pointer is treated as pointing to some
+        /// memory-mapped I/O space, e.g. belonging to a third-party PCIe device.
+        /// On Windows the flag is a no-op.
+        /// On Linux that memory is marked as non cache-coherent for the GPU and
+        /// is expected to be physically contiguous. It may return
+        /// CUDA_ERROR_NOT_PERMITTED if run as an unprivileged user,
+        /// CUDA_ERROR_NOT_SUPPORTED on older Linux kernel versions.
+        /// On all other platforms, it is not supported and CUDA_ERROR_NOT_SUPPORTED
+        /// is returned.
+        /// Flag for ::cuMemHostRegister()</summary>
+        IOMemory = 0x04
+    }
+
+    /// <summary>CUDA devices corresponding to a D3D11 device</summary>
+    public enum CuD3D11DeviceList
+    {
+        /// <summary>The CUDA devices for all GPUs used by a D3D11 device</summary>
+        All = 0x01,
+        /// <summary>The CUDA devices for the GPUs used by a D3D11 device in its currently rendering frame</summary>
+        CurrentFrame = 0x02,
+        /// <summary>The CUDA devices for the GPUs to be used by a D3D11 device in the next frame</summary>
+        NextFrame = 0x03,
+    }
+
+    /// <summary>Flags for ::cuStreamWaitValue32 and ::cuStreamWaitValue64</summary>
+    public enum CuStreamWaitValue
+    {
+        /// <summary>Wait until (int32_t)(*addr - value) >= 0 (or int64_t for 64 bit
+        /// values). Note this is a cyclic comparison which ignores wraparound.
+        /// (Default behavior.)</summary>
+        ValueGeq = 0x0,
+        /// <summary>Wait until *addr == value.</summary>
+        ValueEq = 0x1,
+        /// <summary>Wait until (*addr & value) != 0.</summary>
+        ValueAnd = 0x2,
+        /// <summary>Wait until ~(*addr | value) != 0. Support for this operation can be
+        /// queried with ::cuDeviceGetAttribute() and
+        /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_STREAM_WAIT_VALUE_NOR. Generally, this
+        /// requires compute capability 7.0 or greater.</summary>
+        ValueNor = 0x3,
+        /// <summary>Follow the wait operation with a flush of outstanding remote writes. This
+        /// means that, if a remote write operation is guaranteed to have reached the
+        /// device before the wait can be satisfied, that write is guaranteed to be
+        /// visible to downstream device work. The device is permitted to reorder
+        /// remote writes internally. For example, this flag would be required if
+        /// two remote writes arrive in a defined order, the wait is satisfied by the
+        /// second write, and downstream work needs to observe the first write.</summary>
+        ValueFlush = 1 << 30
+    }
+
+    /// <summary>Flags for ::cuStreamWriteValue32</summary>
+    public enum CuStreamWriteValue
+    {
+        /// <summary>Default behavior</summary>
+        Default = 0x0,
+        /// <summary>Permits the write to be reordered with writes which were issued
+        /// before it, as a performance optimization. Normally,
+        /// ::cuStreamWriteValue32 will provide a memory fence before the
+        /// write, which has similar semantics to
+        /// __threadfence_system() but is scoped to the stream
+        /// rather than a CUDA thread.</summary>
+        NoMemoryBarrier = 0x1
+    }
+
+    /// <summary>Operations for ::cuStreamBatchMemOp</summary>
+    public enum CuStreamBatchMemOpType
+    {
+        /// <summary>Represents a ::cuStreamWaitValue32 operation</summary>
+        WaitValue32 = 1,
+        /// <summary>Represents a ::cuStreamWriteValue32 operation</summary>
+        WriteValue32 = 2,
+        /// <summary>Represents a ::cuStreamWaitValue64 operation</summary>
+        WaitValue64 = 4,
+        /// <summary>Represents a ::cuStreamWriteValue64 operation</summary>
+        WriteValue64 = 5,
+        /// <summary>This has the same effect as ::CU_STREAM_WAIT_VALUE_FLUSH, but as a standalone operation.</summary>
+        FlushRemoteWrites = 3
+    }
 }

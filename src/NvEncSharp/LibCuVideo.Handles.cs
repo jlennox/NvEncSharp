@@ -16,9 +16,7 @@ namespace Lennox.NvEncSharp
     public struct CuVideoSource : IDisposable
     {
         public static readonly CuVideoSource Empty = new CuVideoSource { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         /// <inheritdoc cref="DestroyVideoSource(CuVideoSource)"/>
@@ -37,9 +35,7 @@ namespace Lennox.NvEncSharp
     public struct CuStream : IDisposable
     {
         public static readonly CuStream Empty = new CuStream { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         /// <inheritdoc cref="StreamCreate(out CuStream, CuStreamFlags)"/>
@@ -99,9 +95,7 @@ namespace Lennox.NvEncSharp
     public struct CuEvent
     {
         public static readonly CuEvent Empty = new CuEvent { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
     }
 
@@ -110,9 +104,7 @@ namespace Lennox.NvEncSharp
     public struct CuVideoDecoder : IDisposable
     {
         public static readonly CuVideoDecoder Empty = new CuVideoDecoder { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         /// <inheritdoc cref="CreateDecoder(out CuVideoDecoder, ref CuVideoDecodeCreateInfo)"/>
@@ -195,11 +187,9 @@ namespace Lennox.NvEncSharp
     public struct CuVideoFrame : IDisposable
     {
         public static readonly CuVideoFrame Empty = new CuVideoFrame { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
 
         private readonly CuVideoDecoder _decoder;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         public CuVideoFrame(CuDevicePtr devicePtr, CuVideoDecoder decoder)
@@ -230,9 +220,7 @@ namespace Lennox.NvEncSharp
     public unsafe struct CuVideoParser : IDisposable
     {
         public static readonly CuVideoParser Empty = new CuVideoParser { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         /// <inheritdoc cref="LibCuVideo.ParseVideoData(CuVideoParser, ref CuVideoSourceDataPacket)"/>
@@ -317,7 +305,6 @@ namespace Lennox.NvEncSharp
         public static readonly CuDevice Empty = new CuDevice { Handle = 0 };
 
         public int Handle;
-
         public bool IsEmpty => Handle == 0;
 
         public CuDevice(int handle)
@@ -331,9 +318,7 @@ namespace Lennox.NvEncSharp
     public unsafe struct CuDevicePtr
     {
         public static readonly CuDevicePtr Empty = new CuDevicePtr { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         public CuDevicePtr(IntPtr handle)
@@ -360,9 +345,7 @@ namespace Lennox.NvEncSharp
     public struct CuArray
     {
         public static readonly CuArray Empty = new CuArray { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         public CuArray(IntPtr handle)
@@ -397,9 +380,7 @@ namespace Lennox.NvEncSharp
     public struct CuDeviceMemory : IDisposable
     {
         public static readonly CuDeviceMemory Empty = new CuDeviceMemory { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         private CuDeviceMemory(CuDevicePtr devicePtr)
@@ -475,9 +456,7 @@ namespace Lennox.NvEncSharp
     public struct CuVideoContextLock : IDisposable
     {
         public static readonly CuVideoContextLock Empty = new CuVideoContextLock { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         public struct AutoCuVideoContextLock : IDisposable

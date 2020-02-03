@@ -15,9 +15,7 @@ namespace Lennox.NvEncSharp
     public struct CuContext : IDisposable
     {
         public static readonly CuContext Empty = new CuContext { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         public struct CuContextPush : IDisposable
@@ -151,9 +149,7 @@ namespace Lennox.NvEncSharp
     public struct CuGraphicsResource : IDisposable
     {
         public static readonly CuGraphicsResource Empty = new CuGraphicsResource { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
 
         /// <inheritdoc cref="GraphicsD3D11RegisterResource(out CuGraphicsResource, IntPtr, CuGraphicsRegisters)"/>
@@ -240,9 +236,105 @@ namespace Lennox.NvEncSharp
     public struct CuMipMappedArray
     {
         public static readonly CuMipMappedArray Empty = new CuMipMappedArray { Handle = IntPtr.Zero };
-
         public IntPtr Handle;
-
         public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuModule
+    {
+        public static readonly CuModule Empty = new CuModule { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuLinkState
+    {
+        public static readonly CuLinkState Empty = new CuLinkState { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuSurfRef
+    {
+        public static readonly CuSurfRef Empty = new CuSurfRef { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuFunction
+    {
+        public static readonly CuFunction Empty = new CuFunction { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuTextRef
+    {
+        public static readonly CuTextRef Empty = new CuTextRef { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuIpcEventHandle
+    {
+        public static readonly CuIpcEventHandle Empty = new CuIpcEventHandle { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuIpcMemHandle
+    {
+        public static readonly CuIpcMemHandle Empty = new CuIpcMemHandle { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuHostMemory : IDisposable
+    {
+        public static readonly CuHostMemory Empty = new CuHostMemory { Handle = IntPtr.Zero };
+        public IntPtr Handle;
+        public bool IsEmpty => Handle == IntPtr.Zero;
+
+        /// <inheritdoc cref="MemAllocHost(out CuHostMemory, IntPtr)"/>
+        public static CuHostMemory Allocate(long bytesize)
+        {
+            CheckResult(MemAllocHost(out var mem, (IntPtr)bytesize));
+            return mem;
+        }
+
+        // TODO: Move?
+        /// <inheritdoc cref="MemAllocManaged(out CuDevicePtr, IntPtr, CuMemAttachFlags)"/>
+        public static CuDevicePtr AllocateManaged(
+            long bytesize, CuMemAttachFlags flags)
+        {
+            CheckResult(MemAllocManaged(out var mem, (IntPtr)bytesize, flags));
+            return mem;
+        }
+
+        /// <inheritdoc cref="MemFreeHost(CuHostMemory)"/>
+        public void Dispose()
+        {
+            var handle = Interlocked.Exchange(ref Handle, IntPtr.Zero);
+            if (handle == IntPtr.Zero) return;
+            var obj = new CuHostMemory { Handle = handle };
+
+            MemFreeHost(obj);
+        }
     }
 }

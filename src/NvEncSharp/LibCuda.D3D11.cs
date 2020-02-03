@@ -3,17 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
-    /// <summary>CUDA devices corresponding to a D3D11 device</summary>
-    public enum CuD3D11DeviceList
-    {
-        /// <summary>The CUDA devices for all GPUs used by a D3D11 device</summary>
-        All = 0x01,
-        /// <summary>The CUDA devices for the GPUs used by a D3D11 device in its currently rendering frame</summary>
-        CurrentFrame = 0x02,
-        /// <summary>The CUDA devices for the GPUs to be used by a D3D11 device in the next frame</summary>
-        NextFrame = 0x03,
-    }
-
     public unsafe partial class LibCuda
     {
         /// <summary>Gets the CUDA device corresponding to a display adapter.</summary>

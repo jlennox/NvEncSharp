@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static Lennox.NvEncSharp.LibCuda;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public readonly struct CuDeviceDescription
@@ -22,6 +24,8 @@ namespace Lennox.NvEncSharp
 
         /// <inheritdoc cref="LibCuda.DeviceGetAttribute(out int, CuDeviceAttribute, CuDevice)"/>
         public int GetAttribute(CuDeviceAttribute attribute) => Device.GetAttribute(attribute);
+        /// <inheritdoc cref="LibCuda.DeviceGetPCIBusId(byte*, int, CuDevice)"/>
+        public string GetPciBusId() => Device.GetPciBusId();
     }
 
     public unsafe partial struct CuDevice
@@ -52,6 +56,16 @@ namespace Lennox.NvEncSharp
             {
                 yield return new CuDeviceDescription(new CuDevice(i));
             }
+        }
+
+        /// <inheritdoc cref="LibCuda.DeviceGetPCIBusId(byte*, int, CuDevice)"/>
+        public string GetPciBusId()
+        {
+            const int length = 20;
+            var namePtr = stackalloc byte[length];
+            CheckResult(DeviceGetPCIBusId(namePtr, length, this));
+
+            return Marshal.PtrToStringAnsi((IntPtr) namePtr, length);
         }
 
         /// <inheritdoc cref="LibCuda.D3D11GetDevice(out CuDevice, IntPtr)"/>
