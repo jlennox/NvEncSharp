@@ -16,7 +16,7 @@ namespace Lennox.NvEncSharp
         /// \param pCudaDevice - Returned CUDA device corresponding to \p pAdapter
         /// \param pAdapter    - Adapter to query for CUDA device
         ///
-        /// \return
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -24,6 +24,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_NOT_FOUND,
         /// ::CUDA_ERROR_UNKNOWN
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa
@@ -55,7 +56,7 @@ namespace Lennox.NvEncSharp
         ///                           ::CU_D3D11_DEVICE_LIST_NEXT_FRAME for the devices used to
         ///                           render the next frame (in SLI).
         ///
-        /// \return
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -63,6 +64,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_NOT_FOUND,
         /// ::CUDA_ERROR_UNKNOWN
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa

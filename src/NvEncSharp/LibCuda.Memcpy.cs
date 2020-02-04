@@ -17,13 +17,13 @@ namespace Lennox.NvEncSharp
         /// <param name="dst">Destination unified virtual address space pointer</param>
         /// <param name="src">Source unified virtual address space pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -57,13 +57,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="srcContext">Source context</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -83,13 +83,13 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -118,13 +118,13 @@ namespace Lennox.NvEncSharp
         /// <param name="dstHost">Destination host pointer</param>
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -153,13 +153,13 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -191,13 +191,13 @@ namespace Lennox.NvEncSharp
         /// <param name="dstOffset">Offset in bytes of destination array</param>
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -229,13 +229,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -265,13 +265,13 @@ namespace Lennox.NvEncSharp
         /// <param name="dstOffset">Offset in bytes of destination array</param>
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -301,13 +301,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -341,13 +341,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -473,13 +473,13 @@ namespace Lennox.NvEncSharp
         /// an error code.</para></summary>
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         ///
         /// \notefnerr
         /// \note_sync
@@ -608,13 +608,13 @@ namespace Lennox.NvEncSharp
         /// an error code.</para></summary>
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         ///
         /// \notefnerr
         /// \note_sync
@@ -745,13 +745,13 @@ namespace Lennox.NvEncSharp
         /// set to 0.</para></summary>
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         ///
         /// \notefnerr
         /// \note_sync
@@ -779,13 +779,13 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
         ///
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_sync
         ///
@@ -809,13 +809,13 @@ namespace Lennox.NvEncSharp
         /// <param name="src">Source unified virtual address space pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -853,13 +853,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcContext">Source context</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -881,13 +881,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -920,13 +920,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -959,13 +959,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -1001,13 +1001,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -1041,13 +1041,13 @@ namespace Lennox.NvEncSharp
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         /// \note_async
         /// \note_null_stream
@@ -1186,13 +1186,13 @@ namespace Lennox.NvEncSharp
         /// <param name="pCopy">Parameters for the memory copy</param>
         /// <param name="hStream">Stream identifier</param>
         ///
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         ///
         /// \notefnerr
         /// \note_async
@@ -1341,13 +1341,13 @@ namespace Lennox.NvEncSharp
         /// <param name="pCopy">Parameters for the memory copy</param>
         /// <param name="hStream">Stream identifier</param>
         ///
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         ///
         /// \notefnerr
         /// \note_async
@@ -1381,13 +1381,13 @@ namespace Lennox.NvEncSharp
         /// <param name="pCopy">Parameters for the memory copy</param>
         /// <param name="hStream">Stream identifier</param>
         ///
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         ///
         /// \notefnerr
         /// \note_async

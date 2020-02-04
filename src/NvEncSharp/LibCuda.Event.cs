@@ -6,7 +6,7 @@ namespace Lennox.NvEncSharp
     {
         /// <summary>Creates an event
         ///
-        /// Creates an event *phEvent with the flags specified via <paramref name="flags."/> Valid flags
+        /// Creates an event *phEvent with the flags specified via <paramref name="flags"/>. Valid flags
         /// include:
         /// - ::CU_EVENT_DEFAULT: Default event creation flag.
         /// - ::CU_EVENT_BLOCKING_SYNC: Specifies that the created event should use blocking
@@ -51,8 +51,8 @@ namespace Lennox.NvEncSharp
         /// asynchronous, ::cuEventQuery or ::cuEventSynchronize() must be used
         /// to determine when the event has actually been recorded.
         ///
-        /// If ::cuEventRecord() has previously been called on <paramref name="hEvent,"/> then this
-        /// call will overwrite any existing state in <paramref name="hEvent."/>  Any subsequent calls
+        /// If ::cuEventRecord() has previously been called on <paramref name="hEvent"/>, then this
+        /// call will overwrite any existing state in <paramref name="hEvent"/>..  Any subsequent calls
         /// which examine the status of <paramref name="hEvent"/> will only examine the completion of
         /// this most recent call to ::cuEventRecord().
         ///
@@ -89,7 +89,7 @@ namespace Lennox.NvEncSharp
         /// as specified by the arguments to ::cuEventRecord()).
         ///
         /// If this work has successfully been completed by the device, or if
-        /// ::cuEventRecord() has not been called on <paramref name="hEvent,"/> then ::CUDA_SUCCESS is
+        /// ::cuEventRecord() has not been called on <paramref name="hEvent"/>, then ::CUDA_SUCCESS is
         /// returned. If this work has not yet been completed by the device then
         /// ::CUDA_ERROR_NOT_READY is returned.
         ///
@@ -123,7 +123,7 @@ namespace Lennox.NvEncSharp
         /// call to ::cuEventRecord() (in the appropriate compute streams, as specified
         /// by the arguments to ::cuEventRecord()).
         ///
-        /// If ::cuEventRecord() has not been called on <paramref name="hEvent,"/> ::CUDA_SUCCESS is
+        /// If ::cuEventRecord() has not been called on <paramref name="hEvent"/>, ::CUDA_SUCCESS is
         /// returned immediately.
         ///
         /// Waiting for an event that was created with the ::CU_EVENT_BLOCKING_SYNC
@@ -154,9 +154,9 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Destroys an event
         ///
-        /// Destroys the event specified by <paramref name="hEvent.
+        /// Destroys the event specified by <paramref name="hEvent"/>.
         ///
-        ///"/> In case <paramref name="hEvent"/> has been recorded but has not yet been completed
+        /// In case <paramref name="hEvent"/> has been recorded but has not yet been completed
         /// when ::cuEventDestroy() is called, the function will return immediately and
         /// the resources associated with <paramref name="hEvent"/> will be released automatically once
         /// the device has completed <paramref name="hEvent"/>.</summary>
@@ -231,9 +231,9 @@ namespace Lennox.NvEncSharp
         /// ordered after the operation will block until the given condition on the
         /// memory is satisfied. By default, the condition is to wait for
         /// (int32_t)(*addr - value) >= 0, a cyclic greater-or-equal.
-        /// Other condition types can be specified via <paramref name="flags.
+        /// Other condition types can be specified via <paramref name="flags"/>.
         ///
-        ///"/> If the memory was registered via ::cuMemHostRegister(), the device pointer
+        /// If the memory was registered via ::cuMemHostRegister(), the device pointer
         /// should be obtained with ::cuMemHostGetDevicePointer(). This function cannot
         /// be used with managed memory (::cuMemAllocManaged).
         ///
@@ -269,9 +269,9 @@ namespace Lennox.NvEncSharp
         /// ordered after the operation will block until the given condition on the
         /// memory is satisfied. By default, the condition is to wait for
         /// (int64_t)(*addr - value) >= 0, a cyclic greater-or-equal.
-        /// Other condition types can be specified via <paramref name="flags.
+        /// Other condition types can be specified via <paramref name="flags"/>.
         ///
-        ///"/> If the memory was registered via ::cuMemHostRegister(), the device pointer
+        /// If the memory was registered via ::cuMemHostRegister(), the device pointer
         /// should be obtained with ::cuMemHostGetDevicePointer().
         ///
         /// Support for this can be queried with ::cuDeviceGetAttribute() and

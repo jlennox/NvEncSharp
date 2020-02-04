@@ -13,8 +13,8 @@ namespace Lennox.NvEncSharp
         /// <summary>Returns information about the device</summary>
         ///
         /// <remarks>
-        /// Returns in <paramref name="*pi"/> the integer value of the attribute <paramref name="attrib"/> on device
-        /// <paramref name="device."/> The supported attributes are:
+        /// Returns in *<paramref name="pi"/> the integer value of the attribute <paramref name="attrib"/> on device
+        /// <paramref name="device"/>. The supported attributes are:
         /// - ::CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK: Maximum number of threads per
         ///   block;
         /// - ::CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X: Maximum x-dimension of a block;
@@ -294,8 +294,8 @@ namespace Lennox.NvEncSharp
         /// <summary>Release the primary context on the GPU
         ///
         /// Releases the primary context interop on the device by decreasing the usage
-        /// count by 1. If the usage drops to 0 the primary context of device <paramref name="dev
-        ///"/> will be destroyed regardless of how many threads it is current to.
+        /// count by 1. If the usage drops to 0 the primary context of device <paramref name="dev"/>
+        /// will be destroyed regardless of how many threads it is current to.
         ///
         /// Please note that unlike ::cuCtxDestroy() this method does not pop the context
         /// from stack in any circumstances.</summary>
@@ -391,8 +391,8 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Get the state of the primary context
         ///
-        /// Returns in <paramref name="*flags"/> the flags for the primary context of <paramref name="dev"/>, and in
-        /// <paramref name="*active"/> whether it is active.  See ::cuDevicePrimaryCtxSetFlags for flag
+        /// Returns in *<paramref name="flags"/> the flags for the primary context of <paramref name="dev"/>, and in
+        /// *<paramref name="active"/> whether it is active.  See ::cuDevicePrimaryCtxSetFlags for flag
         /// values.</summary>
         ///
         /// <param name="dev">Device to get primary context flags for</param>
@@ -455,14 +455,14 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns a handle to a compute device
         ///
-        /// Returns in <paramref name="*device"/> a device handle given a PCI bus ID string.</summary>
+        /// Returns in *<paramref name="device"/> a device handle given a PCI bus ID string.</summary>
         ///
         /// <param name="dev">Returned device handle</param>
         /// <param name="pciBusId">String in one of the following forms:
         /// [domain]:[bus]:[device].[function]
         /// [domain]:[bus]:[device]
         /// [bus]:[device].[function]
-        /// where <paramref name="domain,"/> <paramref name="bus,"/> <paramref name="device,"/> and <paramref name="function"/> are all hexadecimal values</param>
+        /// where <paramref name="domain"/>, <paramref name="bus"/>, <paramref name="device"/>, and <paramref name="function"/> are all hexadecimal values</param>
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -484,12 +484,12 @@ namespace Lennox.NvEncSharp
         /// <summary>Returns a PCI Bus Id string for the device
         ///
         /// Returns an ASCII string identifying the device <paramref name="dev"/> in the NULL-terminated
-        /// string pointed to by <paramref name="pciBusId."/> <paramref name="len"/> specifies the maximum length of the
+        /// string pointed to by <paramref name="pciBusId"/>. <paramref name="len"/> specifies the maximum length of the
         /// string that may be returned.</summary>
         ///
         /// <param name="pciBusId">Returned identifier string for the device in the following format
         /// [domain]:[bus]:[device].[function]
-        /// where <paramref name="domain,"/> <paramref name="bus,"/> <paramref name="device,"/> and <paramref name="function"/> are all hexadecimal values.
+        /// where <paramref name="domain"/>, <paramref name="bus"/>, <paramref name="device"/>, and <paramref name="function"/> are all hexadecimal values.
         /// pciBusId should be large enough to store 13 characters including the NULL-terminator.</param>
         /// <param name="len">Maximum length of string to store in <paramref name="name"/></param>
         /// <param name="dev">Device to get identifier string for</param>

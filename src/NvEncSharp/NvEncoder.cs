@@ -20,14 +20,14 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="encodeGuidCount">Number of supported encode Guids.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetEncodeGuidCount(out uint encodeGuidCount)
         {
             encodeGuidCount = 0;
@@ -55,14 +55,14 @@ namespace Lennox.NvEncSharp
         /// <param name="guids">Array of supported Encode Guids.</param>
         /// <param name="guidCount">Number of supported Encode Guids.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public unsafe void GetEncodeGuids(Span<Guid> guids, out uint guidCount)
         {
             guidCount = 0;
@@ -94,14 +94,14 @@ namespace Lennox.NvEncSharp
         /// <param name="encodeGuid">The codec Guid for which the profile Guids are being enumerated.</param>
         /// <param name="encodeProfileGuidCount">Number of encode profiles supported for the given encodeGuid.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetEncodeProfileGuidCount(
             Guid encodeGuid, out uint encodeProfileGuidCount)
         {
@@ -133,14 +133,14 @@ namespace Lennox.NvEncSharp
         /// <param name="profileGuids">Array of supported Encode Profile Guids</param>
         /// <param name="guidCount">Number of valid encode profile Guids in \p profileGuids array.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public unsafe void GetEncodeProfileGuids(
             Guid encodeGuid, Span<Guid> profileGuids, out uint guidCount)
         {
@@ -174,14 +174,14 @@ namespace Lennox.NvEncSharp
         ///   is to be retrieved.</param>
         /// <param name="inputFmtCount">Number of input formats supported for specified Encode Guid.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetInputFormatCount(
             Guid encodeGuid, out uint inputFmtCount)
         {
@@ -211,14 +211,14 @@ namespace Lennox.NvEncSharp
         /// <param name="inputFmtCount">The number of valid input format types returned by the NvEncodeAPI
         ///   interface in \p inputFmts array.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public unsafe void GetInputFormats(
             Guid encodeGuid, Span<NvEncBufferFormat> inputFmts,
             out uint inputFmtCount)
@@ -253,14 +253,14 @@ namespace Lennox.NvEncSharp
         /// <param name="capsParam">Used to specify attribute being queried. Refer ::NV_ENC_CAPS_PARAM for  more details.</param>
         /// <param name="capsVal">The value corresponding to the capability attribute being queried.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetEncodeCaps(
             Guid encodeGuid, ref NvEncCapsParam capsParam, ref int capsVal)
         {
@@ -279,14 +279,14 @@ namespace Lennox.NvEncSharp
         ///   be retrieved.</param>
         /// <param name="encodePresetGuidCount">Receives the number of supported preset Guids.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetEncodePresetCount(
             Guid encodeGuid, out uint encodePresetGuidCount)
         {
@@ -323,14 +323,14 @@ namespace Lennox.NvEncSharp
         /// <param name="presetGuids">Array of supported Encode preset Guids from the NvEncodeAPI interface to client.</param>
         /// <param name="encodePresetGuidCount">Receives the number of preset Guids returned by the NvEncodeAPI interface.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public unsafe void GetEncodePresetGuids(
             Guid encodeGuid, Span<Guid> presetGuids,
             out uint encodePresetGuidCount)
@@ -368,7 +368,7 @@ namespace Lennox.NvEncSharp
         /// <param name="presetGuid">Preset Guid, corresponding to which the Encoding configurations is to be retrieved.</param>
         /// <param name="presetConfig">The requested Preset Encoder Attribute set. Refer ::_NV_ENC_CONFIG for more details.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -376,7 +376,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         ///
         /// <summary>NV_ENC_CONFIG</summary>
         public void GetEncodePresetConfig(
@@ -470,7 +470,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="createEncodeParams">Refer ::_NV_ENC_INITIALIZE_PARAMS for details.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -478,7 +478,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         /// <seealso cref="NvEncInitializeParams"/>
         public void InitializeEncoder(
             ref NvEncInitializeParams createEncodeParams)
@@ -498,7 +498,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="createInputBufferParams">Pointer to the ::NV_ENC_CREATE_INPUT_BUFFER structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -506,7 +506,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void CreateInputBuffer(
             ref NvEncCreateInputBuffer createInputBufferParams)
         {
@@ -540,7 +540,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="inputBuffer">Pointer to the input buffer to be released.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -548,7 +548,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void DestroyInputBuffer(NvEncInputPtr inputBuffer)
         {
             CheckResult(this, Fn.DestroyInputBuffer(this, inputBuffer));
@@ -570,7 +570,7 @@ namespace Lennox.NvEncSharp
         /// <param name="outputStream">Pointer to CUstream which is used to process ::NV_ENC_PIC_PARAMS::outputBuffer for encode.
         ///  In case of ME-only mode, outputStream is used to process ::NV_ENC_MEONLY_PARAMS::mvBuffer</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -578,7 +578,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void SetIOCudaStreams(
             NvEncCustreamPtr inputStream, NvEncCustreamPtr outputStream)
         {
@@ -600,7 +600,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="createBitstreamBufferParams">Pointer ::NV_ENC_CREATE_BITSTREAM_BUFFER for details.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -609,7 +609,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void CreateBitstreamBuffer(
             ref NvEncCreateBitstreamBuffer createBitstreamBufferParams)
         {
@@ -640,7 +640,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="bitstreamBuffer">Pointer to the bitstream buffer being released.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -649,7 +649,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void DestroyBitstreamBuffer(NvEncOutputPtr bitstreamBuffer)
         {
             var status = Fn.DestroyBitstreamBuffer(this, bitstreamBuffer);
@@ -707,7 +707,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="encodePicParams">Pointer to the ::_NV_ENC_PIC_PARAMS structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -718,7 +718,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_ENCODER_BUSY
         /// ::NV_ENC_ERR_NEED_MORE_INPUT
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void EncodePicture(ref NvEncPicParams encodePicParams)
         {
             CheckResult(this, Fn.EncodePicture(this, ref encodePicParams));
@@ -741,7 +741,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="lockBitstreamBufferParams">Pointer to the ::_NV_ENC_LOCK_BITSTREAM structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -751,7 +751,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_LOCK_BUSY
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void LockBitstream(
             ref NvEncLockBitstream lockBitstreamBufferParams)
         {
@@ -824,7 +824,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="bitstreamBuffer">bitstream buffer pointer being unlocked</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -832,7 +832,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void UnlockBitstream(NvEncOutputPtr bitstreamBuffer)
         {
             CheckResult(this, Fn.UnlockBitstream(this, bitstreamBuffer));
@@ -849,7 +849,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="lockInputBufferParams">Pointer to the ::_NV_ENC_LOCK_INPUT_BUFFER structure</param>
         ///
-        /// <return>\return
+        /// <returns>\return
         /// ::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
@@ -860,7 +860,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_LOCK_BUSY
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void LockInputBuffer(
             ref NvEncLockInputBuffer lockInputBufferParams)
         {
@@ -876,7 +876,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="inputBuffer">Pointer to the input buffer that is being unlocked.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -885,7 +885,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void UnlockInputBuffer(NvEncInputPtr inputBuffer)
         {
             CheckResult(this, Fn.UnlockInputBuffer(this, inputBuffer));
@@ -898,7 +898,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="encodeStats">Pointer to the ::_NV_ENC_STAT structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -906,7 +906,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetEncodeStats(ref NvEncStat encodeStats)
         {
             CheckResult(this, Fn.GetEncodeStats(this, ref encodeStats));
@@ -928,7 +928,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="sequenceParamPayload">Pointer to the ::_NV_ENC_SEQUENCE_PARAM_PAYLOAD structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -937,7 +937,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void GetSequenceParams(
             ref NvEncSequenceParamPayload sequenceParamPayload)
         {
@@ -956,7 +956,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="eventParams">Pointer to the ::_NV_ENC_EVENT_PARAMS structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -965,7 +965,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void RegisterAsyncEvent(ref NvEncEventParams eventParams)
         {
             CheckResult(this, Fn.RegisterAsyncEvent(this, ref eventParams));
@@ -979,7 +979,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="eventParams">Pointer to the ::_NV_ENC_EVENT_PARAMS structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -988,7 +988,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void UnregisterAsyncEvent(ref NvEncEventParams eventParams)
         {
             CheckResult(this, Fn.UnregisterAsyncEvent(this, ref eventParams));
@@ -1009,7 +1009,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="mapInputResParams">Pointer to the ::_NV_ENC_MAP_INPUT_RESOURCE structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1020,7 +1020,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_RESOURCE_NOT_REGISTERED
         /// ::NV_ENC_ERR_MAP_FAILED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void MapInputResource(ref NvEncMapInputResource mapInputResParams)
         {
             CheckResult(this, Fn.MapInputResource(this, ref mapInputResParams));
@@ -1038,7 +1038,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="mappedInputBuffer">Pointer to the NV_ENC_INPUT_PTR</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1049,7 +1049,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_RESOURCE_NOT_REGISTERED
         /// ::NV_ENC_ERR_RESOURCE_NOT_MAPPED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void UnmapInputResource(NvEncInputPtr mappedInputBuffer)
         {
             CheckResult(this, Fn.UnmapInputResource(this, mappedInputBuffer));
@@ -1067,14 +1067,14 @@ namespace Lennox.NvEncSharp
         /// in asynchronous mode, it must also unregister the completion events previously
         /// registered.</summary>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void DestroyEncoder()
         {
             CheckResult(this, Fn.DestroyEncoder(this));
@@ -1095,14 +1095,14 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="invalidRefFrameTimeStamp">Timestamp of the invalid reference frames which needs to be invalidated.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void InvalidateRefFrames(ulong invalidRefFrameTimeStamp)
         {
             var status = Fn.InvalidateRefFrames(this, invalidRefFrameTimeStamp);
@@ -1116,7 +1116,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="registerResParams">Pointer to a ::_NV_ENC_REGISTER_RESOURCE structure</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1127,7 +1127,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_RESOURCE_REGISTER_FAILED
         /// ::NV_ENC_ERR_GENERIC
-        /// ::NV_ENC_ERR_UNIMPLEMENTED</return>
+        /// ::NV_ENC_ERR_UNIMPLEMENTED</returns>
         public NvEncRegisteredResource RegisterResource(
             ref NvEncRegisterResource registerResParams)
         {
@@ -1168,7 +1168,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="registeredResource">The registered resource pointer that was returned in ::NvEncRegisterResource.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1179,7 +1179,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
         /// ::NV_ENC_ERR_RESOURCE_NOT_REGISTERED
         /// ::NV_ENC_ERR_GENERIC
-        /// ::NV_ENC_ERR_UNIMPLEMENTED</return>
+        /// ::NV_ENC_ERR_UNIMPLEMENTED</returns>
         public void UnregisterResource(NvEncRegisteredPtr registeredResource)
         {
             CheckResult(this, Fn.UnregisterResource(this, registeredResource));
@@ -1201,14 +1201,14 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="reInitEncodeParams"> Pointer to a ::NV_ENC_RECONFIGURE_PARAMS structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_NO_ENCODE_DEVICE
         /// ::NV_ENC_ERR_UNSUPPORTED_DEVICE
         /// ::NV_ENC_ERR_INVALID_DEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
         /// ::NV_ENC_ERR_UNSUPPORTED_PARAM
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void ReconfigureEncoder(
             ref NvEncReconfigureParams reInitEncodeParams)
         {
@@ -1227,7 +1227,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="createMvBufferParams">Pointer to the ::NV_ENC_CREATE_MV_BUFFER structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1235,7 +1235,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_OUT_OF_MEMORY
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void CreateMvBuffer(
             ref NvEncCreateMvBuffer createMvBufferParams)
         {
@@ -1251,7 +1251,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="mvBuffer">Pointer to the mvBuffer being released.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1260,7 +1260,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_PARAM
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void DestroyMvBuffer(NvEncOutputPtr mvBuffer)
         {
             CheckResult(this, Fn.DestroyMvBuffer(this, mvBuffer));
@@ -1276,7 +1276,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="meOnlyParams">Pointer to the ::_NV_ENC_MEONLY_PARAMS structure.</param>
         ///
-        /// <return>::NV_ENC_SUCCESS
+        /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
         /// ::NV_ENC_ERR_INVALID_ENCODERDEVICE
         /// ::NV_ENC_ERR_DEVICE_NOT_EXIST
@@ -1286,7 +1286,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_INVALID_VERSION
         /// ::NV_ENC_ERR_NEED_MORE_INPUT
         /// ::NV_ENC_ERR_ENCODER_NOT_INITIALIZED
-        /// ::NV_ENC_ERR_GENERIC</return>
+        /// ::NV_ENC_ERR_GENERIC</returns>
         public void RunMotionEstimationOnly(ref NvEncMeonlyParams meOnlyParams)
         {
             var status = Fn.RunMotionEstimationOnly(this, ref meOnlyParams);
@@ -1298,7 +1298,7 @@ namespace Lennox.NvEncSharp
         /// This function returns a null-terminated string that can be used by clients to better understand the reason
         /// for failure of a previous API call.</summary>
         ///
-        /// <return>Pointer to buffer containing the details of the last error encountered by the API.</return>
+        /// <returns>Pointer to buffer containing the details of the last error encountered by the API.</returns>
         public string GetLastError()
         {
             if (Handle == IntPtr.Zero) return "No NvEncoder.";

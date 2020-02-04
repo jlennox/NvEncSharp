@@ -43,7 +43,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Initializes device memory
         ///
         /// Sets the memory range of <paramref name="n"/> 16-bit values to the specified value
-        /// <paramref name="us."/> The <paramref name="dstDevice"/> pointer must be two byte aligned.</summary>
+        /// <paramref name="us"/>. The <paramref name="dstDevice"/> pointer must be two byte aligned.</summary>
         ///
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="us">Value to set</param>
@@ -113,7 +113,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Initializes device memory
         ///
         /// Sets the 2D memory range of <paramref name="width"/> 8-bit values to the specified value
-        /// <paramref name="uc."/> <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
+        /// <paramref name="uc"/>. <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
         /// specifies the number of bytes between each row. This function performs
         /// fastest when the pitch is one that has been passed back by
         /// ::cuMemAllocPitch().</summary>
@@ -194,7 +194,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Initializes device memory
         ///
         /// Sets the 2D memory range of <paramref name="width"/> 32-bit values to the specified value
-        /// <paramref name="ui."/> <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
+        /// <paramref name="ui"/>. <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
         /// specifies the number of bytes between each row. The <paramref name="dstDevice"/> pointer
         /// and <paramref name="dstPitch"/> offset must be four byte aligned. This function performs
         /// fastest when the pitch is one that has been passed back by
@@ -272,7 +272,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Sets device memory
         ///
         /// Sets the memory range of <paramref name="n"/> 16-bit values to the specified value
-        /// <paramref name="us."/> The <paramref name="dstDevice"/> pointer must be two byte aligned.</summary>
+        /// <paramref name="us"/>. The <paramref name="dstDevice"/> pointer must be two byte aligned.</summary>
         ///
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="us">Value to set</param>
@@ -309,7 +309,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Sets device memory
         ///
         /// Sets the memory range of <paramref name="n"/> 32-bit values to the specified value
-        /// <paramref name="ui."/> The <paramref name="dstDevice"/> pointer must be four byte aligned.</summary>
+        /// <paramref name="ui"/>. The <paramref name="dstDevice"/> pointer must be four byte aligned.</summary>
         ///
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="ui">Value to set</param>
@@ -345,7 +345,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Sets device memory
         ///
         /// Sets the 2D memory range of <paramref name="width"/> 8-bit values to the specified value
-        /// <paramref name="uc."/> <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
+        /// <paramref name="uc"/>. <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
         /// specifies the number of bytes between each row. This function performs
         /// fastest when the pitch is one that has been passed back by
         /// ::cuMemAllocPitch().</summary>
@@ -387,7 +387,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Sets device memory
         ///
         /// Sets the 2D memory range of <paramref name="width"/> 16-bit values to the specified value
-        /// <paramref name="us."/> <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
+        /// <paramref name="us"/>. <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
         /// specifies the number of bytes between each row. The <paramref name="dstDevice"/> pointer
         /// and <paramref name="dstPitch"/> offset must be two byte aligned. This function performs
         /// fastest when the pitch is one that has been passed back by
@@ -430,7 +430,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Sets device memory
         ///
         /// Sets the 2D memory range of <paramref name="width"/> 32-bit values to the specified value
-        /// <paramref name="ui."/> <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
+        /// <paramref name="ui"/>. <paramref name="height"/> specifies the number of rows to set, and <paramref name="dstPitch"/>
         /// specifies the number of bytes between each row. The <paramref name="dstDevice"/> pointer
         /// and <paramref name="dstPitch"/> offset must be four byte aligned. This function performs
         /// fastest when the pitch is one that has been passed back by

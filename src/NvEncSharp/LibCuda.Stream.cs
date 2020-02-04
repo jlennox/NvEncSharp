@@ -23,14 +23,14 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="phStream">Returned newly created stream</param>
         /// <param name="flags">Parameters for stream creation</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_OUT_OF_MEMORY
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamDestroy,
@@ -65,14 +65,14 @@ namespace Lennox.NvEncSharp
         /// <param name="priority">Stream priority. Lower numbers represent higher priorities.
         ///                      See ::cuCtxGetStreamPriorityRange for more information about
         ///                      meaningful stream priorities that can be passed.</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_OUT_OF_MEMORY
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \note Stream priorities are supported only on GPUs
@@ -106,7 +106,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="hStream">Handle to the stream to be queried</param>
         /// <param name="priority">Pointer to a signed integer in which the stream's priority is returned</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -114,7 +114,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_INVALID_HANDLE,
         /// ::CUDA_ERROR_OUT_OF_MEMORY
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamDestroy,
@@ -137,7 +137,7 @@ namespace Lennox.NvEncSharp
         ///                     The value returned in <c>flags</c> is a logical 'OR' of all flags that
         ///                     were used while creating this stream. See ::cuStreamCreate for the list
         ///                     of valid flags</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -145,7 +145,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_INVALID_HANDLE,
         /// ::CUDA_ERROR_OUT_OF_MEMORY
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamDestroy,
@@ -176,14 +176,14 @@ namespace Lennox.NvEncSharp
         /// <param name="hStream">Stream to wait</param>
         /// <param name="hEvent">Event to wait on (may not be NULL)</param>
         /// <param name="flags">Parameters for the operation (must be 0)</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_HANDLE,
         /// \note_null_stream
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamCreate,
@@ -241,7 +241,7 @@ namespace Lennox.NvEncSharp
         /// <param name="callback">The function to call once preceding stream operations are complete</param>
         /// <param name="userData">User specified data to be passed to the callback function</param>
         /// <param name="flags">Reserved for future use, must be 0</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -249,7 +249,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_HANDLE,
         /// ::CUDA_ERROR_NOT_SUPPORTED
         /// \note_null_stream
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamCreate,
@@ -320,7 +320,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dptr">Pointer to memory (must be a pointer to managed memory)</param>
         /// <param name="length">Length of memory (must be zero)</param>
         /// <param name="flags">Must be one of ::CUmemAttach_flags</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -328,7 +328,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_HANDLE,
         /// ::CUDA_ERROR_NOT_SUPPORTED
         /// \note_null_stream
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamCreate,
@@ -351,7 +351,7 @@ namespace Lennox.NvEncSharp
         /// is equivalent to having called ::cuStreamSynchronize().</summary>
         ///
         /// <param name="hStream">Stream to query status of</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
@@ -359,7 +359,7 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_INVALID_HANDLE,
         /// ::CUDA_ERROR_NOT_READY
         /// \note_null_stream
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamCreate,
@@ -380,14 +380,14 @@ namespace Lennox.NvEncSharp
         /// stream is finished with all of its tasks.</summary>
         ///
         /// <param name="hStream">Stream to wait for</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_HANDLE
         /// \note_null_stream
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamCreate,
@@ -410,13 +410,13 @@ namespace Lennox.NvEncSharp
         /// once the device has completed all work in <c>hStream</c>.</summary>
         ///
         /// <param name="hStream">Stream to destroy</param>
-        /// <return>
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
         /// ::CUDA_ERROR_NOT_INITIALIZED,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
         /// ::CUDA_ERROR_INVALID_VALUE
-        /// </return>
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa ::cuStreamCreate,

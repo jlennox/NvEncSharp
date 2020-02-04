@@ -45,9 +45,10 @@ namespace Lennox.NvEncSharp
         /// </remarks>
         ///
         /// <param name="driverVersion">Returns the CUDA driver version</param>
-        /// \return
+        /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
         /// \notefnerr
         ///
         /// \sa

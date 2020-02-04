@@ -91,8 +91,8 @@ namespace Lennox.NvEncSharp
         /// object into the executable resources and using operating system calls such
         /// as Windows \c FindResource() to obtain the pointer. Options are passed as
         /// an array via <paramref name="options"/> and any corresponding parameters are passed in
-        /// <paramref name="optionValues."/> The number of total options is supplied via <paramref name="numOptions"/>.
-        /// Any outputs will be returned via <paramref name="optionValues."/></summary>
+        /// <paramref name="optionValues"/>. The number of total options is supplied via <paramref name="numOptions"/>.
+        /// Any outputs will be returned via <paramref name="optionValues"/>.</summary>
         ///
         /// <param name="module">Returned module</param>
         /// <param name="image">Module data to load</param>
@@ -194,8 +194,8 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns a function handle
         ///
-        /// Returns in <paramref name="*hfunc"/> the handle of the function of name <paramref name="name"/> located in
-        /// module <paramref name="hmod."/> If no function of that name exists, ::cuModuleGetFunction()
+        /// Returns in *<paramref name="hfunc"/> the handle of the function of name <paramref name="name"/> located in
+        /// module <paramref name="hmod"/>. If no function of that name exists, ::cuModuleGetFunction()
         /// returns ::CUDA_ERROR_NOT_FOUND.</summary>
         ///
         /// <param name="hfunc">Returned function handle</param>
@@ -224,8 +224,8 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns a global pointer from a module
         ///
-        /// Returns in <paramref name="*dptr"/> and <paramref name="*bytes"/> the base pointer and size of the
-        /// global of name <paramref name="name"/> located in module <paramref name="hmod."/> If no variable of that name
+        /// Returns in *<paramref name="dptr"/> and *<paramref name="bytes"/> the base pointer and size of the
+        /// global of name <paramref name="name"/> located in module <paramref name="hmod"/>. If no variable of that name
         /// exists, ::cuModuleGetGlobal() returns ::CUDA_ERROR_NOT_FOUND. Both
         /// parameters <paramref name="dptr"/> and <paramref name="bytes"/> are optional. If one of them is
         /// NULL, it is ignored.</summary>
@@ -259,8 +259,8 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns a handle to a texture reference
         ///
-        /// Returns in <paramref name="*pTexRef"/> the handle of the texture reference of name <paramref name="name
-        ///"/> in the module <paramref name="hmod."/> If no texture reference of that name exists,
+        /// Returns in *<paramref name="pTexRef"/> the handle of the texture reference of name <paramref name="name"/>
+        /// in the module <paramref name="hmod"/>. If no texture reference of that name exists,
         /// ::cuModuleGetTexRef() returns ::CUDA_ERROR_NOT_FOUND. This texture reference
         /// handle should not be destroyed, since it will be destroyed when the module
         /// is unloaded.</summary>
@@ -293,8 +293,8 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns a handle to a surface reference
         ///
-        /// Returns in <paramref name="*pSurfRef"/> the handle of the surface reference of name <paramref name="name
-        ///"/> in the module <paramref name="hmod."/> If no surface reference of that name exists,
+        /// Returns in *<paramref name="pSurfRef"/> the handle of the surface reference of name <paramref name="name"/>
+        /// in the module <paramref name="hmod"/>. If no surface reference of that name exists,
         /// ::cuModuleGetSurfRef() returns ::CUDA_ERROR_NOT_FOUND.</summary>
         ///
         /// <param name="pSurfRef">Returned surface reference</param>
@@ -443,8 +443,8 @@ namespace Lennox.NvEncSharp
         ///
         /// Completes the pending linker action and returns the cubin image for the linked
         /// device code, which can be used with ::cuModuleLoadData.  The cubin is owned by
-        /// <paramref name="state,"/> so it should be loaded before <paramref name="state"/> is destroyed via ::cuLinkDestroy.
-        /// This call does not destroy <paramref name="state."/></summary>
+        /// <paramref name="state"/>, so it should be loaded before <paramref name="state"/> is destroyed via ::cuLinkDestroy.
+        /// This call does not destroy <paramref name="state"/>.</summary>
         ///
         /// \param state    A pending linker invocation
         /// \param cubinOut On success, this will point to the output image

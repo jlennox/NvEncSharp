@@ -731,7 +731,7 @@ namespace Lennox.NvEncSharp
         /// Note that this function is deprecated and should not be used.
         ///
         /// Increments the usage count of the context and passes back a context handle
-        /// in <paramref name="*pctx"/> that must be passed to ::cuCtxDetach() when the application is
+        /// in *<paramref name="pctx"/> that must be passed to ::cuCtxDetach() when the application is
         /// done with the context. ::cuCtxAttach() fails if there is no context current
         /// to the thread.
         ///
@@ -772,7 +772,7 @@ namespace Lennox.NvEncSharp
         ///
         /// Note that this function is deprecated and should not be used.
         ///
-        /// Decrements the usage count of the context <paramref name="ctx,"/> and destroys the context
+        /// Decrements the usage count of the context <paramref name="ctx"/>, and destroys the context
         /// if the usage count goes to 0. The context must be a handle that was passed
         /// back by ::cuCtxCreate() or ::cuCtxAttach(), and must be current to the
         /// calling thread.</summary>

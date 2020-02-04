@@ -159,10 +159,10 @@ namespace Lennox.NvEncSharp
         /// ::CUDA_ERROR_TOO_MANY_PEERS
         /// </returns>
         ///
-        /// \note No guarantees are made about the address returned in <paramref name="*pdptr"/>.
-        /// In particular, multiple processes may not receive the same address for the same <paramref name="handle.
+        /// \note No guarantees are made about the address returned in *<paramref name="pdptr"/>.
+        /// In particular, multiple processes may not receive the same address for the same <paramref name="handle"/>.
         ///
-        ///"/> \sa
+        /// \sa
         /// ::cuMemAlloc,
         /// ::cuMemFree,
         /// ::cuIpcGetEventHandle,
@@ -188,8 +188,8 @@ namespace Lennox.NvEncSharp
         /// IPC functionality is restricted to devices with support for unified
         /// addressing on Linux operating systems.</summary>
         ///
-        /// <param name="dptr">Device pointer returned by ::cuIpcOpenMemHandle
-        /// </param>
+        /// <param name="dptr">Device pointer returned by ::cuIpcOpenMemHandle</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
