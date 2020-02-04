@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public unsafe class LibCuVideo
@@ -25,6 +27,7 @@ namespace Lennox.NvEncSharp
         /// <param name="infoPtr">A pointer to a `CuVideoParseDisplayInfo` object or `IntPtr.Zero` if
         /// the end of stream has been reached. Use `CuVideoParseDisplayInfo.IsFinalFrame` to get the
         /// actual structure.</param>
+        ///
         /// <returns></returns>
         /// <seealso cref="CuVideoParseDisplayInfo.IsFinalFrame(IntPtr, out CuVideoParseDisplayInfo)" />
         public delegate CuCallbackResult VideoDisplayCallback(IntPtr userData, IntPtr infoPtr);

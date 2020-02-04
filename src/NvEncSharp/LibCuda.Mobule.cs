@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public unsafe partial class LibCuda
@@ -17,6 +19,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="module">Returned module</param>
         /// <param name="fname">Filename of module to load</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -56,6 +59,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="module">Returned module</param>
         /// <param name="image">Module data to load</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -99,6 +103,7 @@ namespace Lennox.NvEncSharp
         /// <param name="numOptions">Number of options</param>
         /// <param name="options">Options for JIT</param>
         /// <param name="optionValues">Option values for JIT</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -140,6 +145,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="module">Returned module</param>
         /// <param name="fatCubin">Fat binary to load</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -172,6 +178,7 @@ namespace Lennox.NvEncSharp
         /// Unloads a module <paramref name="hmod"/> from the current context.</summary>
         ///
         /// <param name="hmod">Module to unload</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -201,6 +208,7 @@ namespace Lennox.NvEncSharp
         /// <param name="hfunc">Returned function handle</param>
         /// <param name="hmod">Module to retrieve function from</param>
         /// <param name="name">Name of function to retrieve</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -234,6 +242,7 @@ namespace Lennox.NvEncSharp
         /// <param name="bytes">Returned global size in bytes</param>
         /// <param name="hmod">Module to retrieve global from</param>
         /// <param name="name">Name of global to retrieve</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -268,6 +277,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pTexRef">Returned texture reference</param>
         /// <param name="hmod">Module to retrieve texture reference from</param>
         /// <param name="name">Name of texture reference to retrieve</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -300,6 +310,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pSurfRef">Returned surface reference</param>
         /// <param name="hmod">Module to retrieve surface reference from</param>
         /// <param name="name">Name of surface reference to retrieve</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -339,11 +350,11 @@ namespace Lennox.NvEncSharp
         /// options are used.  No other references to inputs are maintained after this
         /// call returns.</summary>
         ///
-        /// \param numOptions   Size of options arrays
-        /// \param options      Array of linker and compiler options
-        /// \param optionValues Array of option values, each cast to void *
-        /// \param stateOut     On success, this will contain a CUlinkState to specify
-        ///                     and complete this action
+        /// <param name="numOptions">Size of options arrays</param>
+        /// <param name="options">Array of linker and compiler options</param>
+        /// <param name="optionValues">Array of option values, each cast to void *</param>
+        /// <param name="stateOut">On success, this will contain a CUlinkState to specify
+        /// and complete this action</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -374,14 +385,14 @@ namespace Lennox.NvEncSharp
         /// ::CU_JIT_WALL_TIME, ::CU_JIT_INFO_LOG_BUFFER, ::CU_JIT_ERROR_LOG_BUFFER,
         /// ::CU_JIT_TARGET_FROM_CUCONTEXT, or ::CU_JIT_TARGET.</summary>
         ///
-        /// \param state        A pending linker action.
-        /// \param type         The type of the input data.
-        /// \param data         The input data.  PTX must be NULL-terminated.
-        /// \param size         The length of the input data.
-        /// \param name         An optional name for this input in log messages.
-        /// \param numOptions   Size of options.
-        /// \param options      Options to be applied only for this input (overrides options from ::cuLinkCreate).
-        /// \param optionValues Array of option values, each cast to void *.
+        /// <param name="state">A pending linker action.</param>
+        /// <param name="type">The type of the input data.</param>
+        /// <param name="data">The input data.  PTX must be NULL-terminated.</param>
+        /// <param name="size">The length of the input data.</param>
+        /// <param name="name">An optional name for this input in log messages.</param>
+        /// <param name="numOptions">Size of options.</param>
+        /// <param name="options">Options to be applied only for this input (overrides options from ::cuLinkCreate).</param>
+        /// <param name="optionValues">Array of option values, each cast to void *.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -413,12 +424,12 @@ namespace Lennox.NvEncSharp
         /// This method is equivalent to invoking ::cuLinkAddData on the contents
         /// of the file.</summary>
         ///
-        /// \param state        A pending linker action
-        /// \param type         The type of the input data
-        /// \param path         Path to the input file
-        /// \param numOptions   Size of options
-        /// \param options      Options to be applied only for this input (overrides options from ::cuLinkCreate)
-        /// \param optionValues Array of option values, each cast to void *
+        /// <param name="state">A pending linker action</param>
+        /// <param name="type">The type of the input data</param>
+        /// <param name="path">Path to the input file</param>
+        /// <param name="numOptions">Size of options</param>
+        /// <param name="options">Options to be applied only for this input (overrides options from ::cuLinkCreate)</param>
+        /// <param name="optionValues">Array of option values, each cast to void *</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -446,9 +457,9 @@ namespace Lennox.NvEncSharp
         /// <paramref name="state"/>, so it should be loaded before <paramref name="state"/> is destroyed via ::cuLinkDestroy.
         /// This call does not destroy <paramref name="state"/>.</summary>
         ///
-        /// \param state    A pending linker invocation
-        /// \param cubinOut On success, this will point to the output image
-        /// \param sizeOut  Optional parameter to receive the size of the generated image
+        /// <param name="state">A pending linker invocation</param>
+        /// <param name="cubinOut">On success, this will point to the output image</param>
+        /// <param name="sizeOut">Optional parameter to receive the size of the generated image</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -467,7 +478,7 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Destroys state for a JIT linker invocation.</summary>
         ///
-        /// \param state State object for the linker invocation
+        /// <param name="state">State object for the linker invocation</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,

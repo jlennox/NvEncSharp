@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static unsafe partial class LibCuda
     {
         /// <summary>Gets free and total memory
         ///
-        /// Returns in \p *free and \p *total respectively, the free and total amount of
+        /// Returns in *<paramref name="free"/> and *<paramref name="total"/> respectively, the free and total amount of
         /// memory available for allocation by the CUDA context, in bytes.</summary>
         ///
         /// <param name="free">Returned free memory in bytes</param>
         /// <param name="total">Returned total memory in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -39,12 +42,13 @@ namespace Lennox.NvEncSharp
         /// <summary>Allocates device memory
         ///
         /// Allocates <c>bytesize</c> bytes of linear memory on the device and returns in
-        /// \p *dptr a pointer to the allocated memory. The allocated memory is suitably
+        /// *<paramref name="dptr"/> a pointer to the allocated memory. The allocated memory is suitably
         /// aligned for any kind of variable. The memory is not cleared. If <c>bytesize</c>
         /// is 0, ::cuMemAlloc() returns ::CUDA_ERROR_INVALID_VALUE.</summary>
         ///
         /// <param name="dptr">Returned device pointer</param>
         /// <param name="bytesize">Requested allocation size in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -73,7 +77,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Allocates pitched device memory
         ///
         /// Allocates at least <c>WidthInBytes</c> * <c>Height</c> bytes of linear memory on
-        /// the device and returns in \p *dptr a pointer to the allocated memory. The
+        /// the device and returns in *<paramref name="dptr"/> a pointer to the allocated memory. The
         /// function may pad the allocation to ensure that corresponding pointers in
         /// any given row will continue to meet the alignment requirements for
         /// coalescing as the address is updated from row to row. <c>ElementSizeBytes</c>
@@ -82,7 +86,7 @@ namespace Lennox.NvEncSharp
         /// memory transactions are not possible on other data sizes). If
         /// <c>ElementSizeBytes</c> is smaller than the actual read/write size of a kernel,
         /// the kernel will run correctly, but possibly at reduced speed. The pitch
-        /// returned in \p *pPitch by ::cuMemAllocPitch() is the width in bytes of the
+        /// returned in *<paramref name="pitch"/> by ::cuMemAllocPitch() is the width in bytes of the
         /// allocation. The intended usage of pitch is as a separate parameter of the
         /// allocation, used to compute addresses within the 2D array. Given the row
         /// and column of an array element of type \b T, the address is computed as:
@@ -107,6 +111,7 @@ namespace Lennox.NvEncSharp
         /// <param name="widthInBytes">Requested allocation width in bytes</param>
         /// <param name="height">Requested allocation height in rows</param>
         /// <param name="elementSizeBytes">Size of largest reads/writes for range</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -138,6 +143,7 @@ namespace Lennox.NvEncSharp
         /// by a previous call to ::cuMemAlloc() or ::cuMemAllocPitch().</summary>
         ///
         /// <param name="dptr">Pointer to memory to free</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -181,6 +187,7 @@ namespace Lennox.NvEncSharp
         /// <param name="value">Pointer to memory containing the value to be set</param>
         /// <param name="attribute">Pointer attribute to set</param>
         /// <param name="ptr">Pointer to a memory region allocated using CUDA memory allocation APIs</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -229,6 +236,7 @@ namespace Lennox.NvEncSharp
         ///
         /// If <paramref name="ptr"/> was not allocated by, mapped by, or registered with a ::CUcontext which uses UVA
         /// (Unified Virtual Addressing), ::CUDA_ERROR_INVALID_CONTEXT is returned.</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -256,6 +264,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pbase">Returned base address</param>
         /// <param name="psize">Returned size of device memory allocation</param>
         /// <param name="dptr">Device pointer to query</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -302,6 +311,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="pp">Returned host pointer to page-locked memory</param>
         /// <param name="bytesize">Requested allocation size in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -333,6 +343,7 @@ namespace Lennox.NvEncSharp
         /// a previous call to ::cuMemAllocHost().</summary>
         ///
         /// <param name="p">Pointer to memory to free</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -414,6 +425,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pp">Returned host pointer to page-locked memory</param>
         /// <param name="bytesize">Requested allocation size in bytes</param>
         /// <param name="flags">Flags for allocation request</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -468,6 +480,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pdptr">Returned device pointer</param>
         /// <param name="p">Host pointer</param>
         /// <param name="flags">Options (must be 0)</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -502,6 +515,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="pFlags">Returned flags word</param>
         /// <param name="p">Host pointer</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -602,6 +616,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dptr">Returned device pointer</param>
         /// <param name="bytesize">Requested allocation size in bytes</param>
         /// <param name="flags">Must be one of ::CU_MEM_ATTACH_GLOBAL or ::CU_MEM_ATTACH_HOST</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -673,12 +688,12 @@ namespace Lennox.NvEncSharp
         /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_HOST_POINTER_FOR_REGISTERED_MEM, the memory
         /// can also be accessed from the device using the host pointer <paramref name="p"/>.
         /// The device pointer returned by ::cuMemHostGetDevicePointer() may or may not
-        /// match the original host pointer <paramref name="ptr"/> and depends on the devices visible to the
+        /// match the original host pointer <paramref name="p"/> and depends on the devices visible to the
         /// application. If all devices visible to the application have a non-zero value for the
         /// device attribute, the device pointer returned by ::cuMemHostGetDevicePointer()
-        /// will match the original pointer <paramref name="ptr"/>. If any device visible to the application
+        /// will match the original pointer <paramref name="p"/>. If any device visible to the application
         /// has a zero value for the device attribute, the device pointer returned by
-        /// ::cuMemHostGetDevicePointer() will not match the original host pointer <paramref name="ptr"/>,
+        /// ::cuMemHostGetDevicePointer() will not match the original host pointer <paramref name="p"/>,
         /// but it will be suitable for use on all devices provided Unified Virtual Addressing
         /// is enabled. In such systems, it is valid to access the memory using either pointer
         /// on devices that have a non-zero value for the device attribute. Note however that
@@ -690,6 +705,7 @@ namespace Lennox.NvEncSharp
         /// <param name="p">Host pointer to memory to page-lock</param>
         /// <param name="bytesize">Size in bytes of the address range to page-lock</param>
         /// <param name="Flags">Flags for allocation request</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -720,6 +736,7 @@ namespace Lennox.NvEncSharp
         /// The base address must be the same one specified to ::cuMemHostRegister().</summary>
         ///
         /// <param name="p">Host pointer to memory to unregister</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

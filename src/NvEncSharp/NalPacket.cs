@@ -49,6 +49,7 @@ namespace Lennox.NvEncSharp
         /// <param name="input">The bytes to search.</param>
         /// <param name="length">The length of the signature. \x00\x00\x01 for
         /// example sets this value to 3.</param>
+        ///
         /// <returns>The index that includes the NAL signature.
         /// -1 is returned if no signature is found.</returns>
         public static int IndexOfSignature(Span<byte> input, out int length)
@@ -94,12 +95,6 @@ namespace Lennox.NvEncSharp
         /// </summary>
         /// <param name="input">The bytes to search. The stream is updated to
         /// be the memory after the end of the packet.</param>
-        /// <param name="endOfStream">Set if there's no more data present in
-        /// input. This may indicate that the NAL packet is truncated if
-        /// there's more data available.</param>
-        /// <returns>The NAL packet. This may not be complete if
-        /// <paramref name="endOfStream"/> is set but there's more data in the
-        /// stream.</returns>
         public static NalPacket ReadNextPacket(ref Span<byte> input)
         {
             var startIndex = IndexOfSignature(input, out var startLength);

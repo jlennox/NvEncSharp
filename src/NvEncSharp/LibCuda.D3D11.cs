@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public unsafe partial class LibCuda
     {
         /// <summary>Gets the CUDA device corresponding to a display adapter.</summary>
         ///
-        /// Returns in \p *pCudaDevice the CUDA-compatible device corresponding to the
-        /// adapter \p pAdapter obtained from ::IDXGIFactory::EnumAdapters.
+        /// Returns in *<paramref name="cudaDevice"/> the CUDA-compatible device corresponding to the
+        /// adapter <paramref name="pAdapter"/> obtained from ::IDXGIFactory::EnumAdapters.
         ///
-        /// If no device on \p pAdapter is CUDA-compatible the call will return
+        /// If no device on <paramref name="pAdapter"/> is CUDA-compatible the call will return
         /// ::CUDA_ERROR_NO_DEVICE.
         ///
-        /// \param pCudaDevice - Returned CUDA device corresponding to \p pAdapter
-        /// \param pAdapter    - Adapter to query for CUDA device
+        /// <param name="cudaDevice">Returned CUDA device corresponding to <paramref name="pAdapter"/></param>
+        /// <param name="pAdapter">Adapter to query for CUDA device</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -35,26 +37,26 @@ namespace Lennox.NvEncSharp
         [DllImport(_dllpath, EntryPoint = "cuD3D11GetDevice")]
         public static extern CuResult D3D11GetDevice(out CuDevice cudaDevice, IntPtr pAdapter);
 
-        /// \brief Gets the CUDA devices corresponding to a Direct3D 11 device
+        /// <summary>Gets the CUDA devices corresponding to a Direct3D 11 device</summary>
         ///
-        /// Returns in \p *pCudaDeviceCount the number of CUDA-compatible device corresponding
-        /// to the Direct3D 11 device \p pD3D11Device.
-        /// Also returns in \p *pCudaDevices at most \p cudaDeviceCount of the CUDA-compatible devices
-        /// corresponding to the Direct3D 11 device \p pD3D11Device.
+        /// Returns in *<paramref name="cudaDeviceCount"/> the number of CUDA-compatible device corresponding
+        /// to the Direct3D 11 device <paramref name="pD3D11Device"/>.
+        /// Also returns in *<paramref name="cudaDevices"/> at most <paramref name="cudaDeviceCount"/> of the CUDA-compatible devices
+        /// corresponding to the Direct3D 11 device <paramref name="pD3D11Device"/>.
         ///
-        /// If any of the GPUs being used to render \p pDevice are not CUDA capable then the
+        /// If any of the GPUs being used to render <c>pDevice</c> are not CUDA capable then the
         /// call will return ::CUDA_ERROR_NO_DEVICE.
         ///
-        /// \param pCudaDeviceCount - Returned number of CUDA devices corresponding to \p pD3D11Device
-        /// \param pCudaDevices     - Returned CUDA devices corresponding to \p pD3D11Device
-        /// \param cudaDeviceCount  - The size of the output device array \p pCudaDevices
-        /// \param pD3D11Device     - Direct3D 11 device to query for CUDA devices
-        /// \param deviceList       - The set of devices to return.  This set may be
-        ///                           ::CU_D3D11_DEVICE_LIST_ALL for all devices,
-        ///                           ::CU_D3D11_DEVICE_LIST_CURRENT_FRAME for the devices used to
-        ///                           render the current frame (in SLI), or
-        ///                           ::CU_D3D11_DEVICE_LIST_NEXT_FRAME for the devices used to
-        ///                           render the next frame (in SLI).
+        /// <param name="returnedCudaDeviceCount">Returned number of CUDA devices corresponding to <paramref name="pD3D11Device"/></param>
+        /// <param name="cudaDevices">Returned CUDA devices corresponding to <paramref name="pD3D11Device"/></param>
+        /// <param name="cudaDeviceCount">The size of the output device array <paramref name="cudaDevices"/></param>
+        /// <param name="pD3D11Device">Direct3D 11 device to query for CUDA devices</param>
+        /// <param name="deviceList">The set of devices to return.  This set may be
+        /// ::CU_D3D11_DEVICE_LIST_ALL for all devices,
+        /// ::CU_D3D11_DEVICE_LIST_CURRENT_FRAME for the devices used to
+        /// render the current frame (in SLI), or
+        /// ::CU_D3D11_DEVICE_LIST_NEXT_FRAME for the devices used to
+        /// render the next frame (in SLI).</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -77,24 +79,24 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Register a Direct3D 11 resource for access by CUDA</summary>
         ///
-        /// Registers the Direct3D 11 resource \p pD3DResource for access by CUDA and
-        /// returns a CUDA handle to \p pD3Dresource in \p pCudaResource.
-        /// The handle returned in \p pCudaResource may be used to map and unmap this
+        /// Registers the Direct3D 11 resource <paramref name="pD3DResource"/> for access by CUDA and
+        /// returns a CUDA handle to <paramref name="pD3DResource"/> in <paramref name="cudaResource"/>.
+        /// The handle returned in <paramref name="cudaResource"/> may be used to map and unmap this
         /// resource until it is unregistered.
         /// On success this call will increase the internal reference count on
-        /// \p pD3DResource. This reference count will be decremented when this
+        /// <paramref name="pD3DResource"/>. This reference count will be decremented when this
         /// resource is unregistered through ::cuGraphicsUnregisterResource().
         ///
         /// This call is potentially high-overhead and should not be called every frame
         /// in interactive applications.
         ///
-        /// The type of \p pD3DResource must be one of the following.
+        /// The type of <paramref name="pD3DResource"/> must be one of the following.
         /// - ::ID3D11Buffer: may be accessed through a device pointer.
         /// - ::ID3D11Texture1D: individual subresources of the texture may be accessed via arrays
         /// - ::ID3D11Texture2D: individual subresources of the texture may be accessed via arrays
         /// - ::ID3D11Texture3D: individual subresources of the texture may be accessed via arrays
         ///
-        /// The \p Flags argument may be used to specify additional parameters at register
+        /// The <paramref name="flags"/> argument may be used to specify additional parameters at register
         /// time.  The valid values for this parameter are
         /// - ::CU_GRAPHICS_REGISTER_FLAGS_NONE: Specifies no hints about how this
         ///   resource will be used.
@@ -127,15 +129,15 @@ namespace Lennox.NvEncSharp
         /// - DXGI_FORMAT_R8G8_{SINT,SNORM,UINT,UNORM}
         /// - DXGI_FORMAT_R8_{SINT,SNORM,UINT,UNORM}
         ///
-        /// If \p pD3DResource is of incorrect type or is already registered then
+        /// If <paramref name="pD3DResource"/> is of incorrect type or is already registered then
         /// ::CUDA_ERROR_INVALID_HANDLE is returned.
-        /// If \p pD3DResource cannot be registered then ::CUDA_ERROR_UNKNOWN is returned.
-        /// If \p Flags is not one of the above specified value then ::CUDA_ERROR_INVALID_VALUE
+        /// If <paramref name="pD3DResource"/> cannot be registered then ::CUDA_ERROR_UNKNOWN is returned.
+        /// If <paramref name="flags"/> is not one of the above specified value then ::CUDA_ERROR_INVALID_VALUE
         /// is returned.
         ///
-        /// \param pCudaResource - Returned graphics resource handle
-        /// \param pD3DResource  - Direct3D resource to register
-        /// \param Flags         - Parameters for resource registration
+        /// <param name="cudaResource">Returned graphics resource handle</param>
+        /// <param name="pD3DResource">Direct3D resource to register</param>
+        /// <param name="flags">Parameters for resource registration</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,

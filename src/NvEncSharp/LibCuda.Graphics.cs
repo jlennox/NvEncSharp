@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public unsafe partial class LibCuda
     {
         /// <summary>Unregisters a graphics resource for access by CUDA
         ///
-        /// Unregisters the graphics resource \p resource so it is not accessible by
+        /// Unregisters the graphics resource <paramref name="resource"/> so it is not accessible by
         /// CUDA unless registered again.
         ///
-        /// If \p resource is invalid then ::CUDA_ERROR_INVALID_HANDLE is
+        /// If <paramref name="resource"/> is invalid then ::CUDA_ERROR_INVALID_HANDLE is
         /// returned.</summary>
         ///
         /// <param name="resource">Resource to unregister</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -37,25 +40,26 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Get an array through which to access a subresource of a mapped graphics resource.
         ///
-        /// Returns in \p *pArray an array through which the subresource of the mapped
-        /// graphics resource \p resource which corresponds to array index \p arrayIndex
-        /// and mipmap level \p mipLevel may be accessed.  The value set in \p *pArray may
-        /// change every time that \p resource is mapped.
+        /// Returns in *<paramref name="pArray"/> an array through which the subresource of the mapped
+        /// graphics resource <paramref name="resource"/> which corresponds to array index <paramref name="arrayIndex"/>
+        /// and mipmap level <paramref name="mipLevel"/> may be accessed.  The value set in *<paramref name="pArray"/> may
+        /// change every time that <paramref name="resource"/> is mapped.
         ///
-        /// If \p resource is not a texture then it cannot be accessed via an array and
+        /// If <paramref name="resource"/> is not a texture then it cannot be accessed via an array and
         /// ::CUDA_ERROR_NOT_MAPPED_AS_ARRAY is returned.
-        /// If \p arrayIndex is not a valid array index for \p resource then
+        /// If <paramref name="arrayIndex"/> is not a valid array index for <paramref name="resource"/> then
         /// ::CUDA_ERROR_INVALID_VALUE is returned.
-        /// If \p mipLevel is not a valid mipmap level for \p resource then
+        /// If <paramref name="mipLevel"/> is not a valid mipmap level for <paramref name="resource"/> then
         /// ::CUDA_ERROR_INVALID_VALUE is returned.
-        /// If \p resource is not mapped then ::CUDA_ERROR_NOT_MAPPED is returned.</summary>
+        /// If <paramref name="resource"/> is not mapped then ::CUDA_ERROR_NOT_MAPPED is returned.</summary>
         ///
-        /// <param name="pArray">Returned array through which a subresource of \p resource may be accessed</param>
+        /// <param name="pArray">Returned array through which a subresource of <paramref name="resource"/> may be accessed</param>
         /// <param name="resource">Mapped resource to access</param>
         /// <param name="arrayIndex">Array index for array textures or cubemap face
-        ///                      index as defined by ::CUarray_cubemap_face for
-        ///                      cubemap textures for the subresource to access</param>
+        /// index as defined by ::CUarray_cubemap_face for
+        /// cubemap textures for the subresource to access</param>
         /// <param name="mipLevel">Mipmap level for the subresource to access</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -77,16 +81,17 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Get a mipmapped array through which to access a mapped graphics resource.
         ///
-        /// Returns in \p *pMipmappedArray a mipmapped array through which the mapped graphics
-        /// resource \p resource. The value set in \p *pMipmappedArray may change every time
-        /// that \p resource is mapped.
+        /// Returns in *<paramref name="pMipmappedArray"/> a mipmapped array through which the mapped graphics
+        /// resource <paramref name="resource"/>. The value set in *<paramref name="pMipmappedArray"/> may change every time
+        /// that <paramref name="resource"/> is mapped.
         ///
-        /// If \p resource is not a texture then it cannot be accessed via a mipmapped array and
+        /// If <paramref name="resource"/> is not a texture then it cannot be accessed via a mipmapped array and
         /// ::CUDA_ERROR_NOT_MAPPED_AS_ARRAY is returned.
-        /// If \p resource is not mapped then ::CUDA_ERROR_NOT_MAPPED is returned.</summary>
+        /// If <paramref name="resource"/> is not mapped then ::CUDA_ERROR_NOT_MAPPED is returned.</summary>
         ///
-        /// <param name="pMipmappedArray">Returned mipmapped array through which \p resource may be accessed</param>
+        /// <param name="pMipmappedArray">Returned mipmapped array through which <paramref name="resource"/> may be accessed</param>
         /// <param name="resource">Mapped resource to access</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -108,19 +113,20 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Get a device pointer through which to access a mapped graphics resource.
         ///
-        /// Returns in \p *pDevPtr a pointer through which the mapped graphics resource
-        /// \p resource may be accessed.
-        /// Returns in \p pSize the size of the memory in bytes which may be accessed from that pointer.
-        /// The value set in \p pPointer may change every time that \p resource is mapped.
+        /// Returns in *<paramref name="pDevPtr"/> a pointer through which the mapped graphics resource
+        /// <paramref name="resource"/> may be accessed.
+        /// Returns in <paramref name="pSize"/> the size of the memory in bytes which may be accessed from that pointer.
+        /// The value set in <c>pPointer</c> may change every time that <paramref name="resource"/> is mapped.
         ///
-        /// If \p resource is not a buffer then it cannot be accessed via a pointer and
+        /// If <paramref name="resource"/> is not a buffer then it cannot be accessed via a pointer and
         /// ::CUDA_ERROR_NOT_MAPPED_AS_POINTER is returned.
-        /// If \p resource is not mapped then ::CUDA_ERROR_NOT_MAPPED is returned.
-        /// *
-        /// </summary>
-        /// <param name="pDevPtr">Returned pointer through which \p resource may be accessed</param>
-        /// <param name="pSize">Returned size of the buffer accessible starting at \p *pPointer</param>
+        /// If <paramref name="resource"/> is not mapped then ::CUDA_ERROR_NOT_MAPPED is returned.
+        /// *</summary>
+        ///
+        /// <param name="pDevPtr">Returned pointer through which <paramref name="resource"/> may be accessed</param>
+        /// <param name="pSize">Returned size of the buffer accessible starting at *<c>pPointer</c></param>
         /// <param name="resource">Mapped resource to access</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -165,6 +171,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="resource">Registered resource to set flags for</param>
         /// <param name="flags">Parameters for resource mapping</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -185,23 +192,24 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Map graphics resources for access by CUDA
         ///
-        /// Maps the \p count graphics resources in \p resources for access by CUDA.
+        /// Maps the <paramref name="count"/> graphics resources in <paramref name="resources"/> for access by CUDA.
         ///
-        /// The resources in \p resources may be accessed by CUDA until they
-        /// are unmapped. The graphics API from which \p resources were registered
+        /// The resources in <paramref name="resources"/> may be accessed by CUDA until they
+        /// are unmapped. The graphics API from which <paramref name="resources"/> were registered
         /// should not access any resources while they are mapped by CUDA. If an
         /// application does so, the results are undefined.
         ///
         /// This function provides the synchronization guarantee that any graphics calls
         /// issued before ::cuGraphicsMapResources() will complete before any subsequent CUDA
-        /// work issued in \p stream begins.
+        /// work issued in <paramref name="hStream"/> begins.
         ///
-        /// If \p resources includes any duplicate entries then ::CUDA_ERROR_INVALID_HANDLE is returned.
-        /// If any of \p resources are presently mapped for access by CUDA then ::CUDA_ERROR_ALREADY_MAPPED is returned.</summary>
+        /// If <paramref name="resources"/> includes any duplicate entries then ::CUDA_ERROR_INVALID_HANDLE is returned.
+        /// If any of <paramref name="resources"/> are presently mapped for access by CUDA then ::CUDA_ERROR_ALREADY_MAPPED is returned.</summary>
         ///
         /// <param name="count">Number of resources to map</param>
         /// <param name="resources">Resources to map for CUDA usage</param>
         /// <param name="hStream">Stream with which to synchronize</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -225,22 +233,22 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Unmap graphics resources.
         ///
-        /// Unmaps the \p count graphics resources in \p resources.
+        /// Unmaps the <paramref name="count"/> graphics resources in <paramref name="resources"/>.
         ///
-        /// Once unmapped, the resources in \p resources may not be accessed by CUDA
+        /// Once unmapped, the resources in <paramref name="resources"/> may not be accessed by CUDA
         /// until they are mapped again.
         ///
         /// This function provides the synchronization guarantee that any CUDA work issued
-        /// in \p stream before ::cuGraphicsUnmapResources() will complete before any
+        /// in <paramref name="hStream"/> before ::cuGraphicsUnmapResources() will complete before any
         /// subsequently issued graphics work begins.
         ///
-        ///
-        /// If \p resources includes any duplicate entries then ::CUDA_ERROR_INVALID_HANDLE is returned.
-        /// If any of \p resources are not presently mapped for access by CUDA then ::CUDA_ERROR_NOT_MAPPED is returned.</summary>
+        /// If <paramref name="resources"/> includes any duplicate entries then ::CUDA_ERROR_INVALID_HANDLE is returned.
+        /// If any of <paramref name="resources"/> are not presently mapped for access by CUDA then ::CUDA_ERROR_NOT_MAPPED is returned.</summary>
         ///
         /// <param name="count">Number of resources to unmap</param>
         /// <param name="resources">Resources to unmap</param>
         /// <param name="hStream">Stream with which to synchronize</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

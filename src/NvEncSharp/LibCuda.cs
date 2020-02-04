@@ -39,12 +39,13 @@ namespace Lennox.NvEncSharp
         /// <summary>Returns the CUDA driver version</summary>
         ///
         /// <remarks>
-        /// Returns in \p *driverVersion the version number of the installed CUDA
+        /// Returns in *<paramref name="driverVersion"/> the version number of the installed CUDA
         /// driver. This function automatically returns ::CUDA_ERROR_INVALID_VALUE if
         /// the <c>driverVersion</c> argument is NULL.
         /// </remarks>
         ///
         /// <param name="driverVersion">Returns the CUDA driver version</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_VALUE
@@ -68,10 +69,10 @@ namespace Lennox.NvEncSharp
         /// <summary>Gets the string description of an error code</summary>
         ///
         /// <remarks>
-        /// Sets \p *pStr to the address of a NULL-terminated string description
+        /// Sets *<paramref name="str"/> to the address of a NULL-terminated string description
         /// of the error code <c>error</c>.
         /// If the error code is not recognized, ::CUDA_ERROR_INVALID_VALUE
-        /// will be returned and \p *pStr will be set to the NULL address.
+        /// will be returned and *<paramref name="str"/> will be set to the NULL address.
         /// </remarks>
         ///
         /// <param name="error">Error code to convert to string</param>
@@ -100,10 +101,10 @@ namespace Lennox.NvEncSharp
         /// <summary>Gets the string representation of an error code enum name</summary>
         ///
         /// <remarks>
-        /// Sets \p *pStr to the address of a NULL-terminated string representation
+        /// Sets *<paramref name="str"/> to the address of a NULL-terminated string representation
         /// of the name of the enum error code <c>error</c>.
         /// If the error code is not recognized, ::CUDA_ERROR_INVALID_VALUE
-        /// will be returned and \p *pStr will be set to the NULL address.
+        /// will be returned and *<paramref name="str"/> will be set to the NULL address.
         /// </remarks>
         ///
         /// <param name="error">Error code to convert to string</param>

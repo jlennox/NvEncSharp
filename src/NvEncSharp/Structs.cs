@@ -470,7 +470,7 @@ namespace Lennox.NvEncSharp
             set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
         }
         /// <summary>reservedBitField1: [in]: Reserved bitfields and must be set to 0.</summary>
-        /// <summary>enableLookahead: [in]: Set this to 1 to enable lookahead with depth <lookaheadDepth> (if lookahead is enabled, input frames must remain available to the encoder until encode completion)</summary>
+        /// <summary>enableLookahead: [in]: Set this to 1 to enable lookahead with depth `lookaheadDepth` (if lookahead is enabled, input frames must remain available to the encoder until encode completion)</summary>
         public bool EnableLookahead {
             get => (BitField1[0] & 32) != 0;
             set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
@@ -1605,7 +1605,6 @@ namespace Lennox.NvEncSharp
             get => (BitField1[0] & 2) != 0;
             set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
         }
-        /// <summary>reserved</summary>
     }
 
     /// <summary>NV_ENC_PRESET_CONFIG
@@ -1802,7 +1801,7 @@ namespace Lennox.NvEncSharp
         /// <summary>forceIntraSliceCount: [in]: Specfies the number of slices to be forced to Intra in the current picture.
         /// This option along with forceIntraSliceIdx[] array needs to be used with sliceMode = 3 only</summary>
         public uint ForceIntraSliceCount;
-        /// <summary>*forceIntraSliceIdx: [in]: Slice indices to be forced to intra in the current picture. Each slice index should be <= num_slices_in_picture -1. Index starts from 0 for first slice.
+        /// <summary>*forceIntraSliceIdx: [in]: Slice indices to be forced to intra in the current picture. Each slice index should be &lt;= num_slices_in_picture -1. Index starts from 0 for first slice.
         /// The number of entries in this array should be equal to forceIntraSliceCount</summary>
         public uint *forceIntraSliceIdx;
         /// <summary>h264ExtPicParams: [in]: Specifies the H264 extension config parameters using this config.</summary>

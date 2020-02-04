@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static partial class LibCuda
@@ -48,6 +50,7 @@ namespace Lennox.NvEncSharp
         /// local memory allocations when launching many kernels with high local
         /// memory usage at the cost of potentially increased memory usage.</summary>
         ///
+        /// <param name="pctx"></param>
         /// <param name="dev">Device for which the primary context flags are set</param>
         /// <param name="flags">New flags for the device</param>
         ///
@@ -147,7 +150,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Pops the current CUDA context from the current CPU thread.
         ///
         /// Pops the current CUDA context from the CPU thread and passes back the
-        /// old context handle in \p *pctx. That context may then be made current
+        /// old context handle in *<paramref name="pctx"/>. That context may then be made current
         /// to a different CPU thread by calling ::cuCtxPushCurrent().
         ///
         /// If a context was current to the CPU thread before ::cuCtxCreate() or
@@ -212,8 +215,8 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns the CUDA context bound to the calling CPU thread.
         ///
-        /// Returns in \p *pctx the CUDA context bound to the calling CPU thread.
-        /// If no context is bound to the calling CPU thread then \p *pctx is
+        /// Returns in *<paramref name="pctx"/> the CUDA context bound to the calling CPU thread.
+        /// If no context is bound to the calling CPU thread then *<paramref name="pctx"/> is
         /// set to NULL and ::CUDA_SUCCESS is returned.</summary>
         ///
         /// <param name="pctx">Returned context handle</param>
@@ -236,7 +239,7 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Set resource limits
         ///
-        /// Setting \p limit to \p value is a request by the application to update
+        /// Setting <paramref name="limit"/> to <paramref name="value"/> is a request by the application to update
         /// the current limit maintained by the context. The driver is free to
         /// modify the requested value to meet h/w requirements (this could be
         /// clamping to minimum or maximum values, rounding up to nearest element
@@ -322,7 +325,7 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns resource limits
         ///
-        /// Returns in \p *pvalue the current size of \p limit.  The supported
+        /// Returns in *<paramref name="pvalue"/> the current size of <paramref name="limit"/>.  The supported
         /// ::CUlimit values are:
         /// - ::CU_LIMIT_STACK_SIZE: stack size in bytes of each GPU thread.
         /// - ::CU_LIMIT_PRINTF_FIFO_SIZE: size in bytes of the FIFO used by the
@@ -364,12 +367,12 @@ namespace Lennox.NvEncSharp
         /// <summary>Returns the preferred cache configuration for the current context.
         ///
         /// On devices where the L1 cache and shared memory use the same hardware
-        /// resources, this function returns through \p pconfig the preferred cache configuration
+        /// resources, this function returns through <paramref name="pconfig"/> the preferred cache configuration
         /// for the current context. This is only a preference. The driver will use
         /// the requested configuration if possible, but it is free to choose a different
         /// configuration if required to execute functions.
         ///
-        /// This will return a \p pconfig of ::CU_FUNC_CACHE_PREFER_NONE on devices
+        /// This will return a <paramref name="pconfig"/> of ::CU_FUNC_CACHE_PREFER_NONE on devices
         /// where the size of the L1 cache and shared memory are fixed.
         ///
         /// The supported cache configurations are:
@@ -409,7 +412,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Sets the preferred cache configuration for the current context.
         ///
         /// On devices where the L1 cache and shared memory use the same hardware
-        /// resources, this sets through \p config the preferred cache configuration for
+        /// resources, this sets through <paramref name="config"/> the preferred cache configuration for
         /// the current context. This is only a preference. The driver will use
         /// the requested configuration if possible, but it is free to choose a different
         /// configuration if required to execute the function. Any function preference
@@ -460,7 +463,7 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns the current shared memory configuration for the current context.
         ///
-        /// This function will return in \p pConfig the current size of shared memory banks
+        /// This function will return in <paramref name="pConfig"/> the current size of shared memory banks
         /// in the current context. On devices with configurable shared memory banks,
         /// ::cuCtxSetSharedMemConfig can be used to change this setting, so that all
         /// subsequent kernel launches will by default use the new bank size. When
@@ -558,9 +561,9 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Gets the context's API version.
         ///
-        /// Returns a version number in \p version corresponding to the capabilities of
+        /// Returns a version number in <paramref name="version"/> corresponding to the capabilities of
         /// the context (e.g. 3010 or 3020), which library developers can use to direct
-        /// callers to a specific API version. If \p ctx is NULL, returns the API version
+        /// callers to a specific API version. If <paramref name="ctx"/> is NULL, returns the API version
         /// used to create the currently bound context.
         ///
         /// Note that new API versions are only introduced when context capabilities are
@@ -597,19 +600,19 @@ namespace Lennox.NvEncSharp
         /// <summary>Returns numerical values that correspond to the least and
         /// greatest stream priorities.
         ///
-        /// Returns in \p *leastPriority and \p *greatestPriority the numerical values that correspond
+        /// Returns in *<paramref name="leastPriority"/> and *<paramref name="greatestPriority"/> the numerical values that correspond
         /// to the least and greatest stream priorities respectively. Stream priorities
         /// follow a convention where lower numbers imply greater priorities. The range of
-        /// meaningful stream priorities is given by [\p *greatestPriority, \p *leastPriority].
+        /// meaningful stream priorities is given by [*<paramref name="greatestPriority"/>, *<paramref name="leastPriority"/>].
         /// If the user attempts to create a stream with a priority value that is
         /// outside the meaningful range as specified by this API, the priority is
-        /// automatically clamped down or up to either \p *leastPriority or \p *greatestPriority
+        /// automatically clamped down or up to either *<paramref name="leastPriority"/> or *<paramref name="greatestPriority"/>
         /// respectively. See ::cuStreamCreateWithPriority for details on creating a
         /// priority stream.
-        /// A NULL may be passed in for \p *leastPriority or \p *greatestPriority if the value
+        /// A NULL may be passed in for *<paramref name="leastPriority"/> or *<paramref name="greatestPriority"/> if the value
         /// is not desired.
         ///
-        /// This function will return '0' in both \p *leastPriority and \p *greatestPriority if
+        /// This function will return '0' in both *<paramref name="leastPriority"/> and *<paramref name="greatestPriority"/> if
         /// the current context's device does not support stream priorities
         /// (see ::cuDeviceGetAttribute).</summary>
         ///
@@ -637,9 +640,10 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns the device ID for the current context
         ///
-        /// Returns in \p *device the ordinal of the current context's device.</summary>
+        /// Returns in *<paramref name="device"/> the ordinal of the current context's device.</summary>
         ///
         /// <param name="device">Returned device ID for the current context</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -667,10 +671,11 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns the flags for the current context
         ///
-        /// Returns in \p *flags the flags of the current context. See ::cuCtxCreate
+        /// Returns in *<paramref name="flags"/> the flags of the current context. See ::cuCtxCreate
         /// for flag values.</summary>
         ///
         /// <param name="flags">Pointer to store flags of current context</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -739,6 +744,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="pctx">Returned context handle of the current context</param>
         /// <param name="flags">Context attach flags (must be 0)</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -778,6 +784,7 @@ namespace Lennox.NvEncSharp
         /// calling thread.</summary>
         ///
         /// <param name="ctx">Context to destroy</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static partial class LibCuda
@@ -17,6 +19,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dst">Destination unified virtual address space pointer</param>
         /// <param name="src">Source unified virtual address space pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -57,6 +60,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="srcContext">Source context</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -83,6 +87,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -118,6 +123,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstHost">Destination host pointer</param>
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -153,6 +159,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -191,6 +198,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstOffset">Offset in bytes of destination array</param>
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -229,6 +237,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -265,6 +274,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstOffset">Offset in bytes of destination array</param>
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -301,6 +311,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -341,6 +352,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -473,6 +485,7 @@ namespace Lennox.NvEncSharp
         /// an error code.</para></summary>
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -608,6 +621,7 @@ namespace Lennox.NvEncSharp
         /// an error code.</para></summary>
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -745,6 +759,7 @@ namespace Lennox.NvEncSharp
         /// set to 0.</para></summary>
         ///
         /// <param name="pCopy">Parameters for the memory copy</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -809,6 +824,7 @@ namespace Lennox.NvEncSharp
         /// <param name="src">Source unified virtual address space pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -853,6 +869,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcContext">Source context</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -881,6 +898,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -920,6 +938,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -959,6 +978,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcDevice">Source device pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -1001,6 +1021,7 @@ namespace Lennox.NvEncSharp
         /// <param name="srcHost">Source host pointer</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -1034,13 +1055,14 @@ namespace Lennox.NvEncSharp
         /// Copies from one 1D CUDA array to host memory. <c>dstHost</c> specifies the base
         /// pointer of the destination. <c>srcArray</c> and <c>srcOffset</c> specify the CUDA
         /// array handle and starting offset in bytes of the source data.
-        /// <c>ByteCount</c> specifies the number of bytes to copy.</summary>
+        /// <c>byteCount</c> specifies the number of bytes to copy.</summary>
         ///
         /// <param name="dstHost">Destination pointer</param>
         /// <param name="srcArray">Source array</param>
         /// <param name="srcOffset">Offset in bytes of source array</param>
         /// <param name="byteCount">Size of memory copy in bytes</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

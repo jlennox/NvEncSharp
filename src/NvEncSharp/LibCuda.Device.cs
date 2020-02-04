@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static unsafe partial class LibCuda
@@ -190,6 +192,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pi">Returned device attribute value</param>
         /// <param name="attrib">Device attribute to query</param>
         /// <param name="device">Device handle</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -262,6 +265,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="pctx">Returned context handle of the new context</param>
         /// <param name="dev">Device for which primary context is requested</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -301,6 +305,7 @@ namespace Lennox.NvEncSharp
         /// from stack in any circumstances.</summary>
         ///
         /// <param name="dev">Device which primary context is released</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -370,6 +375,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="dev">Device for which the primary context flags are set</param>
         /// <param name="flags">New flags for the device</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -398,6 +404,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dev">Device to get primary context flags for</param>
         /// <param name="flags">Pointer to store flags</param>
         /// <param name="active">Pointer to store context state; 0 = inactive, 1 = active</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -427,6 +434,7 @@ namespace Lennox.NvEncSharp
         /// even after resetting the device.</summary>
         ///
         /// <param name="dev">Device for which primary context is destroyed</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -455,14 +463,15 @@ namespace Lennox.NvEncSharp
 
         /// <summary>Returns a handle to a compute device
         ///
-        /// Returns in *<paramref name="device"/> a device handle given a PCI bus ID string.</summary>
+        /// Returns in *<paramref name="dev"/> a device handle given a PCI bus ID string.</summary>
         ///
         /// <param name="dev">Returned device handle</param>
         /// <param name="pciBusId">String in one of the following forms:
         /// [domain]:[bus]:[device].[function]
         /// [domain]:[bus]:[device]
         /// [bus]:[device].[function]
-        /// where <paramref name="domain"/>, <paramref name="bus"/>, <paramref name="device"/>, and <paramref name="function"/> are all hexadecimal values</param>
+        /// where <c>domain</c>, <c>bus</c>, <c>device</c>, and <c>function</c> are all hexadecimal values</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -489,10 +498,11 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="pciBusId">Returned identifier string for the device in the following format
         /// [domain]:[bus]:[device].[function]
-        /// where <paramref name="domain"/>, <paramref name="bus"/>, <paramref name="device"/>, and <paramref name="function"/> are all hexadecimal values.
+        /// where <c>domain</c>, <c>bus</c>, <c>device</c>, and <c>function</c> are all hexadecimal values.
         /// pciBusId should be large enough to store 13 characters including the NULL-terminator.</param>
-        /// <param name="len">Maximum length of string to store in <paramref name="name"/></param>
+        /// <param name="len">Maximum length of string to store in <paramref name="pciBusId"/></param>
         /// <param name="dev">Device to get identifier string for</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

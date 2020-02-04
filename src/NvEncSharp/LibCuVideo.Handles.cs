@@ -152,7 +152,7 @@ namespace Lennox.NvEncSharp
             CheckResult(result);
         }
 
-        /// <inheritdoc cref="LibCuVideo.MapVideoFrame64(CuVideoDecoder, int, out CuDevicePtr, out uint, ref CuVideoProcParams)"/>
+        /// <inheritdoc cref="LibCuVideo.MapVideoFrame64(CuVideoDecoder, int, out CuDevicePtr, out int, ref CuVideoProcParams)"/>
         public CuVideoFrame MapVideoFrame(
             int picIndex, ref CuVideoProcParams param,
             out int pitch)

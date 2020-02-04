@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static partial class LibCuda
@@ -23,6 +25,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="phStream">Returned newly created stream</param>
         /// <param name="flags">Parameters for stream creation</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -61,10 +64,11 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="phStream">Returned newly created stream</param>
         /// <param name="flags">Flags for stream creation. See ::cuStreamCreate for a list of
-        ///                      valid flags</param>
+        /// valid flags</param>
         /// <param name="priority">Stream priority. Lower numbers represent higher priorities.
-        ///                      See ::cuCtxGetStreamPriorityRange for more information about
-        ///                      meaningful stream priorities that can be passed.</param>
+        /// See ::cuCtxGetStreamPriorityRange for more information about
+        /// meaningful stream priorities that can be passed.</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -106,6 +110,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="hStream">Handle to the stream to be queried</param>
         /// <param name="priority">Pointer to a signed integer in which the stream's priority is returned</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -134,9 +139,10 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="hStream">Handle to the stream to be queried</param>
         /// <param name="flags">Pointer to an unsigned integer in which the stream's flags are returned
-        ///                     The value returned in <c>flags</c> is a logical 'OR' of all flags that
-        ///                     were used while creating this stream. See ::cuStreamCreate for the list
-        ///                     of valid flags</param>
+        /// The value returned in <c>flags</c> is a logical 'OR' of all flags that
+        /// were used while creating this stream. See ::cuStreamCreate for the list
+        /// of valid flags</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -176,6 +182,7 @@ namespace Lennox.NvEncSharp
         /// <param name="hStream">Stream to wait</param>
         /// <param name="hEvent">Event to wait on (may not be NULL)</param>
         /// <param name="flags">Parameters for the operation (must be 0)</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -241,6 +248,7 @@ namespace Lennox.NvEncSharp
         /// <param name="callback">The function to call once preceding stream operations are complete</param>
         /// <param name="userData">User specified data to be passed to the callback function</param>
         /// <param name="flags">Reserved for future use, must be 0</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -320,6 +328,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dptr">Pointer to memory (must be a pointer to managed memory)</param>
         /// <param name="length">Length of memory (must be zero)</param>
         /// <param name="flags">Must be one of ::CUmemAttach_flags</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -351,6 +360,7 @@ namespace Lennox.NvEncSharp
         /// is equivalent to having called ::cuStreamSynchronize().</summary>
         ///
         /// <param name="hStream">Stream to query status of</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -380,6 +390,7 @@ namespace Lennox.NvEncSharp
         /// stream is finished with all of its tasks.</summary>
         ///
         /// <param name="hStream">Stream to wait for</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -410,6 +421,7 @@ namespace Lennox.NvEncSharp
         /// once the device has completed all work in <c>hStream</c>.</summary>
         ///
         /// <param name="hStream">Stream to destroy</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

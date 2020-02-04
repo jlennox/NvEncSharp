@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static unsafe partial class LibCuda
@@ -23,6 +25,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="phEvent">Returns newly created event</param>
         /// <param name="flags">Event creation flags</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -60,6 +63,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="hEvent">Event to record</param>
         /// <param name="hStream">Stream to record event for</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -97,6 +101,7 @@ namespace Lennox.NvEncSharp
         /// is equivalent to having called ::cuEventSynchronize().</summary>
         ///
         /// <param name="hEvent">Event to query</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -133,6 +138,7 @@ namespace Lennox.NvEncSharp
         /// been completed by the device.</summary>
         ///
         /// <param name="hEvent">Event to wait for</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -162,6 +168,7 @@ namespace Lennox.NvEncSharp
         /// the device has completed <paramref name="hEvent"/>.</summary>
         ///
         /// <param name="hEvent">Event to destroy</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -205,6 +212,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pMilliseconds">Time between <paramref name="hStart"/> and <paramref name="hEnd"/> in ms</param>
         /// <param name="hStart">Starting event</param>
         /// <param name="hEnd">Ending event</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -241,10 +249,10 @@ namespace Lennox.NvEncSharp
         /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_STREAM_MEM_OPS. The only requirement for basic
         /// support is that on Windows, a device must be in TCC mode.</summary>
         ///
-        /// \param stream The stream to synchronize on the memory location.
-        /// \param addr The memory location to wait on.
-        /// \param value The value to compare with the memory location.
-        /// \param flags See ::CUstreamWaitValue_flags.
+        /// <param name="stream">The stream to synchronize on the memory location.</param>
+        /// <param name="addr">The memory location to wait on.</param>
+        /// <param name="value">The value to compare with the memory location.</param>
+        /// <param name="flags">See ::CUstreamWaitValue_flags.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -279,16 +287,17 @@ namespace Lennox.NvEncSharp
         /// compute capability 7.0 or greater, and on Windows, that the device be in
         /// TCC mode.</summary>
         ///
-        /// \param stream The stream to synchronize on the memory location.
-        /// \param addr The memory location to wait on.
-        /// \param value The value to compare with the memory location.
-        /// \param flags See ::CUstreamWaitValue_flags.
+        /// <param name="stream">The stream to synchronize on the memory location.</param>
+        /// <param name="addr">The memory location to wait on.</param>
+        /// <param name="value">The value to compare with the memory location.</param>
+        /// <param name="flags">See ::CUstreamWaitValue_flags.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_VALUE,
         /// ::CUDA_ERROR_NOT_SUPPORTED
         /// </returns>
+        ///
         /// \notefnerr
         ///
         /// \sa ::cuStreamWaitValue32,
@@ -316,10 +325,10 @@ namespace Lennox.NvEncSharp
         /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_STREAM_MEM_OPS. The only requirement for basic
         /// support is that on Windows, a device must be in TCC mode.</summary>
         ///
-        /// \param stream The stream to do the write in.
-        /// \param addr The device address to write to.
-        /// \param value The value to write.
-        /// \param flags See ::CUstreamWriteValue_flags.
+        /// <param name="stream">The stream to do the write in.</param>
+        /// <param name="addr">The device address to write to.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="flags">See ::CUstreamWriteValue_flags.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -353,10 +362,10 @@ namespace Lennox.NvEncSharp
         /// compute capability 7.0 or greater, and on Windows, that the device be in
         /// TCC mode.</summary>
         ///
-        /// \param stream The stream to do the write in.
-        /// \param addr The device address to write to.
-        /// \param value The value to write.
-        /// \param flags See ::CUstreamWriteValue_flags.
+        /// <param name="stream">The stream to do the write in.</param>
+        /// <param name="addr">The device address to write to.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="flags">See ::CUstreamWriteValue_flags.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -390,10 +399,10 @@ namespace Lennox.NvEncSharp
         /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_STREAM_MEM_OPS. See related APIs for details
         /// on querying support for specific operations.</summary>
         ///
-        /// \param stream The stream to enqueue the operations in.
-        /// \param count The number of operations in the array. Must be less than 256.
-        /// \param paramArray The types and parameters of the individual operations.
-        /// \param flags Reserved for future expansion; must be 0.
+        /// <param name="stream">The stream to enqueue the operations in.</param>
+        /// <param name="count">The number of operations in the array. Must be less than 256.</param>
+        /// <param name="paramArray">The types and parameters of the individual operations.</param>
+        /// <param name="flags">Reserved for future expansion; must be 0.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,

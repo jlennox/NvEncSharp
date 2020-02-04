@@ -80,6 +80,7 @@ namespace Lennox.NvEncSharp
         /// then accessing the function list using LibNvEnc.FunctionList.
         /// </summary>
         /// <param name="functionList"></param>
+        ///
         /// <returns></returns>
         /// <seealso cref="TryInitialize(out string)"/>
         /// <seealso cref="Initialize()"/>
@@ -96,6 +97,7 @@ namespace Lennox.NvEncSharp
         /// will fail if the installed version is not supported.
         /// </summary>
         /// <param name="version">The version which is supported.</param>
+        ///
         /// <returns></returns>
         /// <seealso cref="TryInitialize(out string)"/>
         /// <seealso cref="Initialize()"/>
@@ -119,6 +121,7 @@ namespace Lennox.NvEncSharp
         /// </summary>
         /// <param name="failedDescription">Null if successful pr a detailed
         /// textual description of the failure reason.</param>
+        ///
         /// <returns>Success or the category of failure.</returns>
         /// <seealso cref="Initialize()"/>
         /// <seealso cref="FunctionList"/>
@@ -203,6 +206,7 @@ namespace Lennox.NvEncSharp
         /// A short hand for calling OpenEncodeSessionEx and Initialize().
         /// </summary>
         /// <param name="sessionParams">The parameters to use for OpenEncodeSessionEx</param>
+        ///
         /// <returns>The created NvEncoder.</returns>
         public static NvEncoder OpenEncoder(
             ref NvEncOpenEncodeSessionExParams sessionParams)

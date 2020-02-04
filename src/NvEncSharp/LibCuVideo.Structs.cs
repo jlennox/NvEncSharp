@@ -38,7 +38,7 @@ namespace Lennox.NvEncSharp
         /// <summary>OUT: Max supported coded height in pixels</summary>
         public int MaxHeight;
         /// <summary>OUT: Max supported macroblock count
-        /// CodedWidth*CodedHeight/256 must be <= nMaxMBCount</summary>
+        /// CodedWidth*CodedHeight/256 must be &lt;= nMaxMBCount</summary>
         public int MaxMBCount;
         /// <summary>OUT: Min supported coded width in pixels</summary>
         public short MinWidth;

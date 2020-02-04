@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static partial class LibCuda
@@ -13,6 +15,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="uc">Value to set</param>
         /// <param name="n">Number of elements</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -48,6 +51,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="us">Value to set</param>
         /// <param name="n">Number of elements</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -83,6 +87,7 @@ namespace Lennox.NvEncSharp
         /// <param name="dstDevice">Destination device pointer</param>
         /// <param name="ui">Value to set</param>
         /// <param name="n">Number of elements</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -123,6 +128,7 @@ namespace Lennox.NvEncSharp
         /// <param name="uc">Value to set</param>
         /// <param name="width">Width of row</param>
         /// <param name="height">Number of rows</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -164,6 +170,7 @@ namespace Lennox.NvEncSharp
         /// <param name="us">Value to set</param>
         /// <param name="width">Width of row</param>
         /// <param name="height">Number of rows</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -205,6 +212,7 @@ namespace Lennox.NvEncSharp
         /// <param name="ui">Value to set</param>
         /// <param name="width">Width of row</param>
         /// <param name="height">Number of rows</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -241,6 +249,7 @@ namespace Lennox.NvEncSharp
         /// <param name="uc">Value to set</param>
         /// <param name="n">Number of elements</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -278,6 +287,7 @@ namespace Lennox.NvEncSharp
         /// <param name="us">Value to set</param>
         /// <param name="n">Number of elements</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -315,6 +325,7 @@ namespace Lennox.NvEncSharp
         /// <param name="ui">Value to set</param>
         /// <param name="n">Number of elements</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -356,6 +367,7 @@ namespace Lennox.NvEncSharp
         /// <param name="width">Width of row</param>
         /// <param name="height">Number of rows</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -399,6 +411,7 @@ namespace Lennox.NvEncSharp
         /// <param name="width">Width of row</param>
         /// <param name="height">Number of rows</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,
@@ -442,6 +455,7 @@ namespace Lennox.NvEncSharp
         /// <param name="width">Width of row</param>
         /// <param name="height">Number of rows</param>
         /// <param name="hStream">Stream identifier</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_DEINITIALIZED,

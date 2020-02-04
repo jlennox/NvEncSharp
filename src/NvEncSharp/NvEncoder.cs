@@ -50,7 +50,7 @@ namespace Lennox.NvEncSharp
         /// fill the supported Guids and pass the pointer in \p///Guids parameter.
         /// The size of the array can be determined by using ::NvEncGetEncodeGuidCount() API.
         /// The Nvidia Encoding interface returns the number of codec Guids it has actually
-        /// filled in the Guid array in the \p GuidCount parameter.</summary>
+        /// filled in the Guid array in the <paramref name="guidCount"/> parameter.</summary>
         ///
         /// <param name="guids">Array of supported Encode Guids.</param>
         /// <param name="guidCount">Number of supported Encode Guids.</param>
@@ -126,12 +126,12 @@ namespace Lennox.NvEncSharp
         /// codec Guid. The client must allocate an array where the NvEncodeAPI interface
         /// can populate the profile Guids. The client can determine the array size using
         /// ::NvEncGetEncodeProfileGuidCount() API. The client must also validiate that the
-        /// NvEncodeAPI interface supports the Guid the client wants to pass as \p encodeGuid
+        /// NvEncodeAPI interface supports the Guid the client wants to pass as <paramref name="encodeGuid"/>
         /// parameter.</summary>
         ///
         /// <param name="encodeGuid">The encode Guid whose profile Guids are being enumerated.</param>
         /// <param name="profileGuids">Array of supported Encode Profile Guids</param>
-        /// <param name="guidCount">Number of valid encode profile Guids in \p profileGuids array.</param>
+        /// <param name="guidCount">Number of valid encode profile Guids in <paramref name="profileGuids"/> array.</param>
         ///
         /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -209,7 +209,7 @@ namespace Lennox.NvEncSharp
         ///   is to be retrieved.</param>
         /// <param name="inputFmts">Array of input formats supported for this Encode Guid.</param>
         /// <param name="inputFmtCount">The number of valid input format types returned by the NvEncodeAPI
-        ///   interface in \p inputFmts array.</param>
+        ///   interface in <paramref name="inputFmts"/> array.</param>
         ///
         /// <returns>::NV_ENC_SUCCESS
         /// ::NV_ENC_ERR_INVALID_PTR
@@ -595,7 +595,7 @@ namespace Lennox.NvEncSharp
         /// initialized using ::NvEncInitializeEncoder() API. The minimum number of output
         /// buffers allocated by the client must be at least 4 more than the number of B
         /// B frames being used for encoding. The client can only access the output
-        /// bitsteam data by locking the \p bitstreamBuffer using the ::NvEncLockBitstream()
+        /// bitsteam data by locking the <c>bitstreamBuffer</c> using the ::NvEncLockBitstream()
         /// function.</summary>
         ///
         /// <param name="createBitstreamBufferParams">Pointer ::NV_ENC_CREATE_BITSTREAM_BUFFER for details.</param>

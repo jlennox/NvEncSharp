@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public static unsafe partial class LibCuda
@@ -25,6 +27,7 @@ namespace Lennox.NvEncSharp
         ///                    in which to return the opaque event handle</param>
         /// <param name="event">Event allocated with ::CU_EVENT_INTERPROCESS and
         ///                    ::CU_EVENT_DISABLE_TIMING flags.</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_HANDLE,
@@ -62,6 +65,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="phEvent">Returns the imported event</param>
         /// <param name="handle">Interprocess handle to open</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
@@ -104,6 +108,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pHandle">Pointer to user allocated ::CUipcMemHandle to return
         ///                    the handle in.</param>
         /// <param name="dptr">Base pointer to previously allocated device memory </param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_HANDLE,
@@ -151,6 +156,7 @@ namespace Lennox.NvEncSharp
         /// <param name="pdptr">Returned device pointer</param>
         /// <param name="handle">::CUipcMemHandle to open</param>
         /// <param name="flags">Flags for this operation. Must be specified as ::CU_IPC_MEM_LAZY_ENABLE_PEER_ACCESS</param>
+        ///
         /// <returns>
         /// ::CUDA_SUCCESS,
         /// ::CUDA_ERROR_INVALID_CONTEXT,
