@@ -9,34 +9,36 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Channels;
 
+#nullable enable
+
 namespace Lennox.NvEncSharp.Sample.VideoDecode
 {
     internal unsafe class Program : IDisposable
     {
         public static void Main(string[] args)
         {
-            using var program = new Program();
-            var result = program.Run(new ProgramArguments(args));
+            using var program = new Program(new ProgramArguments(args));
+            var result = program.Run();
             Environment.Exit(result);
         }
 
         private CuContext _context;
         private CuVideoDecoder _decoder;
         private CuVideoContextLock _contextLock;
-        private Channel<FrameInformation> _framesChannel;
+        private readonly Channel<FrameInformation> _framesChannel;
         private CuVideoDecodeCreateInfo _info;
-        private CancellationTokenSource _cts;
-        private Thread _displayThread;
-        private ProgramArguments _args;
+        private readonly CancellationTokenSource _cts;
+        private readonly Thread _displayThread;
+        private readonly ProgramArguments _args;
         private int _displayedFrames;
         private readonly Pool<BufferStorage> _nv12BufferPool = new Pool<BufferStorage>(5);
         private readonly ManualResetEventSlim _renderingCompleted = new ManualResetEventSlim(false);
-        private DisplayWindow _window;
+        private DisplayWindow? _window;
 
         private bool _useHostMemory => _args.UseHostMemory;
         private bool _isDisposed = false;
 
-        private int Run(ProgramArguments args)
+        public Program(ProgramArguments args)
         {
             _args = args;
             _framesChannel = Channel.CreateBounded<FrameInformation>(
@@ -52,7 +54,10 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 IsBackground = true,
                 Name = nameof(DisplayThread)
             };
+        }
 
+        private int Run()
+        {
             _displayThread.Start();
 
             LibCuda.Initialize();
@@ -96,7 +101,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             };
 
             using var parser = CuVideoParser.Create(ref parserParams);
-            using var fs = File.OpenRead(args.InputPath);
+            using var fs = File.OpenRead(_args.InputPath);
             const int bufferSize = 10 * 1024 * 1024;
             var inputBufferPtr = Marshal.AllocHGlobal(bufferSize);
             var count = 0;
@@ -215,10 +220,8 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             if (CuVideoParseDisplayInfo.IsFinalFrame(infoPtr, out var info))
             {
-                if (!_framesChannel.Writer.TryWrite(new FrameInformation
-                {
-                    IsFinalFrame = true
-                }))
+                if (!_framesChannel.Writer.TryWrite(
+                    FrameInformation.FinalFrame))
                 {
                     _renderingCompleted.Set();
                 }
@@ -239,7 +242,6 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 out var pitch);
 
             var yuvInfo = _info.GetYuvInformation(pitch);
-
             var status = _decoder.GetDecodeStatus(info.PictureIndex);
 
             if (status != CuVideoDecodeStatus.Success)
@@ -284,19 +286,17 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             memcopy.Height = (IntPtr)chromaHeight;
             memcopy.Memcpy2D();
 
-            _framesChannel.Writer.TryWrite(new FrameInformation
+            var bufferStorage = new BufferStorage(
+                frameLocalPtr, destMemoryType,
+                frameDevicePtr, frameByteSize);
+
+            var frameInfo = new FrameInformation(
+                bufferStorage, pitch, _info, yuvInfo);
+
+            if (!_framesChannel.Writer.TryWrite(frameInfo))
             {
-                Buffer = new BufferStorage
-                {
-                    Bytes = frameLocalPtr,
-                    DeviceMemory = frameDevicePtr,
-                    MemoryType = destMemoryType,
-                    Size = frameByteSize
-                },
-                Pitch = pitch,
-                Info = _info,
-                YuvInfo = yuvInfo
-            });
+                _nv12BufferPool.Free(ref bufferStorage);
+            }
 
             return CuCallbackResult.Success;
         }
@@ -468,6 +468,18 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         public CuDeviceMemory DeviceMemory { get; set; }
         public IntPtr Size { get; set; }
 
+        public BufferStorage(
+            IntPtr bytes,
+            CuMemoryType memoryType,
+            CuDeviceMemory deviceMemory,
+            IntPtr size)
+        {
+            Bytes = bytes;
+            Size = size;
+            DeviceMemory = deviceMemory;
+            MemoryType = memoryType;
+        }
+
         private int _disposed = 0;
 
         public void Dispose()
@@ -495,6 +507,25 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         public CuVideoDecodeCreateInfo Info { get; set; }
         public YuvInformation YuvInfo { get; set; }
         public bool IsFinalFrame { get; set; }
+
+        public static FrameInformation FinalFrame => new FrameInformation(true);
+
+        public FrameInformation(
+            BufferStorage buffer,
+            int pitch,
+            CuVideoDecodeCreateInfo info,
+            YuvInformation yuvInfo)
+        {
+            Buffer = buffer;
+            Pitch = pitch;
+            Info = info;
+            YuvInfo = yuvInfo;
+        }
+
+        private FrameInformation(bool isFinalFrame)
+        {
+            IsFinalFrame = isFinalFrame;
+        }
 
         public int GetRgba32Size()
         {
