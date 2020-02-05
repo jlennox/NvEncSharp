@@ -264,7 +264,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             var byteWidth = _info.Width * _info.GetBytesPerPixel();
 
             // Copy luma
-            var memcopy = new CudaMemcopy2D
+            var memcopy = new CuMemcopy2D
             {
                 SrcMemoryType = CuMemoryType.Device,
                 SrcDevice = frame,

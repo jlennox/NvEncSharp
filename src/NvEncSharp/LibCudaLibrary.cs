@@ -5,6 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
+    /// <summary>
+    /// Please note that the byte ordering is reverse how most libraries
+    /// consider them. BGRA32 returns the byte order \xAA \xRR \xGG \xBB.
+    /// </summary>
     public static class LibCudaLibrary
     {
         private const string _dll = "NvEncSharp.Cuda.Library.dll";

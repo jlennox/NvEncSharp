@@ -136,7 +136,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             {
                 frame.DecodeToDeviceRgba32(destPtr);
 
-                var memcopy = new CudaMemcopy2D
+                var memcopy = new CuMemcopy2D
                 {
                     SrcMemoryType = CuMemoryType.Device,
                     SrcDevice = destPtr,

@@ -30,6 +30,14 @@ namespace Lennox.NvEncSharp
 
     public unsafe partial struct CuDevice
     {
+        /// <summary>CU_DEVICE_CPU
+        /// Device that represents the CPU</summary>
+        public static readonly CuDevice DeviceCpu = new CuDevice(-1);
+
+        /// <summary>CU_DEVICE_INVALID
+        /// Device that represents an invalid device</summary>
+        public static readonly CuDevice DeviceInvalid = new CuDevice(-2);
+
         /// <inheritdoc cref="LibCuda.DeviceGet(out CuDevice, int)"/>
         public static CuDevice GetDevice(int ordinal)
         {
@@ -104,8 +112,7 @@ namespace Lennox.NvEncSharp
         /// <inheritdoc cref="LibCuda.DeviceGetAttribute(out int, CuDeviceAttribute, CuDevice)"/>
         public int GetAttribute(CuDeviceAttribute attribute)
         {
-            var result = DeviceGetAttribute(
-                out var output, attribute, this);
+            var result = DeviceGetAttribute(out var output, attribute, this);
             CheckResult(result);
 
             return output;

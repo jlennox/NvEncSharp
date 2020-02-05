@@ -24,9 +24,9 @@ namespace Lennox.NvEncSharp
         /// addressing on Linux operating systems.</summary>
         ///
         /// <param name="pHandle">Pointer to a user allocated CUipcEventHandle
-        ///                    in which to return the opaque event handle</param>
+        /// in which to return the opaque event handle</param>
         /// <param name="event">Event allocated with ::CU_EVENT_INTERPROCESS and
-        ///                    ::CU_EVENT_DISABLE_TIMING flags.</param>
+        /// ::CU_EVENT_DISABLE_TIMING flags.</param>
         ///
         /// <returns>
         /// ::CUDA_SUCCESS,
@@ -106,7 +106,7 @@ namespace Lennox.NvEncSharp
         /// addressing on Linux operating systems.</summary>
         ///
         /// <param name="pHandle">Pointer to user allocated ::CUipcMemHandle to return
-        ///                    the handle in.</param>
+        /// the handle in.</param>
         /// <param name="dptr">Base pointer to previously allocated device memory </param>
         ///
         /// <returns>

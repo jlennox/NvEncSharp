@@ -7,13 +7,6 @@ namespace Lennox.NvEncSharp
 {
     public static partial class LibCuda
     {
-        /// <summary>CUDA stream callback</summary>
-        ///
-        /// <param name="hStream">The stream the callback was added to, as passed to ::cuStreamAddCallback.  May be NULL.</param>
-        /// <param name="status">::CUDA_SUCCESS or any persistent error on the stream.</param>
-        /// <param name="userData">User parameter provided at registration.</param>
-        public delegate void CuStreamCallback(CuStream hStream, CuResult status, IntPtr userData);
-
         /// <summary>Create a stream
         ///
         /// Creates a stream and returns a handle in <c>phStream</c>.  The <c>Flags</c> argument

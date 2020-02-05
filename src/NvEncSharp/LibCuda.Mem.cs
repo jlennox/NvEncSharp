@@ -225,9 +225,9 @@ namespace Lennox.NvEncSharp
         ///
         /// <param name="numAttributes">Number of attributes to query</param>
         /// <param name="attributes">An array of attributes to query
-        ///                      (numAttributes and the number of attributes in this array should match)</param>
+        /// (numAttributes and the number of attributes in this array should match)</param>
         /// <param name="data">A two-dimensional array containing pointers to memory
-        ///                      locations where the result of each attribute query will be written to.</param>
+        /// locations where the result of each attribute query will be written to.</param>
         /// <param name="ptr">Pointer to query
         ///
         /// Unlike ::cuPointerGetAttribute, this function will not return an error when the <paramref name="ptr"/>
@@ -754,5 +754,520 @@ namespace Lennox.NvEncSharp
         /// CUresult CUDAAPI cuMemHostUnregister(void *p);
         [DllImport(_dllpath, EntryPoint = "cuMemHostUnregister")]
         public static extern CuResult MemHostUnregister(void* p);
+
+        #region Array
+        /// <summary>Creates a 1D or 2D CUDA array
+        ///
+        /// Creates a CUDA array according to the ::CUDA_ARRAY_DESCRIPTOR structure
+        /// <paramref name="pAllocateArray"/> and returns a handle to the new CUDA array in *<paramref name="pHandle"/>.
+        /// where:
+        ///
+        /// - <c>Width</c>, and <c>Height</c> are the width, and height of the CUDA array (in
+        /// elements); the CUDA array is one-dimensional if height is 0, two-dimensional
+        /// otherwise;
+        /// - ::Format specifies the format of the elements;
+        /// - <c>NumChannels</c> specifies the number of packed components per CUDA array
+        /// element; it may be 1, 2, or 4;
+        ///
+        /// Here are examples of CUDA array descriptions:
+        ///
+        /// Description for a CUDA array of 2048 floats:
+        /// <code>
+        /// CUDA_ARRAY_DESCRIPTOR desc;
+        /// desc.Format = CU_AD_FORMAT_FLOAT;
+        /// desc.NumChannels = 1;
+        /// desc.Width = 2048;
+        /// desc.Height = 1;
+        /// </code>
+        ///
+        /// Description for a 64 x 64 CUDA array of floats:
+        /// <code>
+        /// CUDA_ARRAY_DESCRIPTOR desc;
+        /// desc.Format = CU_AD_FORMAT_FLOAT;
+        /// desc.NumChannels = 1;
+        /// desc.Width = 64;
+        /// desc.Height = 64;
+        /// </code>
+        ///
+        /// Description for a <c>Width</c> x <c>Height</c> CUDA array of 64-bit, 4x16-bit
+        /// float16's:
+        /// <code>
+        /// CUDA_ARRAY_DESCRIPTOR desc;
+        /// desc.FormatFlags = CU_AD_FORMAT_HALF;
+        /// desc.NumChannels = 4;
+        /// desc.Width = width;
+        /// desc.Height = height;
+        /// </code>
+        ///
+        /// Description for a <c>Width</c> x <c>Height</c> CUDA array of 16-bit elements, each
+        /// of which is two 8-bit unsigned chars:
+        /// <code>
+        /// CUDA_ARRAY_DESCRIPTOR arrayDesc;
+        /// desc.FormatFlags = CU_AD_FORMAT_UNSIGNED_INT8;
+        /// desc.NumChannels = 2;
+        /// desc.Width = width;
+        /// desc.Height = height;
+        /// </code></summary>
+        ///
+        /// <param name="pHandle">Returned array</param>
+        /// <param name="pAllocateArray">Array descriptor</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY,
+        /// ::CUDA_ERROR_UNKNOWN
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaMallocArray
+        /// CUresult CUDAAPI cuArrayCreate(CUarray *pHandle, const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
+        [DllImport(_dllpath, EntryPoint = "cuArrayCreate")]
+        public static extern CuResult ArrayCreate(out CuArray pHandle, ref CuArrayDescription pAllocateArray);
+
+        /// <summary>Get a 1D or 2D CUDA array descriptor
+        ///
+        /// Returns in *<paramref name="pArrayDescriptor"/> a descriptor containing information on the
+        /// format and dimensions of the CUDA array <paramref name="hArray"/>. It is useful for
+        /// subroutines that have been passed a CUDA array, but need to know the CUDA
+        /// array parameters for validation or other purposes.</summary>
+        ///
+        /// <param name="pArrayDescriptor">Returned array descriptor</param>
+        /// <param name="hArray">Array to get descriptor of</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_INVALID_HANDLE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaArrayGetInfo
+        /// CUresult CUDAAPI cuArrayGetDescriptor(CUDA_ARRAY_DESCRIPTOR *pArrayDescriptor, CUarray hArray);
+        [DllImport(_dllpath, EntryPoint = "cuArrayGetDescriptor")]
+        public static extern CuResult ArrayGetDescriptor(out CuArrayDescription pArrayDescriptor, CuArray hArray);
+
+        /// <summary>Destroys a CUDA array
+        ///
+        /// Destroys the CUDA array <paramref name="hArray"/>.</summary>
+        ///
+        /// <param name="hArray">Array to destroy</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_HANDLE,
+        /// ::CUDA_ERROR_ARRAY_IS_MAPPED
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaFreeArray
+        /// CUresult CUDAAPI cuArrayDestroy(CUarray hArray);
+        [DllImport(_dllpath, EntryPoint = "cuArrayDestroy")]
+        public static extern CuResult ArrayDestroy(CuArray hArray);
+
+        /// <summary>Creates a 3D CUDA array
+        ///
+        /// Creates a CUDA array according to the ::CUDA_ARRAY3D_DESCRIPTOR structure
+        /// <paramref name="pAllocateArray"/> and returns a handle to the new CUDA array in *<paramref name="pHandle"/>.
+        /// where:
+        ///
+        /// - <c>Width</c>, <c>Height</c>, and <c>Depth</c> are the width, height, and depth of the
+        /// CUDA array (in elements); the following types of CUDA arrays can be allocated:
+        ///     - A 1D array is allocated if <c>Height</c> and <c>Depth</c> extents are both zero.
+        ///     - A 2D array is allocated if only <c>Depth</c> extent is zero.
+        ///     - A 3D array is allocated if all three extents are non-zero.
+        ///     - A 1D layered CUDA array is allocated if only <c>Height</c> is zero and the
+        ///       ::CUDA_ARRAY3D_LAYERED flag is set. Each layer is a 1D array. The number
+        ///       of layers is determined by the depth extent.
+        ///     - A 2D layered CUDA array is allocated if all three extents are non-zero and
+        ///       the ::CUDA_ARRAY3D_LAYERED flag is set. Each layer is a 2D array. The number
+        ///       of layers is determined by the depth extent.
+        ///     - A cubemap CUDA array is allocated if all three extents are non-zero and the
+        ///       ::CUDA_ARRAY3D_CUBEMAP flag is set. <c>Width</c> must be equal to <c>Height</c>, and
+        ///       <c>Depth</c> must be six. A cubemap is a special type of 2D layered CUDA array,
+        ///       where the six layers represent the six faces of a cube. The order of the six
+        ///       layers in memory is the same as that listed in ::CUarray_cubemap_face.
+        ///     - A cubemap layered CUDA array is allocated if all three extents are non-zero,
+        ///       and both, ::CUDA_ARRAY3D_CUBEMAP and ::CUDA_ARRAY3D_LAYERED flags are set.
+        ///       <c>Width</c> must be equal to <c>Height</c>, and <c>Depth</c> must be a multiple of six.
+        ///       A cubemap layered CUDA array is a special type of 2D layered CUDA array that
+        ///       consists of a collection of cubemaps. The first six layers represent the first
+        ///       cubemap, the next six layers form the second cubemap, and so on.
+        ///
+        /// - <c>NumChannels</c> specifies the number of packed components per CUDA array
+        /// element; it may be 1, 2, or 4;
+        ///
+        /// - ::Flags may be set to
+        ///   - ::CUDA_ARRAY3D_LAYERED to enable creation of layered CUDA arrays. If this flag is set,
+        ///     <c>Depth</c> specifies the number of layers, not the depth of a 3D array.
+        ///   - ::CUDA_ARRAY3D_SURFACE_LDST to enable surface references to be bound to the CUDA array.
+        ///     If this flag is not set, ::cuSurfRefSetArray will fail when attempting to bind the CUDA array
+        ///     to a surface reference.
+        ///   - ::CUDA_ARRAY3D_CUBEMAP to enable creation of cubemaps. If this flag is set, <c>Width</c> must be
+        ///     equal to <c>Height</c>, and <c>Depth</c> must be six. If the ::CUDA_ARRAY3D_LAYERED flag is also set,
+        ///     then <c>Depth</c> must be a multiple of six.
+        ///   - ::CUDA_ARRAY3D_TEXTURE_GATHER to indicate that the CUDA array will be used for texture gather.
+        ///     Texture gather can only be performed on 2D CUDA arrays.
+        ///
+        /// <c>Width</c>, <c>Height</c> and <c>Depth</c> must meet certain size requirements as listed in the following table.
+        /// All values are specified in elements. Note that for brevity's sake, the full name of the device attribute
+        /// is not specified. For ex., TEXTURE1D_WIDTH refers to the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE1D_WIDTH.
+        ///
+        /// Note that 2D CUDA arrays have different size requirements if the ::CUDA_ARRAY3D_TEXTURE_GATHER flag
+        /// is set. <c>Width</c> and <c>Height</c> must not be greater than ::CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_GATHER_WIDTH
+        /// and ::CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE2D_GATHER_HEIGHT respectively, in that case.
+        ///
+        /// <table>
+        /// <tr><td><b>CUDA array type</b></td>
+        /// <td><b>Valid extents that must always be met {(width range in elements), (height range),
+        /// (depth range)}</b></td>
+        /// <td><b>Valid extents with CUDA_ARRAY3D_SURFACE_LDST set
+        /// {(width range in elements), (height range), (depth range)}</b></td></tr>
+        /// <tr><td>1D</td>
+        /// <td><small>{ (1,TEXTURE1D_WIDTH), 0, 0 }</small></td>
+        /// <td><small>{ (1,SURFACE1D_WIDTH), 0, 0 }</small></td></tr>
+        /// <tr><td>2D</td>
+        /// <td><small>{ (1,TEXTURE2D_WIDTH), (1,TEXTURE2D_HEIGHT), 0 }</small></td>
+        /// <td><small>{ (1,SURFACE2D_WIDTH), (1,SURFACE2D_HEIGHT), 0 }</small></td></tr>
+        /// <tr><td>3D</td>
+        /// <td><small>{ (1,TEXTURE3D_WIDTH), (1,TEXTURE3D_HEIGHT), (1,TEXTURE3D_DEPTH) }
+        ///  OR { (1,TEXTURE3D_WIDTH_ALTERNATE), (1,TEXTURE3D_HEIGHT_ALTERNATE),
+        /// (1,TEXTURE3D_DEPTH_ALTERNATE) }</small></td>
+        /// <td><small>{ (1,SURFACE3D_WIDTH), (1,SURFACE3D_HEIGHT),
+        /// (1,SURFACE3D_DEPTH) }</small></td></tr>
+        /// <tr><td>1D Layered</td>
+        /// <td><small>{ (1,TEXTURE1D_LAYERED_WIDTH), 0,
+        /// (1,TEXTURE1D_LAYERED_LAYERS) }</small></td>
+        /// <td><small>{ (1,SURFACE1D_LAYERED_WIDTH), 0,
+        /// (1,SURFACE1D_LAYERED_LAYERS) }</small></td></tr>
+        /// <tr><td>2D Layered</td>
+        /// <td><small>{ (1,TEXTURE2D_LAYERED_WIDTH), (1,TEXTURE2D_LAYERED_HEIGHT),
+        /// (1,TEXTURE2D_LAYERED_LAYERS) }</small></td>
+        /// <td><small>{ (1,SURFACE2D_LAYERED_WIDTH), (1,SURFACE2D_LAYERED_HEIGHT),
+        /// (1,SURFACE2D_LAYERED_LAYERS) }</small></td></tr>
+        /// <tr><td>Cubemap</td>
+        /// <td><small>{ (1,TEXTURECUBEMAP_WIDTH), (1,TEXTURECUBEMAP_WIDTH), 6 }</small></td>
+        /// <td><small>{ (1,SURFACECUBEMAP_WIDTH),
+        /// (1,SURFACECUBEMAP_WIDTH), 6 }</small></td></tr>
+        /// <tr><td>Cubemap Layered</td>
+        /// <td><small>{ (1,TEXTURECUBEMAP_LAYERED_WIDTH), (1,TEXTURECUBEMAP_LAYERED_WIDTH),
+        /// (1,TEXTURECUBEMAP_LAYERED_LAYERS) }</small></td>
+        /// <td><small>{ (1,SURFACECUBEMAP_LAYERED_WIDTH), (1,SURFACECUBEMAP_LAYERED_WIDTH),
+        /// (1,SURFACECUBEMAP_LAYERED_LAYERS) }</small></td></tr>
+        /// </table>
+        ///
+        /// Here are examples of CUDA array descriptions:
+        ///
+        /// Description for a CUDA array of 2048 floats:
+        /// <code>
+        /// CUDA_ARRAY3D_DESCRIPTOR desc;
+        /// desc.Format = CU_AD_FORMAT_FLOAT;
+        /// desc.NumChannels = 1;
+        /// desc.Width = 2048;
+        /// desc.Height = 0;
+        /// desc.Depth = 0;
+        /// </code>
+        ///
+        /// Description for a 64 x 64 CUDA array of floats:
+        /// <code>
+        /// CUDA_ARRAY3D_DESCRIPTOR desc;
+        /// desc.Format = CU_AD_FORMAT_FLOAT;
+        /// desc.NumChannels = 1;
+        /// desc.Width = 64;
+        /// desc.Height = 64;
+        /// desc.Depth = 0;
+        /// </code>
+        ///
+        /// Description for a <c>Width</c> x <c>Height</c> x <c>Depth</c> CUDA array of 64-bit,
+        /// 4x16-bit float16's:
+        /// <code>
+        /// CUDA_ARRAY3D_DESCRIPTOR desc;
+        /// desc.FormatFlags = CU_AD_FORMAT_HALF;
+        /// desc.NumChannels = 4;
+        /// desc.Width = width;
+        /// desc.Height = height;
+        /// desc.Depth = depth;
+        /// </code></summary>
+        ///
+        /// <param name="pHandle">Returned array</param>
+        /// <param name="pAllocateArray">3D array descriptor</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY,
+        /// ::CUDA_ERROR_UNKNOWN
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DGetDescriptor, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaMalloc3DArray
+        /// CUresult CUDAAPI cuArray3DCreate(CUarray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
+        [DllImport(_dllpath, EntryPoint = "cuArray3DCreate")]
+        public static extern CuResult Array3DCreate(out CuArray pHandle, ref CuArray3DDescription pAllocateArray);
+
+        /// <summary>Get a 3D CUDA array descriptor
+        ///
+        /// Returns in *<paramref name="pArrayDescriptor"/> a descriptor containing information on the
+        /// format and dimensions of the CUDA array <paramref name="hArray"/>. It is useful for
+        /// subroutines that have been passed a CUDA array, but need to know the CUDA
+        /// array parameters for validation or other purposes.
+        ///
+        /// This function may be called on 1D and 2D arrays, in which case the  <c>Height</c>
+        /// and/or <c>depth</c> members of the descriptor struct will be set to 0.</summary>
+        ///
+        /// <param name="pArrayDescriptor">Returned 3D array descriptor</param>
+        /// <param name="hArray">3D array to get descriptor of</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_INVALID_HANDLE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa ::cuArray3DCreate, ::cuArrayCreate,
+        /// ::cuArrayDestroy, ::cuArrayGetDescriptor, ::cuMemAlloc, ::cuMemAllocHost,
+        /// ::cuMemAllocPitch, ::cuMemcpy2D, ::cuMemcpy2DAsync, ::cuMemcpy2DUnaligned,
+        /// ::cuMemcpy3D, ::cuMemcpy3DAsync, ::cuMemcpyAtoA, ::cuMemcpyAtoD,
+        /// ::cuMemcpyAtoH, ::cuMemcpyAtoHAsync, ::cuMemcpyDtoA, ::cuMemcpyDtoD, ::cuMemcpyDtoDAsync,
+        /// ::cuMemcpyDtoH, ::cuMemcpyDtoHAsync, ::cuMemcpyHtoA, ::cuMemcpyHtoAAsync,
+        /// ::cuMemcpyHtoD, ::cuMemcpyHtoDAsync, ::cuMemFree, ::cuMemFreeHost,
+        /// ::cuMemGetAddressRange, ::cuMemGetInfo, ::cuMemHostAlloc,
+        /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
+        /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
+        /// ::cudaArrayGetInfo
+        /// CUresult CUDAAPI cuArray3DGetDescriptor(CUDA_ARRAY3D_DESCRIPTOR *pArrayDescriptor, CUarray hArray);
+        [DllImport(_dllpath, EntryPoint = "cuArray3DGetDescriptor")]
+        public static extern CuResult Array3DGetDescriptor(out CuArray3DDescription pArrayDescriptor, CuArray hArray);
+
+        /// <summary>Creates a CUDA mipmapped array
+        ///
+        /// Creates a CUDA mipmapped array according to the ::CUDA_ARRAY3D_DESCRIPTOR structure
+        /// <paramref name="pMipmappedArrayDesc"/> and returns a handle to the new CUDA mipmapped array in *<paramref name="pHandle"/>.
+        /// <paramref name="numMipmapLevels"/> specifies the number of mipmap levels to be allocated. This value is
+        /// clamped to the range [1, 1 + floor(log2(max(width, height, depth)))].
+        ///
+        /// where:
+        ///
+        /// - <c>Width</c>, <c>Height</c>, and <c>Depth</c> are the width, height, and depth of the
+        /// CUDA array (in elements); the following types of CUDA arrays can be allocated:
+        ///     - A 1D mipmapped array is allocated if <c>Height</c> and <c>Depth</c> extents are both zero.
+        ///     - A 2D mipmapped array is allocated if only <c>Depth</c> extent is zero.
+        ///     - A 3D mipmapped array is allocated if all three extents are non-zero.
+        ///     - A 1D layered CUDA mipmapped array is allocated if only <c>Height</c> is zero and the
+        ///       ::CUDA_ARRAY3D_LAYERED flag is set. Each layer is a 1D array. The number
+        ///       of layers is determined by the depth extent.
+        ///     - A 2D layered CUDA mipmapped array is allocated if all three extents are non-zero and
+        ///       the ::CUDA_ARRAY3D_LAYERED flag is set. Each layer is a 2D array. The number
+        ///       of layers is determined by the depth extent.
+        ///     - A cubemap CUDA mipmapped array is allocated if all three extents are non-zero and the
+        ///       ::CUDA_ARRAY3D_CUBEMAP flag is set. <c>Width</c> must be equal to <c>Height</c>, and
+        ///       <c>Depth</c> must be six. A cubemap is a special type of 2D layered CUDA array,
+        ///       where the six layers represent the six faces of a cube. The order of the six
+        ///       layers in memory is the same as that listed in ::CUarray_cubemap_face.
+        ///     - A cubemap layered CUDA mipmapped array is allocated if all three extents are non-zero,
+        ///       and both, ::CUDA_ARRAY3D_CUBEMAP and ::CUDA_ARRAY3D_LAYERED flags are set.
+        ///       <c>Width</c> must be equal to <c>Height</c>, and <c>Depth</c> must be a multiple of six.
+        ///       A cubemap layered CUDA array is a special type of 2D layered CUDA array that
+        ///       consists of a collection of cubemaps. The first six layers represent the first
+        ///       cubemap, the next six layers form the second cubemap, and so on.
+        ///
+        ///
+        /// - <c>NumChannels</c> specifies the number of packed components per CUDA array
+        /// element; it may be 1, 2, or 4;
+        ///
+        /// - ::Flags may be set to
+        ///   - ::CUDA_ARRAY3D_LAYERED to enable creation of layered CUDA mipmapped arrays. If this flag is set,
+        ///     <c>Depth</c> specifies the number of layers, not the depth of a 3D array.
+        ///   - ::CUDA_ARRAY3D_SURFACE_LDST to enable surface references to be bound to individual mipmap levels of
+        ///     the CUDA mipmapped array. If this flag is not set, ::cuSurfRefSetArray will fail when attempting to
+        ///     bind a mipmap level of the CUDA mipmapped array to a surface reference.
+        ///   - ::CUDA_ARRAY3D_CUBEMAP to enable creation of mipmapped cubemaps. If this flag is set, <c>Width</c> must be
+        ///     equal to <c>Height</c>, and <c>Depth</c> must be six. If the ::CUDA_ARRAY3D_LAYERED flag is also set,
+        ///     then <c>Depth</c> must be a multiple of six.
+        ///   - ::CUDA_ARRAY3D_TEXTURE_GATHER to indicate that the CUDA mipmapped array will be used for texture gather.
+        ///     Texture gather can only be performed on 2D CUDA mipmapped arrays.
+        ///
+        /// <c>Width</c>, <c>Height</c> and <c>Depth</c> must meet certain size requirements as listed in the following table.
+        /// All values are specified in elements. Note that for brevity's sake, the full name of the device attribute
+        /// is not specified. For ex., TEXTURE1D_MIPMAPPED_WIDTH refers to the device attribute
+        /// ::CU_DEVICE_ATTRIBUTE_MAXIMUM_TEXTURE1D_MIPMAPPED_WIDTH.
+        ///
+        /// <table>
+        /// <tr><td><b>CUDA array type</b></td>
+        /// <td><b>Valid extents that must always be met {(width range in elements), (height range),
+        /// (depth range)}</b></td>
+        /// <td><b>Valid extents with CUDA_ARRAY3D_SURFACE_LDST set
+        /// {(width range in elements), (height range), (depth range)}</b></td></tr>
+        /// <tr><td>1D</td>
+        /// <td><small>{ (1,TEXTURE1D_MIPMAPPED_WIDTH), 0, 0 }</small></td>
+        /// <td><small>{ (1,SURFACE1D_WIDTH), 0, 0 }</small></td></tr>
+        /// <tr><td>2D</td>
+        /// <td><small>{ (1,TEXTURE2D_MIPMAPPED_WIDTH), (1,TEXTURE2D_MIPMAPPED_HEIGHT), 0 }</small></td>
+        /// <td><small>{ (1,SURFACE2D_WIDTH), (1,SURFACE2D_HEIGHT), 0 }</small></td></tr>
+        /// <tr><td>3D</td>
+        /// <td><small>{ (1,TEXTURE3D_WIDTH), (1,TEXTURE3D_HEIGHT), (1,TEXTURE3D_DEPTH) }
+        ///  OR { (1,TEXTURE3D_WIDTH_ALTERNATE), (1,TEXTURE3D_HEIGHT_ALTERNATE),
+        /// (1,TEXTURE3D_DEPTH_ALTERNATE) }</small></td>
+        /// <td><small>{ (1,SURFACE3D_WIDTH), (1,SURFACE3D_HEIGHT),
+        /// (1,SURFACE3D_DEPTH) }</small></td></tr>
+        /// <tr><td>1D Layered</td>
+        /// <td><small>{ (1,TEXTURE1D_LAYERED_WIDTH), 0,
+        /// (1,TEXTURE1D_LAYERED_LAYERS) }</small></td>
+        /// <td><small>{ (1,SURFACE1D_LAYERED_WIDTH), 0,
+        /// (1,SURFACE1D_LAYERED_LAYERS) }</small></td></tr>
+        /// <tr><td>2D Layered</td>
+        /// <td><small>{ (1,TEXTURE2D_LAYERED_WIDTH), (1,TEXTURE2D_LAYERED_HEIGHT),
+        /// (1,TEXTURE2D_LAYERED_LAYERS) }</small></td>
+        /// <td><small>{ (1,SURFACE2D_LAYERED_WIDTH), (1,SURFACE2D_LAYERED_HEIGHT),
+        /// (1,SURFACE2D_LAYERED_LAYERS) }</small></td></tr>
+        /// <tr><td>Cubemap</td>
+        /// <td><small>{ (1,TEXTURECUBEMAP_WIDTH), (1,TEXTURECUBEMAP_WIDTH), 6 }</small></td>
+        /// <td><small>{ (1,SURFACECUBEMAP_WIDTH),
+        /// (1,SURFACECUBEMAP_WIDTH), 6 }</small></td></tr>
+        /// <tr><td>Cubemap Layered</td>
+        /// <td><small>{ (1,TEXTURECUBEMAP_LAYERED_WIDTH), (1,TEXTURECUBEMAP_LAYERED_WIDTH),
+        /// (1,TEXTURECUBEMAP_LAYERED_LAYERS) }</small></td>
+        /// <td><small>{ (1,SURFACECUBEMAP_LAYERED_WIDTH), (1,SURFACECUBEMAP_LAYERED_WIDTH),
+        /// (1,SURFACECUBEMAP_LAYERED_LAYERS) }</small></td></tr>
+        /// </table>
+        ///</summary>
+        ///
+        /// <param name="pHandle">Returned mipmapped array</param>
+        /// <param name="pMipmappedArrayDesc">mipmapped array descriptor</param>
+        /// <param name="numMipmapLevels">Number of mipmap levels</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_OUT_OF_MEMORY,
+        /// ::CUDA_ERROR_UNKNOWN
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuMipmappedArrayDestroy,
+        /// ::cuMipmappedArrayGetLevel,
+        /// ::cuArrayCreate,
+        /// ::cudaMallocMipmappedArray
+        /// CUresult CUDAAPI cuMipmappedArrayCreate(CUmipmappedArray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pMipmappedArrayDesc, unsigned int numMipmapLevels);
+        [DllImport(_dllpath, EntryPoint = "cuMipmappedArrayCreate")]
+        public static extern CuResult MipmappedArrayCreate(out CuMipMappedArray pHandle, ref CuArray3DDescription pMipmappedArrayDesc, int numMipmapLevels);
+
+        /// <summary>Gets a mipmap level of a CUDA mipmapped array
+        ///
+        /// Returns in *<paramref name="pLevelArray"/> a CUDA array that represents a single mipmap level
+        /// of the CUDA mipmapped array <paramref name="hMipmappedArray."/>
+        ///
+        /// If <paramref name="level"/> is greater than the maximum number of levels in this mipmapped array,
+        /// ::CUDA_ERROR_INVALID_VALUE is returned.</summary>
+        ///
+        /// <param name="pLevelArray">Returned mipmap level CUDA array</param>
+        /// <param name="hMipmappedArray">CUDA mipmapped array</param>
+        /// <param name="level">Mipmap level</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_VALUE,
+        /// ::CUDA_ERROR_INVALID_HANDLE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuMipmappedArrayCreate,
+        /// ::cuMipmappedArrayDestroy,
+        /// ::cuArrayCreate,
+        /// ::cudaGetMipmappedArrayLevel
+        /// CUresult CUDAAPI cuMipmappedArrayGetLevel(CUarray *pLevelArray, CUmipmappedArray hMipmappedArray, unsigned int level);
+        [DllImport(_dllpath, EntryPoint = "cuMipmappedArrayGetLevel")]
+        public static extern CuResult MipmappedArrayGetLevel(out CuArray pLevelArray, CuMipMappedArray hMipmappedArray, int level);
+
+        /// <summary>Destroys a CUDA mipmapped array
+        ///
+        /// Destroys the CUDA mipmapped array <paramref name="hMipmappedArray"/>.</summary>
+        ///
+        /// <param name="hMipmappedArray">Mipmapped array to destroy</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_INVALID_HANDLE,
+        /// ::CUDA_ERROR_ARRAY_IS_MAPPED
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuMipmappedArrayCreate,
+        /// ::cuMipmappedArrayGetLevel,
+        /// ::cuArrayCreate,
+        /// ::cudaFreeMipmappedArray
+        /// CUresult CUDAAPI cuMipmappedArrayDestroy(CUmipmappedArray hMipmappedArray);
+        [DllImport(_dllpath, EntryPoint = "cuMipmappedArrayDestroy")]
+        public static extern CuResult MipmappedArrayDestroy(CuMipMappedArray hMipmappedArray);
+        #endregion
     }
 }

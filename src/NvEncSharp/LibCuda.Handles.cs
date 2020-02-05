@@ -286,21 +286,33 @@ namespace Lennox.NvEncSharp
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    [DebuggerDisplay("{" + nameof(Handle) + "}")]
-    public struct CuIpcEventHandle
+    public unsafe struct CuIpcEventHandle
     {
-        public static readonly CuIpcEventHandle Empty = new CuIpcEventHandle { Handle = IntPtr.Zero };
-        public IntPtr Handle;
-        public bool IsEmpty => Handle == IntPtr.Zero;
+        public fixed byte Handle[64];
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public unsafe struct CuIpcMemHandle
+    {
+        public fixed byte Handle[64];
     }
 
     [StructLayout(LayoutKind.Sequential)]
     [DebuggerDisplay("{" + nameof(Handle) + "}")]
-    public struct CuIpcMemHandle
+    public struct CuTexObject
     {
-        public static readonly CuIpcMemHandle Empty = new CuIpcMemHandle { Handle = IntPtr.Zero };
-        public IntPtr Handle;
-        public bool IsEmpty => Handle == IntPtr.Zero;
+        public static readonly CuTexObject Empty = new CuTexObject { Handle = 0 };
+        public long Handle;
+        public bool IsEmpty => Handle == 0;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    public struct CuSurfObject
+    {
+        public static readonly CuSurfObject Empty = new CuSurfObject { Handle = 0 };
+        public long Handle;
+        public bool IsEmpty => Handle == 0;
     }
 
     [StructLayout(LayoutKind.Sequential)]

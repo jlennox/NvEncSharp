@@ -512,7 +512,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy2DFromArray
         /// CUresult CUDAAPI cuMemcpy2D(const CUDA_MEMCPY2D *pCopy);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy2D" + _ver)]
-        public static extern CuResult Memcpy2D(ref CudaMemcopy2D pCopy);
+        public static extern CuResult Memcpy2D(ref CuMemcopy2D pCopy);
 
         /// <summary>Copies memory for 2D arrays
         ///
@@ -648,7 +648,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy2DFromArray
         /// CUresult CUDAAPI cuMemcpy2DUnaligned(const CUDA_MEMCPY2D *pCopy);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy2DUnaligned" + _ver)]
-        public static extern CuResult Memcpy2DUnaligned(ref CudaMemcopy2D pCopy);
+        public static extern CuResult Memcpy2DUnaligned(ref CuMemcopy2D pCopy);
 
         /// <summary>Copies memory for 3D arrays
         ///
@@ -784,7 +784,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy3D
         /// CUresult CUDAAPI cuMemcpy3D(const CUDA_MEMCPY3D *pCopy);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy3D")]
-        public static extern CuResult Memcpy3D(ref CudaMemcpy3D pCopy);
+        public static extern CuResult Memcpy3D(ref CuMemcpy3D pCopy);
 
         /// <summary>Copies memory between contexts
         ///
@@ -809,7 +809,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy3DPeer
         /// CUresult CUDAAPI cuMemcpy3DPeer(const CUDA_MEMCPY3D_PEER *pCopy);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy3DPeer")]
-        public static extern CuResult Memcpy3DPeer(ref CudaMemcpy3D pCopy);
+        public static extern CuResult Memcpy3DPeer(ref CuMemcpy3D pCopy);
 
         /// <summary>Copies memory asynchronously
         ///
@@ -1237,7 +1237,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy2DFromArrayAsync
         /// CUresult CUDAAPI cuMemcpy2DAsync(const CUDA_MEMCPY2D *pCopy, CUstream hStream);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy2DAsync" + _ver)]
-        public static extern CuResult Memcpy2DAsync(ref CudaMemcopy2D pCopy, CuStream hStream);
+        public static extern CuResult Memcpy2DAsync(ref CuMemcopy2D pCopy, CuStream hStream);
 
         /// <summary>Copies memory for 3D arrays</summary>
         ///
@@ -1390,7 +1390,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy3DAsync
         /// CUresult CUDAAPI cuMemcpy3DAsync(const CUDA_MEMCPY3D *pCopy, CUstream hStream);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy3DAsync" + _ver)]
-        public static extern CuResult Memcpy3DAsync(ref CudaMemcpy3D pCopy, CuStream hStream);
+        public static extern CuResult Memcpy3DAsync(ref CuMemcpy3D pCopy, CuStream hStream);
 
         /// <summary>Copies memory between contexts asynchronously.</summary>
         ///
@@ -1420,6 +1420,6 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemcpy3DPeerAsync
         /// CUresult CUDAAPI cuMemcpy3DPeerAsync(const CUDA_MEMCPY3D_PEER *pCopy, CUstream hStream);
         [DllImport(_dllpath, EntryPoint = "cuMemcpy3DPeerAsync")]
-        public static extern CuResult Memcpy3DPeerAsync(ref CudaMemcpy3DPeer pCopy, CuStream hStream);
+        public static extern CuResult Memcpy3DPeerAsync(ref CuMemcpy3DPeer pCopy, CuStream hStream);
     }
 }

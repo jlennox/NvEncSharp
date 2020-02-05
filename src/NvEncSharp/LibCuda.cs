@@ -6,24 +6,23 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
-    public partial class LibCuda
+    public unsafe partial class LibCuda
     {
+        public const int ApiVerison = 10020;
+
         private const string _dllpath = "nvcuda.dll";
         private const string _ver = "_v2";
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CheckResult(
-            CuResult result,
-            [CallerMemberName] string callerName = "")
-        {
-            if (result != CuResult.Success)
-            {
-                throw new LibNvEncException(
-                    callerName, result,
-                    GetErrorName(result),
-                    GetErrorString(result));
-            }
-        }
+        /// <summary>CUDA stream callback</summary>
+        /// <param name="hStream">The stream the callback was added to, as passed to ::cuStreamAddCallback.  May be NULL.</param>
+        /// <param name="status">::CUDA_SUCCESS or any persistent error on the stream.</param>
+        /// <param name="userData">User parameter provided at registration.</param>
+        public delegate void CuStreamCallback(CuStream hStream, CuResult status, IntPtr userData);
+
+        /// <summary>Block size to per-block dynamic shared memory mapping for a certain kernel.</summary>
+        /// <param name="blockSize">blockSize Block size of the kernel</param>
+        /// <returns>The dynamic shared memory needed by a block.</returns>
+        public delegate IntPtr CuOccupancyB2DSize(int blockSize);
 
         /// <summary>CUresult cuInit(unsigned int Flags)
         /// Initialize the CUDA driver API.</summary>
@@ -41,7 +40,7 @@ namespace Lennox.NvEncSharp
         /// <remarks>
         /// Returns in *<paramref name="driverVersion"/> the version number of the installed CUDA
         /// driver. This function automatically returns ::CUDA_ERROR_INVALID_VALUE if
-        /// the <c>driverVersion</c> argument is NULL.
+        /// the <paramref name="driverVersion"/> argument is NULL.
         /// </remarks>
         ///
         /// <param name="driverVersion">Returns the CUDA driver version</param>
@@ -70,7 +69,7 @@ namespace Lennox.NvEncSharp
         ///
         /// <remarks>
         /// Sets *<paramref name="str"/> to the address of a NULL-terminated string description
-        /// of the error code <c>error</c>.
+        /// of the error code <paramref name="error"/>.
         /// If the error code is not recognized, ::CUDA_ERROR_INVALID_VALUE
         /// will be returned and *<paramref name="str"/> will be set to the NULL address.
         /// </remarks>
@@ -128,6 +127,30 @@ namespace Lennox.NvEncSharp
             return str == IntPtr.Zero
                 ? "Unknown error"
                 : Marshal.PtrToStringAnsi(str);
+        }
+
+        /// CUresult CUDAAPI cuGetExportTable(const void **ppExportTable, const CUuuid *pExportTableId);
+        [DllImport(_dllpath, EntryPoint = "cuGetExportTable")]
+        public static extern CuResult GetExportTable(IntPtr* ppExportTable, Guid* pExportTableId);
+
+        /// <summary>
+        /// Exception if <paramref name="result"/> is not <c>CuResult.Success</c>.
+        /// </summary>
+        /// <param name="result">The CuResult from a LibCuda API call to check.</param>
+        /// <param name="callerName"></param>
+        /// <exception cref="LibNvEncException">Thrown if <paramref name="result"/> is not <c>CuResult.Success</c>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CheckResult(
+            CuResult result,
+            [CallerMemberName] string callerName = "")
+        {
+            if (result != CuResult.Success)
+            {
+                throw new LibNvEncException(
+                    callerName, result,
+                    GetErrorName(result),
+                    GetErrorString(result));
+            }
         }
     }
 }

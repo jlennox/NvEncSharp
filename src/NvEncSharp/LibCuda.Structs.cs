@@ -7,7 +7,7 @@ using static Lennox.NvEncSharp.LibCuda;
 namespace Lennox.NvEncSharp
 {
     /// <summary>2D memory copy parameters</summary>
-    public struct CudaMemcopy2D
+    public struct CuMemcopy2D
     {
         /// <summary>Source X in bytes</summary>
         public IntPtr SrcXInBytes;
@@ -46,7 +46,7 @@ namespace Lennox.NvEncSharp
         /// <summary>Height of 2D memory copy</summary>
         public IntPtr Height;
 
-        /// <inheritdoc cref="LibCuda.Memcpy2D(ref CudaMemcopy2D)"/>
+        /// <inheritdoc cref="LibCuda.Memcpy2D(ref CuMemcopy2D)"/>
         public void Memcpy2D()
         {
             var result = LibCuda.Memcpy2D(ref this);
@@ -54,7 +54,7 @@ namespace Lennox.NvEncSharp
         }
     }
 
-    public struct CudaMemcpy3D
+    public struct CuMemcpy3D
     {
         /// <summary>Source X in bytes</summary>
         public uint SrcXInBytes;
@@ -110,7 +110,7 @@ namespace Lennox.NvEncSharp
         public uint Depth;
     }
 
-    public struct CudaMemcpy3DPeer
+    public struct CuMemcpy3DPeer
     {
         /// <summary>Source X in bytes</summary>
         public IntPtr SrcXInBytes;
@@ -166,34 +166,34 @@ namespace Lennox.NvEncSharp
         public IntPtr Depth;
     }
 
-    public struct CudaArrayDescription
+    public struct CuArrayDescription
     {
         /// <summary>Width of array</summary>
-        public uint Width;
+        public int Width;
         /// <summary>Height of array</summary>
-        public uint Height;
+        public int Height;
 
         /// <summary>Array format</summary>
         public CuArrayFormat Format;
         /// <summary>Channels per array element</summary>
-        public uint NumChannels;
+        public int NumChannels;
     }
 
-    public struct CudaArray3DDescription
+    public struct CuArray3DDescription
     {
         /// <summary>Width of 3D array</summary>
-        public uint Width;
+        public int Width;
         /// <summary>Height of 3D array</summary>
-        public uint Height;
+        public int Height;
         /// <summary>Depth of 3D array</summary>
-        public uint Depth;
+        public int Depth;
 
         /// <summary>Array format</summary>
         public CuArrayFormat Format;
         /// <summary>Channels per array element</summary>
-        public uint NumChannels;
+        public int NumChannels;
         /// <summary>Flags</summary>
-        public uint Flags;
+        public CuArray3DFlags Flags;
     }
 
     public struct CuStreamMemOpWaitValueParams
@@ -235,5 +235,143 @@ namespace Lennox.NvEncSharp
         public CuStreamMemOpFlushRemoteWritesParams FlushRemoteWrites;
         [FieldOffset(0)]
         private fixed long _pad[6];
+    }
+
+    public struct CuResourceDescArray
+    {
+        /// <summary>CUDA array</summary>
+        public CuArray Array;
+    }
+
+    public struct CuResourceDescMipmap
+    {
+        /// <summary>CUDA mipmapped array</summary>
+        public CuMipMappedArray MipmappedArray;
+    }
+
+    public struct CuResourceDescLinear
+    {
+        /// <summary>Device pointer</summary>
+        public CuDevicePtr DevPtr;
+        /// <summary>Array format</summary>
+        public CuArrayFormat Format;
+        /// <summary>Channels per array element</summary>
+        public int NumChannels;
+        /// <summary>Size in bytes</summary>
+        public IntPtr SizeInBytes;
+    }
+
+    public struct CuResourceDescPitch2D
+    {
+        /// <summary>Device pointer</summary>
+        public CuDevicePtr DevPtr;
+        /// <summary>Array format</summary>
+        public CuArrayFormat Format;
+        /// <summary>Channels per array element</summary>
+        public int NumChannels;
+        /// <summary>Width of the array in elements</summary>
+        public IntPtr Width;
+        /// <summary>Height of the array in elements</summary>
+        public IntPtr Height;
+        /// <summary>Pitch between two rows in bytes</summary>
+        public IntPtr PitchInBytes;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    public unsafe struct CuResourceDescData
+    {
+        [FieldOffset(0)]
+        public CuResourceDescArray Array;
+
+        [FieldOffset(0)]
+        public CuResourceDescMipmap Mipmap;
+
+        [FieldOffset(0)]
+        public CuResourceDescLinear Linear;
+
+        [FieldOffset(0)]
+        public CuResourceDescPitch2D Pitch2D;
+
+        [FieldOffset(0)]
+        private fixed int _reserved[32];
+    }
+
+    public struct CuResourceDesc
+    {
+        /// <summary>Resource type</summary>
+        public CuResourceType ResType;
+        public CuResourceDescData Data;
+        /// <summary>Flags (must be zero)</summary>
+        public int Flags;
+    }
+
+    public unsafe struct CuTextureDesc
+    {
+        /// <summary>Address modes</summary>
+        public CuAddressMode AddressMode1;
+        public CuAddressMode AddressMode2;
+        public CuAddressMode AddressMode3;
+        /// <summary>Filter mode</summary>
+        public CuFilterMode FilterMode;
+        /// <summary>Flags</summary>
+        public int Flags;
+        /// <summary>Maximum anisotropy ratio</summary>
+        public int MaxAnisotropy;
+        /// <summary>Mipmap filter mode</summary>
+        public CuFilterMode MipmapFilterMode;
+        /// <summary>Mipmap level bias</summary>
+        public float MipmapLevelBias;
+        /// <summary>Mipmap minimum level clamp</summary>
+        public float MinMipmapLevelClamp;
+        /// <summary>Mipmap maximum level clamp</summary>
+        public float MaxMipmapLevelClamp;
+        /// <summary>Border Color</summary>
+        public fixed float BorderColor[4];
+        private fixed int _reserved[12];
+    }
+
+    public unsafe struct CuResourceViewDesc
+    {
+        /// <summary>Resource view format</summary>
+        public CuResourceViewFormat Format;
+        /// <summary>Width of the resource view</summary>
+        public IntPtr Width;
+        /// <summary>Height of the resource view</summary>
+        public IntPtr Height;
+        /// <summary>Depth of the resource view</summary>
+        public IntPtr Depth;
+        /// <summary>First defined mipmap level</summary>
+        public int FirstMipmapLevel;
+        /// <summary>Last defined mipmap level</summary>
+        public int LastMipmapLevel;
+        /// <summary>First layer index</summary>
+        public int FirstLayer;
+        /// <summary>Last layer index</summary>
+        public int LastLayer;
+        private fixed int _reserved[16];
+    }
+
+    public unsafe struct CuLaunchParams
+    {
+        /// <summary>Kernel to launch</summary>
+        public CuFunction Function;
+        /// <summary>Width of grid in blocks</summary>
+        public int GridDimX;
+        /// <summary>Height of grid in blocks</summary>
+        public int GridDimY;
+        /// <summary>Depth of grid in blocks</summary>
+        public int GridDimZ;
+        /// <summary>X dimension of each thread block</summary>
+        public int BlockDimX;
+        /// <summary>Y dimension of each thread block</summary>
+        public int BlockDimY;
+        /// <summary>Z dimension of each thread block</summary>
+        public int BlockDimZ;
+        /// <summary>Dynamic shared-memory size per thread block in bytes</summary>
+        public int SharedMemBytes;
+        /// <summary>Stream identifier</summary>
+        public CuStream Stream;
+        /// <summary>Array of pointers to kernel parameters</summary>
+        public IntPtr KernelParams;
     }
 }

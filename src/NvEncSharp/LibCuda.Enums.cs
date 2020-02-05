@@ -863,4 +863,169 @@ namespace Lennox.NvEncSharp
         /// <summary>This has the same effect as ::CU_STREAM_WAIT_VALUE_FLUSH, but as a standalone operation.</summary>
         FlushRemoteWrites = 3
     }
+
+    /// <summary>Resource view format</summary>
+    public enum CuResourceViewFormat
+    {
+        /// <summary>No resource view format (use underlying resource format)</summary>
+        None = 0x00,
+        /// <summary>1 channel unsigned 8-bit integers</summary>
+        Uint1X8 = 0x01,
+        /// <summary>2 channel unsigned 8-bit integers</summary>
+        Uint2X8 = 0x02,
+        /// <summary>4 channel unsigned 8-bit integers</summary>
+        Uint4X8 = 0x03,
+        /// <summary>1 channel signed 8-bit integers</summary>
+        Sint1X8 = 0x04,
+        /// <summary>2 channel signed 8-bit integers</summary>
+        Sint2X8 = 0x05,
+        /// <summary>4 channel signed 8-bit integers</summary>
+        Sint4X8 = 0x06,
+        /// <summary>1 channel unsigned 16-bit integers</summary>
+        Uint1X16 = 0x07,
+        /// <summary>2 channel unsigned 16-bit integers</summary>
+        Uint2X16 = 0x08,
+        /// <summary>4 channel unsigned 16-bit integers</summary>
+        Uint4X16 = 0x09,
+        /// <summary>1 channel signed 16-bit integers</summary>
+        Sint1X16 = 0x0a,
+        /// <summary>2 channel signed 16-bit integers</summary>
+        Sint2X16 = 0x0b,
+        /// <summary>4 channel signed 16-bit integers</summary>
+        Sint4X16 = 0x0c,
+        /// <summary>1 channel unsigned 32-bit integers</summary>
+        Uint1X32 = 0x0d,
+        /// <summary>2 channel unsigned 32-bit integers</summary>
+        Uint2X32 = 0x0e,
+        /// <summary>4 channel unsigned 32-bit integers</summary>
+        Uint4X32 = 0x0f,
+        /// <summary>1 channel signed 32-bit integers</summary>
+        Sint1X32 = 0x10,
+        /// <summary>2 channel signed 32-bit integers</summary>
+        Sint2X32 = 0x11,
+        /// <summary>4 channel signed 32-bit integers</summary>
+        Sint4X32 = 0x12,
+        /// <summary>1 channel 16-bit floating point</summary>
+        Float1X16 = 0x13,
+        /// <summary>2 channel 16-bit floating point</summary>
+        Float2X16 = 0x14,
+        /// <summary>4 channel 16-bit floating point</summary>
+        Float4X16 = 0x15,
+        /// <summary>1 channel 32-bit floating point</summary>
+        Float1X32 = 0x16,
+        /// <summary>2 channel 32-bit floating point</summary>
+        Float2X32 = 0x17,
+        /// <summary>4 channel 32-bit floating point</summary>
+        Float4X32 = 0x18,
+        /// <summary>Block compressed 1</summary>
+        UnsignedBc1 = 0x19,
+        /// <summary>Block compressed 2</summary>
+        UnsignedBc2 = 0x1a,
+        /// <summary>Block compressed 3</summary>
+        UnsignedBc3 = 0x1b,
+        /// <summary>Block compressed 4 unsigned</summary>
+        UnsignedBc4 = 0x1c,
+        /// <summary>Block compressed 4 signed</summary>
+        SignedBc4 = 0x1d,
+        /// <summary>Block compressed 5 unsigned</summary>
+        UnsignedBc5 = 0x1e,
+        /// <summary>Block compressed 5 signed</summary>
+        SignedBc5 = 0x1f,
+        /// <summary>Block compressed 6 unsigned half-float</summary>
+        UnsignedBc6H = 0x20,
+        /// <summary>Block compressed 6 signed half-float</summary>
+        SignedBc6H = 0x21,
+        /// <summary>Block compressed 7</summary>
+        UnsignedBc7 = 0x22
+    }
+
+    [Flags]
+    public enum CuTrsfFlags
+    {
+        /// <summary>Read the texture as integers rather than promoting the values to floats
+        /// in the range [0,1].</summary>
+        ReadAsInteger = 0x01,
+
+        /// <summary>Use normalized texture coordinates in the range [0,1) instead of [0,dim).</summary>
+        NormalizedCoordinates = 0x02,
+
+        /// <summary>Perform sRGB->linear conversion during texture read.</summary>
+        Srgb = 0x10
+    }
+
+    public enum CuCooperativeLaunchMultiDevice
+    {
+        /// <summary>If set, each kernel launched as part of ::cuLaunchCooperativeKernelMultiDevice only
+        /// waits for prior work in the stream corresponding to that GPU to complete before the
+        /// kernel begins execution.</summary>
+        NoPreLaunchSync = 0x01,
+
+        /// <summary>If set, any subsequent work pushed in a stream that participated in a call to
+        /// ::cuLaunchCooperativeKernelMultiDevice will only wait for the kernel launched on
+        /// the GPU corresponding to that stream to complete before it begins execution.</summary>
+        NoPostLaunchSync = 0x02
+    }
+
+    [Flags]
+    public enum CuArray3DFlags
+    {
+        /// <summary>CUDA_ARRAY3D_LAYERED
+        /// If set, the CUDA array is a collection of layers, where each layer is either a 1D
+        /// or a 2D array and the Depth member of DESCRIPTOR specifies the number
+        /// of layers, not the depth of a 3D array.</summary>
+        Layered = 0x01,
+
+        /// <summary>CUDA_ARRAY3D_2DARRAY
+        /// Deprecated, use LAYERED</summary>
+        Array2D = 0x01,
+
+        /// <summary>CUDA_ARRAY3D_SURFACE_LDST
+        /// This flag must be set in order to bind a surface reference
+        /// to the CUDA array</summary>
+        SurfaceLdst = 0x02,
+
+        /// <summary>CUDA_ARRAY3D_CUBEMAP
+        /// If set, the CUDA array is a collection of six 2D arrays, representing faces of a cube. The
+        /// width of such a CUDA array must be equal to its height, and Depth must be six.
+        /// If ::LAYERED flag is also set, then the CUDA array is a collection of cubemaps
+        /// and Depth must be a multiple of six.</summary>
+        Cubemap = 0x04,
+
+        /// <summary>CUDA_ARRAY3D_TEXTURE_GATHER
+        /// This flag must be set in order to perform texture gather operations
+        /// on a CUDA array.</summary>
+        TextureGather = 0x08,
+
+        /// <summary>CUDA_ARRAY3D_DEPTH_TEXTURE
+        /// This flag if set indicates that the CUDA
+        /// array is a DEPTH_TEXTURE.</summary>
+        DepthTexture = 0x10
+    }
+
+    public enum CuLaunchParam
+    {
+        /// <summary>CU_LAUNCH_PARAM_END
+        /// End of array terminator for the <c>extra</c> parameter to
+        /// ::cuLaunchKernel</summary>
+        ParamEnd = 0x00,
+
+        /// <summary>CU_LAUNCH_PARAM_BUFFER_POINTER
+        /// Indicator that the next value in the <c>extra</c> parameter to
+        /// ::cuLaunchKernel will be a pointer to a buffer containing all kernel
+        /// parameters used for launching kernel <c>f</c>.  This buffer needs to
+        /// honor all alignment/padding requirements of the individual parameters.
+        /// If ::CU_LAUNCH_PARAM_BUFFER_SIZE is not also specified in the
+        /// <c>extra</c> array, then ::CU_LAUNCH_PARAM_BUFFER_POINTER will have no
+        /// effect.</summary>
+        BufferPointer = 0x01,
+
+        /// <summary>CU_LAUNCH_PARAM_BUFFER_SIZE
+        /// Indicator that the next value in the <c>extra</c> parameter to
+        /// ::cuLaunchKernel will be a pointer to a size_t which contains the
+        /// size of the buffer specified with ::CU_LAUNCH_PARAM_BUFFER_POINTER.
+        /// It is required that ::CU_LAUNCH_PARAM_BUFFER_POINTER also be specified
+        /// in the <c>extra</c> array if the value associated with
+        /// ::CU_LAUNCH_PARAM_BUFFER_SIZE is not zero.</summary>
+        BufferSize = 0x02
+    }
 }

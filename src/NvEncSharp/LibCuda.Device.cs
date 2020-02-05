@@ -520,5 +520,155 @@ namespace Lennox.NvEncSharp
         /// CUresult CUDAAPI cuDeviceGetPCIBusId(char *pciBusId, int len, CUdevice dev);
         [DllImport(_dllpath, EntryPoint = "cuDeviceGetPCIBusId", CharSet = CharSet.Ansi)]
         public static extern CuResult DeviceGetPCIBusId(byte* pciBusId, int len, CuDevice dev);
+
+        #region Peer access
+        /// <summary>Queries if a device may directly access a peer device's memory.
+        ///
+        /// Returns in *<paramref name="canAccessPeer"/> a value of 1 if contexts on <paramref name="dev"/> are capable of
+        /// directly accessing memory from contexts on <paramref name="peerDev"/> and 0 otherwise.
+        /// If direct access of <paramref name="peerDev"/> from <paramref name="dev"/> is possible, then access may be
+        /// enabled on two specific contexts by calling ::cuCtxEnablePeerAccess().</summary>
+        ///
+        /// <param name="canAccessPeer">Returned access capability</param>
+        /// <param name="dev">Device from which allocations on <paramref name="peerDev"/> are to
+        ///                        be directly accessed.</param>
+        /// <param name="peerDev">Device on which the allocations to be directly accessed
+        ///                        by <paramref name="dev"/> reside.</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_DEVICE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuCtxEnablePeerAccess,
+        /// ::cuCtxDisablePeerAccess,
+        /// ::cudaDeviceCanAccessPeer
+        /// CUresult CUDAAPI cuDeviceCanAccessPeer(int *canAccessPeer, CUdevice dev, CUdevice peerDev);
+        [DllImport(_dllpath, EntryPoint = "cuDeviceCanAccessPeer")]
+        public static extern CuResult DeviceCanAccessPeer(out bool canAccessPeer, CuDevice dev, CuDevice peerDev);
+
+        /// <summary>Enables direct access to memory allocations in a peer context.
+        ///
+        /// If both the current context and <paramref name="peerContext"/> are on devices which support unified
+        /// addressing (as may be queried using ::CU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING) and same
+        /// major compute capability, then on success all allocations from <paramref name="peerContext"/> will
+        /// immediately be accessible by the current context.  See \ref CUDA_UNIFIED for additional
+        /// details.
+        ///
+        /// Note that access granted by this call is unidirectional and that in order to access
+        /// memory from the current context in <paramref name="peerContext"/>, a separate symmetric call
+        /// to ::cuCtxEnablePeerAccess() is required.
+        ///
+        /// There is a system-wide maximum of eight peer connections per device.
+        ///
+        /// Returns ::CUDA_ERROR_PEER_ACCESS_UNSUPPORTED if ::cuDeviceCanAccessPeer() indicates
+        /// that the ::CUdevice of the current context cannot directly access memory
+        /// from the ::CUdevice of <paramref name="peerContext."/>
+        ///
+        /// Returns ::CUDA_ERROR_PEER_ACCESS_ALREADY_ENABLED if direct access of
+        /// <paramref name="peerContext"/> from the current context has already been enabled.
+        ///
+        /// Returns ::CUDA_ERROR_TOO_MANY_PEERS if direct peer access is not possible
+        /// because hardware resources required for peer access have been exhausted.
+        ///
+        /// Returns ::CUDA_ERROR_INVALID_CONTEXT if there is no current context, <paramref name="peerContext"/>
+        /// is not a valid context, or if the current context is <paramref name="peerContext."/>
+        ///
+        /// Returns ::CUDA_ERROR_INVALID_VALUE if <paramref name="flags"/> is not 0.</summary>
+        ///
+        /// <param name="peerContext">Peer context to enable direct access to from the current context</param>
+        /// <param name="flags">Reserved for future use and must be set to 0</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_PEER_ACCESS_ALREADY_ENABLED,
+        /// ::CUDA_ERROR_TOO_MANY_PEERS,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// ::CUDA_ERROR_PEER_ACCESS_UNSUPPORTED,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuDeviceCanAccessPeer,
+        /// ::cuCtxDisablePeerAccess,
+        /// ::cudaDeviceEnablePeerAccess
+        /// CUresult CUDAAPI cuCtxEnablePeerAccess(CUcontext peerContext, unsigned int Flags);
+        [DllImport(_dllpath, EntryPoint = "cuCtxEnablePeerAccess")]
+        public static extern CuResult CtxEnablePeerAccess(CuContext peerContext, int flags = 0);
+
+        /// <summary>Disables direct access to memory allocations in a peer context and
+        /// unregisters any registered allocations.
+        ///
+        /// Returns ::CUDA_ERROR_PEER_ACCESS_NOT_ENABLED if direct peer access has
+        /// not yet been enabled from <paramref name="peerContext"/> to the current context.
+        ///
+        /// Returns ::CUDA_ERROR_INVALID_CONTEXT if there is no current context, or if
+        /// <paramref name="peerContext"/> is not a valid context.</summary>
+        ///
+        /// <param name="peerContext">Peer context to disable direct access to</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_PEER_ACCESS_NOT_ENABLED,
+        /// ::CUDA_ERROR_INVALID_CONTEXT,
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuDeviceCanAccessPeer,
+        /// ::cuCtxEnablePeerAccess,
+        /// ::cudaDeviceDisablePeerAccess
+        /// CUresult CUDAAPI cuCtxDisablePeerAccess(CUcontext peerContext);
+        [DllImport(_dllpath, EntryPoint = "cuCtxDisablePeerAccess")]
+        public static extern CuResult CtxDisablePeerAccess(CuContext peerContext);
+
+        /// <summary>Queries attributes of the link between two devices.
+        ///
+        /// Returns in *<paramref name="value"/> the value of the requested attribute <paramref name="attrib"/> of the
+        /// link between <paramref name="srcDevice"/> and <paramref name="dstDevice"/>. The supported attributes are:
+        /// - ::CU_DEVICE_P2P_ATTRIBUTE_PERFORMANCE_RANK: A relative value indicating the
+        ///   performance of the link between two devices.
+        /// - ::CU_DEVICE_P2P_ATTRIBUTE_ACCESS_SUPPORTED P2P: 1 if P2P Access is enable.
+        /// - ::CU_DEVICE_P2P_ATTRIBUTE_NATIVE_ATOMIC_SUPPORTED: 1 if Atomic operations over
+        ///   the link are supported.
+        ///
+        /// Returns ::CUDA_ERROR_INVALID_DEVICE if <paramref name="srcDevice"/> or <paramref name="dstDevice"/> are not valid
+        /// or if they represent the same device.
+        ///
+        /// Returns ::CUDA_ERROR_INVALID_VALUE if <paramref name="attrib"/> is not valid or if <paramref name="value"/> is
+        /// a null pointer.</summary>
+        ///
+        /// <param name="value">Returned value of the requested attribute</param>
+        /// <param name="attrib">The requested attribute of the link between <paramref name="srcDevice"/> and <paramref name="dstDevice"/>.</param>
+        /// <param name="srcDevice">The source device of the target link.</param>
+        /// <param name="dstDevice">The destination device of the target link.</param>
+        ///
+        /// <returns>
+        /// ::CUDA_SUCCESS,
+        /// ::CUDA_ERROR_DEINITIALIZED,
+        /// ::CUDA_ERROR_NOT_INITIALIZED,
+        /// ::CUDA_ERROR_INVALID_DEVICE,
+        /// ::CUDA_ERROR_INVALID_VALUE
+        /// </returns>
+        /// \notefnerr
+        ///
+        /// \sa
+        /// ::cuCtxEnablePeerAccess,
+        /// ::cuCtxDisablePeerAccess,
+        /// ::cuDeviceCanAccessPeer,
+        /// ::cudaDeviceGetP2PAttribute
+        /// CUresult CUDAAPI cuDeviceGetP2PAttribute(int* value, CUdevice_P2PAttribute attrib, CUdevice srcDevice, CUdevice dstDevice);
+        [DllImport(_dllpath, EntryPoint = "cuDeviceGetP2PAttribute")]
+        public static extern CuResult DeviceGetP2PAttribute(out int value, DeviceP2PAttribute attrib, CuDevice srcDevice, CuDevice dstDevice);
+        #endregion
     }
 }
