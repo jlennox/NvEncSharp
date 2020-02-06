@@ -2,11 +2,13 @@
 using System.Runtime.InteropServices;
 using static Lennox.NvEncSharp.LibCuda;
 
+#pragma warning disable 169
 // ReSharper disable UnusedMember.Global
 
 namespace Lennox.NvEncSharp
 {
-    /// <summary>2D memory copy parameters</summary>
+    /// <summary>CUDA_MEMCPY2D:
+    /// 2D memory copy parameters</summary>
     public struct CuMemcopy2D
     {
         /// <summary>Source X in bytes</summary>
@@ -54,6 +56,7 @@ namespace Lennox.NvEncSharp
         }
     }
 
+    /// <summary>CUDA_MEMCPY3D</summary>
     public struct CuMemcpy3D
     {
         /// <summary>Source X in bytes</summary>
@@ -296,7 +299,9 @@ namespace Lennox.NvEncSharp
         private fixed int _reserved[32];
     }
 
-    public struct CuResourceDesc
+    /// <summary>CUDA_RESOURCE_DESC:
+    /// CUDA Resource descriptor</summary>
+    public struct CuResourceDescription
     {
         /// <summary>Resource type</summary>
         public CuResourceType ResType;
@@ -305,20 +310,22 @@ namespace Lennox.NvEncSharp
         public int Flags;
     }
 
-    public unsafe struct CuTextureDesc
+    /// <summary>CUDA_TEXTURE_DESC:
+    /// Texture descriptor</summary>
+    public unsafe struct CuTextureDescription
     {
         /// <summary>Address modes</summary>
-        public CuAddressMode AddressMode1;
-        public CuAddressMode AddressMode2;
-        public CuAddressMode AddressMode3;
+        public AddressMode AddressMode1;
+        public AddressMode AddressMode2;
+        public AddressMode AddressMode3;
         /// <summary>Filter mode</summary>
-        public CuFilterMode FilterMode;
+        public FilterMode FilterMode;
         /// <summary>Flags</summary>
         public int Flags;
         /// <summary>Maximum anisotropy ratio</summary>
         public int MaxAnisotropy;
         /// <summary>Mipmap filter mode</summary>
-        public CuFilterMode MipmapFilterMode;
+        public FilterMode MipmapFilterMode;
         /// <summary>Mipmap level bias</summary>
         public float MipmapLevelBias;
         /// <summary>Mipmap minimum level clamp</summary>
@@ -330,7 +337,9 @@ namespace Lennox.NvEncSharp
         private fixed int _reserved[12];
     }
 
-    public unsafe struct CuResourceViewDesc
+    /// <summary>CUDA_RESOURCE_VIEW_DESC:
+    /// Resource view descriptor</summary>
+    public unsafe struct CuResourceViewDescription
     {
         /// <summary>Resource view format</summary>
         public CuResourceViewFormat Format;
@@ -351,7 +360,9 @@ namespace Lennox.NvEncSharp
         private fixed int _reserved[16];
     }
 
-    public unsafe struct CuLaunchParams
+    /// <summary>CUDA_LAUNCH_PARAMS:
+    /// Kernel launch parameters</summary>
+    public unsafe struct LaunchParameters
     {
         /// <summary>Kernel to launch</summary>
         public CuFunction Function;

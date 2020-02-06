@@ -81,7 +81,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags
         /// CUresult CUDAAPI cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int *numBlocks, CUfunction func, int blockSize, size_t dynamicSMemSize, unsigned int flags);
         [DllImport(_dllpath, EntryPoint = "cuOccupancyMaxActiveBlocksPerMultiprocessorWithFlags")]
-        public static extern CuResult OccupancyMaxActiveBlocksPerMultiprocessorWithFlags(out int numBlocks, CuFunction func, int blockSize, IntPtr dynamicSMemSize, CuOccupancyFlags flags);
+        public static extern CuResult OccupancyMaxActiveBlocksPerMultiprocessorWithFlags(out int numBlocks, CuFunction func, int blockSize, IntPtr dynamicSMemSize, OccupancyFlags flags);
 
         /// <summary>Suggest a launch configuration with reasonable occupancy
         ///
@@ -181,6 +181,6 @@ namespace Lennox.NvEncSharp
         /// ::cudaOccupancyMaxPotentialBlockSizeWithFlags
         /// CUresult CUDAAPI cuOccupancyMaxPotentialBlockSizeWithFlags(int *minGridSize, int *blockSize, CUfunction func, CUoccupancyB2DSize blockSizeToDynamicSMemSize, size_t dynamicSMemSize, int blockSizeLimit, unsigned int flags);
         [DllImport(_dllpath, EntryPoint = "cuOccupancyMaxPotentialBlockSizeWithFlags")]
-        public static extern CuResult OccupancyMaxPotentialBlockSizeWithFlags(out int minGridSize, out int blockSize, CuFunction func, CuOccupancyB2DSize blockSizeToDynamicSMemSize, IntPtr dynamicSMemSize, int blockSizeLimit, CuOccupancyFlags flags);
+        public static extern CuResult OccupancyMaxPotentialBlockSizeWithFlags(out int minGridSize, out int blockSize, CuFunction func, CuOccupancyB2DSize blockSizeToDynamicSMemSize, IntPtr dynamicSMemSize, int blockSizeLimit, OccupancyFlags flags);
     }
 }

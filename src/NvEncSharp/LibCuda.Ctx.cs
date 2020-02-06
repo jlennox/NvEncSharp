@@ -503,7 +503,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaDeviceGetSharedMemConfig
         /// CUresult CUDAAPI cuCtxGetSharedMemConfig(CUsharedconfig *pConfig);
         [DllImport(_dllpath, EntryPoint = "cuCtxGetSharedMemConfig")]
-        public static extern CuResult CtxGetSharedMemConfig(out CuSharedConfig pConfig);
+        public static extern CuResult CtxGetSharedMemConfig(out SharedMemoryConfig pConfig);
 
         /// <summary>Sets the shared memory configuration for the current context.
         ///
@@ -557,7 +557,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaDeviceSetSharedMemConfig
         /// CUresult CUDAAPI cuCtxSetSharedMemConfig(CUsharedconfig config);
         [DllImport(_dllpath, EntryPoint = "cuCtxSetSharedMemConfig")]
-        public static extern CuResult CtxSetSharedMemConfig(CuSharedConfig config);
+        public static extern CuResult CtxSetSharedMemConfig(SharedMemoryConfig config);
 
         /// <summary>Gets the context's API version.
         ///

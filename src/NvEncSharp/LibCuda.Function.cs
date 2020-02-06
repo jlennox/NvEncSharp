@@ -213,9 +213,9 @@ namespace Lennox.NvEncSharp
         /// ::cuFuncGetAttribute,
         /// ::cuLaunchKernel,
         /// ::cudaFuncSetSharedMemConfig
-        /// CUresult CUDAAPI cuFuncSetSharedMemConfig(CUfunction hfunc, CUsharedconfig config);
+        /// CUresult CUDAAPI cuFuncSetSharedMemConfig(CUfunction hfunc, CUSharedMemoryConfig config);
         [DllImport(_dllpath, EntryPoint = "cuFuncSetSharedMemConfig")]
-        public static extern CuResult FuncSetSharedMemConfig(CuFunction hfunc, CuSharedConfig config);
+        public static extern CuResult FuncSetSharedMemConfig(CuFunction hfunc, SharedMemoryConfig config);
 
         /// <summary>Launches a CUDA function
         ///
@@ -546,6 +546,6 @@ namespace Lennox.NvEncSharp
         /// ::cudaLaunchCooperativeKernelMultiDevice
         /// CUresult CUDAAPI cuLaunchCooperativeKernelMultiDevice(CUDA_LAUNCH_PARAMS *launchParamsList, unsigned int numDevices, unsigned int flags);
         [DllImport(_dllpath, EntryPoint = "cuLaunchCooperativeKernelMultiDevice")]
-        public static extern CuResult LaunchCooperativeKernelMultiDevice(CuLaunchParams* launchParamsList, int numDevices, CuCooperativeLaunchMultiDevice flags);
+        public static extern CuResult LaunchCooperativeKernelMultiDevice(LaunchParameters* launchParamsList, int numDevices, CooperativeLaunchMultiDevice flags);
     }
 }

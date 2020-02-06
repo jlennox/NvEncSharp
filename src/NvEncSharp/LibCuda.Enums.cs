@@ -7,30 +7,40 @@ namespace Lennox.NvEncSharp
     [Flags]
     public enum CuContextFlags
     {
-        /// <summary>Sets SchedAuto.</summary>
+        /// <summary>CU_CTX_SCHED_AUTO:
+        /// Sets SchedAuto.</summary>
         Default = 0x00,
-        /// <summary>Automatic scheduling</summary>
+        /// <summary>CU_CTX_SCHED_AUTO:
+        /// Automatic scheduling</summary>
         SchedAuto = 0x00,
-        /// <summary>Set spin as default scheduling</summary>
+        /// <summary>CU_CTX_SCHED_SPIN:
+        /// Set spin as default scheduling</summary>
         SchedSpin = 0x01,
-        /// <summary>Set yield as default scheduling</summary>
+        /// <summary>CU_CTX_SCHED_YIELD:
+        /// Set yield as default scheduling</summary>
         SchedYield = 0x02,
-        /// <summary>Set blocking synchronization as default scheduling</summary>
+        /// <summary>CU_CTX_SCHED_BLOCKING_SYNC:
+        /// Set blocking synchronization as default scheduling</summary>
         SchedBlockingSync = 0x04,
-        /// <summary>Set blocking synchronization as default scheduling
+        /// <summary>CU_CTX_BLOCKING_SYNC:
+        /// Set blocking synchronization as default scheduling
         /// \deprecated This flag was deprecated as of CUDA 4.0
         /// and was replaced with ::CU_CTX_SCHED_BLOCKING_SYNC.</summary>
         [Obsolete]
         BlockingSync = 0x04,
+        /// <summary>CU_CTX_SCHED_MASK</summary>
         SchedMask = 0x07,
-        /// <summary>Support mapped pinned allocations</summary>
+        /// <summary>CU_CTX_MAP_HOST:
+        /// Support mapped pinned allocations</summary>
         MapHost = 0x08,
-        /// <summary>Keep local memory allocation after launch</summary>
+        /// <summary>CU_CTX_LMEM_RESIZE_TO_MAX:
+        /// Keep local memory allocation after launch</summary>
         LmemResizeToMax = 0x10,
+        /// <summary>CU_CTX_FLAGS_MASK</summary>
         FlagsMask = 0x1f
     }
 
-    /// <summary>\enum CUdevice_attribute</summary>
+    /// <summary>CUdevice_attribute</summary>
     public enum CuDeviceAttribute
     {
         /// <summary>CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,</summary>
@@ -239,336 +249,482 @@ namespace Lennox.NvEncSharp
         MaxSharedMemoryPerBlockOptin = 97
     }
 
+    /// <summary>CUgraphicsRegisterFlags:
+    /// Flags to register a graphics resource</summary>
     [Flags]
     public enum CuGraphicsRegisters
     {
+        /// <summary>CU_GRAPHICS_REGISTER_FLAGS_NONE</summary>
         None = 0x00,
+        /// <summary>CU_GRAPHICS_REGISTER_FLAGS_READ_ONLY</summary>
         ReadOnly = 0x01,
+        /// <summary>CU_GRAPHICS_REGISTER_FLAGS_WRITE_DISCARD</summary>
         WriteDiscard = 0x02,
+        /// <summary>CU_GRAPHICS_REGISTER_FLAGS_SURFACE_LDST</summary>
         SurfaceLdst = 0x04,
+        /// <summary>CU_GRAPHICS_REGISTER_FLAGS_TEXTURE_GATHER</summary>
         TextureGather = 0x08
     }
 
-    /// <summary>Flags for mapping and unmapping interop resources</summary>
+    /// <summary>CUgraphicsMapResourceFlags;
+    /// Flags for mapping and unmapping interop resources</summary>
     [Flags]
     public enum CuGraphicsMapResources
     {
+        /// <summary>CU_GRAPHICS_MAP_RESOURCE_FLAGS_NONE</summary>
         None = 0x00,
+        /// <summary>CU_GRAPHICS_MAP_RESOURCE_FLAGS_READ_ONLY</summary>
         ReadOnly = 0x01,
+        /// <summary>CU_GRAPHICS_MAP_RESOURCE_FLAGS_WRITE_DISCARD</summary>
         WriteDiscard = 0x02
     }
 
-    /// <summary>Array indices for cube faces</summary>
+    /// <summary>CUarray_cubemap_face:
+    /// Array indices for cube faces</summary>
     public enum CuArrayCubemapFace
     {
-        /// <summary>Positive X face of cubemap</summary>
+        /// <summary>CU_CUBEMAP_FACE_POSITIVE_X:
+        /// Positive X face of cubemap</summary>
         PositiveX = 0x00,
-        /// <summary>Negative X face of cubemap</summary>
+        /// <summary>CU_CUBEMAP_FACE_NEGATIVE_X:
+        /// Negative X face of cubemap</summary>
         NegativeX = 0x01,
-        /// <summary>Positive Y face of cubemap</summary>
+        /// <summary>CU_CUBEMAP_FACE_POSITIVE_Y:
+        /// Positive Y face of cubemap</summary>
         PositiveY = 0x02,
-        /// <summary>Negative Y face of cubemap</summary>
+        /// <summary>CU_CUBEMAP_FACE_NEGATIVE_Y:
+        /// Negative Y face of cubemap</summary>
         NegativeY = 0x03,
-        /// <summary>Positive Z face of cubemap</summary>
+        /// <summary>CU_CUBEMAP_FACE_POSITIVE_Z:
+        /// Positive Z face of cubemap</summary>
         PositiveZ = 0x04,
-        /// <summary>Negative Z face of cubemap</summary>
+        /// <summary>CU_CUBEMAP_FACE_NEGATIVE_Z:
+        /// Negative Z face of cubemap</summary>
         NegativeZ = 0x05
     }
 
-    /// <summary>Limits</summary>
+    /// <summary>CUlimit:
+    /// Limits</summary>
     public enum CuLimit
     {
-        /// <summary>GPU thread stack size</summary>
+        /// <summary>CU_LIMIT_STACK_SIZE:
+        /// GPU thread stack size</summary>
         StackSize = 0x00,
-        /// <summary>GPU printf FIFO size</summary>
+        /// <summary>CU_LIMIT_PRINTF_FIFO_SIZE:
+        /// GPU printf FIFO size</summary>
         PrintfFifoSize = 0x01,
-        /// <summary>GPU malloc heap size</summary>
+        /// <summary>CU_LIMIT_MALLOC_HEAP_SIZE:
+        /// GPU malloc heap size</summary>
         MallocHeapSize = 0x02,
-        /// <summary>GPU device runtime launch synchronize depth</summary>
+        /// <summary>CU_LIMIT_DEV_RUNTIME_SYNC_DEPTH:
+        /// GPU device runtime launch synchronize depth</summary>
         DevRuntimeSyncDepth = 0x03,
-        /// <summary>GPU device runtime pending launch count</summary>
+        /// <summary>CU_LIMIT_DEV_RUNTIME_PENDING_LAUNCH_COUNT:
+        /// GPU device runtime pending launch count</summary>
         DevRuntimePendingLaunchCount = 0x04,
+        /// <summary>CU_LIMIT_MAX_L2_FETCH_GRANULARITY:
+        /// A value between 0 and 128 that indicates the maximum fetch granularity of L2 (in Bytes). This is a hint</summary>
+        MaxL2FetchGranularity = 0x05,
+        /// <summary>CU_LIMIT_MAX</summary>
         Max
     }
 
-    /// <summary>Resource types</summary>
+    /// <summary>CUresourcetype:
+    /// Resource types</summary>
     public enum CuResourceType
     {
-        /// <summary>Array resoure</summary>
+        /// <summary>CU_RESOURCE_TYPE_ARRAY:
+        /// Array resoure</summary>
         Array = 0x00,
-        /// <summary>Mipmapped array resource</summary>
+        /// <summary>CU_RESOURCE_TYPE_MIPMAPPED_ARRAY:
+        /// Mipmapped array resource</summary>
         MipmappedArray = 0x01,
-        /// <summary>Linear resource</summary>
+        /// <summary>CU_RESOURCE_TYPE_LINEAR:
+        /// Linear resource</summary>
         Linear = 0x02,
-        /// <summary>Pitch 2D resource</summary>
+        /// <summary>CU_RESOURCE_TYPE_PITCH2D:
+        /// Pitch 2D resource</summary>
         Pitch2D = 0x03
     }
 
-    /// <summary>Memory types</summary>
+    /// <summary>CUmemorytype:
+    /// Memory types</summary>
     public enum CuMemoryType
     {
-        /// <summary>Host memory</summary>
+        /// <summary>CU_MEMORYTYPE_HOST:
+        /// Host memory</summary>
         Host = 0x01,
-        /// <summary>Device memory</summary>
+        /// <summary>CU_MEMORYTYPE_DEVICE:
+        /// Device memory</summary>
         Device = 0x02,
-        /// <summary>Array memory</summary>
+        /// <summary>CU_MEMORYTYPE_ARRAY:
+        /// Array memory</summary>
         Array = 0x03,
-        /// <summary>Unified device or host memory</summary>
+        /// <summary>CU_MEMORYTYPE_UNIFIED:
+        /// Unified device or host memory</summary>
         Unified = 0x04
     }
 
-    /// <summary>Function cache configurations</summary>
+    /// <summary>CUfunc_cache:
+    /// Function cache configurations</summary>
     public enum CuFunctionCache
     {
-        /// <summary>no preference for shared memory or L1 (default)</summary>
+        /// <summary>CU_FUNC_CACHE_PREFER_NONE:
+        /// no preference for shared memory or L1 (default)</summary>
         PreferNone = 0x00,
-        /// <summary>prefer larger shared memory and smaller L1 cache</summary>
+        /// <summary>CU_FUNC_CACHE_PREFER_SHARED:
+        /// prefer larger shared memory and smaller L1 cache</summary>
         PreferShared = 0x01,
-        /// <summary>prefer larger L1 cache and smaller shared memory</summary>
+        /// <summary>CU_FUNC_CACHE_PREFER_L1:
+        /// prefer larger L1 cache and smaller shared memory</summary>
         PreferL1 = 0x02,
-        /// <summary>prefer equal sized L1 cache and shared memory</summary>
+        /// <summary>CU_FUNC_CACHE_PREFER_EQUAL:
+        /// prefer equal sized L1 cache and shared memory</summary>
         PreferEqual = 0x03
     }
 
-    /// <summary>Shared memory configurations</summary>
-    public enum CuSharedConfig
+    /// <summary>CUsharedconfig:
+    /// Shared memory configurations</summary>
+    public enum SharedMemoryConfig
     {
-        /// <summary>set default shared memory bank size</summary>
+        /// <summary>CU_SHARED_MEM_CONFIG_DEFAULT_BANK_SIZE:
+        /// set default shared memory bank size</summary>
         DefaultBankSize = 0x00,
-        /// <summary>set shared memory bank width to four bytes</summary>
+        /// <summary>CU_SHARED_MEM_CONFIG_FOUR_BYTE_BANK_SIZE:
+        /// set shared memory bank width to four bytes</summary>
         FourByteBankSize = 0x01,
-        /// <summary>set shared memory bank width to eight bytes</summary>
+        /// <summary>CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BANK_SIZE:
+        /// set shared memory bank width to eight bytes</summary>
         EightByteBankSize = 0x02
     }
 
-    /// <summary>Shared memory carveout configurations</summary>
-    public enum CuSharedCarveout
+    /// <summary>CUshared_carveout:
+    /// Shared memory carveout configurations</summary>
+    public enum SharedMemoryCarveout
     {
-        /// <summary>no preference for shared memory or L1 (default)</summary>
+        /// <summary>CU_SHAREDMEM_CARVEOUT_DEFAULT:
+        /// no preference for shared memory or L1 (default)</summary>
         Default = -1,
-        /// <summary>prefer maximum available shared memory, minimum L1 cache</summary>
+        /// <summary>CU_SHAREDMEM_CARVEOUT_MAX_SHARED:
+        /// prefer maximum available shared memory, minimum L1 cache</summary>
         MaxShared = 100,
-        /// <summary>prefer maximum available L1 cache, minimum shared memory</summary>
+        /// <summary>CU_SHAREDMEM_CARVEOUT_MAX_L1:
+        /// prefer maximum available L1 cache, minimum shared memory</summary>
         MaxL1 = 0
     }
 
-    /// <summary>Compute Modes</summary>
-    public enum CuComputeMode
+    /// <summary>CUcomputemode:
+    /// Compute Modes</summary>
+    public enum ComputeMode
     {
-        /// <summary>Default compute mode (Multiple contexts allowed per device)</summary>
+        /// <summary>CU_COMPUTEMODE_DEFAULT:
+        /// Default compute mode (Multiple contexts allowed per device)</summary>
         Default = 0,
-        /// <summary>Compute-prohibited mode (No contexts can be created on this device at this time)</summary>
+        /// <summary>CU_COMPUTEMODE_PROHIBITED:
+        /// Compute-prohibited mode (No contexts can be created on this device at this time)</summary>
         Prohibited = 2,
-        /// <summary>Compute-exclusive-process mode (Only one context used by a single process can be present on this device at a time)</summary>
+        /// <summary>CU_COMPUTEMODE_EXCLUSIVE_PROCESS:
+        /// Compute-exclusive-process mode (Only one context used by a single process can be present on this device at a time)</summary>
         ExclusiveProcess = 3
     }
 
-    /// <summary>Memory advise values</summary>
-    public enum CuMemAdvice
+    /// <summary>CUmem_advise:
+    /// Memory advise values</summary>
+    public enum MemoryAdvice
     {
-        /// <summary>Data will mostly be read and only occassionally be written to</summary>
+        /// <summary>CU_MEM_ADVISE_SET_READ_MOSTLY:
+        /// Data will mostly be read and only occassionally be written to</summary>
         SetReadMostly = 1,
-        /// <summary>Undo the effect of ::CU_MEM_ADVISE_SET_READ_MOSTLY</summary>
+        /// <summary>CU_MEM_ADVISE_UNSET_READ_MOSTLY:
+        /// Undo the effect of ::CU_MEM_ADVISE_SET_READ_MOSTLY</summary>
         UnsetReadMostly = 2,
-        /// <summary>Set the preferred location for the data as the specified device</summary>
+        /// <summary>CU_MEM_ADVISE_SET_PREFERRED_LOCATION:
+        /// Set the preferred location for the data as the specified device</summary>
         SetPreferredLocation = 3,
-        /// <summary>Clear the preferred location for the data</summary>
+        /// <summary>CU_MEM_ADVISE_UNSET_PREFERRED_LOCATION:
+        /// Clear the preferred location for the data</summary>
         UnsetPreferredLocation = 4,
-        /// <summary>Data will be accessed by the specified device, so prevent page faults as much as possible</summary>
+        /// <summary>CU_MEM_ADVISE_SET_ACCESSED_BY:
+        /// Data will be accessed by the specified device, so prevent page faults as much as possible</summary>
         SetAccessedBy = 5,
-        /// <summary>Let the Unified Memory subsystem decide on the page faulting policy for the specified device</summary>
+        /// <summary>CU_MEM_ADVISE_UNSET_ACCESSED_BY:
+        /// Let the Unified Memory subsystem decide on the page faulting policy for the specified device</summary>
         UnsetAccessedBy = 6
     }
 
-    public enum CuMemRangeAttribute
+    /// <summary>CUmem_range_attribute</summary>
+    public enum MemoryRangeAttribute
     {
-        /// <summary>Whether the range will mostly be read and only occassionally be written to</summary>
+        /// <summary>CU_MEM_RANGE_ATTRIBUTE_READ_MOSTLY:
+        /// Whether the range will mostly be read and only occassionally be written to</summary>
         ReadMostly = 1,
-        /// <summary>The preferred location of the range</summary>
+        /// <summary>CU_MEM_RANGE_ATTRIBUTE_PREFERRED_LOCATION:
+        /// The preferred location of the range</summary>
         PreferredLocation = 2,
-        /// <summary>Memory range has ::CU_MEM_ADVISE_SET_ACCESSED_BY set for specified device</summary>
+        /// <summary>CU_MEM_RANGE_ATTRIBUTE_ACCESSED_BY:
+        /// Memory range has ::CU_MEM_ADVISE_SET_ACCESSED_BY set for specified device</summary>
         AccessedBy = 3,
-        /// <summary>The last location to which the range was prefetched</summary>
+        /// <summary>CU_MEM_RANGE_ATTRIBUTE_LAST_PREFETCH_LOCATION:
+        /// The last location to which the range was prefetched</summary>
         LastPrefetchLocation = 4
     }
 
-    /// <summary>Occupancy calculator flag</summary>
+    /// <summary>CUoccupancy_flags:
+    /// Occupancy calculator flag</summary>
     [Flags]
-    public enum CuOccupancyFlags
+    public enum OccupancyFlags
     {
-        /// <summary>Default behavior</summary>
+        /// <summary>CU_OCCUPANCY_DEFAULT:
+        /// Default behavior</summary>
         Default = 0x0,
-        /// <summary>Assume global caching is enabled and cannot be automatically turned off</summary>
+        /// <summary>CU_OCCUPANCY_DISABLE_CACHING_OVERRIDE:
+        /// Assume global caching is enabled and cannot be automatically turned off</summary>
         DisableCachingOverride = 0x1
     }
 
-    /// <summary>Array formats</summary>
+    /// <summary>CUarray_format:
+    /// Array formats</summary>
     public enum CuArrayFormat
     {
-        /// <summary>Unsigned 8-bit integers</summary>
+        /// <summary>CU_AD_FORMAT_UNSIGNED_INT8:
+        /// Unsigned 8-bit integers</summary>
         UnsignedInt8 = 0x01,
-        /// <summary>Unsigned 16-bit integers</summary>
+        /// <summary>CU_AD_FORMAT_UNSIGNED_INT16:
+        /// Unsigned 16-bit integers</summary>
         UnsignedInt16 = 0x02,
-        /// <summary>Unsigned 32-bit integers</summary>
+        /// <summary>CU_AD_FORMAT_UNSIGNED_INT32:
+        /// Unsigned 32-bit integers</summary>
         UnsignedInt32 = 0x03,
-        /// <summary>Signed 8-bit integers</summary>
+        /// <summary>CU_AD_FORMAT_SIGNED_INT8:
+        /// Signed 8-bit integers</summary>
         SignedInt8 = 0x08,
-        /// <summary>Signed 16-bit integers</summary>
+        /// <summary>CU_AD_FORMAT_SIGNED_INT16:
+        /// Signed 16-bit integers</summary>
         SignedInt16 = 0x09,
-        /// <summary>Signed 32-bit integers</summary>
+        /// <summary>CU_AD_FORMAT_SIGNED_INT32:
+        /// Signed 32-bit integers</summary>
         SignedInt32 = 0x0a,
-        /// <summary>16-bit floating point</summary>
+        /// <summary>CU_AD_FORMAT_HALF:
+        /// 16-bit floating point</summary>
         Half = 0x10,
-        /// <summary>32-bit floating point</summary>
+        /// <summary>CU_AD_FORMAT_FLOAT:
+        /// 32-bit floating point</summary>
         Float = 0x20
     }
 
-    /// <summary>Texture reference addressing modes</summary>
-    public enum CuAddressMode
+    /// <summary>CUaddress_mode:
+    /// Texture reference addressing modes</summary>
+    public enum AddressMode
     {
-        /// <summary>Wrapping address mode</summary>
+        /// <summary>CU_TR_ADDRESS_MODE_WRAP:
+        /// Wrapping address mode</summary>
         Wrap = 0,
-        /// <summary>Clamp to edge address mode</summary>
+        /// <summary>CU_TR_ADDRESS_MODE_CLAMP:
+        /// Clamp to edge address mode</summary>
         Clamp = 1,
-        /// <summary>Mirror address mode</summary>
+        /// <summary>CU_TR_ADDRESS_MODE_MIRROR:
+        /// Mirror address mode</summary>
         Mirror = 2,
-        /// <summary>Border address mode</summary>
+        /// <summary>CU_TR_ADDRESS_MODE_BORDER:
+        /// Border address mode</summary>
         Border = 3
     }
 
-    /// <summary>Texture reference filtering modes</summary>
-    public enum CuFilterMode
+    /// <summary>CUfilter_mode:
+    /// Texture reference filtering modes</summary>
+    public enum FilterMode
     {
-        /// <summary>Point filter mode</summary>
+        /// <summary>CU_TR_FILTER_MODE_POINT:
+        /// Point filter mode</summary>
         Point = 0,
-        /// <summary>Linear filter mode</summary>
+        /// <summary>CU_TR_FILTER_MODE_LINEAR:
+        /// Linear filter mode</summary>
         Linear = 1
     }
 
-    /// <summary>Stream creation flags</summary>
+    /// <summary>CUstream_flags:
+    /// Stream creation flags</summary>
     [Flags]
     public enum CuStreamFlags
     {
-        /// <summary>Default stream flag</summary>
+        /// <summary>CU_STREAM_DEFAULT:
+        /// Default stream flag</summary>
         Default = 0x0,
-        /// <summary>Stream does not synchronize with stream 0 (the NULL stream)</summary>
+        /// <summary>CU_STREAM_NON_BLOCKING:
+        /// Stream does not synchronize with stream 0 (the NULL stream)</summary>
         NonBlocking = 0x1
     }
 
-    /// <summary>Event creation flags</summary>
+    /// <summary>CUevent_flags:
+    /// Event creation flags</summary>
     [Flags]
     public enum CuEventFlags
     {
-        /// <summary>Default event flag</summary>
+        /// <summary>CU_EVENT_DEFAULT:
+        /// Default event flag</summary>
         Default = 0x0,
-        /// <summary>Event uses blocking synchronization</summary>
+        /// <summary>CU_EVENT_BLOCKING_SYNC:
+        /// Event uses blocking synchronization</summary>
         BlockingSync = 0x1,
-        /// <summary>Event will not record timing data</summary>
+        /// <summary>CU_EVENT_DISABLE_TIMING:
+        /// Event will not record timing data</summary>
         DisableTiming = 0x2,
-        /// <summary>Event is suitable for interprocess use. CU_EVENT_DISABLE_TIMING must be set</summary>
+        /// <summary>CU_EVENT_INTERPROCESS:
+        /// Event is suitable for interprocess use. CU_EVENT_DISABLE_TIMING must be set</summary>
         Interprocess = 0x4
     }
 
-    /// <summary>CUDA Ipc Mem Flags</summary>
+    /// <summary>CUipcMem_flags:
+    /// CUDA Ipc Mem Flags</summary>
     [Flags]
-    public enum CuIpcMemFlags
+    public enum IpcMemoryFlags
     {
-        /// <summary>Automatically enable peer access between remote devices as needed</summary>
+        /// <summary>CU_IPC_MEM_LAZY_ENABLE_PEER_ACCESS:
+        /// Automatically enable peer access between remote devices as needed</summary>
         LazyEnablePeerAccess = 0x1
     }
 
-    /// <summary>CUDA Mem Attach Flags</summary>
+    /// <summary>CUmemAttach_flags:
+    /// CUDA Mem Attach Flags</summary>
     [Flags]
-    public enum CuMemAttachFlags
+    public enum MemoryAttachFlags
     {
-        /// <summary>Memory can be accessed by any stream on any device</summary>
+        /// <summary>CU_MEM_ATTACH_GLOBAL:
+        /// Memory can be accessed by any stream on any device</summary>
         Global = 0x1,
-        /// <summary>Memory cannot be accessed by any stream on any device</summary>
+        /// <summary>CU_MEM_ATTACH_HOST:
+        /// Memory cannot be accessed by any stream on any device</summary>
         Host = 0x2,
-        /// <summary>Memory can only be accessed by a single stream on the associated device</summary>
+        /// <summary>CU_MEM_ATTACH_SINGLE:
+        /// Memory can only be accessed by a single stream on the associated device</summary>
         Single = 0x4
     }
 
+    /// <summary>CUpointer_attribute:
+    /// Pointer information</summary>
     public enum PointerAttribute
     {
-        /// <summary>The ::CUcontext on which a pointer was allocated or registered</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_CONTEXT:
+        /// The ::CUcontext on which a pointer was allocated or registered</summary>
         Context = 1,
-        /// <summary>The ::CUmemorytype describing the physical location of a pointer</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_MEMORY_TYPE:
+        /// The ::CUmemorytype describing the physical location of a pointer</summary>
         MemoryType = 2,
-        /// <summary>The address at which a pointer's memory may be accessed on the device</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_DEVICE_POINTER:
+        /// The address at which a pointer's memory may be accessed on the device</summary>
         DevicePointer = 3,
-        /// <summary>The address at which a pointer's memory may be accessed on the host</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_HOST_POINTER:
+        /// The address at which a pointer's memory may be accessed on the host</summary>
         HostPointer = 4,
-        /// <summary>A pair of tokens for use with the nv-p2p.h Linux kernel interface</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_P2P_TOKENS:
+        /// A pair of tokens for use with the nv-p2p.h Linux kernel interface</summary>
         P2PTokens = 5,
-        /// <summary>Synchronize every synchronous memory operation initiated on this region</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_SYNC_MEMOPS:
+        /// Synchronize every synchronous memory operation initiated on this region</summary>
         SyncMemops = 6,
-        /// <summary>A process-wide unique ID for an allocated memory region*/</summary>
+        /// <summary>CU_POINTER_ATTRIBUTE_BUFFER_ID:
+        /// A process-wide unique ID for an allocated memory region*/</summary>
         BufferId = 7,
-        /// <summary>Indicates if the pointer points to managed memory</summary>
-        IsManaged = 8
+        /// <summary>CU_POINTER_ATTRIBUTE_IS_MANAGED:
+        /// Indicates if the pointer points to managed memory</summary>
+        IsManaged = 8,
+        /// <summary>CU_POINTER_ATTRIBUTE_DEVICE_ORDINAL:
+        /// A device ordinal of a device on which a pointer was allocated or registered</summary>
+        DeviceOrdinal = 9,
+        /// <summary>CU_POINTER_ATTRIBUTE_IS_LEGACY_CUDA_IPC_CAPABLE:
+        /// 1 if this pointer maps to an allocation that is suitable for ::cudaIpcGetMemHandle, 0 otherwise</summary>
+        IsLegacyCudaIpcCapable = 10,
+        /// <summary>CU_POINTER_ATTRIBUTE_RANGE_START_ADDR:
+        /// Starting address for this requested pointer</summary>
+        RangeStartAddr = 11,
+        /// <summary>CU_POINTER_ATTRIBUTE_RANGE_SIZE:
+        /// Size of the address range for this requested pointer</summary>
+        RangeSize = 12,
+        /// <summary>CU_POINTER_ATTRIBUTE_MAPPED:
+        /// 1 if this pointer is in a valid address range that is mapped to a backing allocation, 0 otherwise</summary>
+        Mapped = 13,
+        /// <summary>CU_POINTER_ATTRIBUTE_ALLOWED_HANDLE_TYPES:
+        /// Bitmask of allowed ::CUmemAllocationHandleType for this allocation</summary>
+        AllowedHandleTypes = 14
     }
 
+    /// <summary>CUfunction_attribute:
+    /// Function properties</summary>
     public enum FunctionAttribute
     {
-        /// <summary>The maximum number of threads per block, beyond which a launch of the
+        /// <summary>CU_FUNC_ATTRIBUTE_MAX_THREADS_PER_BLOCK:
+        /// The maximum number of threads per block, beyond which a launch of the
         /// function would fail. This number depends on both the function and the
         /// device on which the function is currently loaded.</summary>
         MaxThreadsPerBlock = 0,
 
-        /// <summary>The size in bytes of statically-allocated shared memory required by
+        /// <summary>CU_FUNC_ATTRIBUTE_SHARED_SIZE_BYTES:
+        /// The size in bytes of statically-allocated shared memory required by
         /// this function. This does not include dynamically-allocated shared
         /// memory requested by the user at runtime.</summary>
         SharedSizeBytes = 1,
 
-        /// <summary>The size in bytes of user-allocated constant memory required by this
+        /// <summary>CU_FUNC_ATTRIBUTE_CONST_SIZE_BYTES:
+        /// The size in bytes of user-allocated constant memory required by this
         /// function.</summary>
         ConstSizeBytes = 2,
 
-        /// <summary>The size in bytes of local memory used by each thread of this function.</summary>
+        /// <summary>CU_FUNC_ATTRIBUTE_LOCAL_SIZE_BYTES:
+        /// The size in bytes of local memory used by each thread of this function.</summary>
         LocalSizeBytes = 3,
 
-        /// <summary>The number of registers used by each thread of this function.</summary>
+        /// <summary>CU_FUNC_ATTRIBUTE_NUM_REGS:
+        /// The number of registers used by each thread of this function.</summary>
         NumRegs = 4,
 
-        /// <summary>The PTX virtual architecture version for which the function was
+        /// <summary>CU_FUNC_ATTRIBUTE_PTX_VERSION:
+        /// The PTX virtual architecture version for which the function was
         /// compiled. This value is the major PTX version * 10 + the minor PTX
         /// version, so a PTX version 1.3 function would return the value 13.
         /// Note that this may return the undefined value of 0 for cubins
         /// compiled prior to CUDA 3.0.</summary>
         PtxVersion = 5,
 
-        /// <summary>The binary architecture version for which the function was compiled.
+        /// <summary>CU_FUNC_ATTRIBUTE_BINARY_VERSION:
+        /// The binary architecture version for which the function was compiled.
         /// This value is the major binary version * 10 + the minor binary version,
         /// so a binary version 1.3 function would return the value 13. Note that
         /// this will return a value of 10 for legacy cubins that do not have a
         /// properly-encoded binary architecture version.</summary>
         BinaryVersion = 6,
 
-        /// <summary>The attribute to indicate whether the function has been compiled with
+        /// <summary>CU_FUNC_ATTRIBUTE_CACHE_MODE_CA:
+        /// The attribute to indicate whether the function has been compiled with
         /// user specified option "-Xptxas --dlcm=ca" set .</summary>
         CacheModeCa = 7,
 
-        /// <summary>The maximum size in bytes of dynamically-allocated shared memory that can be used by
+        /// <summary>CU_FUNC_ATTRIBUTE_MAX_DYNAMIC_SHARED_SIZE_BYTES:
+        /// The maximum size in bytes of dynamically-allocated shared memory that can be used by
         /// this function. If the user-specified dynamic shared memory size is larger than this
         /// value, the launch will fail.</summary>
         MaxDynamicSharedSizeBytes = 8,
 
-        /// <summary>On devices where the L1 cache and shared memory use the same hardware resources,
+        /// <summary>CU_FUNC_ATTRIBUTE_PREFERRED_SHARED_MEMORY_CARVEOUT:
+        /// On devices where the L1 cache and shared memory use the same hardware resources,
         /// this sets the shared memory carveout preference, in percent of the total resources.
         /// This is only a hint, and the driver can choose a different ratio if required to execute the function.</summary>
         PreferredSharedMemoryCarveout = 9,
+        /// <summary>CU_FUNC_ATTRIBUTE_MAX</summary>
         Max
     }
 
+    /// <summary>CUjit_option:
+    /// Online compiler and linker options</summary>
     public enum JitOption
     {
-        /// <summary>Max number of registers that a thread may use.
+        /// <summary>CU_JIT_MAX_REGISTERS:
+        /// Max number of registers that a thread may use.
         /// Option type: unsigned int
         /// Applies to: compiler only</summary>
         MaxRegisters = 0,
 
-        /// <summary>IN: Specifies minimum number of threads per block to target compilation
+        /// <summary>CU_JIT_THREADS_PER_BLOCK:
+        /// IN: Specifies minimum number of threads per block to target compilation
         /// for
         /// OUT: Returns the number of threads the compiler actually targeted.
         /// This restricts the resource utilization fo the compiler (e.g. max
@@ -581,192 +737,285 @@ namespace Lennox.NvEncSharp
         /// Applies to: compiler only</summary>
         ThreadsPerBlock,
 
-        /// <summary>Overwrites the option value with the total wall clock time, in
+        /// <summary>CU_JIT_WALL_TIME:
+        /// Overwrites the option value with the total wall clock time, in
         /// milliseconds, spent in the compiler and linker
         /// Option type: float
         /// Applies to: compiler and linker</summary>
         WallTime,
 
-        /// <summary>Pointer to a buffer in which to print any log messages
+        /// <summary>CU_JIT_INFO_LOG_BUFFER:
+        /// Pointer to a buffer in which to print any log messages
         /// that are informational in nature (the buffer size is specified via
         /// option ::CU_JIT_INFO_LOG_BUFFER_SIZE_BYTES)
         /// Option type: char *
         /// Applies to: compiler and linker</summary>
         InfoLogBuffer,
 
-        /// <summary>IN: Log buffer size in bytes.  Log messages will be capped at this size
+        /// <summary>CU_JIT_INFO_LOG_BUFFER_SIZE_BYTES:
+        /// IN: Log buffer size in bytes.  Log messages will be capped at this size
         /// (including null terminator)
         /// OUT: Amount of log buffer filled with messages
         /// Option type: unsigned int
         /// Applies to: compiler and linker</summary>
         InfoLogBufferSizeBytes,
 
-        /// <summary>Pointer to a buffer in which to print any log messages that
+        /// <summary>CU_JIT_ERROR_LOG_BUFFER:
+        /// Pointer to a buffer in which to print any log messages that
         /// reflect errors (the buffer size is specified via option
         /// ::CU_JIT_ERROR_LOG_BUFFER_SIZE_BYTES)
         /// Option type: char *
         /// Applies to: compiler and linker</summary>
         ErrorLogBuffer,
 
-        /// <summary>IN: Log buffer size in bytes.  Log messages will be capped at this size
+        /// <summary>CU_JIT_ERROR_LOG_BUFFER_SIZE_BYTES:
+        /// IN: Log buffer size in bytes.  Log messages will be capped at this size
         /// (including null terminator)
         /// OUT: Amount of log buffer filled with messages
         /// Option type: unsigned int
         /// Applies to: compiler and linker</summary>
         ErrorLogBufferSizeBytes,
 
-        /// <summary>Level of optimizations to apply to generated code (0 - 4), with 4
+        /// <summary>CU_JIT_OPTIMIZATION_LEVEL:
+        /// Level of optimizations to apply to generated code (0 - 4), with 4
         /// being the default and highest level of optimizations.
         /// Option type: unsigned int
         /// Applies to: compiler only</summary>
         OptimizationLevel,
 
-        /// <summary>No option value required. Determines the target based on the current
+        /// <summary>CU_JIT_TARGET_FROM_CUCONTEXT:
+        /// No option value required. Determines the target based on the current
         /// attached context (default)
         /// Option type: No option value needed
         /// Applies to: compiler and linker</summary>
         TargetFromCucontext,
 
-        /// <summary>Target is chosen based on supplied ::CUjit_target.  Cannot be
+        /// <summary>CU_JIT_TARGET:
+        /// Target is chosen based on supplied ::CUjit_target.  Cannot be
         /// combined with ::CU_JIT_THREADS_PER_BLOCK.
         /// Option type: unsigned int for enumerated type ::CUjit_target
         /// Applies to: compiler and linker</summary>
         Target,
 
-        /// <summary>Specifies choice of fallback strategy if matching cubin is not found.
+        /// <summary>CU_JIT_FALLBACK_STRATEGY:
+        /// Specifies choice of fallback strategy if matching cubin is not found.
         /// Choice is based on supplied ::CUjit_fallback.  This option cannot be
         /// used with cuLink* APIs as the linker requires exact matches.
         /// Option type: unsigned int for enumerated type ::CUjit_fallback
         /// Applies to: compiler only</summary>
         FallbackStrategy,
 
-        /// <summary>Specifies whether to create debug information in output (-g)
+        /// <summary>CU_JIT_GENERATE_DEBUG_INFO:
+        /// Specifies whether to create debug information in output (-g)
         /// (0: false, default)
         /// Option type: int
         /// Applies to: compiler and linker</summary>
         GenerateDebugInfo,
 
-        /// <summary>Generate verbose log messages (0: false, default)
+        /// <summary>CU_JIT_LOG_VERBOSE:
+        /// Generate verbose log messages (0: false, default)
         /// Option type: int
         /// Applies to: compiler and linker</summary>
         LogVerbose,
 
-        /// <summary>Generate line number information (-lineinfo) (0: false, default)
+        /// <summary>CU_JIT_GENERATE_LINE_INFO:
+        /// Generate line number information (-lineinfo) (0: false, default)
         /// Option type: int
         /// Applies to: compiler only</summary>
         GenerateLineInfo,
 
-        /// <summary>Specifies whether to enable caching explicitly (-dlcm)
+        /// <summary>CU_JIT_CACHE_MODE:
+        /// Specifies whether to enable caching explicitly (-dlcm)
         /// Choice is based on supplied ::CUjit_cacheMode_enum.
         /// Option type: unsigned int for enumerated type ::CUjit_cacheMode_enum
         /// Applies to: compiler only</summary>
         CacheMode,
 
-        /// <summary>The below jit options are used for internal purposes only, in this version of CUDA</summary>
+        /// <summary>CU_JIT_NEW_SM3X_OPT:
+        /// The below jit options are used for internal purposes only, in this version of CUDA</summary>
         NewSm3XOpt,
+        /// <summary>CU_JIT_FAST_COMPILE</summary>
         FastCompile,
+        /// <summary>CU_JIT_GLOBAL_SYMBOL_NAMES:
+        /// Array of device symbol names that will be relocated to the corresponing
+        /// host addresses stored in ::CU_JIT_GLOBAL_SYMBOL_ADDRESSES.
+        /// Must contain ::CU_JIT_GLOBAL_SYMBOL_COUNT entries.
+        /// When loding a device module, driver will relocate all encountered
+        /// unresolved symbols to the host addresses.
+        /// It is only allowed to register symbols that correspond to unresolved
+        /// global variables.
+        /// It is illegal to register the same device symbol at multiple addresses.
+        /// Option type: const char **
+        /// Applies to: dynamic linker only</summary>
+        GlobalSymbolNames,
+
+        /// <summary>CU_JIT_GLOBAL_SYMBOL_ADDRESSES:
+        /// Array of host addresses that will be used to relocate corresponding
+        /// device symbols stored in ::CU_JIT_GLOBAL_SYMBOL_NAMES.
+        /// Must contain ::CU_JIT_GLOBAL_SYMBOL_COUNT entries.
+        /// Option type: void **
+        /// Applies to: dynamic linker only</summary>
+        GlobalSymbolAddresses,
+
+        /// <summary>CU_JIT_GLOBAL_SYMBOL_COUNT:
+        /// Number of entries in ::CU_JIT_GLOBAL_SYMBOL_NAMES and
+        /// ::CU_JIT_GLOBAL_SYMBOL_ADDRESSES arrays.
+        /// Option type: unsigned int
+        /// Applies to: dynamic linker only</summary>
+        GlobalSymbolCount,
+        /// <summary>CU_JIT_NUM_OPTIONS</summary>
         NumOptions
     }
 
+    /// <summary>CUjitInputType:
+    /// Device code formats</summary>
     public enum JitInputType
     {
-        /// <summary>Compiled device-class-specific device code\n
+        /// <summary>CU_JIT_INPUT_CUBIN:
+        /// Compiled device-class-specific device code
         /// Applicable options: none</summary>
         Cubin = 0,
 
-        /// <summary>PTX source code\n
+        /// <summary>CU_JIT_INPUT_PTX:
+        /// PTX source code
         /// Applicable options: PTX compiler options</summary>
         Ptx,
 
-        /// <summary>Bundle of multiple cubins and/or PTX of some device code\n
+        /// <summary>CU_JIT_INPUT_FATBINARY:
+        /// Bundle of multiple cubins and/or PTX of some device code
         /// Applicable options: PTX compiler options, ::CU_JIT_FALLBACK_STRATEGY</summary>
         Fatbinary,
 
-        /// <summary>Host object with embedded device code\n
+        /// <summary>CU_JIT_INPUT_OBJECT:
+        /// Host object with embedded device code
         /// Applicable options: PTX compiler options, ::CU_JIT_FALLBACK_STRATEGY</summary>
         Object,
 
-        /// <summary>Archive of host objects with embedded device code\n
+        /// <summary>CU_JIT_INPUT_LIBRARY:
+        /// Archive of host objects with embedded device code
         /// Applicable options: PTX compiler options, ::CU_JIT_FALLBACK_STRATEGY</summary>
         Library,
-        CuJitNumInputTypes
+        /// <summary>CU_JIT_NUM_INPUT_TYPES</summary>
+        NumInputTypes
     }
 
-    /// <summary>Online compilation targets</summary>
+    /// <summary>CUjit_target:
+    /// Online compilation targets</summary>
     public enum JitTarget
     {
-        /// <summary>Compute device class 2.0</summary>
+        /// <summary>CU_TARGET_COMPUTE_20:
+        /// Compute device class 2.0</summary>
         TargetCompute20 = 20,
-        /// <summary>Compute device class 2.1</summary>
+        /// <summary>CU_TARGET_COMPUTE_21:
+        /// Compute device class 2.1</summary>
         TargetCompute21 = 21,
-        /// <summary>Compute device class 3.0</summary>
+        /// <summary>CU_TARGET_COMPUTE_30:
+        /// Compute device class 3.0</summary>
         TargetCompute30 = 30,
-        /// <summary>Compute device class 3.2</summary>
+        /// <summary>CU_TARGET_COMPUTE_32:
+        /// Compute device class 3.2</summary>
         TargetCompute32 = 32,
-        /// <summary>Compute device class 3.5</summary>
+        /// <summary>CU_TARGET_COMPUTE_35:
+        /// Compute device class 3.5</summary>
         TargetCompute35 = 35,
-        /// <summary>Compute device class 3.7</summary>
+        /// <summary>CU_TARGET_COMPUTE_37:
+        /// Compute device class 3.7</summary>
         TargetCompute37 = 37,
-        /// <summary>Compute device class 5.0</summary>
+        /// <summary>CU_TARGET_COMPUTE_50:
+        /// Compute device class 5.0</summary>
         TargetCompute50 = 50,
-        /// <summary>Compute device class 5.2</summary>
+        /// <summary>CU_TARGET_COMPUTE_52:
+        /// Compute device class 5.2</summary>
         TargetCompute52 = 52,
-        /// <summary>Compute device class 5.3</summary>
+        /// <summary>CU_TARGET_COMPUTE_53:
+        /// Compute device class 5.3</summary>
         TargetCompute53 = 53,
-        /// <summary>Compute device class 6.0.*/</summary>
+        /// <summary>CU_TARGET_COMPUTE_60:
+        /// Compute device class 6.0.</summary>
         TargetCompute60 = 60,
-        /// <summary>Compute device class 6.1.*/</summary>
+        /// <summary>CU_TARGET_COMPUTE_61:
+        /// Compute device class 6.1.</summary>
         TargetCompute61 = 61,
-        /// <summary>Compute device class 6.2.*/</summary>
+        /// <summary>CU_TARGET_COMPUTE_62:
+        /// Compute device class 6.2.</summary>
         TargetCompute62 = 62,
-        /// <summary>Compute device class 7.0.*/</summary>
-        TargetCompute70 = 70
+        /// <summary>CU_TARGET_COMPUTE_70:
+        /// Compute device class 7.0.</summary>
+        TargetCompute70 = 70,
+        /// <summary>CU_TARGET_COMPUTE_72:
+        /// Compute device class 7.2.</summary>
+        TargetCompute72 = 72,
+        /// <summary>CU_TARGET_COMPUTE_75:
+        /// Compute device class 7.5.</summary>
+        TargetCompute75 = 75
     }
 
-    /// <summary>Cubin matching fallback strategies</summary>
+    /// <summary>CUjit_fallback:
+    /// Cubin matching fallback strategies</summary>
     public enum JitFallback
     {
-        /// <summary>Prefer to compile ptx if exact binary match not found</summary>
+        /// <summary>CU_PREFER_PTX:
+        /// Prefer to compile ptx if exact binary match not found</summary>
         Ptx = 0,
 
-        /// <summary>Prefer to fall back to compatible binary code if exact match not found</summary>
+        /// <summary>CU_PREFER_BINARY:
+        /// Prefer to fall back to compatible binary code if exact match not found</summary>
         Binary
     }
 
-    /// <summary>Caching modes for dlcm</summary>
+    /// <summary>CUjit_cacheMode:
+    /// Caching modes for dlcm</summary>
     public enum CitCacheMode
     {
-        /// <summary>Compile with no -dlcm flag specified</summary>
+        /// <summary>CU_JIT_CACHE_OPTION_NONE:
+        /// Compile with no -dlcm flag specified</summary>
         None = 0,
-        /// <summary>Compile with L1 cache disabled</summary>
+        /// <summary>CU_JIT_CACHE_OPTION_CG:
+        /// Compile with L1 cache disabled</summary>
         Cg,
-        /// <summary>Compile with L1 cache enabled</summary>
+        /// <summary>CU_JIT_CACHE_OPTION_CA:
+        /// Compile with L1 cache enabled</summary>
         Ca
     }
 
+    /// <summary>CUdevice_P2PAttribute:
+    /// P2P Attributes</summary>
     public enum DeviceP2PAttribute
     {
-        /// <summary>A relative value indicating the performance of the link between two devices</summary>
+        /// <summary>CU_DEVICE_P2P_ATTRIBUTE_PERFORMANCE_RANK:
+        /// A relative value indicating the performance of the link between two devices</summary>
         PerformanceRank = 0x01,
-        /// <summary>P2P Access is enable</summary>
+        /// <summary>CU_DEVICE_P2P_ATTRIBUTE_ACCESS_SUPPORTED:
+        /// P2P Access is enable</summary>
         AccessSupported = 0x02,
-        /// <summary>Atomic operation over the link supported</summary>
-        NativeAtomicSupported = 0x03
+        /// <summary>CU_DEVICE_P2P_ATTRIBUTE_NATIVE_ATOMIC_SUPPORTED:
+        /// Atomic operation over the link supported</summary>
+        NativeAtomicSupported = 0x03,
+        /// <summary>CU_DEVICE_P2P_ATTRIBUTE_ACCESS_ACCESS_SUPPORTED:
+        /// \deprecated use CU_DEVICE_P2P_ATTRIBUTE_CUDA_ARRAY_ACCESS_SUPPORTED instead</summary>
+        [Obsolete]
+        AccessAccessSupported = 0x04,
+        /// <summary>CU_DEVICE_P2P_ATTRIBUTE_CUDA_ARRAY_ACCESS_SUPPORTED:
+        /// Accessing CUDA arrays over the link supported</summary>
+        CudaArrayAccessSupported = 0x04
     }
 
     [Flags]
     public enum MemHostAllocFlags
     {
-        /// <summary>If set, host memory is portable between CUDA contexts.
+        /// <summary>CU_MEMHOSTALLOC_PORTABLE:
+        /// If set, host memory is portable between CUDA contexts.
         /// Flag for ::cuMemHostAlloc()</summary>
         Portable = 0x01,
 
-        /// <summary>If set, host memory is mapped into CUDA address space and
+        /// <summary>CU_MEMHOSTALLOC_DEVICEMAP:
+        /// If set, host memory is mapped into CUDA address space and
         /// ::cuMemHostGetDevicePointer() may be called on the host pointer.
         /// Flag for ::cuMemHostAlloc()</summary>
         Devicemap = 0x02,
 
-        /// <summary>If set, host memory is allocated as write-combined - fast to write,
+        /// <summary>CU_MEMHOSTALLOC_WRITECOMBINED:
+        /// If set, host memory is allocated as write-combined - fast to write,
         /// faster to DMA, slow to read except via SSE4 streaming load instruction
         /// (MOVNTDQA).
         /// Flag for ::cuMemHostAlloc()</summary>
@@ -776,16 +1025,19 @@ namespace Lennox.NvEncSharp
     [Flags]
     public enum MemHostRegisterFlags
     {
-        /// <summary>If set, host memory is portable between CUDA contexts.
+        /// <summary>CU_MEMHOSTREGISTER_PORTABLE:
+        /// If set, host memory is portable between CUDA contexts.
         /// Flag for ::cuMemHostRegister()</summary>
         Portable = 0x01,
 
-        /// <summary>If set, host memory is mapped into CUDA address space and
+        /// <summary>CU_MEMHOSTREGISTER_DEVICEMAP:
+        /// If set, host memory is mapped into CUDA address space and
         /// ::cuMemHostGetDevicePointer() may be called on the host pointer.
         /// Flag for ::cuMemHostRegister()</summary>
         Devicemap = 0x02,
 
-        /// <summary>If set, the passed memory pointer is treated as pointing to some
+        /// <summary>CU_MEMHOSTREGISTER_IOMEMORY:
+        /// If set, the passed memory pointer is treated as pointing to some
         /// memory-mapped I/O space, e.g. belonging to a third-party PCIe device.
         /// On Windows the flag is a no-op.
         /// On Linux that memory is marked as non cache-coherent for the GPU and
@@ -798,34 +1050,44 @@ namespace Lennox.NvEncSharp
         IOMemory = 0x04
     }
 
-    /// <summary>CUDA devices corresponding to a D3D11 device</summary>
-    public enum CuD3D11DeviceList
+    /// <summary>CUd3d11DeviceList:
+    /// CUDA devices corresponding to a D3D11 device</summary>
+    public enum D3D11DeviceList
     {
-        /// <summary>The CUDA devices for all GPUs used by a D3D11 device</summary>
+        /// <summary>CU_D3D11_DEVICE_LIST_ALL:
+        /// The CUDA devices for all GPUs used by a D3D11 device</summary>
         All = 0x01,
-        /// <summary>The CUDA devices for the GPUs used by a D3D11 device in its currently rendering frame</summary>
+        /// <summary>CU_D3D11_DEVICE_LIST_CURRENT_FRAME:
+        /// The CUDA devices for the GPUs used by a D3D11 device in its currently rendering frame</summary>
         CurrentFrame = 0x02,
-        /// <summary>The CUDA devices for the GPUs to be used by a D3D11 device in the next frame</summary>
+        /// <summary>CU_D3D11_DEVICE_LIST_NEXT_FRAME:
+        /// The CUDA devices for the GPUs to be used by a D3D11 device in the next frame</summary>
         NextFrame = 0x03,
     }
 
-    /// <summary>Flags for ::cuStreamWaitValue32 and ::cuStreamWaitValue64</summary>
+    /// <summary>CUstreamWaitValue_flags:
+    /// Flags for ::cuStreamWaitValue32 and ::cuStreamWaitValue64</summary>
     public enum CuStreamWaitValue
     {
-        /// <summary>Wait until (int32_t)(*addr - value) >= 0 (or int64_t for 64 bit
+        /// <summary>CU_STREAM_WAIT_VALUE_GEQ:
+        /// Wait until (int32_t)(*addr - value) >= 0 (or int64_t for 64 bit
         /// values). Note this is a cyclic comparison which ignores wraparound.
         /// (Default behavior.)</summary>
         ValueGeq = 0x0,
-        /// <summary>Wait until *addr == value.</summary>
+        /// <summary>CU_STREAM_WAIT_VALUE_EQ:
+        /// Wait until *addr == value.</summary>
         ValueEq = 0x1,
-        /// <summary>Wait until (*addr & value) != 0.</summary>
+        /// <summary>CU_STREAM_WAIT_VALUE_AND:
+        /// Wait until (*addr & value) != 0.</summary>
         ValueAnd = 0x2,
-        /// <summary>Wait until ~(*addr | value) != 0. Support for this operation can be
+        /// <summary>CU_STREAM_WAIT_VALUE_NOR:
+        /// Wait until ~(*addr | value) != 0. Support for this operation can be
         /// queried with ::cuDeviceGetAttribute() and
         /// ::CU_DEVICE_ATTRIBUTE_CAN_USE_STREAM_WAIT_VALUE_NOR. Generally, this
         /// requires compute capability 7.0 or greater.</summary>
         ValueNor = 0x3,
-        /// <summary>Follow the wait operation with a flush of outstanding remote writes. This
+        /// <summary>CU_STREAM_WAIT_VALUE_FLUSH:
+        /// Follow the wait operation with a flush of outstanding remote writes. This
         /// means that, if a remote write operation is guaranteed to have reached the
         /// device before the wait can be satisfied, that write is guaranteed to be
         /// visible to downstream device work. The device is permitted to reorder
@@ -835,12 +1097,15 @@ namespace Lennox.NvEncSharp
         ValueFlush = 1 << 30
     }
 
-    /// <summary>Flags for ::cuStreamWriteValue32</summary>
+    /// <summary>CUstreamWriteValue_flags:
+    /// Flags for ::cuStreamWriteValue32</summary>
     public enum CuStreamWriteValue
     {
-        /// <summary>Default behavior</summary>
+        /// <summary>CU_STREAM_WRITE_VALUE_DEFAULT:
+        /// Default behavior</summary>
         Default = 0x0,
-        /// <summary>Permits the write to be reordered with writes which were issued
+        /// <summary>CU_STREAM_WRITE_VALUE_NO_MEMORY_BARRIER:
+        /// Permits the write to be reordered with writes which were issued
         /// before it, as a performance optimization. Normally,
         /// ::cuStreamWriteValue32 will provide a memory fence before the
         /// write, which has similar semantics to
@@ -849,22 +1114,29 @@ namespace Lennox.NvEncSharp
         NoMemoryBarrier = 0x1
     }
 
-    /// <summary>Operations for ::cuStreamBatchMemOp</summary>
+    /// <summary>CUstreamBatchMemOpType_enum:
+    /// Operations for ::cuStreamBatchMemOp</summary>
     public enum CuStreamBatchMemOpType
     {
-        /// <summary>Represents a ::cuStreamWaitValue32 operation</summary>
+        /// <summary>CU_STREAM_MEM_OP_WAIT_VALUE_32:
+        /// Represents a ::cuStreamWaitValue32 operation</summary>
         WaitValue32 = 1,
-        /// <summary>Represents a ::cuStreamWriteValue32 operation</summary>
+        /// <summary>CU_STREAM_MEM_OP_WRITE_VALUE_32:
+        /// Represents a ::cuStreamWriteValue32 operation</summary>
         WriteValue32 = 2,
-        /// <summary>Represents a ::cuStreamWaitValue64 operation</summary>
+        /// <summary>CU_STREAM_MEM_OP_WAIT_VALUE_64:
+        /// Represents a ::cuStreamWaitValue64 operation</summary>
         WaitValue64 = 4,
-        /// <summary>Represents a ::cuStreamWriteValue64 operation</summary>
+        /// <summary>CU_STREAM_MEM_OP_WRITE_VALUE_64:
+        /// Represents a ::cuStreamWriteValue64 operation</summary>
         WriteValue64 = 5,
-        /// <summary>This has the same effect as ::CU_STREAM_WAIT_VALUE_FLUSH, but as a standalone operation.</summary>
+        /// <summary>CU_STREAM_MEM_OP_FLUSH_REMOTE_WRITES:
+        /// This has the same effect as ::CU_STREAM_WAIT_VALUE_FLUSH, but as a standalone operation.</summary>
         FlushRemoteWrites = 3
     }
 
-    /// <summary>Resource view format</summary>
+    /// <summary>CUresourceViewFormat:
+    /// Resource view format</summary>
     public enum CuResourceViewFormat
     {
         /// <summary>No resource view format (use underlying resource format)</summary>
@@ -940,27 +1212,32 @@ namespace Lennox.NvEncSharp
     }
 
     [Flags]
-    public enum CuTrsfFlags
+    public enum TrsfFlags
     {
-        /// <summary>Read the texture as integers rather than promoting the values to floats
+        /// <summary>CU_TRSF_READ_AS_INTEGER:
+        /// Read the texture as integers rather than promoting the values to floats
         /// in the range [0,1].</summary>
         ReadAsInteger = 0x01,
 
-        /// <summary>Use normalized texture coordinates in the range [0,1) instead of [0,dim).</summary>
+        /// <summary>CU_TRSF_NORMALIZED_COORDINATES:
+        /// Use normalized texture coordinates in the range [0,1) instead of [0,dim).</summary>
         NormalizedCoordinates = 0x02,
 
-        /// <summary>Perform sRGB->linear conversion during texture read.</summary>
+        /// <summary>CU_TRSF_SRGB:
+        /// Perform sRGB->linear conversion during texture read.</summary>
         Srgb = 0x10
     }
 
-    public enum CuCooperativeLaunchMultiDevice
+    public enum CooperativeLaunchMultiDevice
     {
-        /// <summary>If set, each kernel launched as part of ::cuLaunchCooperativeKernelMultiDevice only
+        /// <summary>CUDA_COOPERATIVE_LAUNCH_MULTI_DEVICE_NO_PRE_LAUNCH_SYNC:
+        /// If set, each kernel launched as part of ::cuLaunchCooperativeKernelMultiDevice only
         /// waits for prior work in the stream corresponding to that GPU to complete before the
         /// kernel begins execution.</summary>
         NoPreLaunchSync = 0x01,
 
-        /// <summary>If set, any subsequent work pushed in a stream that participated in a call to
+        /// <summary>CUDA_COOPERATIVE_LAUNCH_MULTI_DEVICE_NO_POST_LAUNCH_SYNC:
+        /// If set, any subsequent work pushed in a stream that participated in a call to
         /// ::cuLaunchCooperativeKernelMultiDevice will only wait for the kernel launched on
         /// the GPU corresponding to that stream to complete before it begins execution.</summary>
         NoPostLaunchSync = 0x02
@@ -969,47 +1246,50 @@ namespace Lennox.NvEncSharp
     [Flags]
     public enum CuArray3DFlags
     {
-        /// <summary>CUDA_ARRAY3D_LAYERED
+        /// <summary>CUDA_ARRAY3D_LAYERED:
         /// If set, the CUDA array is a collection of layers, where each layer is either a 1D
         /// or a 2D array and the Depth member of DESCRIPTOR specifies the number
         /// of layers, not the depth of a 3D array.</summary>
         Layered = 0x01,
 
-        /// <summary>CUDA_ARRAY3D_2DARRAY
+        /// <summary>CUDA_ARRAY3D_2DARRAY:
         /// Deprecated, use LAYERED</summary>
         Array2D = 0x01,
 
-        /// <summary>CUDA_ARRAY3D_SURFACE_LDST
+        /// <summary>CUDA_ARRAY3D_SURFACE_LDST:
         /// This flag must be set in order to bind a surface reference
         /// to the CUDA array</summary>
         SurfaceLdst = 0x02,
 
-        /// <summary>CUDA_ARRAY3D_CUBEMAP
+        /// <summary>CUDA_ARRAY3D_CUBEMAP:
         /// If set, the CUDA array is a collection of six 2D arrays, representing faces of a cube. The
         /// width of such a CUDA array must be equal to its height, and Depth must be six.
         /// If ::LAYERED flag is also set, then the CUDA array is a collection of cubemaps
         /// and Depth must be a multiple of six.</summary>
         Cubemap = 0x04,
 
-        /// <summary>CUDA_ARRAY3D_TEXTURE_GATHER
+        /// <summary>CUDA_ARRAY3D_TEXTURE_GATHER:
         /// This flag must be set in order to perform texture gather operations
         /// on a CUDA array.</summary>
         TextureGather = 0x08,
 
-        /// <summary>CUDA_ARRAY3D_DEPTH_TEXTURE
+        /// <summary>CUDA_ARRAY3D_DEPTH_TEXTURE:
         /// This flag if set indicates that the CUDA
         /// array is a DEPTH_TEXTURE.</summary>
         DepthTexture = 0x10
     }
 
-    public enum CuLaunchParam
+    /// <summary>
+    /// NOTE: These values must be passed as <c>IntPtr</c> in size.
+    /// </summary>
+    public enum LaunchParameter
     {
-        /// <summary>CU_LAUNCH_PARAM_END
+        /// <summary>CU_LAUNCH_PARAM_END:
         /// End of array terminator for the <c>extra</c> parameter to
         /// ::cuLaunchKernel</summary>
         ParamEnd = 0x00,
 
-        /// <summary>CU_LAUNCH_PARAM_BUFFER_POINTER
+        /// <summary>CU_LAUNCH_PARAM_BUFFER_POINTER:
         /// Indicator that the next value in the <c>extra</c> parameter to
         /// ::cuLaunchKernel will be a pointer to a buffer containing all kernel
         /// parameters used for launching kernel <c>f</c>.  This buffer needs to
@@ -1019,7 +1299,7 @@ namespace Lennox.NvEncSharp
         /// effect.</summary>
         BufferPointer = 0x01,
 
-        /// <summary>CU_LAUNCH_PARAM_BUFFER_SIZE
+        /// <summary>CU_LAUNCH_PARAM_BUFFER_SIZE:
         /// Indicator that the next value in the <c>extra</c> parameter to
         /// ::cuLaunchKernel will be a pointer to a size_t which contains the
         /// size of the buffer specified with ::CU_LAUNCH_PARAM_BUFFER_POINTER.

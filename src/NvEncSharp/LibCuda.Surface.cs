@@ -81,7 +81,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaCreateSurfaceObject
         /// CUresult CUDAAPI cuSurfObjectCreate(CUsurfObject *pSurfObject, const CUDA_RESOURCE_DESC *pResDesc);
         [DllImport(_dllpath, EntryPoint = "cuSurfObjectCreate")]
-        public static extern CuResult SurfObjectCreate(out CuSurfObject pSurfObject, ref CuResourceDesc pResDesc);
+        public static extern CuResult SurfObjectCreate(out CuSurfObject pSurfObject, ref CuResourceDescription pResDesc);
 
         /// <summary>Destroys a surface object
         ///
@@ -122,6 +122,6 @@ namespace Lennox.NvEncSharp
         /// ::cudaGetSurfaceObjectResourceDesc
         /// CUresult CUDAAPI cuSurfObjectGetResourceDesc(CUDA_RESOURCE_DESC *pResDesc, CUsurfObject surfObject);
         [DllImport(_dllpath, EntryPoint = "cuSurfObjectGetResourceDesc")]
-        public static extern CuResult SurfObjectGetResourceDesc(out CuResourceDesc pResDesc, CuSurfObject surfObject);
+        public static extern CuResult SurfObjectGetResourceDesc(out CuResourceDescription pResDesc, CuSurfObject surfObject);
     }
 }

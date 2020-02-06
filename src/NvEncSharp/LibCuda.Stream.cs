@@ -342,7 +342,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaStreamAttachMemAsync
         /// CUresult CUDAAPI cuStreamAttachMemAsync(CUstream hStream, CUdeviceptr dptr, size_t length, unsigned int flags);
         [DllImport(_dllpath, EntryPoint = "cuStreamAttachMemAsync")]
-        public static extern CuResult StreamAttachMemAsync(CuStream hStream, CuDevicePtr dptr, IntPtr length, CuMemAttachFlags flags);
+        public static extern CuResult StreamAttachMemAsync(CuStream hStream, CuDevicePtr dptr, IntPtr length, MemoryAttachFlags flags);
 
         /// <summary>Determine status of a compute stream
         ///

@@ -75,7 +75,7 @@ namespace Lennox.NvEncSharp
         ///
         /// CUresult CUDAAPI cuD3D11GetDevices(unsigned int *pCudaDeviceCount, CUdevice *pCudaDevices, int cudaDeviceCount, ref ID3D11Device pD3D11Device, CUd3d11DeviceList deviceList);
         [DllImport(_dllpath, EntryPoint = "cuD3D11GetDevices")]
-        public static extern CuResult D3D11GetDevices(out int returnedCudaDeviceCount, CuDevice* cudaDevices, int cudaDeviceCount, IntPtr pD3D11Device, CuD3D11DeviceList deviceList);
+        public static extern CuResult D3D11GetDevices(out int returnedCudaDeviceCount, CuDevice* cudaDevices, int cudaDeviceCount, IntPtr pD3D11Device, D3D11DeviceList deviceList);
 
         /// <summary>Register a Direct3D 11 resource for access by CUDA</summary>
         ///

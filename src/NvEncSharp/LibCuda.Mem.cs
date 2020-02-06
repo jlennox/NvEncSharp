@@ -642,7 +642,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMallocManaged
         /// CUresult CUDAAPI cuMemAllocManaged(CUdeviceptr *dptr, size_t bytesize, unsigned int flags);
         [DllImport(_dllpath, EntryPoint = "cuMemAllocManaged")]
-        public static extern CuResult MemAllocManaged(out CuDevicePtr dptr, IntPtr bytesize, CuMemAttachFlags flags);
+        public static extern CuResult MemAllocManaged(out CuDevicePtr dptr, IntPtr bytesize, MemoryAttachFlags flags);
 
         /// <summary>Registers an existing host memory range for use by CUDA
         ///

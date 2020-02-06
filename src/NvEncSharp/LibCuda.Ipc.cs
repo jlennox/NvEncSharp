@@ -180,7 +180,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaIpcOpenMemHandle
         /// CUresult CUDAAPI cuIpcOpenMemHandle(CUdeviceptr *pdptr, CUipcMemHandle handle, unsigned int Flags);
         [DllImport(_dllpath, EntryPoint = "cuIpcOpenMemHandle")]
-        public static extern CuResult IpcOpenMemHandle(out CuDevicePtr pdptr, CuIpcMemHandle handle, CuIpcMemFlags flags);
+        public static extern CuResult IpcOpenMemHandle(out CuDevicePtr pdptr, CuIpcMemHandle handle, IpcMemoryFlags flags);
 
         /// <summary>Close memory mapped with ::cuIpcOpenMemHandle
         ///

@@ -401,7 +401,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemAdvise
         /// CUresult CUDAAPI cuMemAdvise(CUdeviceptr devPtr, size_t count, CUmem_advise advice, CUdevice device);
         [DllImport(_dllpath, EntryPoint = "cuMemAdvise")]
-        public static extern CuResult MemAdvise(CuDevicePtr devPtr, IntPtr count, CuMemAdvice advice, CuDevice device);
+        public static extern CuResult MemAdvise(CuDevicePtr devPtr, IntPtr count, MemoryAdvice advice, CuDevice device);
 
         /// <summary>Query an attribute of a given memory range
         ///
@@ -460,7 +460,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemRangeGetAttribute
         /// CUresult CUDAAPI cuMemRangeGetAttribute(void *data, size_t dataSize, CUmem_range_attribute attribute, CUdeviceptr devPtr, size_t count);
         [DllImport(_dllpath, EntryPoint = "cuMemRangeGetAttribute")]
-        public static extern CuResult MemRangeGetAttribute(IntPtr data, IntPtr dataSize, CuMemRangeAttribute attribute, CuDevicePtr devPtr, IntPtr count);
+        public static extern CuResult MemRangeGetAttribute(IntPtr data, IntPtr dataSize, MemoryRangeAttribute attribute, CuDevicePtr devPtr, IntPtr count);
 
         /// <summary>Query attributes of a given memory range.
         ///
@@ -501,6 +501,6 @@ namespace Lennox.NvEncSharp
         /// ::cudaMemRangeGetAttributes
         /// CUresult CUDAAPI cuMemRangeGetAttributes(void **data, size_t *dataSizes, CUmem_range_attribute *attributes, size_t numAttributes, CUdeviceptr devPtr, size_t count);
         [DllImport(_dllpath, EntryPoint = "cuMemRangeGetAttributes")]
-        public static extern CuResult MemRangeGetAttributes(IntPtr data, IntPtr dataSizes, [MarshalAs(UnmanagedType.LPArray)] CuMemRangeAttribute[] attributes, IntPtr numAttributes, CuDevicePtr devPtr, IntPtr count);
+        public static extern CuResult MemRangeGetAttributes(IntPtr data, IntPtr dataSizes, [MarshalAs(UnmanagedType.LPArray)] MemoryRangeAttribute[] attributes, IntPtr numAttributes, CuDevicePtr devPtr, IntPtr count);
     }
 }

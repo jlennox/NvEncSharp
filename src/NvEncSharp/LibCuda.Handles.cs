@@ -92,8 +92,8 @@ namespace Lennox.NvEncSharp
             return ctx;
         }
 
-        /// <inheritdoc cref="CtxGetSharedMemConfig(out CuSharedConfig)"/>
-        public static CuSharedConfig GetSharedMemConfig()
+        /// <inheritdoc cref="CtxGetSharedMemConfig(out SharedMemoryConfig)"/>
+        public static SharedMemoryConfig GetSharedMemConfig()
         {
             var result = CtxGetSharedMemConfig(out var config);
             CheckResult(result);
@@ -101,8 +101,8 @@ namespace Lennox.NvEncSharp
             return config;
         }
 
-        /// <inheritdoc cref="CtxSetSharedMemConfig(CuSharedConfig)"/>
-        public static void SetSharedMemConfig(CuSharedConfig config)
+        /// <inheritdoc cref="CtxSetSharedMemConfig(SharedMemoryConfig)"/>
+        public static void SetSharedMemConfig(SharedMemoryConfig config)
         {
             var result = CtxSetSharedMemConfig(config);
             CheckResult(result);
@@ -331,9 +331,9 @@ namespace Lennox.NvEncSharp
         }
 
         // TODO: Move?
-        /// <inheritdoc cref="MemAllocManaged(out CuDevicePtr, IntPtr, CuMemAttachFlags)"/>
+        /// <inheritdoc cref="MemAllocManaged(out CuDevicePtr, IntPtr, MemoryAttachFlags)"/>
         public static CuDevicePtr AllocateManaged(
-            long bytesize, CuMemAttachFlags flags)
+            long bytesize, MemoryAttachFlags flags)
         {
             CheckResult(MemAllocManaged(out var mem, (IntPtr)bytesize, flags));
             return mem;

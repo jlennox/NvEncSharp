@@ -121,7 +121,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaCreateTextureObject
         /// CUresult CUDAAPI cuTexObjectCreate(CUtexObject *pTexObject, const CUDA_RESOURCE_DESC *pResDesc, const CUDA_TEXTURE_DESC *pTexDesc, const CUDA_RESOURCE_VIEW_DESC *pResViewDesc);
         [DllImport(_dllpath, EntryPoint = "cuTexObjectCreate")]
-        public static extern CuResult TexObjectCreate(out CuTexObject pTexObject, ref CuResourceDesc pResDesc, ref CuTextureDesc pTexDesc, ref CuResourceViewDesc pResViewDesc);
+        public static extern CuResult TexObjectCreate(out CuTexObject pTexObject, ref CuResourceDescription pResDesc, ref CuTextureDescription pTexDesc, ref CuResourceViewDescription pResViewDesc);
 
         /// <summary>Destroys a texture object
         ///
@@ -162,7 +162,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaGetTextureObjectResourceDesc,
         /// CUresult CUDAAPI cuTexObjectGetResourceDesc(CUDA_RESOURCE_DESC *pResDesc, CUtexObject texObject);
         [DllImport(_dllpath, EntryPoint = "cuTexObjectGetResourceDesc")]
-        public static extern CuResult TexObjectGetResourceDesc(out CuResourceDesc pResDesc, CuTexObject texObject);
+        public static extern CuResult TexObjectGetResourceDesc(out CuResourceDescription pResDesc, CuTexObject texObject);
 
         /// <summary>Returns a texture object's texture descriptor
         ///
@@ -183,7 +183,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaGetTextureObjectTextureDesc
         /// CUresult CUDAAPI cuTexObjectGetTextureDesc(CUDA_TEXTURE_DESC *pTexDesc, CUtexObject texObject);
         [DllImport(_dllpath, EntryPoint = "cuTexObjectGetTextureDesc")]
-        public static extern CuResult TexObjectGetTextureDesc(out CuTextureDesc pTexDesc, CuTexObject texObject);
+        public static extern CuResult TexObjectGetTextureDesc(out CuTextureDescription pTexDesc, CuTexObject texObject);
 
         /// <summary>Returns a texture object's resource view descriptor
         ///
@@ -205,7 +205,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaGetTextureObjectResourceViewDesc
         /// CUresult CUDAAPI cuTexObjectGetResourceViewDesc(CUDA_RESOURCE_VIEW_DESC *pResViewDesc, CUtexObject texObject);
         [DllImport(_dllpath, EntryPoint = "cuTexObjectGetResourceViewDesc")]
-        public static extern CuResult TexObjectGetResourceViewDesc(out CuResourceViewDesc pResViewDesc, CuTexObject texObject);
+        public static extern CuResult TexObjectGetResourceViewDesc(out CuResourceViewDescription pResViewDesc, CuTexObject texObject);
 
         /// <summary>Binds an array as a texture reference
         ///
@@ -427,7 +427,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaBindTextureToMipmappedArray
         /// CUresult CUDAAPI cuTexRefSetAddressMode(CUtexref hTexRef, int dim, CUaddress_mode am);
         [DllImport(_dllpath, EntryPoint = "cuTexRefSetAddressMode")]
-        public static extern CuResult TexRefSetAddressMode(CuTextRef hTexRef, int dim, CuAddressMode am);
+        public static extern CuResult TexRefSetAddressMode(CuTextRef hTexRef, int dim, AddressMode am);
 
 
         /// <summary>Sets the filtering mode for a texture reference
@@ -455,7 +455,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaBindTextureToArray
         /// CUresult CUDAAPI cuTexRefSetFilterMode(CUtexref hTexRef, CUfilter_mode fm);
         [DllImport(_dllpath, EntryPoint = "cuTexRefSetFilterMode")]
-        public static extern CuResult TexRefSetFilterMode(CuTextRef hTexRef, CuFilterMode fm);
+        public static extern CuResult TexRefSetFilterMode(CuTextRef hTexRef, FilterMode fm);
 
         /// <summary>Sets the mipmap filtering mode for a texture reference
         ///
@@ -482,7 +482,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaBindTextureToMipmappedArray
         /// CUresult CUDAAPI cuTexRefSetMipmapFilterMode(CUtexref hTexRef, CUfilter_mode fm);
         [DllImport(_dllpath, EntryPoint = "cuTexRefSetMipmapFilterMode")]
-        public static extern CuResult TexRefSetMipmapFilterMode(CuTextRef hTexRef, CuFilterMode fm);
+        public static extern CuResult TexRefSetMipmapFilterMode(CuTextRef hTexRef, FilterMode fm);
 
         /// <summary>Sets the mipmap level bias for a texture reference
         ///
@@ -639,7 +639,7 @@ namespace Lennox.NvEncSharp
         /// ::cudaBindTextureToMipmappedArray
         /// CUresult CUDAAPI cuTexRefSetFlags(CUtexref hTexRef, unsigned int Flags);
         [DllImport(_dllpath, EntryPoint = "cuTexRefSetFlags")]
-        public static extern CuResult TexRefSetFlags(CuTextRef hTexRef, CuTrsfFlags flags);
+        public static extern CuResult TexRefSetFlags(CuTextRef hTexRef, TrsfFlags flags);
 
         /// <summary>Gets the address associated with a texture reference
         ///
@@ -740,7 +740,7 @@ namespace Lennox.NvEncSharp
         /// ::cuTexRefGetFilterMode, ::cuTexRefGetFlags, ::cuTexRefGetFormat
         /// CUresult CUDAAPI cuTexRefGetAddressMode(CUaddress_mode *pam, CUtexref hTexRef, int dim);
         [DllImport(_dllpath, EntryPoint = "cuTexRefGetAddressMode")]
-        public static extern CuResult TexRefGetAddressMode(out CuAddressMode pam, CuTextRef hTexRef, int dim);
+        public static extern CuResult TexRefGetAddressMode(out AddressMode pam, CuTextRef hTexRef, int dim);
 
         /// <summary>Gets the filter-mode used by a texture reference
         ///
@@ -764,7 +764,7 @@ namespace Lennox.NvEncSharp
         /// ::cuTexRefGetFlags, ::cuTexRefGetFormat
         /// CUresult CUDAAPI cuTexRefGetFilterMode(CUfilter_mode *pfm, CUtexref hTexRef);
         [DllImport(_dllpath, EntryPoint = "cuTexRefGetFilterMode")]
-        public static extern CuResult TexRefGetFilterMode(out CuFilterMode pfm, CuTextRef hTexRef);
+        public static extern CuResult TexRefGetFilterMode(out FilterMode pfm, CuTextRef hTexRef);
 
         /// <summary>Gets the format used by a texture reference
         ///
@@ -814,7 +814,7 @@ namespace Lennox.NvEncSharp
         /// ::cuTexRefGetFilterMode, ::cuTexRefGetFlags, ::cuTexRefGetFormat
         /// CUresult CUDAAPI cuTexRefGetMipmapFilterMode(CUfilter_mode *pfm, CUtexref hTexRef);
         [DllImport(_dllpath, EntryPoint = "cuTexRefGetMipmapFilterMode")]
-        public static extern CuResult TexRefGetMipmapFilterMode(out CuFilterMode pfm, CuTextRef hTexRef);
+        public static extern CuResult TexRefGetMipmapFilterMode(out FilterMode pfm, CuTextRef hTexRef);
 
         /// <summary>Gets the mipmap level bias for a texture reference
         ///
@@ -937,6 +937,6 @@ namespace Lennox.NvEncSharp
         /// ::cuTexRefGetFilterMode, ::cuTexRefGetFormat
         /// CUresult CUDAAPI cuTexRefGetFlags(unsigned int *pFlags, CUtexref hTexRef);
         [DllImport(_dllpath, EntryPoint = "cuTexRefGetFlags")]
-        public static extern CuResult TexRefGetFlags(out CuTrsfFlags pFlags, CuTextRef hTexRef);
+        public static extern CuResult TexRefGetFlags(out TrsfFlags pFlags, CuTextRef hTexRef);
     }
 }
