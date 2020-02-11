@@ -502,7 +502,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
     internal class FrameInformation
     {
-        public BufferStorage Buffer { get; set; }
+        public BufferStorage? Buffer { get; set; }
         public int Pitch { get; set; }
         public CuVideoDecodeCreateInfo Info { get; set; }
         public YuvInformation YuvInfo { get; set; }
@@ -580,7 +580,8 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             try
             {
-                // This code path fails with Access violation.
+                // This code path does not appear to properly resize the
+                // window.
                 if (resize.HasValue)
                 {
                     var newWidth = resize.Value.Width;

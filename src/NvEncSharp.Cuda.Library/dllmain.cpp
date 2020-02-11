@@ -82,7 +82,7 @@ void ScaleYUV420(unsigned char* dpDstY, unsigned char* dpDstU, unsigned char* dp
 
 extern "C" void __declspec(dllexport) ResizeNv12(unsigned char* dpDstNv12, int nDstPitch, int nDstWidth, int nDstHeight, unsigned char* dpSrcNv12, int nSrcPitch, int nSrcWidth, int nSrcHeight, unsigned char* dpDstNv12UV)
 {
-    ResizeNv12(dpDstNv12, nDstPitch, nDstWidth, nDstHeight, dpSrcNv12, nSrcPitch, nSrcWidth, nSrcHeight, dpDstNv12UV);
+    ResizeNv12Fn(dpDstNv12, nDstPitch, nDstWidth, nDstHeight, dpSrcNv12, nSrcPitch, nSrcWidth, nSrcHeight, dpDstNv12UV);
 }
 
 // ----

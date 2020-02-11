@@ -127,7 +127,6 @@ namespace Lennox.NvEncSharp.Test
         {
             var header = LoadNvencHeader();
 
-            // ((?<=/\*).+?(?=\*/))?
             var exp = new Regex(@"typedef enum _(?<name>[^\s{]+).+?\s*?\r\n}.+?;\s*?\r\n",
                 RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.Multiline);
 
@@ -169,6 +168,8 @@ namespace Lennox.NvEncSharp.Test
         [TestMethod]
         public void ParseEnumTests()
         {
+            // TODO: Write actual tests.
+
             const string x = @"typedef enum _NV_ENC_BUFFER_FORMAT
 {
     NV_ENC_BUFFER_FORMAT_UNDEFINED                       = 0x00000000,  /**< Undefined buffer format */

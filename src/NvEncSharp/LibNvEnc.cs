@@ -126,7 +126,7 @@ namespace Lennox.NvEncSharp
         /// <seealso cref="Initialize()"/>
         /// <seealso cref="FunctionList"/>
         public static LibNcEncInitializeStatus TryInitialize(
-            out string failedDescription)
+            out string? failedDescription)
         {
             failedDescription = null;
 

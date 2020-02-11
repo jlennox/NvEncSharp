@@ -53,14 +53,14 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             return new PoolLease<T>(obj, this);
         }
 
-        public struct PoolLease<T> : IDisposable
-            where T : class
+        public struct PoolLease<T2> : IDisposable
+            where T2 : class
         {
-            public T Value;
+            public T2 Value;
 
-            private readonly Pool<T> _pool;
+            private readonly Pool<T2> _pool;
 
-            internal PoolLease(T value, Pool<T> pool)
+            internal PoolLease(T2 value, Pool<T2> pool)
             {
                 Value = value;
                 _pool = pool;

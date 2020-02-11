@@ -54,7 +54,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup>
-    <OutDir>$(ProjectDir)bin\$(Platform).$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\NvEncSharp\lib\runtimes\win-$(Platform)\native\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Platform).$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>

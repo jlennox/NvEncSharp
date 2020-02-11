@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Lennox.NvEncSharp
 {
     public enum NalPacketType
@@ -65,29 +67,6 @@ namespace Lennox.NvEncSharp
             }
 
             return 0;
-
-            /*var zeros = 0;
-            fixed (byte* inputPtr = input)
-            {
-                for (var i = 0; i < input.Length; ++i)
-                {
-                    var cur = inputPtr[i];
-
-                    switch (cur)
-                    {
-                        case 0:
-                            ++zeros;
-                            break;
-                        case 1 when zeros >= 2:
-                            return i - 2;
-                        default:
-                            zeros = 0;
-                            break;
-                    }
-                }
-
-                return -1;
-            }*/
         }
 
         /// <summary>

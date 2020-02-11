@@ -7,11 +7,12 @@
     <RootNamespace>Lennox.NvEncSharp</RootNamespace>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>1.0.1</Version>
+    <Nullable>enable</Nullable>
+    <Version>2.0.0</Version>
 
     <PackageId>Lennox.NvEncSharp</PackageId>
     <Title>NvEncSharp</Title>
-    <PackageDescription>NvEncSharp provides an interface to Nvidia's NvEnc hardware h264/hvec video encoders for dotnet core and .net framework applications.</PackageDescription>
+    <PackageDescription>NvEncSharp provides a dotnet core and .net framework interface to Nvidia's NvEnc hardware video encoder (nvEncodeAPI), the CUDA video decoder (nvcuvid), and the CUDA APIs (nvcuda). This package requires 64bit targets.</PackageDescription>
     <Authors>Joseph Lennox</Authors>
     <Copyright>Joseph Lennox</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,11 +21,18 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
+    <ProjectReference Include="..\NvEncSharp.Cuda.Library\NvEncSharp.Cuda.Library.vcxproj" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NvEncSharp.Cuda.Library\NvEncSharp.Cuda.Library.vcxproj" />
+    <Content Include="lib\runtimes\win-x64\native\**\*.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="lib\Lennox.NvEncSharp.targets">
+      <PackagePath>lib/netstandard2.0;lib/net461;build/net461;lib/netcoreapp2.0;build</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>true</Pack>
+    </Content>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y &quot;$(SolutionDir)NvEncSharp.Cuda.Library\bin\$(PlatformName).$(ConfigurationName)\NvEncSharp.Cuda.Library.dll&quot; &quot;$(OutDir)&quot;" />
-  </Target>
 </Project>

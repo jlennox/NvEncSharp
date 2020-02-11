@@ -13,6 +13,7 @@ namespace Lennox.NvEncSharp
 {
     [StructLayout(LayoutKind.Sequential)]
     [DebuggerDisplay("{" + nameof(Handle) + "}")]
+    [Obsolete]
     public struct CuVideoSource : IDisposable
     {
         public static readonly CuVideoSource Empty = new CuVideoSource { Handle = IntPtr.Zero };

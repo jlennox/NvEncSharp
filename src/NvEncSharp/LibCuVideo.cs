@@ -28,7 +28,6 @@ namespace Lennox.NvEncSharp
         /// the end of stream has been reached. Use `CuVideoParseDisplayInfo.IsFinalFrame` to get the
         /// actual structure.</param>
         ///
-        /// <returns></returns>
         /// <seealso cref="CuVideoParseDisplayInfo.IsFinalFrame(IntPtr, out CuVideoParseDisplayInfo)" />
         public delegate CuCallbackResult VideoDisplayCallback(IntPtr userData, IntPtr infoPtr);
 
