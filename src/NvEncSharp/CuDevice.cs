@@ -71,6 +71,7 @@ namespace Lennox.NvEncSharp
         {
             const int length = 20;
             var namePtr = stackalloc byte[length];
+            Kernel32.ZeroMemory(namePtr, length);
             CheckResult(DeviceGetPCIBusId(namePtr, length, this));
 
             return Marshal.PtrToStringAnsi((IntPtr) namePtr, length);
@@ -90,6 +91,7 @@ namespace Lennox.NvEncSharp
         {
             const int inputLength = 256;
             var name = stackalloc byte[inputLength];
+            Kernel32.ZeroMemory(name, inputLength);
             var result = DeviceGetName(name, inputLength, this);
             CheckResult(result);
             return Marshal.PtrToStringAnsi((IntPtr)name, inputLength);
