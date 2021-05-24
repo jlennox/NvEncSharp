@@ -10,6 +10,299 @@ using static Lennox.NvEncSharp.Test.CodeGeneration;
 
 namespace Lennox.NvEncSharp.Test
 {
+    public enum TypedefTokenType
+    {
+        Unknown,
+        OpenBracket, CloseBracket, Colon, Semicolon, Token,
+        String, OpenParen, CloseParen, Number, Equals,
+        CommentBody
+    }
+
+    public class TypedefToken
+    {
+        public TypedefTokenType Type { get; set; }
+        public string Value { get; set; }
+        public long IntValue { get; set; }
+        public string Name { get; set; }
+
+        public TypedefToken() { }
+
+        public TypedefToken(TypedefTokenType type)
+        {
+            Type = type;
+        }
+
+        public TypedefToken(TypedefTokenType type, string value)
+        {
+            Type = type;
+            Value = value;
+        }
+
+        public static IReadOnlyList<TypedefToken> Parse(string input)
+        {
+            var tokens = new List<TypedefToken>();
+            var value = new StringBuilder();
+            var singleCharLookup = new Dictionary<char, TypedefTokenType>
+            {
+                ['{'] = TypedefTokenType.OpenBracket,
+                ['}'] = TypedefTokenType.CloseBracket,
+                ['('] = TypedefTokenType.OpenParen,
+                [')'] = TypedefTokenType.CloseParen,
+                [':'] = TypedefTokenType.Colon,
+                ['='] = TypedefTokenType.Equals,
+                [';'] = TypedefTokenType.Semicolon,
+            };
+
+            void FlushToken()
+            {
+                if (value.Length == 0) return;
+
+                var token = value.ToString();
+                value.Clear();
+
+                tokens.Add(new TypedefToken
+                {
+                    Type = TypedefTokenType.Token,
+                    Value = token
+                });
+            }
+
+            void AddToken(TypedefTokenType type, string value = null)
+            {
+                FlushToken();
+                tokens.Add(new TypedefToken
+                {
+                    Type = type,
+                    Value = value
+                });
+            }
+
+            for (var i = 0; i < input.Length; ++i)
+            {
+                var chr = input[i];
+
+                if (char.IsWhiteSpace(chr))
+                {
+                    FlushToken();
+                    continue;
+                }
+
+                if (singleCharLookup.TryGetValue(chr, out var foundType))
+                {
+                    AddToken(foundType);
+                    continue;
+                }
+
+                if (chr == '"')
+                {
+                    var start = i;
+                    var end = -1;
+
+                    for (; i < input.Length && end == -1; ++i)
+                    {
+                        chr = input[i];
+
+                        switch (chr)
+                        {
+                            case '\\':
+                                ++i;
+                                continue;
+                            case '"':
+                                end = i;
+                                break;
+                        }
+                    }
+
+                    AddToken(
+                        TypedefTokenType.String,
+                        input.Substring(start, end - start));
+                }
+
+                value.Append(chr);
+
+                var token = value.ToString();
+
+                switch (token)
+                {
+                    case "/*":
+                        value.Clear();
+                        var endPos = input.IndexOf("*/", i);
+                        AddToken(
+                            TypedefTokenType.CommentBody,
+                            input.Substring(i, endPos - i));
+                        i = endPos + 2;
+                        break;
+                    case "//":
+                        value.Clear();
+                        var endPos2 = input.IndexOf('\n', i);
+                        if (endPos2 == -1) endPos2 = input.Length - 1;
+                        AddToken(
+                            TypedefTokenType.CommentBody,
+                            input.Substring(i, endPos2 - i));
+                        i = endPos2 + 1;
+                        break;
+                }
+            }
+
+            return tokens;
+        }
+    }
+
+    public class ParseToken
+    {
+        public TypedefTokenType Type { get; set; }
+        public string Value { get; set; }
+        public bool IsOptional { get; set; }
+        public bool MatchMultiple { get; set; }
+        public string Name { get; set; }
+
+        public ParseToken() { }
+
+        public ParseToken(TypedefTokenType type, bool isOptional = false)
+        {
+            Type = type;
+            IsOptional = isOptional;
+        }
+
+        public ParseToken(TypedefTokenType type, string value, bool isOptional = false)
+        {
+            Type = type;
+            Value = value;
+            IsOptional = isOptional;
+        }
+    }
+
+    public enum ParserTokenType
+    {
+        Typedef,
+        TypedefStructMember
+    }
+
+    public class ParserGrammer
+    {
+        public ParserTokenType TokenType { get; set; }
+        public IReadOnlyList<ParserSymbol> Syntax { get; set; }
+    }
+
+    public class ParserSymbol
+    {
+        public ParserTokenType? ParserType { get; set; }
+        public TypedefTokenType? TypedefType { get; set; }
+        public string Value { get; set; }
+        public string Name { get; set; }
+        public bool MatchMultiple { get; set; }
+        public bool IsOptional { get; set; }
+
+        public ParserSymbol() { }
+
+        public ParserSymbol(TypedefTokenType type, bool isOptional = false)
+        {
+            TypedefType = type;
+            IsOptional = isOptional;
+        }
+
+        public ParserSymbol(TypedefTokenType type, string value, bool isOptional = false)
+        {
+            TypedefType = type;
+            Value = value;
+            IsOptional = isOptional;
+        }
+
+        public ParserSymbol(ParserTokenType type, bool isOptional = false)
+        {
+            ParserType = type;
+            IsOptional = isOptional;
+        }
+    }
+
+    public class MemberTranslate
+    {
+        public static IReadOnlyList<ParserGrammer> Table = new[]
+        {
+            new ParserGrammer {
+                TokenType = ParserTokenType.Typedef,
+                Syntax = new[] {
+                    new ParserSymbol(TypedefTokenType.Token, "typedef"),
+                    new ParserSymbol(TypedefTokenType.Token, "struct") { Name = "TypedefType" },
+                    new ParserSymbol(TypedefTokenType.Token, true) { Name = "TypedefName" },
+                    new ParserSymbol(TypedefTokenType.OpenBracket),
+                    new ParserSymbol(ParserTokenType.TypedefStructMember),
+                    new ParserSymbol(TypedefTokenType.CloseBracket),
+                    new ParserSymbol(TypedefTokenType.Token, true) { Name = "TypeName" },
+                    new ParserSymbol(TypedefTokenType.Semicolon)
+                }
+            },
+            new ParserGrammer {
+                TokenType = ParserTokenType.TypedefStructMember,
+                Syntax = new[] {
+                    new ParserSymbol(ParserTokenType.Typedef)
+                }
+            }
+        };
+    }
+
+    public class StructTranslate
+    {
+        private enum TypedefPosition
+        {
+            Typedef, TypedefType, TypedefName
+
+        }
+
+        public abstract class TypedefMember
+        {
+            public List<TypedefMember> Members = new List<TypedefMember>();
+        }
+
+        private class StructTypedefMember : TypedefMember
+        {
+            public string StructName { get; set; } // typedef struct StructName { } Name;
+            public string Name { get; set; }
+
+            public static StructTypedefMember Parse(
+                ref int i,
+                IReadOnlyList<TypedefToken> tokens)
+            {
+                var member = new StructTypedefMember();
+
+                for (; i < tokens.Count; ++i)
+                {
+                }
+
+                return member;
+            }
+        }
+
+        private static bool IEquals(string a, string b)
+        {
+            return string.Equals(a, b,
+                StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static IReadOnlyList<TypedefMember> Parse(string input)
+        {
+            var members = new List<TypedefMember>();
+            var tokens = TypedefToken.Parse(input);
+
+            for (var i = 0; i < tokens.Count; ++i)
+            {
+                var token = tokens[i];
+
+                switch (token.Type)
+                {
+                    case TypedefTokenType.Token when IEquals(token.Value, "typedef"):
+                        if (IEquals(tokens[i + 1].Value, "struct"))
+                        {
+                            members.Add(StructTypedefMember.Parse(ref i, tokens));
+                        }
+                        break;
+                }
+            }
+
+            return members;
+        }
+    }
+
     [TestClass]
     public class GenerateStruct
     {
@@ -193,7 +486,7 @@ namespace Lennox.NvEncSharp.Test
             var validForFixed = new HashSet<string> { "bool", "byte", "short", "int", "long", "char", "sbyte", "ushort", "uint", "ulong", "float", "double" };
 
             // The way comments are matched is not the best.
-            var exp = new Regex(@"((?<=/\*)(?<comment>[^/]+)\*/\s+)?typedef (?<type>struct|union) _(?<name>[^\s{]+).+?\s*?\r\n\s*?}.+?;\s*?\r\n",
+            var exp = new Regex(@"((?<=/\*)(?<comment>[^/]+)\*/\s +)?typedef (?<type>struct|union) _(?<name>[^\s{]+).+?\s*?\r\n\s*?}.+?;\s*?\r\n",
                 RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.Multiline);
 
             var output = new StringBuilder();

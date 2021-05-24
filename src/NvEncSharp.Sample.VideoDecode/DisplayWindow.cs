@@ -1,4 +1,5 @@
 ﻿using System;
+using Lennox.NvEncSharp.Sample.Library;
 using PInvoke;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;

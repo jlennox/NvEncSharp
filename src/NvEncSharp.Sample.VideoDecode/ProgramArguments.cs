@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Lennox.NvEncSharp.Sample.Library;
 
 namespace Lennox.NvEncSharp.Sample.VideoDecode
 {
-    internal class ProgramArguments
+    internal sealed class ProgramArguments : IVideoDecoderOptions
     {
         public string InputPath { get; set; }
         public bool UseHostMemory { get; set; }

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Alturos.Yolo" Version="2.6.4" />
+    <PackageReference Include="Alturos.YoloV2TinyVocData" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NvEncSharp.Sample.Library\NvEncSharp.Sample.Library.csproj" />
+    <ProjectReference Include="..\NvEncSharp\NvEncSharp.csproj" />
+  </ItemGroup>
+
+</Project>

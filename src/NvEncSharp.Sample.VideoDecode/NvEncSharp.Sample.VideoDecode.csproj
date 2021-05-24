@@ -10,10 +10,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <_CopyNative>true</_CopyNative>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
@@ -23,6 +20,7 @@
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NvEncSharp.Sample.Library\NvEncSharp.Sample.Library.csproj" />
     <ProjectReference Include="..\NvEncSharp\NvEncSharp.csproj" />
   </ItemGroup>
   <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">

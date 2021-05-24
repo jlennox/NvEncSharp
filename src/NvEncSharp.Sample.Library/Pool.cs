@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Lennox.NvEncSharp.Sample.VideoDecode
+namespace Lennox.NvEncSharp.Sample.Library
 {
     internal class Pool<T>
         where T : class
