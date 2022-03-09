@@ -34,7 +34,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
         {
             using var duplicate = GetDisplayDuplicate(
                 args.DisplayName, out var outputDescription);
-            using var output = File.OpenWrite(args.OutputPath);
+            using var output = File.Open(args.OutputPath, FileMode.Create);
 
             Console.WriteLine($"Process: {(Environment.Is64BitProcess ? "64" : "32")} bits");
             Console.WriteLine($"Display: {outputDescription.DeviceName}");
@@ -164,26 +164,37 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
             var desc = texture.Description;
             var encoder = OpenEncoderForDirectX(texture.Device.NativePointer);
+            var encoderConfig = encoder.GetEncodePresetConfig(NvEncCodecGuids.H264, NvEncPresetGuids.LowLatencyDefault).PresetCfg;
+            encoderConfig.RcParams.AverageBitRate = 4 * (1 << 20); // 4 Mbit
+            encoderConfig.RcParams.MaxBitRate = 8 * (1 << 20);
+            encoderConfig.RcParams.RateControlMode = NvEncParamsRcMode.Vbr;
 
-            var initparams = new NvEncInitializeParams
+            unsafe
             {
-                Version = NV_ENC_INITIALIZE_PARAMS_VER,
-                EncodeGuid = NvEncCodecGuids.H264,
-                EncodeHeight = (uint)desc.Height,
-                EncodeWidth = (uint)desc.Width,
-                MaxEncodeHeight = (uint)desc.Height,
-                MaxEncodeWidth = (uint)desc.Width,
-                DarHeight = (uint)desc.Height,
-                DarWidth = (uint)desc.Width,
-                FrameRateNum = _frameDuration,
-                FrameRateDen = 1,
-                ReportSliceOffsets = false,
-                EnableSubFrameWrite = false,
-                PresetGuid = NvEncPresetGuids.LowLatencyDefault,
-                EnableEncodeAsync = 0
-            };
+                NvEncConfig* p = &encoderConfig;
+                var initparams = new NvEncInitializeParams
+                {
+                    Version = NV_ENC_INITIALIZE_PARAMS_VER,
+                    EncodeGuid = NvEncCodecGuids.H264,
+                    EncodeHeight = (uint)desc.Height,
+                    EncodeWidth = (uint)desc.Width,
+                    MaxEncodeHeight = (uint)desc.Height,
+                    MaxEncodeWidth = (uint)desc.Width,
+                    DarHeight = (uint)desc.Height,
+                    DarWidth = (uint)desc.Width,
+                    FrameRateNum = _frameDuration,
+                    FrameRateDen = 1,
+                    ReportSliceOffsets = false,
+                    EnableSubFrameWrite = false,
+                    PresetGuid = NvEncPresetGuids.LowLatencyDefault,
+                    EnableEncodeAsync = 0,
+                    EnablePTD = 1,
+                    EnableWeightedPrediction = true,
+                    EncodeConfig = p,
+                };
 
-            encoder.InitializeEncoder(ref initparams);
+                encoder.InitializeEncoder(ref initparams);
+            }
 
             _bitstreamBuffer = encoder.CreateBitstreamBuffer();
 
