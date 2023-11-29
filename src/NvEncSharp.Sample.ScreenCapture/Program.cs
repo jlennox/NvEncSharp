@@ -182,7 +182,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                     MaxEncodeWidth = (uint)desc.Width,
                     DarHeight = (uint)desc.Height,
                     DarWidth = (uint)desc.Width,
-                    FrameRateNum = _frameDuration,
+                    FrameRateNum = _fps,
                     FrameRateDen = 1,
                     ReportSliceOffsets = false,
                     EnableSubFrameWrite = false,
