@@ -113,12 +113,12 @@ __global__ static void YuvToRgbKernel(uint8_t *pYuv, int nYuvPitch, uint8_t *pRg
     YuvUnitx2 ch = *(YuvUnitx2 *)(pSrc + (nHeight - y / 2) * nYuvPitch);
 
     *(RgbIntx2 *)pDst = RgbIntx2 {
-        YuvToRgbForPixel<Rgb>(l0.x, ch.x, ch.y).d,
-        YuvToRgbForPixel<Rgb>(l0.y, ch.x, ch.y).d,
+        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l0.x, ch.x, ch.y).d),
+        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l0.y, ch.x, ch.y).d),
     };
     *(RgbIntx2 *)(pDst + nRgbPitch) = RgbIntx2 {
-        YuvToRgbForPixel<Rgb>(l1.x, ch.x, ch.y).d,
-        YuvToRgbForPixel<Rgb>(l1.y, ch.x, ch.y).d,
+        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l1.x, ch.x, ch.y).d),
+        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l1.y, ch.x, ch.y).d),
     };
 }
 
@@ -387,6 +387,6 @@ __global__ static void RgbToYuvKernel(uint8_t *pRgb, int nRgbPitch, uint8_t *pYu
 void Bgra64ToP016(uint8_t *dpBgra, int nBgraPitch, uint8_t *dpP016, int nP016Pitch, int nWidth, int nHeight, int iMatrix) {
     SetMatRgb2Yuv(iMatrix);
     RgbToYuvKernel<ushort2, BGRA64, ulonglong2>
-        <<<dim3((nWidth + 63) / 32 / 2, (nHeight + 3) / 2 / 2), dim3(32, 2)>>>
+        << <dim3((nWidth + 63) / 32 / 2, (nHeight + 3) / 2 / 2), dim3(32, 2) >> >
         (dpBgra, nBgraPitch, dpP016, nP016Pitch, nWidth, nHeight);
 }

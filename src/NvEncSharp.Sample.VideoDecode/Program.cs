@@ -496,6 +496,8 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                     Marshal.FreeHGlobal(Bytes);
                     Bytes = IntPtr.Zero;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(MemoryType), MemoryType, "Unsupported memory type.");
             }
         }
     }
@@ -507,6 +509,8 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         public CuVideoDecodeCreateInfo Info { get; set; }
         public YuvInformation YuvInfo { get; set; }
         public bool IsFinalFrame { get; set; }
+
+        private BufferStorage DemandBuffer() => Buffer ?? throw new ArgumentNullException(nameof(Buffer));
 
         public static FrameInformation FinalFrame => new FrameInformation(true);
 
@@ -536,7 +540,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         {
             var width = Info.Width;
             var height = Info.Height;
-            var buffer = Buffer;
+            var buffer = DemandBuffer();
             const int rgbBpp = 4;
             var rgbSize = GetRgba32Size();
 
@@ -562,7 +566,9 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(buffer.MemoryType));
+                    throw new ArgumentOutOfRangeException(
+                        nameof(buffer.MemoryType), buffer.MemoryType,
+                        "Unsupported buffer memory type.");
             }
         }
 
@@ -572,7 +578,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         {
             var width = Info.Width;
             var height = Info.Height;
-            var buffer = Buffer;
+            var buffer = DemandBuffer();
             const int rgbBpp = 4;
 
             var source = buffer.DeviceMemory;
