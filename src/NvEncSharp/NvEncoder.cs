@@ -379,17 +379,35 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_GENERIC</returns>
         ///
         /// <summary>NV_ENC_CONFIG</summary>
-        public void GetEncodePresetConfig(
-            Guid encodeGuid, Guid presetGuid,
-            ref NvEncPresetConfig presetConfig)
+        public void GetEncodePresetConfig(Guid encodeGuid, Guid presetGuid, ref NvEncPresetConfig presetConfig)
         {
             var status = Fn.GetEncodePresetConfig(
                 this, encodeGuid, presetGuid, ref presetConfig);
             CheckResult(this, status);
         }
 
-        public NvEncPresetConfig GetEncodePresetConfig(
-            Guid encodeGuid, Guid presetGuid)
+        public NvEncPresetConfig GetEncodePresetConfig(Guid encodeGuid, Guid presetGuid)
+        {
+            var presetConfig = new NvEncPresetConfig
+            {
+                //Version = NV_ENC_PRESET_CONFIG_VER,
+                //PresetCfg = new NvEncConfig
+                //{
+                //    Version = NV_ENC_CONFIG_VER
+                //}
+            };
+
+            GetEncodePresetConfig(encodeGuid, presetGuid, ref presetConfig);
+            return presetConfig;
+        }
+
+        public void GetEncodePresetConfigEx(Guid encodeGuid, Guid presetGuid, NvEncTuningInfo tuningInfo, ref NvEncPresetConfig presetConfig)
+        {
+            var status = Fn.GetEncodePresetConfigEx(this, encodeGuid, presetGuid, (uint)tuningInfo, ref presetConfig);
+            CheckResult(this, status);
+        }
+
+        public NvEncPresetConfig GetEncodePresetConfigEx(Guid encodeGuid, Guid presetGuid, NvEncTuningInfo tuningInfo = NvEncTuningInfo.HighQuality)
         {
             var presetConfig = new NvEncPresetConfig
             {
@@ -400,7 +418,7 @@ namespace Lennox.NvEncSharp
                 }
             };
 
-            GetEncodePresetConfig(encodeGuid, presetGuid, ref presetConfig);
+            GetEncodePresetConfigEx(encodeGuid, presetGuid, tuningInfo, ref presetConfig);
             return presetConfig;
         }
 

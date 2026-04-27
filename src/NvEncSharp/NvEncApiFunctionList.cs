@@ -92,6 +92,8 @@ namespace Lennox.NvEncSharp
         public GetLastErrorFn GetLastError;
         public delegate NvEncStatus SetIOCudaStreamsFn(NvEncoder encoder, NvEncCustreamPtr inputStream, NvEncCustreamPtr outputStream);
         public SetIOCudaStreamsFn SetIOCudaStreams;
-        public fixed long Reserved2[279];
+        public delegate NvEncStatus GetEncodePresetConfigExFn(NvEncoder encoder, Guid encodeGuid, Guid presetGuid, uint tuningInfo, ref NvEncPresetConfig presetConfig);
+        public GetEncodePresetConfigExFn GetEncodePresetConfigEx;
+        public fixed long Reserved2[278];
     }
 }
