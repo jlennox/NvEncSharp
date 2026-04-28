@@ -19,8 +19,8 @@ namespace Lennox.NvEncSharp
 
         // ReSharper disable InconsistentNaming
         // ReSharper disable UnusedMember.Global
-        public const uint NVENCAPI_MAJOR_VERSION = 9;
-        public const uint NVENCAPI_MINOR_VERSION = 1;
+        public const uint NVENCAPI_MAJOR_VERSION = 12;
+        public const uint NVENCAPI_MINOR_VERSION = 2;
 
         public const uint NVENCAPI_VERSION = NVENCAPI_MAJOR_VERSION | (NVENCAPI_MINOR_VERSION << 24);
 
@@ -28,22 +28,22 @@ namespace Lennox.NvEncSharp
         public static readonly uint NV_ENC_ENCODE_OUT_PARAMS_VER = StructVersion(1);
         public static readonly uint NV_ENC_CREATE_INPUT_BUFFER_VER = StructVersion(1);
         public static readonly uint NV_ENC_CREATE_BITSTREAM_BUFFER_VER = StructVersion(1);
-        public static readonly uint NV_ENC_CREATE_MV_BUFFER_VER = StructVersion(1);
+        public static readonly uint NV_ENC_CREATE_MV_BUFFER_VER = StructVersion(2);
         public static readonly uint NV_ENC_RC_PARAMS_VER = StructVersion(1);
-        public static readonly uint NV_ENC_CONFIG_VER = StructVersion(7, (uint)1 << 31);
-        public static readonly uint NV_ENC_INITIALIZE_PARAMS_VER = StructVersion(5, (uint)1 << 31);
-        public static readonly uint NV_ENC_RECONFIGURE_PARAMS_VER = StructVersion(1, (uint)1 << 31);
-        public static readonly uint NV_ENC_PRESET_CONFIG_VER = StructVersion(4, (uint)1 << 31);
+        public static readonly uint NV_ENC_CONFIG_VER = StructVersion(9, 1);
+        public static readonly uint NV_ENC_INITIALIZE_PARAMS_VER = StructVersion(7, 1);
+        public static readonly uint NV_ENC_RECONFIGURE_PARAMS_VER = StructVersion(2, 1);
+        public static readonly uint NV_ENC_PRESET_CONFIG_VER = StructVersion(5, 1);
         public static readonly uint NV_ENC_PIC_PARAMS_MVC_VER = StructVersion(1);
-        public static readonly uint NV_ENC_PIC_PARAMS_VER = StructVersion(4, (uint)1 << 31);
-        public static readonly uint NV_ENC_MEONLY_PARAMS_VER = StructVersion(3);
-        public static readonly uint NV_ENC_LOCK_BITSTREAM_VER = StructVersion(1);
+        public static readonly uint NV_ENC_PIC_PARAMS_VER = StructVersion(7, 1);
+        public static readonly uint NV_ENC_MEONLY_PARAMS_VER = StructVersion(4);
+        public static readonly uint NV_ENC_LOCK_BITSTREAM_VER = StructVersion(2, 1);
         public static readonly uint NV_ENC_LOCK_INPUT_BUFFER_VER = StructVersion(1);
         public static readonly uint NV_ENC_MAP_INPUT_RESOURCE_VER = StructVersion(4);
-        public static readonly uint NV_ENC_REGISTER_RESOURCE_VER = StructVersion(3);
-        public static readonly uint NV_ENC_STAT_VER = StructVersion(1);
+        public static readonly uint NV_ENC_REGISTER_RESOURCE_VER = StructVersion(5);
+        public static readonly uint NV_ENC_STAT_VER = StructVersion(2);
         public static readonly uint NV_ENC_SEQUENCE_PARAM_PAYLOAD_VER = StructVersion(1);
-        public static readonly uint NV_ENC_EVENT_PARAMS_VER = StructVersion(1);
+        public static readonly uint NV_ENC_EVENT_PARAMS_VER = StructVersion(2);
         public static readonly uint NV_ENC_OPEN_ENCODE_SESSION_EX_PARAMS_VER = StructVersion(1);
         public static readonly uint NV_ENCODE_API_FUNCTION_LIST_VER = StructVersion(2);
         // ReSharper restore UnusedMember.Global
@@ -111,7 +111,7 @@ namespace Lennox.NvEncSharp
         private static uint StructVersion(uint ver, uint and = 0)
         {
             // #define NVENCAPI_STRUCT_VERSION(ver) ((uint32_t)NVENCAPI_VERSION | ((ver)<<16) | (0x7 << 28))
-            return NVENCAPI_VERSION | (ver << 16) | (0x7 << 28) | and;
+            return NVENCAPI_VERSION | (ver << 16) | (0x7 << 28) | (and << 31);
         }
 
         /// <summary>

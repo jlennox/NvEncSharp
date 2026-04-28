@@ -29,12 +29,41 @@ namespace Lennox.NvEncSharp
         Vbr = 0x1,
         /// <summary>NV_ENC_PARAMS_RC_CBR: Constant bitrate mode</summary>
         Cbr = 0x2,
-        /// <summary>NV_ENC_PARAMS_RC_CBR_LOWDELAY_HQ: low-delay CBR, high quality</summary>
-        CbrLowdelayHq = 0x8,
-        /// <summary>NV_ENC_PARAMS_RC_CBR_HQ: CBR, high quality (slower)</summary>
-        CbrHq = 0x10,
-        /// <summary>NV_ENC_PARAMS_RC_VBR_HQ: VBR, high quality (slower)</summary>
-        VbrHq = 0x20,
+    }
+
+    /// <summary>NV_ENC_MULTI_PASS</summary>
+    public enum NvEncMultiPass
+    {
+        /// <summary>NV_ENC_MULTI_PASS_DISABLED: Single Pass</summary>
+        Disabled = 0x0,
+        /// <summary>NV_ENC_TWO_PASS_QUARTER_RESOLUTION: Two Pass encoding is enabled where first Pass is quarter resolution</summary>
+        NvEncTwoPassQuarterResolution = 0x1,
+        /// <summary>NV_ENC_TWO_PASS_FULL_RESOLUTION: Two Pass encoding is enabled where first Pass is full resolution</summary>
+        NvEncTwoPassFullResolution = 0x2,
+    }
+
+    /// <summary>NV_ENC_STATE_RESTORE_TYPE</summary>
+    public enum NvEncStateRestoreType
+    {
+        /// <summary>NV_ENC_STATE_RESTORE_FULL: Restore full encoder state</summary>
+        Full = 0x01,
+        /// <summary>NV_ENC_STATE_RESTORE_RATE_CONTROL: Restore only rate control state</summary>
+        RateControl = 0x02,
+        /// <summary>NV_ENC_STATE_RESTORE_ENCODE: Restore full encoder state except for rate control state</summary>
+        Encode = 0x03,
+    }
+
+    /// <summary>NV_ENC_OUTPUT_STATS_LEVEL</summary>
+    public enum NvEncOutputStatsLevel
+    {
+        /// <summary>NV_ENC_OUTPUT_STATS_NONE: No output stats</summary>
+        None = 0,
+        /// <summary>NV_ENC_OUTPUT_STATS_BLOCK_LEVEL: Output stats for every block. 
+        ///  Block represents a CTB for HEVC, macroblock for H.264, super block for AV1</summary>
+        BlockLevel = 1,
+        /// <summary>NV_ENC_OUTPUT_STATS_ROW_LEVEL: Output stats for every row. 
+        ///  Row represents a CTB row for HEVC, macroblock row for H.264, super block row for AV1</summary>
+        RowLevel = 2,
     }
 
     /// <summary>NV_ENC_EMPHASIS_MAP_LEVEL</summary>
@@ -59,7 +88,7 @@ namespace Lennox.NvEncSharp
     {
         /// <summary>NV_ENC_QP_MAP_DISABLED: Value in NV_ENC_PIC_PARAMS::qpDeltaMap have no effect.</summary>
         Disabled = 0x0,
-        /// <summary>NV_ENC_QP_MAP_EMPHASIS: Value in NV_ENC_PIC_PARAMS::qpDeltaMap will be treated as Empasis level. Currently this is only supported for H264</summary>
+        /// <summary>NV_ENC_QP_MAP_EMPHASIS: Value in NV_ENC_PIC_PARAMS::qpDeltaMap will be treated as Emphasis level. Currently this is only supported for H264</summary>
         Emphasis = 0x1,
         /// <summary>NV_ENC_QP_MAP_DELTA: Value in NV_ENC_PIC_PARAMS::qpDeltaMap will be treated as QP delta map.</summary>
         Delta = 0x2,
@@ -76,6 +105,21 @@ namespace Lennox.NvEncSharp
         FieldTopBottom = 0x02,
         /// <summary>NV_ENC_PIC_STRUCT_FIELD_BOTTOM_TOP: Field encoding bottom field first</summary>
         FieldBottomTop = 0x03,
+    }
+
+    /// <summary>NV_ENC_DISPLAY_PIC_STRUCT</summary>
+    public enum NvEncDisplayPicStruct
+    {
+        /// <summary>NV_ENC_PIC_STRUCT_DISPLAY_FRAME: Field encoding top field first</summary>
+        NvEncPicStructDisplayFrame = 0x00,
+        /// <summary>NV_ENC_PIC_STRUCT_DISPLAY_FIELD_TOP_BOTTOM: Field encoding top field first</summary>
+        NvEncPicStructDisplayFieldTopBottom = 0x01,
+        /// <summary>NV_ENC_PIC_STRUCT_DISPLAY_FIELD_BOTTOM_TOP: Field encoding bottom field first</summary>
+        NvEncPicStructDisplayFieldBottomTop = 0x02,
+        /// <summary>NV_ENC_PIC_STRUCT_DISPLAY_FRAME_DOUBLING: Frame doubling</summary>
+        NvEncPicStructDisplayFrameDoubling = 0x03,
+        /// <summary>NV_ENC_PIC_STRUCT_DISPLAY_FRAME_TRIPLING: Field tripling</summary>
+        NvEncPicStructDisplayFrameTripling = 0x04,
     }
 
     /// <summary>NV_ENC_PIC_TYPE</summary>
@@ -97,6 +141,8 @@ namespace Lennox.NvEncSharp
         IntraRefresh = 0x06,
         /// <summary>NV_ENC_PIC_TYPE_NONREF_P: Non reference P picture</summary>
         NonrefP = 0x07,
+        /// <summary>NV_ENC_PIC_TYPE_SWITCH: Switch frame (AV1 only)</summary>
+        Switch = 0x08,
         /// <summary>NV_ENC_PIC_TYPE_UNKNOWN: Picture type unknown</summary>
         Unknown = 0xFF,
     }
@@ -104,13 +150,13 @@ namespace Lennox.NvEncSharp
     /// <summary>NV_ENC_MV_PRECISION</summary>
     public enum NvEncMvPrecision
     {
-        /// <summary>NV_ENC_MV_PRECISION_DEFAULT: Driver selects QuarterPel motion vector precision by default</summary>
+        /// <summary>NV_ENC_MV_PRECISION_DEFAULT: Driver selects Quarter-Pel motion vector precision by default</summary>
         Default = 0x0,
-        /// <summary>NV_ENC_MV_PRECISION_FULL_PEL: FullPel motion vector precision</summary>
+        /// <summary>NV_ENC_MV_PRECISION_FULL_PEL: Full-Pel motion vector precision</summary>
         FullPel = 0x01,
-        /// <summary>NV_ENC_MV_PRECISION_HALF_PEL: HalfPel motion vector precision</summary>
+        /// <summary>NV_ENC_MV_PRECISION_HALF_PEL: Half-Pel motion vector precision</summary>
         HalfPel = 0x02,
-        /// <summary>NV_ENC_MV_PRECISION_QUARTER_PEL: QuarterPel motion vector precision</summary>
+        /// <summary>NV_ENC_MV_PRECISION_QUARTER_PEL: Quarter-Pel motion vector precision</summary>
         QuarterPel = 0x03,
     }
 
@@ -202,6 +248,12 @@ namespace Lennox.NvEncSharp
         H26451 = 51,
         /// <summary>NV_ENC_LEVEL_H264_52</summary>
         H26452 = 52,
+        /// <summary>NV_ENC_LEVEL_H264_60</summary>
+        H26460 = 60,
+        /// <summary>NV_ENC_LEVEL_H264_61</summary>
+        H26461 = 61,
+        /// <summary>NV_ENC_LEVEL_H264_62</summary>
+        H26462 = 62,
         /// <summary>NV_ENC_LEVEL_HEVC_1</summary>
         Hevc1 = 30,
         /// <summary>NV_ENC_LEVEL_HEVC_2</summary>
@@ -232,6 +284,54 @@ namespace Lennox.NvEncSharp
         TierHevcMain = 0,
         /// <summary>NV_ENC_TIER_HEVC_HIGH</summary>
         TierHevcHigh = 1,
+        /// <summary>NV_ENC_LEVEL_AV1_2</summary>
+        Av12 = 0,
+        /// <summary>NV_ENC_LEVEL_AV1_21</summary>
+        Av121 = 1,
+        /// <summary>NV_ENC_LEVEL_AV1_22</summary>
+        Av122 = 2,
+        /// <summary>NV_ENC_LEVEL_AV1_23</summary>
+        Av123 = 3,
+        /// <summary>NV_ENC_LEVEL_AV1_3</summary>
+        Av13 = 4,
+        /// <summary>NV_ENC_LEVEL_AV1_31</summary>
+        Av131 = 5,
+        /// <summary>NV_ENC_LEVEL_AV1_32</summary>
+        Av132 = 6,
+        /// <summary>NV_ENC_LEVEL_AV1_33</summary>
+        Av133 = 7,
+        /// <summary>NV_ENC_LEVEL_AV1_4</summary>
+        Av14 = 8,
+        /// <summary>NV_ENC_LEVEL_AV1_41</summary>
+        Av141 = 9,
+        /// <summary>NV_ENC_LEVEL_AV1_42</summary>
+        Av142 = 10,
+        /// <summary>NV_ENC_LEVEL_AV1_43</summary>
+        Av143 = 11,
+        /// <summary>NV_ENC_LEVEL_AV1_5</summary>
+        Av15 = 12,
+        /// <summary>NV_ENC_LEVEL_AV1_51</summary>
+        Av151 = 13,
+        /// <summary>NV_ENC_LEVEL_AV1_52</summary>
+        Av152 = 14,
+        /// <summary>NV_ENC_LEVEL_AV1_53</summary>
+        Av153 = 15,
+        /// <summary>NV_ENC_LEVEL_AV1_6</summary>
+        Av16 = 16,
+        /// <summary>NV_ENC_LEVEL_AV1_61</summary>
+        Av161 = 17,
+        /// <summary>NV_ENC_LEVEL_AV1_62</summary>
+        Av162 = 18,
+        /// <summary>NV_ENC_LEVEL_AV1_63</summary>
+        Av163 = 19,
+        /// <summary>NV_ENC_LEVEL_AV1_7</summary>
+        Av17 = 20,
+        /// <summary>NV_ENC_LEVEL_AV1_71</summary>
+        Av171 = 21,
+        /// <summary>NV_ENC_LEVEL_AV1_72</summary>
+        Av172 = 22,
+        /// <summary>NV_ENC_LEVEL_AV1_73</summary>
+        Av173 = 23,
     }
 
     /// <summary>NVENCSTATUS</summary>
@@ -324,6 +424,13 @@ namespace Lennox.NvEncSharp
         /// <summary>NV_ENC_ERR_RESOURCE_NOT_MAPPED:  This indicates that the client is attempting to unmap a resource
         ///  * that has not been successfully mapped.</summary>
         ResourceNotMapped,
+        /// <summary>NV_ENC_ERR_NEED_MORE_OUTPUT:  This indicates encode driver requires more output buffers to write an output
+        ///  * bitstream. If this error is returned from ::NvEncRestoreEncoderState() API, this
+        ///  * is not a fatal error. If the client is encoding with B frames then,
+        ///  * ::NvEncRestoreEncoderState() API might be requiring the extra output buffer for accomodating overlay frame output in a separate buffer, for AV1 codec.
+        ///  * In this case, client must call NvEncRestoreEncoderState() API again with NV_ENC_RESTORE_ENCODER_STATE_PARAMS::outputBitstream as input along with 
+        ///  * the parameters in the previous call. When operating in asynchronous mode of encoding, client must also specify NV_ENC_RESTORE_ENCODER_STATE_PARAMS::completionEvent.</summary>
+        NeedMoreOutput,
     }
 
     /// <summary>NV_ENC_PIC_FLAGS</summary>
@@ -331,7 +438,7 @@ namespace Lennox.NvEncSharp
     {
         /// <summary>NV_ENC_PIC_FLAG_FORCEINTRA: Encode the current picture as an Intra picture</summary>
         FlagForceintra = 0x1,
-        /// <summary>NV_ENC_PIC_FLAG_FORCEIDR: Encode the current picture as an IDR picture.
+        /// <summary>NV_ENC_PIC_FLAG_FORCEIDR: Encode the current picture as an IDR picture. 
         ///  This flag is only valid when Picture type decision is taken by the Encoder
         ///  [_NV_ENC_INITIALIZE_PARAMS::enablePTD == 1].</summary>
         FlagForceidr = 0x2,
@@ -339,6 +446,10 @@ namespace Lennox.NvEncSharp
         FlagOutputSpspps = 0x4,
         /// <summary>NV_ENC_PIC_FLAG_EOS: Indicates end of the input stream</summary>
         FlagEos = 0x8,
+        /// <summary>NV_ENC_PIC_FLAG_DISABLE_ENC_STATE_ADVANCE: Do not advance encoder state during encode</summary>
+        FlagDisableEncStateAdvance = 0x10,
+        /// <summary>NV_ENC_PIC_FLAG_OUTPUT_RECON_FRAME: Write reconstructed frame</summary>
+        FlagOutputReconFrame = 0x20,
     }
 
     /// <summary>NV_ENC_MEMORY_HEAP</summary>
@@ -359,7 +470,7 @@ namespace Lennox.NvEncSharp
     {
         /// <summary>NV_ENC_BFRAME_REF_MODE_DISABLED: B frame is not used for reference</summary>
         Disabled = 0x0,
-        /// <summary>NV_ENC_BFRAME_REF_MODE_EACH: Each B-frame will be used for reference. currently not supported for H.264</summary>
+        /// <summary>NV_ENC_BFRAME_REF_MODE_EACH: Each B-frame will be used for reference</summary>
         Each = 0x1,
         /// <summary>NV_ENC_BFRAME_REF_MODE_MIDDLE: Only(Number of B-frame)/2 th B-frame will be used for reference</summary>
         Middle = 0x2,
@@ -396,7 +507,7 @@ namespace Lennox.NvEncSharp
         Autoselect = 0x0,
         /// <summary>NV_ENC_H264_FMO_ENABLE: Enable FMO</summary>
         Enable = 0x1,
-        /// <summary>NV_ENC_H264_FMO_DISABLE: Disble FMO</summary>
+        /// <summary>NV_ENC_H264_FMO_DISABLE: Disable FMO</summary>
         Disable = 0x2,
     }
 
@@ -455,6 +566,8 @@ namespace Lennox.NvEncSharp
         NvEncOutputMotionVector = 0x1,
         /// <summary>NV_ENC_OUTPUT_BITSTREAM: Registered surface will be used for output bitstream in encoding</summary>
         NvEncOutputBitstream = 0x2,
+        /// <summary>NV_ENC_OUTPUT_RECON: Registered surface will be used for output reconstructed frame in encoding</summary>
+        NvEncOutputRecon = 0x4,
     }
 
     /// <summary>NV_ENC_DEVICE_TYPE</summary>
@@ -490,6 +603,15 @@ namespace Lennox.NvEncSharp
         Frames7 = 0x7,
     }
 
+    /// <summary>NV_ENC_TEMPORAL_FILTER_LEVEL</summary>
+    public enum NvEncTemporalFilterLevel
+    {
+        /// <summary>NV_ENC_TEMPORAL_FILTER_LEVEL_0</summary>
+        Level0 = 0,
+        /// <summary>NV_ENC_TEMPORAL_FILTER_LEVEL_4</summary>
+        Level4 = 4,
+    }
+
     /// <summary>NV_ENC_CAPS</summary>
     public enum NvEncCaps
     {
@@ -512,8 +634,8 @@ namespace Lennox.NvEncSharp
         ///  * \n 1 : FMO supported.</summary>
         SupportFmo,
         /// <summary>NV_ENC_CAPS_SUPPORT_QPELMV:  Indicates HW capability for Quarter pel motion estimation.
-        ///  * \n 0 : QuarterPel Motion Estimation not supported.
-        ///  * \n 1 : QuarterPel Motion Estimation supported.</summary>
+        ///  * \n 0 : Quarter-Pel Motion Estimation not supported.
+        ///  * \n 1 : Quarter-Pel Motion Estimation supported.</summary>
         SupportQpelmv,
         /// <summary>NV_ENC_CAPS_SUPPORT_BDIRECT_MODE:  H.264 specific. Indicates HW support for BDirect modes.
         ///  * \n 0 : BDirect mode encoding not supported.
@@ -578,18 +700,17 @@ namespace Lennox.NvEncSharp
         ///  * \n 0 : Dynamic rate control mode change not supported.
         ///  * \n 1 : Dynamic rate control mode change supported.</summary>
         SupportDynRcmodeChange,
-        /// <summary>NV_ENC_CAPS_SUPPORT_SUBFRAME_READBACK:  Indicates Subframe readback support for slice-based encoding.
+        /// <summary>NV_ENC_CAPS_SUPPORT_SUBFRAME_READBACK:  Indicates Subframe readback support for slice-based encoding. If this feature is supported, it can be enabled by setting enableSubFrameWrite = 1.
         ///  * \n 0 : Subframe readback not supported.
         ///  * \n 1 : Subframe readback supported.</summary>
         SupportSubframeReadback,
         /// <summary>NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING:  Indicates Constrained Encoding mode support.
         ///  * Support added from NvEncodeAPI version 2.0.
         ///  * \n 0 : Constrained encoding mode not supported.
-        ///  * \n 1 : Constarined encoding mode supported.
-        ///  * If this mode is supported client can enable this during initialisation.
+        ///  * \n 1 : Constrained encoding mode supported.
+        ///  * If this mode is supported client can enable this during initialization.
         ///  * Client can then force a picture to be coded as constrained picture where
-        ///  * each slice in a constrained picture will have constrained_intra_pred_flag set to 1
-        ///  * and disable_deblocking_filter_idc will be set to 2 and prediction vectors for inter
+        ///  * in-loop filtering is disabled across slice boundaries and prediction vectors for inter
         ///  * macroblocks in each slice will be restricted to the slice region.</summary>
         SupportConstrainedEncoding,
         /// <summary>NV_ENC_CAPS_SUPPORT_INTRA_REFRESH:  Indicates Intra Refresh Mode Support.
@@ -597,7 +718,7 @@ namespace Lennox.NvEncSharp
         ///  * \n 0 : Intra Refresh Mode not supported.
         ///  * \n 1 : Intra Refresh Mode supported.</summary>
         SupportIntraRefresh,
-        /// <summary>NV_ENC_CAPS_SUPPORT_CUSTOM_VBV_BUF_SIZE:  Indicates Custom VBV Bufer Size support. It can be used for capping frame size.
+        /// <summary>NV_ENC_CAPS_SUPPORT_CUSTOM_VBV_BUF_SIZE:  Indicates Custom VBV Buffer Size support. It can be used for capping frame size.
         ///  * Support added from NvEncodeAPI version 2.0.
         ///  * \n 0 : Custom VBV buffer size specification from client, not supported.
         ///  * \n 1 : Custom VBV buffer size specification from client, supported.</summary>
@@ -612,7 +733,7 @@ namespace Lennox.NvEncSharp
         ///  * \n 0 : Reference Picture Invalidation not supported.
         ///  * \n 1 : Reference Picture Invalidation supported.</summary>
         SupportRefPicInvalidation,
-        /// <summary>NV_ENC_CAPS_PREPROC_SUPPORT:  Indicates support for PreProcessing.
+        /// <summary>NV_ENC_CAPS_PREPROC_SUPPORT:  Indicates support for Pre-Processing.
         ///  * The API return value is a bitmask of the values defined in ::NV_ENC_PREPROC_FLAGS</summary>
         PreprocSupport,
         /// <summary>NV_ENC_CAPS_ASYNC_ENCODE_SUPPORT:  Indicates support Async mode.
@@ -635,7 +756,7 @@ namespace Lennox.NvEncSharp
         ///  * \n 0 : SAO not supported.
         ///  * \n 1 : SAO encoding supported.</summary>
         SupportSao,
-        /// <summary>NV_ENC_CAPS_SUPPORT_MEONLY_MODE:  Indicates HW support for MEOnly Mode.
+        /// <summary>NV_ENC_CAPS_SUPPORT_MEONLY_MODE:  Indicates HW support for Motion Estimation Only Mode.
         ///  * \n 0 : MEOnly Mode not supported.
         ///  * \n 1 : MEOnly Mode supported for I and P frames.
         ///  * \n 2 : MEOnly Mode supported for I, P and B frames.</summary>
@@ -654,9 +775,9 @@ namespace Lennox.NvEncSharp
         Support10bitEncode,
         /// <summary>NV_ENC_CAPS_NUM_MAX_LTR_FRAMES:  Maximum number of Long Term Reference frames supported</summary>
         NumMaxLtrFrames,
-        /// <summary>NV_ENC_CAPS_SUPPORT_WEIGHTED_PREDICTION:  Indicates HW support for Weighted Predicition.
-        ///  * \n 0 : Weighted Predicition not supported.
-        ///  * \n 1 : Weighted Predicition supported.</summary>
+        /// <summary>NV_ENC_CAPS_SUPPORT_WEIGHTED_PREDICTION:  Indicates HW support for Weighted Prediction.
+        ///  * \n 0 : Weighted Prediction not supported.
+        ///  * \n 1 : Weighted Prediction supported.</summary>
         SupportWeightedPrediction,
         /// <summary>NV_ENC_CAPS_DYNAMIC_QUERY_ENCODER_CAPACITY:  On managed (vGPU) platforms (Windows only), this API, in conjunction with other GRID Management APIs, can be used
         ///  * to estimate the residual capacity of the hardware encoder on the GPU as a percentage of the total available encoder capacity.
@@ -664,9 +785,9 @@ namespace Lennox.NvEncSharp
         ///  * If the available encoder capacity is returned as zero, applications may choose to switch to software encoding
         ///  * and continue to call this API (e.g. polling once per second) until capacity becomes available.
         ///  *
-        ///  * On baremetal (non-virtualized GPU) and linux platforms, this API always returns 100.</summary>
+        ///  * On bare metal (non-virtualized GPU) and linux platforms, this API always returns 100.</summary>
         DynamicQueryEncoderCapacity,
-        /// <summary>NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE:  Indicates B as refererence support.
+        /// <summary>NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE:  Indicates B as reference support.
         ///  * \n 0 : B as reference is not supported.
         ///  * \n 1 : each B-Frame as reference is supported.
         ///  * \n 2 : only Middle B-frame as reference is supported.</summary>
@@ -681,6 +802,28 @@ namespace Lennox.NvEncSharp
         HeightMin,
         /// <summary>NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES:  Indicates HW support for multiple reference frames.</summary>
         SupportMultipleRefFrames,
+        /// <summary>NV_ENC_CAPS_SUPPORT_ALPHA_LAYER_ENCODING:  Indicates HW support for HEVC with alpha encoding.
+        ///  * \n 0 : HEVC with alpha encoding not supported.
+        ///  * \n 1 : HEVC with alpha encoding is supported.</summary>
+        SupportAlphaLayerEncoding,
+        /// <summary>NV_ENC_CAPS_NUM_ENCODER_ENGINES:  Indicates number of Encoding engines present on GPU.</summary>
+        NumEncoderEngines,
+        /// <summary>NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH:  Indicates single slice intra refresh support.</summary>
+        SingleSliceIntraRefresh,
+        /// <summary>NV_ENC_CAPS_DISABLE_ENC_STATE_ADVANCE:  Indicates encoding without advancing the state support.</summary>
+        DisableEncStateAdvance,
+        /// <summary>NV_ENC_CAPS_OUTPUT_RECON_SURFACE:  Indicates reconstructed output support.</summary>
+        OutputReconSurface,
+        /// <summary>NV_ENC_CAPS_OUTPUT_BLOCK_STATS:  Indicates encoded frame output stats support for every block. Block represents a CTB for HEVC, macroblock for H.264 and super block for AV1.</summary>
+        OutputBlockStats,
+        /// <summary>NV_ENC_CAPS_OUTPUT_ROW_STATS:  Indicates encoded frame output stats support for every row. Row represents a CTB row for HEVC, macroblock row for H.264 and super block row for AV1.</summary>
+        OutputRowStats,
+        /// <summary>NV_ENC_CAPS_SUPPORT_TEMPORAL_FILTER:  Indicates temporal filtering support.</summary>
+        SupportTemporalFilter,
+        /// <summary>NV_ENC_CAPS_SUPPORT_LOOKAHEAD_LEVEL:  Maximum Lookahead level supported (See ::NV_ENC_LOOKAHEAD_LEVEL for details).</summary>
+        SupportLookaheadLevel,
+        /// <summary>NV_ENC_CAPS_SUPPORT_UNIDIRECTIONAL_B:  Indicates UnidirectionalB support.</summary>
+        SupportUnidirectionalB,
     }
 
     /// <summary>NV_ENC_HEVC_CUSIZE</summary>
@@ -698,4 +841,216 @@ namespace Lennox.NvEncSharp
         Cusize64x64 = 4,
     }
 
+    /// <summary>NV_ENC_AV1_PART_SIZE</summary>
+    public enum NvEncAv1PartSize
+    {
+        /// <summary>NV_ENC_AV1_PART_SIZE_AUTOSELECT</summary>
+        Autoselect = 0,
+        /// <summary>NV_ENC_AV1_PART_SIZE_4x4</summary>
+        Size4x4 = 1,
+        /// <summary>NV_ENC_AV1_PART_SIZE_8x8</summary>
+        Size8x8 = 2,
+        /// <summary>NV_ENC_AV1_PART_SIZE_16x16</summary>
+        Size16x16 = 3,
+        /// <summary>NV_ENC_AV1_PART_SIZE_32x32</summary>
+        Size32x32 = 4,
+        /// <summary>NV_ENC_AV1_PART_SIZE_64x64</summary>
+        Size64x64 = 5,
+    }
+
+    /// <summary>NV_ENC_VUI_VIDEO_FORMAT</summary>
+    public enum NvEncVuiVideoFormat
+    {
+        /// <summary>NV_ENC_VUI_VIDEO_FORMAT_COMPONENT</summary>
+        Component = 0,
+        /// <summary>NV_ENC_VUI_VIDEO_FORMAT_PAL</summary>
+        Pal = 1,
+        /// <summary>NV_ENC_VUI_VIDEO_FORMAT_NTSC</summary>
+        Ntsc = 2,
+        /// <summary>NV_ENC_VUI_VIDEO_FORMAT_SECAM</summary>
+        Secam = 3,
+        /// <summary>NV_ENC_VUI_VIDEO_FORMAT_MAC</summary>
+        Mac = 4,
+        /// <summary>NV_ENC_VUI_VIDEO_FORMAT_UNSPECIFIED</summary>
+        Unspecified = 5,
+    }
+
+    /// <summary>NV_ENC_VUI_COLOR_PRIMARIES</summary>
+    public enum NvEncVuiColorPrimaries
+    {
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_UNDEFINED</summary>
+        Undefined = 0,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_BT709</summary>
+        Bt709 = 1,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_UNSPECIFIED</summary>
+        Unspecified = 2,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_RESERVED</summary>
+        Reserved = 3,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_BT470M</summary>
+        Bt470m = 4,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_BT470BG</summary>
+        Bt470bg = 5,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_SMPTE170M</summary>
+        Smpte170m = 6,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_SMPTE240M</summary>
+        Smpte240m = 7,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_FILM</summary>
+        Film = 8,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_BT2020</summary>
+        Bt2020 = 9,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_SMPTE428</summary>
+        Smpte428 = 10,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_SMPTE431</summary>
+        Smpte431 = 11,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_SMPTE432</summary>
+        Smpte432 = 12,
+        /// <summary>NV_ENC_VUI_COLOR_PRIMARIES_JEDEC_P22</summary>
+        JedecP22 = 22,
+    }
+
+    /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC</summary>
+    public enum NvEncVuiTransferCharacteristic
+    {
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_UNDEFINED</summary>
+        Undefined = 0,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_BT709</summary>
+        Bt709 = 1,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_UNSPECIFIED</summary>
+        Unspecified = 2,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_RESERVED</summary>
+        Reserved = 3,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_BT470M</summary>
+        Bt470m = 4,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_BT470BG</summary>
+        Bt470bg = 5,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_SMPTE170M</summary>
+        Smpte170m = 6,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_SMPTE240M</summary>
+        Smpte240m = 7,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_LINEAR</summary>
+        Linear = 8,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_LOG</summary>
+        Log = 9,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_LOG_SQRT</summary>
+        LogSqrt = 10,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_IEC61966_2_4</summary>
+        Iec6196624 = 11,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_BT1361_ECG</summary>
+        Bt1361Ecg = 12,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_SRGB</summary>
+        Srgb = 13,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_BT2020_10</summary>
+        Bt202010 = 14,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_BT2020_12</summary>
+        Bt202012 = 15,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_SMPTE2084</summary>
+        Smpte2084 = 16,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_SMPTE428</summary>
+        Smpte428 = 17,
+        /// <summary>NV_ENC_VUI_TRANSFER_CHARACTERISTIC_ARIB_STD_B67</summary>
+        AribStdB67 = 18,
+    }
+
+    /// <summary>NV_ENC_VUI_MATRIX_COEFFS</summary>
+    public enum NvEncVuiMatrixCoeffs
+    {
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_RGB</summary>
+        Rgb = 0,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_BT709</summary>
+        Bt709 = 1,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_UNSPECIFIED</summary>
+        Unspecified = 2,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_RESERVED</summary>
+        Reserved = 3,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_FCC</summary>
+        Fcc = 4,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_BT470BG</summary>
+        Bt470bg = 5,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_SMPTE170M</summary>
+        Smpte170m = 6,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_SMPTE240M</summary>
+        Smpte240m = 7,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_YCGCO</summary>
+        Ycgco = 8,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_BT2020_NCL</summary>
+        Bt2020Ncl = 9,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_BT2020_CL</summary>
+        Bt2020Cl = 10,
+        /// <summary>NV_ENC_VUI_MATRIX_COEFFS_SMPTE2085</summary>
+        Smpte2085 = 11,
+    }
+
+    /// <summary>NV_ENC_LOOKAHEAD_LEVEL</summary>
+    public enum NvEncLookaheadLevel
+    {
+        /// <summary>NV_ENC_LOOKAHEAD_LEVEL_0</summary>
+        Level0 = 0,
+        /// <summary>NV_ENC_LOOKAHEAD_LEVEL_1</summary>
+        Level1 = 1,
+        /// <summary>NV_ENC_LOOKAHEAD_LEVEL_2</summary>
+        Level2 = 2,
+        /// <summary>NV_ENC_LOOKAHEAD_LEVEL_3</summary>
+        Level3 = 3,
+        /// <summary>NV_ENC_LOOKAHEAD_LEVEL_AUTOSELECT</summary>
+        Autoselect = 15,
+    }
+
+    /// <summary>NV_ENC_BIT_DEPTH</summary>
+    public enum NvEncBitDepth
+    {
+        /// <summary>NV_ENC_BIT_DEPTH_INVALID: Invalid Bit Depth</summary>
+        Invalid = 0,
+        /// <summary>NV_ENC_BIT_DEPTH_8: Bit Depth 8</summary>
+        Depth8 = 8,
+        /// <summary>NV_ENC_BIT_DEPTH_10: Bit Depth 10</summary>
+        Depth10 = 10,
+    }
+
+    /// <summary>NV_ENC_SPLIT_ENCODE_MODE</summary>
+    public enum NvEncSplitEncodeMode
+    {
+        /// <summary>NV_ENC_SPLIT_AUTO_MODE: Default value, split frame forced mode disabled, split frame auto mode enabled</summary>
+        NvEncSplitAutoMode = 0,
+        /// <summary>NV_ENC_SPLIT_AUTO_FORCED_MODE: Split frame forced mode enabled with number of strips automatically selected by driver to best fit configuration</summary>
+        NvEncSplitAutoForcedMode = 1,
+        /// <summary>NV_ENC_SPLIT_TWO_FORCED_MODE: Forced 2-strip split frame encoding (if NVENC number > 1, 1-strip encode otherwise)</summary>
+        NvEncSplitTwoForcedMode = 2,
+        /// <summary>NV_ENC_SPLIT_THREE_FORCED_MODE: Forced 3-strip split frame encoding (if NVENC number > 2, NVENC number of strips otherwise)</summary>
+        NvEncSplitThreeForcedMode = 3,
+        /// <summary>NV_ENC_SPLIT_DISABLE_MODE: Both split frame auto mode and forced mode are disabled</summary>
+        NvEncSplitDisableMode = 15,
+    }
+
+    public enum NvEncTuningInfo
+    {
+        /// <summary>
+        /// Undefined tuningInfo. Invalid value for encoding.
+        /// </summary>
+        Undefined = 0,
+
+        /// <summary>
+        /// Tune presets for latency tolerant encoding.
+        /// </summary>
+        HighQuality = 1,
+
+        /// <summary>
+        /// Tune presets for low latency streaming.
+        /// </summary>
+        LowLatency = 2,
+
+        /// <summary>
+        /// Tune presets for ultra low latency streaming.
+        /// </summary>
+        UltraLowLatency = 3,
+
+        /// <summary>
+        /// Tune presets for lossless encoding.
+        /// </summary>
+        Lossless = 4,
+
+        /// <summary>
+        /// Tune presets for latency tolerant encoding for higher quality. Only supported for HEVC and AV1 on Turing+ architectures 
+        /// </summary>
+        UltraHighQuality = 5,
+    }
 }

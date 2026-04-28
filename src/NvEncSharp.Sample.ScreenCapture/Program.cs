@@ -164,7 +164,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
             var desc = texture.Description;
             var encoder = OpenEncoderForDirectX(texture.Device.NativePointer);
-            var encoderConfig = encoder.GetEncodePresetConfig(NvEncCodecGuids.H264, NvEncPresetGuids.LowLatencyDefault).PresetCfg;
+            var encoderConfig = encoder.GetEncodePresetConfigEx(NvEncCodecGuids.H264, NvEncPresetGuids.P1).PresetCfg;
             encoderConfig.RcParams.AverageBitRate = 4 * (1 << 20); // 4 Mbit
             encoderConfig.RcParams.MaxBitRate = 8 * (1 << 20);
             encoderConfig.RcParams.RateControlMode = NvEncParamsRcMode.Vbr;
@@ -186,11 +186,12 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                     FrameRateDen = 1,
                     ReportSliceOffsets = false,
                     EnableSubFrameWrite = false,
-                    PresetGuid = NvEncPresetGuids.LowLatencyDefault,
+                    PresetGuid = NvEncPresetGuids.P1,
                     EnableEncodeAsync = 0,
                     EnablePTD = 1,
                     EnableWeightedPrediction = true,
                     EncodeConfig = p,
+                    TuningInfo = NvEncTuningInfo.HighQuality,
                 };
 
                 encoder.InitializeEncoder(ref initparams);
