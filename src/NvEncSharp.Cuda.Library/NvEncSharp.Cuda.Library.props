@@ -3,6 +3,9 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <CUDA_VERSION>12.6</CUDA_VERSION>
+    <!-- CUDA 12.6 only officially supports Visual Studio 2022 and older.
+         Newer MSVC toolsets need nvcc's unsupported compiler override. -->
+    <NvccAllowUnsupportedCompiler>true</NvccAllowUnsupportedCompiler>
   </PropertyGroup>
   <!--<PropertyGroup>
     <OutDir>$(SolutionDir)$(Platform).$(Configuration)\</OutDir>
