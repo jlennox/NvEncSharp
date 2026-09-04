@@ -213,7 +213,7 @@ namespace Lennox.NvEncSharp
         /// Get the decode status for frame corresponding to nPicIdx
         /// </summary>
         [DllImport(_dllpath, EntryPoint = "cuvidGetDecodeStatus")]
-        public static extern CuResult GetDecodeStatus(CuVideoDecoder decoder, int nPicIdx, out CuVideoDecodeStatus decodeStatus);
+        public static extern CuResult GetDecodeStatus(CuVideoDecoder decoder, int nPicIdx, out CuVideoGetDecodeStatus decodeStatus);
 
         /// <summary>
         /// \fn CUresult CuAPI cuvidReconfigureDecoder(CUvideodecoder hDecoder, CUVIDRECONFIGUREDECODERINFO *pDecReconfigParams)

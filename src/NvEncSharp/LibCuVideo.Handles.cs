@@ -116,13 +116,13 @@ namespace Lennox.NvEncSharp
             return decoder;
         }
 
-        /// <inheritdoc cref="LibCuVideo.GetDecodeStatus(CuVideoDecoder, int, out CuVideoDecodeStatus)"/>
+        /// <inheritdoc cref="LibCuVideo.GetDecodeStatus(CuVideoDecoder, int, out CuVideoGetDecodeStatus)"/>
         public CuVideoDecodeStatus GetDecodeStatus(int picIndex = 0)
         {
             var result = LibCuVideo.GetDecodeStatus(
                 this, picIndex, out var status);
             CheckResult(result);
-            return status;
+            return status.DecodeStatus;
         }
 
         /// <inheritdoc cref="ReconfigureDecoder(CuVideoDecoder, ref CuVideoReconfigureDecoderInfo)"/>
