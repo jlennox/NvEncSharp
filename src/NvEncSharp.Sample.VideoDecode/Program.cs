@@ -324,6 +324,19 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         private CuCallbackResult SequenceCallback(
             IntPtr data, ref CuVideoFormat format)
         {
+            // Display and bitmap conversion only support 8-bit NV12 surfaces.
+            // Check every sequence, including changes to an existing decoder.
+            if (format.Codec != CuVideoCodec.H264 ||
+                format.ChromaFormat != CuVideoChromaFormat.YUV420 ||
+                format.BitDepthLumaMinus8 != 0 || format.BitDepthChromaMinus8 != 0)
+            {
+                Console.Error.WriteLine(
+                    $"This sample supports only 8-bit 4:2:0 H.264. Received {format.Codec}, " +
+                    $"{format.ChromaFormat}, luma {format.BitDepthLumaMinus8 + 8}-bit, " +
+                    $"chroma {format.BitDepthChromaMinus8 + 8}-bit.");
+                return CuCallbackResult.Failure;
+            }
+
             using var _ = _context.Push();
 
             var hasFrameRate = format.FrameRateNumerator > 0 && format.FrameRateDenominator > 0;
@@ -366,7 +379,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             {
                 CodecType = format.Codec,
                 ChromaFormat = format.ChromaFormat,
-                OutputFormat = format.GetSurfaceFormat(),
+                OutputFormat = CuVideoSurfaceFormat.NV12,
                 BitDepthMinus8 = format.BitDepthLumaMinus8,
                 DeinterlaceMode = format.ProgressiveSequence
                     ? CuVideoDeinterlaceMode.Weave
