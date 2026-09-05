@@ -40,54 +40,95 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
             Console.WriteLine($"Display: {outputDescription.DeviceName}");
             Console.WriteLine($"Output: {output.Name}");
 
+            try
+            {
+                CaptureFrames(duplicate, output);
+            }
+            finally
+            {
+                if (_encoder.Handle != IntPtr.Zero)
+                {
+                    try
+                    {
+                        if (_bitstreamBuffer.BitstreamBuffer.Handle != IntPtr.Zero)
+                            _encoder.DestroyBitstreamBuffer(_bitstreamBuffer.BitstreamBuffer);
+                    }
+                    finally
+                    {
+                        _encoder.DestroyEncoder();
+                    }
+                }
+            }
+        }
+
+        private void CaptureFrames(OutputDuplication duplicate, Stream output)
+        {
             while (true)
             {
                 // Get the next screen image.
                 duplicate.AcquireNextFrame(500,
                     out var frameInfo, out var resourceOut);
 
-                // If the frame has not changed, there's no reason to encode
-                // a new frame.
-                if (frameInfo.LastPresentTime == 0)
+                try
+                {
+                    using (resourceOut)
+                    {
+                        // If the frame has not changed, there's no reason to encode it.
+                        if (frameInfo.LastPresentTime != 0)
+                        {
+                            using var desktopTexture = resourceOut.QueryInterface<Texture2D>();
+                            EncodeFrame(desktopTexture, frameInfo.LastPresentTime, output);
+                        }
+                    }
+                }
+                finally
                 {
                     duplicate.ReleaseFrame();
-                    resourceOut.Dispose();
-                    Thread.Sleep(_frameDuration);
-                    continue;
                 }
 
-                var desktopTexture = resourceOut.QueryInterface<Texture2D>();
-                var encoder = _initialized
-                    ? _encoder
-                    : CreateEncoder(desktopTexture);
+                Thread.Sleep(_frameDuration);
+            }
 
-                var desc = desktopTexture.Description;
+            // ReSharper disable once FunctionNeverReturns
+        }
 
-                var reg = new NvEncRegisterResource
-                {
-                    Version = NV_ENC_REGISTER_RESOURCE_VER,
-                    BufferFormat = NvEncBufferFormat.Abgr,
-                    BufferUsage = NvEncBufferUsage.NvEncInputImage,
-                    ResourceToRegister = desktopTexture.NativePointer,
-                    Width = (uint)desc.Width,
-                    Height = (uint)desc.Height,
-                    Pitch = 0
-                };
+        private void EncodeFrame(Texture2D desktopTexture, long timestamp, Stream output)
+        {
+            var encoder = _initialized ? _encoder : CreateEncoder(desktopTexture);
+            var desc = desktopTexture.Description;
+            var reg = new NvEncRegisterResource
+            {
+                Version = NV_ENC_REGISTER_RESOURCE_VER,
+                ResourceType = NvEncInputResourceType.Directx,
+                BufferFormat = NvEncBufferFormat.Argb,
+                BufferUsage = NvEncBufferUsage.NvEncInputImage,
+                ResourceToRegister = desktopTexture.NativePointer,
+                Width = (uint)desc.Width,
+                Height = (uint)desc.Height,
+                Pitch = 0
+            };
 
-                // Registers the hardware texture surface as a resource for
-                // NvEnc to use.
-                using var _ = _encoder.RegisterResource(ref reg);
+            // Desktop duplication provides BGRA bytes (NVENC's little-endian ARGB).
+            using var registration = encoder.RegisterResource(ref reg);
+            var mapped = new NvEncMapInputResource
+            {
+                Version = NV_ENC_MAP_INPUT_RESOURCE_VER,
+                RegisteredResource = reg.RegisteredResource
+            };
+            encoder.MapInputResource(ref mapped);
 
+            try
+            {
                 var pic = new NvEncPicParams
                 {
                     Version = NV_ENC_PIC_PARAMS_VER,
                     PictureStruct = NvEncPicStruct.Frame,
-                    InputBuffer = reg.AsInputPointer(),
-                    BufferFmt = NvEncBufferFormat.Abgr,
+                    InputBuffer = mapped.MappedResource,
+                    BufferFmt = mapped.MappedBufferFmt,
                     InputWidth = (uint)desc.Width,
                     InputHeight = (uint)desc.Height,
                     OutputBitstream = _bitstreamBuffer.BitstreamBuffer,
-                    InputTimeStamp = (ulong)frameInfo.LastPresentTime,
+                    InputTimeStamp = (ulong)timestamp,
                     InputDuration = _frameDuration
                 };
 
@@ -105,15 +146,11 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                         sm.CopyTo(output);
                     }
                 }
-
-                desktopTexture.Dispose();
-                duplicate.ReleaseFrame();
-                resourceOut.Dispose();
-
-                Thread.Sleep(_frameDuration);
             }
-
-            // ReSharper disable once FunctionNeverReturns
+            finally
+            {
+                encoder.UnmapInputResource(mapped.MappedResource);
+            }
         }
 
         private static OutputDuplication GetDisplayDuplicate(
@@ -164,7 +201,11 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
             var desc = texture.Description;
             var encoder = OpenEncoderForDirectX(texture.Device.NativePointer);
+            _encoder = encoder; // Retain ownership even if initialization fails.
             var encoderConfig = encoder.GetEncodePresetConfigEx(NvEncCodecGuids.H264, NvEncPresetGuids.P1).PresetCfg;
+            // Each mapped texture must finish encoding before this iteration releases it.
+            encoderConfig.FrameIntervalP = 1;
+            encoderConfig.RcParams.EnableLookahead = false;
             encoderConfig.RcParams.AverageBitRate = 4 * (1 << 20); // 4 Mbit
             encoderConfig.RcParams.MaxBitRate = 8 * (1 << 20);
             encoderConfig.RcParams.RateControlMode = NvEncParamsRcMode.Vbr;

@@ -379,6 +379,7 @@ namespace Lennox.NvEncSharp
         /// ::NV_ENC_ERR_GENERIC</returns>
         ///
         /// <summary>NV_ENC_CONFIG</summary>
+        [Obsolete("Only supports legacy presets. For P1-P7, use GetEncodePresetConfigEx with the desired tuning info.")]
         public void GetEncodePresetConfig(Guid encodeGuid, Guid presetGuid, ref NvEncPresetConfig presetConfig)
         {
             var status = Fn.GetEncodePresetConfig(
@@ -386,15 +387,16 @@ namespace Lennox.NvEncSharp
             CheckResult(this, status);
         }
 
+        [Obsolete("Only supports legacy presets. For P1-P7, use GetEncodePresetConfigEx with the desired tuning info.")]
         public NvEncPresetConfig GetEncodePresetConfig(Guid encodeGuid, Guid presetGuid)
         {
             var presetConfig = new NvEncPresetConfig
             {
-                //Version = NV_ENC_PRESET_CONFIG_VER,
-                //PresetCfg = new NvEncConfig
-                //{
-                //    Version = NV_ENC_CONFIG_VER
-                //}
+                Version = NV_ENC_PRESET_CONFIG_VER,
+                PresetCfg = new NvEncConfig
+                {
+                    Version = NV_ENC_CONFIG_VER
+                }
             };
 
             GetEncodePresetConfig(encodeGuid, presetGuid, ref presetConfig);

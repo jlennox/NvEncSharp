@@ -101,14 +101,13 @@ namespace Lennox.NvEncSharp
                 : input.Length;
 
             var packet = input.Slice(startIndex, endIndex - startIndex);
-            input = input.Slice(endIndex - startIndex);
+            var prefix = input.Slice(0, startIndex);
+            input = input.Slice(endIndex);
 
             return new NalPacket
             {
                 Packet = packet,
-                PacketPrefix = startIndex > 0
-                    ? input.Slice(0, startIndex)
-                    : Span<byte>.Empty,
+                PacketPrefix = prefix,
                 PacketType = startLength < packet.Length
                     ? GetNalPacketType(packet[startLength])
                     : NalPacketType.Unknown,

@@ -97,8 +97,33 @@ __device__ inline Rgb YuvToRgbForPixel(YuvUnit y, YuvUnit u, YuvUnit v) {
     return rgb;
 }
 
+template<class Rgb, class RgbIntx2>
+struct PackedRgbPair {
+    static const int BytesPerPixel = sizeof(Rgb);
+
+    __device__ static void Store(uint8_t *pDst, Rgb first, Rgb second) {
+        *(RgbIntx2 *)pDst = RgbIntx2 {first.d, second.d};
+    }
+};
+
+template<>
+struct PackedRgbPair<RGB24, uchar3> {
+    static const int BytesPerPixel = 3;
+
+    __device__ static void Store(uint8_t *pDst, RGB24 first, RGB24 second) {
+        pDst[0] = first.c.r;
+        pDst[1] = first.c.g;
+        pDst[2] = first.c.b;
+        pDst[3] = second.c.r;
+        pDst[4] = second.c.g;
+        pDst[5] = second.c.b;
+    }
+};
+
 template<class YuvUnitx2, class Rgb, class RgbIntx2>
 __global__ static void YuvToRgbKernel(uint8_t *pYuv, int nYuvPitch, uint8_t *pRgb, int nRgbPitch, int nWidth, int nHeight) {
+    typedef PackedRgbPair<Rgb, RgbIntx2> RgbPair;
+
     int x = (threadIdx.x + blockIdx.x * blockDim.x) * 2;
     int y = (threadIdx.y + blockIdx.y * blockDim.y) * 2;
     if (x + 1 >= nWidth || y + 1 >= nHeight) {
@@ -106,20 +131,20 @@ __global__ static void YuvToRgbKernel(uint8_t *pYuv, int nYuvPitch, uint8_t *pRg
     }
 
     uint8_t *pSrc = pYuv + x * sizeof(YuvUnitx2) / 2 + y * nYuvPitch;
-    uint8_t *pDst = pRgb + x * sizeof(Rgb) + y * nRgbPitch;
+    uint8_t *pDst = pRgb + x * RgbPair::BytesPerPixel + y * nRgbPitch;
 
     YuvUnitx2 l0 = *(YuvUnitx2 *)pSrc;
     YuvUnitx2 l1 = *(YuvUnitx2 *)(pSrc + nYuvPitch);
     YuvUnitx2 ch = *(YuvUnitx2 *)(pSrc + (nHeight - y / 2) * nYuvPitch);
 
-    *(RgbIntx2 *)pDst = RgbIntx2 {
-        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l0.x, ch.x, ch.y).d),
-        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l0.y, ch.x, ch.y).d),
-    };
-    *(RgbIntx2 *)(pDst + nRgbPitch) = RgbIntx2 {
-        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l1.x, ch.x, ch.y).d),
-        static_cast<unsigned char>(YuvToRgbForPixel<Rgb>(l1.y, ch.x, ch.y).d),
-    };
+    RgbPair::Store(
+        pDst,
+        YuvToRgbForPixel<Rgb>(l0.x, ch.x, ch.y),
+        YuvToRgbForPixel<Rgb>(l0.y, ch.x, ch.y));
+    RgbPair::Store(
+        pDst + nRgbPitch,
+        YuvToRgbForPixel<Rgb>(l1.x, ch.x, ch.y),
+        YuvToRgbForPixel<Rgb>(l1.y, ch.x, ch.y));
 }
 
 template<class YuvUnitx2, class Rgb, class RgbIntx2>

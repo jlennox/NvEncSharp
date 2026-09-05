@@ -31,6 +31,9 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         private readonly Thread _displayThread;
         private readonly ProgramArguments _args;
         private int _displayedFrames;
+        private TimeSpan _frameDuration;
+        private readonly Stopwatch _playbackClock = new Stopwatch();
+        private TimeSpan _nextFrameTime;
         private readonly Pool<BufferStorage> _nv12BufferPool = new Pool<BufferStorage>(5);
         private readonly ManualResetEventSlim _renderingCompleted = new ManualResetEventSlim(false);
         private DisplayWindow? _window;
@@ -44,7 +47,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             _framesChannel = Channel.CreateBounded<FrameInformation>(
                 new BoundedChannelOptions(10)
                 {
-                    FullMode = BoundedChannelFullMode.DropOldest,
+                    FullMode = BoundedChannelFullMode.Wait,
                     SingleReader = true
                 });
 
@@ -142,6 +145,11 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                     if (packet.PacketPrefix.Length > 0)
                     {
                         backbufferStream.Write(packet.PacketPrefix);
+                    }
+
+                    // A new NAL completes the buffered one, even with no prefix bytes.
+                    if (NalPacket.IndexOfSignature(packet.Packet, out _) == 0)
+                    {
                         SendBackbuffer();
                     }
 
@@ -165,6 +173,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 }
             }
 
+            SendBackbuffer();
             parser.SendEndOfStream();
 
             _renderingCompleted.Wait();
@@ -220,13 +229,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             if (CuVideoParseDisplayInfo.IsFinalFrame(infoPtr, out var info))
             {
-                if (!_framesChannel.Writer.TryWrite(
-                    FrameInformation.FinalFrame))
-                {
-                    _renderingCompleted.Set();
-                }
-
-                return CuCallbackResult.Success;
+                return QueueFrame(FrameInformation.FinalFrame);
             }
 
             var processingParam = new CuVideoProcParams
@@ -291,14 +294,24 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 frameDevicePtr, frameByteSize);
 
             var frameInfo = new FrameInformation(
-                bufferStorage, pitch, _info, yuvInfo);
+                bufferStorage, pitch, _info, yuvInfo, _frameDuration);
 
-            if (!_framesChannel.Writer.TryWrite(frameInfo))
+            return QueueFrame(frameInfo);
+        }
+
+        private CuCallbackResult QueueFrame(FrameInformation frame)
+        {
+            try
             {
-                _nv12BufferPool.Free(ref bufferStorage);
+                _framesChannel.Writer.WriteAsync(frame, _cts.Token)
+                    .AsTask().GetAwaiter().GetResult();
+                return CuCallbackResult.Success;
             }
-
-            return CuCallbackResult.Success;
+            catch (OperationCanceledException)
+            {
+                frame.Buffer?.Dispose();
+                return CuCallbackResult.Failure;
+            }
         }
 
         private CuCallbackResult DecodePictureCallback(
@@ -311,7 +324,26 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         private CuCallbackResult SequenceCallback(
             IntPtr data, ref CuVideoFormat format)
         {
+            // Display and bitmap conversion only support 8-bit NV12 surfaces.
+            // Check every sequence, including changes to an existing decoder.
+            if (format.Codec != CuVideoCodec.H264 ||
+                format.ChromaFormat != CuVideoChromaFormat.YUV420 ||
+                format.BitDepthLumaMinus8 != 0 || format.BitDepthChromaMinus8 != 0)
+            {
+                Console.Error.WriteLine(
+                    $"This sample supports only 8-bit 4:2:0 H.264. Received {format.Codec}, " +
+                    $"{format.ChromaFormat}, luma {format.BitDepthLumaMinus8 + 8}-bit, " +
+                    $"chroma {format.BitDepthChromaMinus8 + 8}-bit.");
+                return CuCallbackResult.Failure;
+            }
+
             using var _ = _context.Push();
+
+            var hasFrameRate = format.FrameRateNumerator > 0 && format.FrameRateDenominator > 0;
+            // Raw streams can omit timing metadata; assume 30 FPS in that case.
+            _frameDuration = TimeSpan.FromTicks(hasFrameRate
+                ? TimeSpan.TicksPerSecond * format.FrameRateDenominator / format.FrameRateNumerator
+                : TimeSpan.TicksPerSecond / 30);
 
             PrintInformation("CuVideoFormat", new Dictionary<string, object>
             {
@@ -319,7 +351,9 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 ["Bitrate"] = format.Bitrate,
                 ["CodedWidth"] = format.CodedWidth,
                 ["CodedHeight"] = format.CodedHeight,
-                ["Framerate"] = format.FrameRateNumerator / format.FrameRateDenominator,
+                ["Framerate"] = hasFrameRate
+                    ? (object)((double)format.FrameRateNumerator / format.FrameRateDenominator)
+                    : "Unknown (using 30 FPS)",
             });
 
             if (!format.IsSupportedByDecoder(out var error, out var caps))
@@ -345,7 +379,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             {
                 CodecType = format.Codec,
                 ChromaFormat = format.ChromaFormat,
-                OutputFormat = format.GetSurfaceFormat(),
+                OutputFormat = CuVideoSurfaceFormat.NV12,
                 BitDepthMinus8 = format.BitDepthLumaMinus8,
                 DeinterlaceMode = format.ProgressiveSequence
                     ? CuVideoDeinterlaceMode.Weave
@@ -392,7 +426,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         {
             var frame = _framesChannel.Reader
                 .ReadAsync(_cts.Token)
-                .AsTask().Result;
+                .AsTask().GetAwaiter().GetResult();
 
             if (frame.IsFinalFrame)
             {
@@ -402,6 +436,19 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             using var _lease = _nv12BufferPool.Lease(frame.Buffer);
             using var _ = _context.Push();
+
+            if (!_playbackClock.IsRunning)
+            {
+                _playbackClock.Start();
+            }
+
+            var delay = _nextFrameTime - _playbackClock.Elapsed;
+            if (delay > TimeSpan.Zero)
+            {
+                _cts.Token.WaitHandle.WaitOne(delay);
+            }
+
+            _cts.Token.ThrowIfCancellationRequested();
 
             _window.FrameArrived(frame);
 
@@ -413,6 +460,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             }
 
             ++_displayedFrames;
+            _nextFrameTime += frame.Duration;
         }
 
         private static void SaveAsBitmap(
@@ -452,11 +500,16 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         public void Dispose()
         {
             _isDisposed = true;
-            _context.Dispose();
+            _cts.Cancel();
+            _displayThread.Join();
+            while (_framesChannel.Reader.TryRead(out var frame))
+            {
+                frame.Buffer?.Dispose();
+            }
             _decoder.Dispose();
             _contextLock.Dispose();
+            _context.Dispose();
             _renderingCompleted.Dispose();
-            _cts.Cancel();
             _cts.Dispose();
         }
     }
@@ -508,6 +561,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         public int Pitch { get; set; }
         public CuVideoDecodeCreateInfo Info { get; set; }
         public YuvInformation YuvInfo { get; set; }
+        public TimeSpan Duration { get; set; }
         public bool IsFinalFrame { get; set; }
 
         private BufferStorage DemandBuffer() => Buffer ?? throw new ArgumentNullException(nameof(Buffer));
@@ -518,12 +572,14 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             BufferStorage buffer,
             int pitch,
             CuVideoDecodeCreateInfo info,
-            YuvInformation yuvInfo)
+            YuvInformation yuvInfo,
+            TimeSpan duration)
         {
             Buffer = buffer;
             Pitch = pitch;
             Info = info;
             YuvInfo = yuvInfo;
+            Duration = duration;
         }
 
         private FrameInformation(bool isFinalFrame)

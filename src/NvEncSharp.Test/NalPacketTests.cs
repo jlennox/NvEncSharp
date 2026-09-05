@@ -128,14 +128,11 @@ namespace Lennox.NvEncSharp.Test
                 var nread = stream.Read(buffer, 0, buffer.Length);
                 var inputBuffer = new Span<byte>(buffer, 0, nread);
                 var packet = NalPacket.ReadNextPacket(ref inputBuffer);
-                Assert.AreEqual(6, packet.Packet.Length);
-                Assert.AreEqual(0, packet.PacketPrefix.Length);
-                Assert.AreEqual(true, packet.Complete);
-
-                var packet2 = NalPacket.ReadNextPacket(ref inputBuffer);
-                Assert.AreEqual(4, packet2.Packet.Length);
-                Assert.AreEqual(0, packet2.PacketPrefix.Length);
-                Assert.AreEqual(false, packet2.Complete);
+                CollectionAssert.AreEqual(new byte[] { 0, 0, 0, 1 }, packet.Packet.ToArray());
+                CollectionAssert.AreEqual(new byte[] { 0, 0, 0x20, 0x3A, 0x10, 0x80 },
+                    packet.PacketPrefix.ToArray());
+                Assert.IsFalse(packet.Complete);
+                Assert.IsTrue(inputBuffer.IsEmpty);
             }
 
             {
@@ -143,9 +140,29 @@ namespace Lennox.NvEncSharp.Test
                 var inputBuffer = new Span<byte>(buffer, 0, nread);
                 var packet = NalPacket.ReadNextPacket(ref inputBuffer);
                 Assert.AreEqual(6, packet.Packet.Length);
-                Assert.AreEqual(0, packet.PacketPrefix.Length);
-                Assert.AreEqual(true, packet.Complete);
+                CollectionAssert.AreEqual(new byte[] { 0x68, 0xEE, 0x3C, 0xB0 },
+                    packet.PacketPrefix.ToArray());
+                Assert.IsFalse(packet.Complete);
+                Assert.IsTrue(inputBuffer.IsEmpty);
             }
+        }
+
+        [TestMethod]
+        public void ReadContinuationThenCompletePacket()
+        {
+            Span<byte> input = new byte[] { 0xAA, 0xBB, 0, 0, 1, 0x67, 0xCC, 0, 0, 1, 0x68 };
+            var packet = NalPacket.ReadNextPacket(ref input);
+            CollectionAssert.AreEqual(new byte[] { 0xAA, 0xBB }, packet.PacketPrefix.ToArray());
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 1, 0x67, 0xCC }, packet.Packet.ToArray());
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 1, 0x68 }, input.ToArray());
+            Assert.IsTrue(packet.Complete);
+            Assert.AreEqual(NalPacketType.SequenceParameterSet, packet.PacketType);
+
+            packet = NalPacket.ReadNextPacket(ref input);
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 1, 0x68 }, packet.Packet.ToArray());
+            Assert.IsTrue(packet.PacketPrefix.IsEmpty);
+            Assert.IsFalse(packet.Complete);
+            Assert.IsTrue(input.IsEmpty);
         }
 
         [TestMethod]

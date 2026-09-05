@@ -50,7 +50,7 @@ namespace Lennox.NvEncSharp.Test
         }
 
         private static readonly Regex _typeLength = new Regex(
-            @"(?<name>.+?)\[(?<value>\d+)\]", RegexOptions.Compiled);
+            @"(?<name>.+?)\[(?<value>\w+)\]", RegexOptions.Compiled);
 
         private static IReadOnlyList<StructEntry> ParseStruct(string def)
         {
@@ -170,7 +170,14 @@ namespace Lennox.NvEncSharp.Test
 
                     if (match.Success)
                     {
-                        currentEntry.ArraySize = int.Parse(match.Groups["value"].Value);
+                        var length = match.Groups["value"].Value;
+                        if (!int.TryParse(length, out var arraySize))
+                        {
+                            var constant = Regex.Match(LoadNvencHeader(),
+                                @"(?m)^#define\s+" + Regex.Escape(length) + @"\s+(\d+)");
+                            arraySize = int.Parse(constant.Groups[1].Value);
+                        }
+                        currentEntry.ArraySize = arraySize;
                     }
 
                     entries.Add(currentEntry);
@@ -189,7 +196,7 @@ namespace Lennox.NvEncSharp.Test
         {
             var header = LoadNvencHeader();
 
-            var skippedStructs = new HashSet<string> { "NV_ENCODE_API_FUNCTION_LIST" };
+            var skippedStructs = new HashSet<string> { "NV_ENCODE_API_FUNCTION_LIST", "GUID" };
             var validForFixed = new HashSet<string> { "bool", "byte", "short", "int", "long", "char", "sbyte", "ushort", "uint", "ulong", "float", "double" };
 
             // The way comments are matched is not the best.
@@ -291,125 +298,57 @@ namespace Lennox.NvEncSharp.Test
                 PrintDefinition(name, match, LayoutKind.Sequential);
 
                 var bitId = 0;
-                var bitFieldName = "Uninitialized";
+                var bitFieldName = "";
                 var bitoffset = 0;
-                var bitsleft = 0;
+                var storageBits = 0;
 
-                for (var i = 0; i < entries.Count; ++i)
+                foreach (var entry in entries)
                 {
-                    var entry = entries[i];
-
-                    if (entry.BitLength > 0 && bitsleft == 0)
-                    {
-                        var bitcount = 0;
-                        bitoffset = 0;
-                        var foundByteBoundary = false;
-
-                        for (var i2 = i; i2 < entries.Count && !foundByteBoundary; ++i2)
-                        {
-                            var subentry = entries[i2];
-                            if (subentry.BitLength == 0)
-                            {
-                                break;
-                            }
-
-                            bitcount += subentry.BitLength;
-
-                            switch (bitcount)
-                            {
-                                case 8:
-                                case 16:
-                                case 32:
-                                case 64:
-                                    foundByteBoundary = true;
-                                    break;
-                            }
-                        }
-
-                        if (!foundByteBoundary)
-                        {
-                            Debugger.Break();
-                            //throw new System.Exception();
-                        }
-
-                        bitsleft = bitcount;
-                        bitFieldName = "BitField" + ++bitId;
-                        output.Append($"        internal fixed byte {bitFieldName}[{bitcount / 8}];\r\n");
-                    }
-
-                    entry.PrintComment(output);
-
                     if (entry.BitLength == 0)
                     {
+                        storageBits = 0;
+                        entry.PrintComment(output);
                         PrintEntry(entry);
                         continue;
                     }
 
-                    var type = TypeFromBitLength(entry);
+                    // MSVC allocates bitfields in units of their declared integral type.
+                    var nativeType = FixTypename(entry);
+                    var width = nativeType == "short" || nativeType == "ushort" ? 16
+                        : nativeType == "int" || nativeType == "uint" ? 32
+                        : throw new NotSupportedException($"Unsupported bitfield type: {entry.Type}");
+                    if (entry.BitLength > width)
+                        throw new InvalidOperationException($"Bitfield {entry.Name} exceeds its storage type.");
 
-                    var skipOutput = entry.Name.Contains("reserved");
-                    var toResult = entry.BitLength == 1 ? " == 1" : "";
-                    var fromValue = entry.BitLength == 1 ? " ? 1 : 0" : "";
-                    var ptrType = entry.BitLength == 1 ? "byte" : type;
-
-                    if (!skipOutput)
+                    var storageType = width == 16 ? "ushort" : "uint";
+                    if (storageBits != width || bitoffset + entry.BitLength > width)
                     {
+                        storageBits = width;
+                        bitoffset = 0;
+                        bitFieldName = "BitField" + ++bitId;
+                        output.Append($"        internal {storageType} {bitFieldName};\r\n");
+                    }
+
+                    entry.PrintComment(output);
+                    if (!entry.Name.StartsWith("reserved", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var type = TypeFromBitLength(entry);
+                        var mask = (1UL << entry.BitLength) - 1;
+                        var shiftedMask = mask << bitoffset;
+                        var bits = $"(({bitFieldName} >> {bitoffset}) & {mask}U)";
+                        var getter = entry.BitLength == 1 ? $"{bits} != 0"
+                            : nativeType == "int" || nativeType == "short"
+                                ? $"unchecked(({type})((int)({bits} << {32 - entry.BitLength}) >> {32 - entry.BitLength}))"
+                                : $"({type}){bits}";
+                        var value = entry.BitLength == 1 ? "(value ? 1U : 0U)" : "unchecked((uint)value)";
+
                         output.Append($"        public {type} {FixStructMemeberName(entry.Name)} {{\r\n");
-                        if (entry.BitLength == 1)
-                        {
-                            output.Append($"            get => ({bitFieldName}[{bitoffset / 8}] & {1 << bitoffset}) != 0;\r\n");
-                        }
-                        else
-                        {
-                            output.Append($"            get {{ fixed (byte* ptr = &{bitFieldName}[{bitoffset / 8}]) {{ ");
-                            output.Append($"return ((*({ptrType}*)ptr >> {bitoffset % 8}) & {entry.BitLength}){toResult}; }} }}\r\n");
-                        }
-                    }
-
-                    var sets = new List<string>();
-                    var thisbitsleft = entry.BitLength;
-                    var thisoffset = bitoffset;
-                    var thisvalueoffset = 0;
-
-                    if (entry.BitLength == 1)
-                    {
-                        sets.Add($"{bitFieldName}[{thisoffset / 8}] = value ? (byte)({bitFieldName}[{thisoffset / 8}] | {1 << bitoffset}) : (byte)({bitFieldName}[{thisoffset / 8}] & {~(1 << bitoffset)});");
-                    }
-                    else
-                    {
-                        while (thisbitsleft > 0)
-                        {
-                            var bitindex = thisoffset / 8;
-                            var currentbits = thisbitsleft > 8 ? (thisbitsleft % 8) : thisbitsleft;
-
-                            currentbits = currentbits == 0 ? 1 : currentbits;
-
-                            sets.Add($"{bitFieldName}[{bitindex}] = (byte)(({bitFieldName}[{bitindex}] & ~{currentbits << thisoffset}) | (((value{fromValue}) << {(thisoffset % 8)}) & {currentbits << (thisoffset % 8)}));");
-
-                            thisvalueoffset += currentbits;
-                            thisbitsleft -= currentbits;
-                            thisoffset += currentbits;
-                        }
-                    }
-
-                    if (!skipOutput)
-                    {
-                        if (sets.Count == 1)
-                        {
-                            output.Append($"            set => {sets[0]}\r\n");
-                        }
-                        else
-                        {
-                            output.Append($"            set {{\r\n");
-                            foreach (var set in sets) output.Append($"                {set}\r\n");
-                            output.Append($"            }}\r\n");
-                        }
-
-                        output.Append($"        }}\r\n");
+                        output.Append($"            get => {getter};\r\n");
+                        output.Append($"            set => {bitFieldName} = ({storageType})(({bitFieldName} & ~{shiftedMask}U) | (({value} & {mask}U) << {bitoffset}));\r\n");
+                        output.Append("        }\r\n");
                     }
 
                     bitoffset += entry.BitLength;
-                    bitsleft -= entry.BitLength;
                 }
 
                 output.Append("    }\r\n\r\n");
@@ -418,6 +357,7 @@ namespace Lennox.NvEncSharp.Test
             output.Append("}");
 
             WriteNvencHeaderOutput(output, "Structs.cs");
+            NativeSizeTests.GenerateProbe();
         }
 
         private static string TypeFromBitLength(StructEntry entry)
@@ -443,7 +383,8 @@ namespace Lennox.NvEncSharp.Test
 
         private static readonly Dictionary<string, string> _aliasedTypes = new Dictionary<string, string>
         {
-            { "NV_ENC_CONFIG_HEVC_VUI_PARAMETERS", "NV_ENC_CONFIG_H264_VUI_PARAMETERS" }
+            { "NV_ENC_CONFIG_HEVC_VUI_PARAMETERS", "NV_ENC_CONFIG_H264_VUI_PARAMETERS" },
+            { "NV_ENC_AV1_OBU_PAYLOAD", "NV_ENC_SEI_PAYLOAD" }
         };
 
         private const string _sysintname = "__sysint__";
@@ -474,6 +415,79 @@ namespace Lennox.NvEncSharp.Test
             }
 
             return Fixname(entry.Type).Trim();
+        }
+
+        // Raw words and layout below match MSVC's nvEncodeAPI.h bitfield ABI.
+        [TestMethod]
+        public unsafe void BitfieldsPreserveNeighborsAndTruncateValues()
+        {
+            var timestamp = new NvEncClockTimestampSet();
+            var words = (uint*)&timestamp;
+            words[0] = uint.MaxValue;
+            words[1] = 0x12345678;
+            timestamp.NFrames = 0;
+            Assert.AreEqual(0xFFFFF807U, words[0]);
+            timestamp.NFrames = 0x1FF; // Eight bits, crossing a byte boundary.
+            Assert.AreEqual(255U, timestamp.NFrames);
+            Assert.AreEqual(uint.MaxValue, words[0]);
+            Assert.AreEqual(0x12345678U, words[1]);
+
+            var rc = new NvEncRcParams();
+            var flags = (uint*)((byte*)&rc + 36);
+            *flags = 0xA5A5A5A5;
+            rc.EnableTemporalAQ = false; // Bit 8, not in the first byte.
+            Assert.AreEqual(0xA5A5A4A5U, *flags);
+            Assert.IsFalse(rc.EnableTemporalAQ);
+            rc.EnableTemporalAQ = true;
+            Assert.AreEqual(0xA5A5A5A5U, *flags);
+            Assert.IsTrue(rc.EnableTemporalAQ);
+        }
+
+        [TestMethod]
+        public unsafe void SignedBitfieldsUseNativeTwosComplement()
+        {
+            var hint = new NvEncExternalMeHint();
+            var word = (uint*)&hint;
+            *word = 0xA5A5A5A5;
+            hint.Mvx = -2048;
+            Assert.AreEqual(0xA5A5A800U, *word);
+            Assert.AreEqual(-2048, hint.Mvx);
+            hint.Mvx = 2047;
+            Assert.AreEqual(0xA5A5A7FFU, *word);
+            Assert.AreEqual(2047, hint.Mvx);
+            hint.Refidx = 31; // Native signed five-bit invalid-reference sentinel.
+            Assert.AreEqual(-1, hint.Refidx);
+
+            var sbHint = new NvEncExternalMeSbHint();
+            var words = (ushort*)&sbHint;
+            words[0] = words[1] = words[2] = 0xA5A5;
+            sbHint.Mvx = -8192;
+            Assert.AreEqual((ushort)0xA000, words[1]);
+            Assert.AreEqual((short)-8192, sbHint.Mvx);
+            sbHint.Mvx = 8191;
+            Assert.AreEqual((ushort)0x9FFF, words[1]);
+            Assert.AreEqual((short)8191, sbHint.Mvx);
+            Assert.AreEqual((ushort)0xA5A5, words[0]);
+            Assert.AreEqual((ushort)0xA5A5, words[2]);
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct HintAlignment
+        {
+            public byte Prefix;
+            public NvEncExternalMeHint Hint;
+            public byte SbPrefix;
+            public NvEncExternalMeSbHint SbHint;
+        }
+
+        [TestMethod]
+        public void BitfieldStorageHasNativeSizeAndAlignment()
+        {
+            Assert.AreEqual(4, Marshal.SizeOf<NvEncExternalMeHint>());
+            Assert.AreEqual(6, Marshal.SizeOf<NvEncExternalMeSbHint>());
+            Assert.AreEqual(8, Marshal.SizeOf<NvEncClockTimestampSet>());
+            Assert.AreEqual(new IntPtr(4), Marshal.OffsetOf<HintAlignment>(nameof(HintAlignment.Hint)));
+            Assert.AreEqual(new IntPtr(10), Marshal.OffsetOf<HintAlignment>(nameof(HintAlignment.SbHint)));
         }
 
         [TestMethod]
