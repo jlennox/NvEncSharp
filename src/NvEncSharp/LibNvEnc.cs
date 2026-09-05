@@ -26,7 +26,7 @@ namespace Lennox.NvEncSharp
 
         public static readonly uint NV_ENC_CAPS_PARAM_VER = StructVersion(1);
         public static readonly uint NV_ENC_ENCODE_OUT_PARAMS_VER = StructVersion(1);
-        public static readonly uint NV_ENC_CREATE_INPUT_BUFFER_VER = StructVersion(1);
+        public static readonly uint NV_ENC_CREATE_INPUT_BUFFER_VER = StructVersion(2);
         public static readonly uint NV_ENC_CREATE_BITSTREAM_BUFFER_VER = StructVersion(1);
         public static readonly uint NV_ENC_CREATE_MV_BUFFER_VER = StructVersion(2);
         public static readonly uint NV_ENC_RC_PARAMS_VER = StructVersion(1);
