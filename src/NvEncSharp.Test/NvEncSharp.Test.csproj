@@ -92,14 +92,17 @@
     <Compile Include="GenerateEnum.cs" />
     <Compile Include="GenerateStruct.cs" />
     <Compile Include="NalPacketTests.cs" />
+    <Compile Include="NativeSizeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="NativeSizes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="nvEncodeAPI.h" />
+    <EmbeddedResource Include="NativeSizes.windows-x64.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NvEncSharp\NvEncSharp.csproj">

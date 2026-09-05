@@ -357,6 +357,7 @@ namespace Lennox.NvEncSharp.Test
             output.Append("}");
 
             WriteNvencHeaderOutput(output, "Structs.cs");
+            NativeSizeTests.GenerateProbe();
         }
 
         private static string TypeFromBitLength(StructEntry entry)
