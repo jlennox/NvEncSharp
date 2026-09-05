@@ -1,0 +1,45 @@
+name: Build NuGet package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Check prebuilt CUDA library
+        shell: pwsh
+        run: |
+          if (!(Test-Path -LiteralPath 'src/NvEncSharp/lib/runtimes/win-x64/native/NvEncSharp.Cuda.Library.dll')) {
+            throw 'The prebuilt CUDA DLL is required because CI skips the native build.'
+          }
+
+      - name: Build and pack
+        run: >-
+          dotnet pack src/NvEncSharp/NvEncSharp.csproj
+          --configuration Release
+          --output artifacts
+          -p:Platform=x64
+          -p:BuildCudaLibrary=false
+          -p:GeneratePackageOnBuild=false
+          -p:ContinuousIntegrationBuild=true
+
+      - name: Upload NuGet package
+        uses: actions/upload-artifact@v7
+        with:
+          name: nuget-package
+          path: artifacts/*.nupkg
+          if-no-files-found: error

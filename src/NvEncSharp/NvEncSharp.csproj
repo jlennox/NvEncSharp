@@ -9,6 +9,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <Version>2.2.0</Version>
+    <!-- CI can package the checked-in native DLL without installing CUDA or Visual C++. -->
+    <BuildCudaLibrary Condition="'$(BuildCudaLibrary)' == ''">true</BuildCudaLibrary>
 
     <PackageId>Lennox.NvEncSharp</PackageId>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -22,7 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
-    <ProjectReference Include="..\NvEncSharp.Cuda.Library\NvEncSharp.Cuda.Library.vcxproj" PrivateAssets="All" />
+    <ProjectReference Include="..\NvEncSharp.Cuda.Library\NvEncSharp.Cuda.Library.vcxproj" PrivateAssets="All" Condition="'$(BuildCudaLibrary)' == 'true'" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\readme.md">
