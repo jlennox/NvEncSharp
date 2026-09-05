@@ -145,6 +145,11 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                     if (packet.PacketPrefix.Length > 0)
                     {
                         backbufferStream.Write(packet.PacketPrefix);
+                    }
+
+                    // A new NAL completes the buffered one, even with no prefix bytes.
+                    if (NalPacket.IndexOfSignature(packet.Packet, out _) == 0)
+                    {
                         SendBackbuffer();
                     }
 
@@ -168,6 +173,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 }
             }
 
+            SendBackbuffer();
             parser.SendEndOfStream();
 
             _renderingCompleted.Wait();
