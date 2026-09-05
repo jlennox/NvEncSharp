@@ -14,6 +14,29 @@
 
     <PackageId>Lennox.NvEncSharp</PackageId>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReleaseNotes><![CDATA[NvEncSharp 2.2.0 fixes encoding, decoding, color conversion, and native interop issues. (BREAKING CHANGE)
+
+Breaking changes
+- Removed NvEncRegisterResourceEx.AsInputPointer() and .AsOutputPointer(). Registered resource handles must be mapped with NvEncoder.MapInputResource() before encoding. Use the returned MappedResource and MappedBufferFmt, then unmap before unregistering. For bitstream output, use NvEncoder.CreateBitstreamBuffer().
+- Changed LibCuVideo.GetDecodeStatus()'s output parameter to CuVideoGetDecodeStatus, matching the native API and fixing a potential memory corruption issue. The CuVideoDecoder.GetDecodeStatus() wrapper still returns CuVideoDecodeStatus.
+
+Library fixes
+- Fixed generated bitfield accessors, including masks, offsets, and signed values, and regenerated the affected structures.
+- Fixed CuVideoFormat.VideoFormat and VideoFullRange bit accessors.
+- Corrected NV_ENC_CREATE_INPUT_BUFFER_VER for input buffer creation.
+- Fixed missing structure versions in GetEncodePresetConfig(). Marked its overloads obsolete; use GetEncodePresetConfigEx() for P1-P7 presets.
+- Fixed NAL packet parsing when data precedes a start code.
+- Fixed CUDA color conversion that truncated pixel values, including incorrect RGB24 packing. Updated the bundled native DLL.
+
+Sample fixes
+- Fixed screen capture encoding to use mapped resources and release them in the correct order.
+- Restored decoded frame copies to host memory.
+- Fixed video playback timing and frame queuing, with a 30 FPS fallback when timing metadata is unavailable.
+- Fixed buffered NAL submission and end-of-stream flushing.
+- Added explicit rejection of unsupported video formats in the decoding sample, which supports 8-bit 4:2:0 H.264 with NV12 output.
+- Improved decoding sample shutdown and resource cleanup.
+
+Added Windows x64 native structure size and field offset validation, and expanded NAL parsing tests.]]></PackageReleaseNotes>
     <Title>NvEncSharp</Title>
     <PackageDescription>NvEncSharp provides a dotnet core and .net framework interface to Nvidia's NvEnc hardware video encoder (nvEncodeAPI), the CUDA video decoder (nvcuvid), and the CUDA APIs (nvcuda). This package requires 64bit targets.</PackageDescription>
     <Authors>Joseph Lennox</Authors>
