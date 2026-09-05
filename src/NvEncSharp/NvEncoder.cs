@@ -390,11 +390,11 @@ namespace Lennox.NvEncSharp
         {
             var presetConfig = new NvEncPresetConfig
             {
-                //Version = NV_ENC_PRESET_CONFIG_VER,
-                //PresetCfg = new NvEncConfig
-                //{
-                //    Version = NV_ENC_CONFIG_VER
-                //}
+                Version = NV_ENC_PRESET_CONFIG_VER,
+                PresetCfg = new NvEncConfig
+                {
+                    Version = NV_ENC_CONFIG_VER
+                }
             };
 
             GetEncodePresetConfig(encodeGuid, presetGuid, ref presetConfig);
