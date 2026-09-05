@@ -663,77 +663,75 @@ namespace Lennox.NvEncSharp
         public uint VbvBufferSize;
         /// <summary>vbvInitialDelay: [in]: Specifies the VBV(HRD) initial delay in bits. Set 0 to use the default VBV initial delay .</summary>
         public uint VbvInitialDelay;
-        internal fixed byte BitField1[1];
+        internal uint BitField1;
         /// <summary>enableMinQP: [in]: Set this to 1 if minimum QP used for rate control.</summary>
         public bool EnableMinQP {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>enableMaxQP: [in]: Set this to 1 if maximum QP used for rate control.</summary>
         public bool EnableMaxQP {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>enableInitialRCQP: [in]: Set this to 1 if user supplied initial QP is used for rate control.</summary>
         public bool EnableInitialRCQP {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>enableAQ: [in]: Set this to 1 to enable adaptive quantization (Spatial).</summary>
         public bool EnableAQ {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>reservedBitField1: [in]: Reserved bitfields and must be set to 0.</summary>
         /// <summary>enableLookahead: [in]: Set this to 1 to enable lookahead with depth <lookaheadDepth> (if lookahead is enabled, input frames must remain available to the encoder until encode completion)</summary>
         public bool EnableLookahead {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>disableIadapt: [in]: Set this to 1 to disable adaptive I-frame insertion at scene cuts (only has an effect when lookahead is enabled)</summary>
         public bool DisableIadapt {
-            get => (BitField1[0] & 64) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 64) : (byte)(BitField1[0] & -65);
+            get => ((BitField1 >> 6) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
         }
         /// <summary>disableBadapt: [in]: Set this to 1 to disable adaptive B-frame decision (only has an effect when lookahead is enabled)</summary>
         public bool DisableBadapt {
-            get => (BitField1[0] & 128) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 128) : (byte)(BitField1[0] & -129);
+            get => ((BitField1 >> 7) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
         }
-        internal fixed byte BitField2[1];
         /// <summary>enableTemporalAQ: [in]: Set this to 1 to enable temporal AQ</summary>
         public bool EnableTemporalAQ {
-            get => (BitField2[0] & 1) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 1) : (byte)(BitField2[0] & -2);
+            get => ((BitField1 >> 8) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
         }
         /// <summary>zeroReorderDelay: [in]: Set this to 1 to indicate zero latency operation (no reordering delay, num_reorder_frames=0)</summary>
         public bool ZeroReorderDelay {
-            get => (BitField2[0] & 2) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 2) : (byte)(BitField2[0] & -3);
+            get => ((BitField1 >> 9) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
         }
         /// <summary>enableNonRefP: [in]: Set this to 1 to enable automatic insertion of non-reference P-frames (no effect if enablePTD=0)</summary>
         public bool EnableNonRefP {
-            get => (BitField2[0] & 4) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 4) : (byte)(BitField2[0] & -5);
+            get => ((BitField1 >> 10) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
         }
         /// <summary>strictGOPTarget: [in]: Set this to 1 to minimize GOP-to-GOP rate fluctuations</summary>
         public bool StrictGOPTarget {
-            get => (BitField2[0] & 8) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 8) : (byte)(BitField2[0] & -9);
+            get => ((BitField1 >> 11) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
         }
         /// <summary>aqStrength: [in]: When AQ (Spatial) is enabled (i.e. NV_ENC_RC_PARAMS::enableAQ is set), this field is used to specify AQ strength. AQ strength scale is from 1 (low) - 15 (aggressive).
         /// If not set, strength is auto selected by driver.</summary>
         public uint AqStrength {
-            get { fixed (byte* ptr = &BitField2[0]) { return ((*(uint*)ptr >> 4) & 4); } }
-            set => BitField2[0] = (byte)((BitField2[0] & ~64) | (((value) << 4) & 64));
+            get => (uint)((BitField1 >> 12) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
         }
-        internal fixed byte BitField3[2];
         /// <summary>enableExtLookahead: [in]: Set this to 1 to enable lookahead externally.
         /// Application must call NvEncLookahead() for NV_ENC_RC_PARAMS::lookaheadDepth number of frames,
         /// before calling NvEncEncodePicture() for the first frame</summary>
         public bool EnableExtLookahead {
-            get => (BitField3[0] & 1) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 1) : (byte)(BitField3[0] & -2);
+            get => ((BitField1 >> 16) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
         }
         /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
         /// <summary>minQP: [in]: Specifies the minimum QP used for rate control. Client must set NV_ENC_CONFIG::enableMinQP to 1.</summary>
@@ -805,41 +803,41 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncClockTimestampSet
     {
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>countingType: [in] Specifies the 'counting_type'</summary>
         public bool CountingType {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>discontinuityFlag: [in] Specifies the 'discontinuity_flag'</summary>
         public bool DiscontinuityFlag {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>cntDroppedFrames: [in] Specifies the 'cnt_dropped_flag'</summary>
         public bool CntDroppedFrames {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>nFrames: [in] Specifies the value of 'n_frames'</summary>
         public uint NFrames {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 3) & 8); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~64) | (((value) << 3) & 64));
+            get => (uint)((BitField1 >> 3) & 255U);
+            set => BitField1 = (uint)((BitField1 & ~2040U) | ((unchecked((uint)value) & 255U) << 3));
         }
         /// <summary>secondsValue: [in] Specifies the 'seconds_value'</summary>
         public uint SecondsValue {
-            get { fixed (byte* ptr = &BitField1[1]) { return ((*(uint*)ptr >> 3) & 6); } }
-            set => BitField1[1] = (byte)((BitField1[1] & ~12288) | (((value) << 3) & 48));
+            get => (uint)((BitField1 >> 11) & 63U);
+            set => BitField1 = (uint)((BitField1 & ~129024U) | ((unchecked((uint)value) & 63U) << 11));
         }
         /// <summary>minutesValue: [in] Specifies the 'minutes_value'</summary>
         public uint MinutesValue {
-            get { fixed (byte* ptr = &BitField1[2]) { return ((*(uint*)ptr >> 1) & 6); } }
-            set => BitField1[2] = (byte)((BitField1[2] & ~786432) | (((value) << 1) & 12));
+            get => (uint)((BitField1 >> 17) & 63U);
+            set => BitField1 = (uint)((BitField1 & ~8257536U) | ((unchecked((uint)value) & 63U) << 17));
         }
         /// <summary>hoursValue: [in] Specifies the 'hours_value'</summary>
         public uint HoursValue {
-            get { fixed (byte* ptr = &BitField1[2]) { return ((*(uint*)ptr >> 7) & 5); } }
-            set => BitField1[2] = (byte)((BitField1[2] & ~41943040) | (((value) << 7) & 640));
+            get => (uint)((BitField1 >> 23) & 31U);
+            set => BitField1 = (uint)((BitField1 & ~260046848U) | ((unchecked((uint)value) & 31U) << 23));
         }
         /// <summary>reserved2: [in] Reserved and must be set to 0</summary>
         /// <summary>timeOffset: [in] Specifies the 'time_offset_value'</summary>
@@ -856,7 +854,6 @@ namespace Lennox.NvEncSharp
         public NvEncClockTimestampSet ClockTimestamp0;
         public NvEncClockTimestampSet ClockTimestamp1;
         public NvEncClockTimestampSet ClockTimestamp2;
-
         /// <summary>skipClockTimestampInsertion: [in] 0 : Inserts Clock Timestamp if NV_ENC_CONFIG_H264::enableTimeCode (H264) or
         /// NV_ENC_CONFIG_HEVC::outputTimeCodeSEI (HEVC) is specified
         /// 1 : Skips insertion of Clock Timestamp for current frame</summary>
@@ -912,35 +909,32 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncExternalMeHintCountsPerBlocktype
     {
-        internal fixed byte BitField1[1];
+        internal uint BitField1;
         /// <summary>numCandsPerBlk16x16: [in]: Supported for H264, HEVC. It Specifies the number of candidates per 16x16 block.</summary>
         public uint NumCandsPerBlk16x16 {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 0) & 4); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~4) | (((value) << 0) & 4));
+            get => (uint)((BitField1 >> 0) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~15U) | ((unchecked((uint)value) & 15U) << 0));
         }
         /// <summary>numCandsPerBlk16x8: [in]: Supported for H264 only. Specifies the number of candidates per 16x8 block.</summary>
         public uint NumCandsPerBlk16x8 {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 4) & 4); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~64) | (((value) << 4) & 64));
+            get => (uint)((BitField1 >> 4) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~240U) | ((unchecked((uint)value) & 15U) << 4));
         }
-        internal fixed byte BitField2[1];
         /// <summary>numCandsPerBlk8x16: [in]: Supported for H264 only. Specifies the number of candidates per 8x16 block.</summary>
         public uint NumCandsPerBlk8x16 {
-            get { fixed (byte* ptr = &BitField2[0]) { return ((*(uint*)ptr >> 0) & 4); } }
-            set => BitField2[0] = (byte)((BitField2[0] & ~4) | (((value) << 0) & 4));
+            get => (uint)((BitField1 >> 8) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~3840U) | ((unchecked((uint)value) & 15U) << 8));
         }
         /// <summary>numCandsPerBlk8x8: [in]: Supported for H264, HEVC. Specifies the number of candidates per 8x8 block.</summary>
         public uint NumCandsPerBlk8x8 {
-            get { fixed (byte* ptr = &BitField2[0]) { return ((*(uint*)ptr >> 4) & 4); } }
-            set => BitField2[0] = (byte)((BitField2[0] & ~64) | (((value) << 4) & 64));
+            get => (uint)((BitField1 >> 12) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
         }
-        internal fixed byte BitField3[1];
         /// <summary>numCandsPerSb: [in]: Supported for AV1 only. Specifies the number of candidates per SB.</summary>
         public uint NumCandsPerSb {
-            get { fixed (byte* ptr = &BitField3[0]) { return ((*(uint*)ptr >> 0) & 8); } }
-            set => BitField3[0] = (byte)((BitField3[0] & ~8) | (((value) << 0) & 8));
+            get => (uint)((BitField1 >> 16) & 255U);
+            set => BitField1 = (uint)((BitField1 & ~16711680U) | ((unchecked((uint)value) & 255U) << 16));
         }
-        internal fixed byte BitField4[1];
         /// <summary>reserved: [in]: Reserved for padding.</summary>
         /// <summary>reserved1[3]: [in]: Reserved for future use.</summary>
         private fixed uint Reserved1[3];
@@ -952,47 +946,41 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncExternalMeHint
     {
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>mvx: [in]: Specifies the x component of integer pixel MV (relative to current MB) S12.0.</summary>
         public int Mvx {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(int*)ptr >> 0) & 12); } }
-            set {
-                BitField1[0] = (byte)((BitField1[0] & ~4) | (((value) << 0) & 4));
-                BitField1[0] = (byte)((BitField1[0] & ~128) | (((value) << 4) & 128));
-            }
+            get => unchecked((int)((int)(((BitField1 >> 0) & 4095U) << 20) >> 20));
+            set => BitField1 = (uint)((BitField1 & ~4095U) | ((unchecked((uint)value) & 4095U) << 0));
         }
         /// <summary>mvy: [in]: Specifies the y component of integer pixel MV (relative to current MB) S10.0 .</summary>
         public int Mvy {
-            get { fixed (byte* ptr = &BitField1[1]) { return ((*(int*)ptr >> 4) & 10); } }
-            set {
-                BitField1[1] = (byte)((BitField1[1] & ~8192) | (((value) << 4) & 32));
-                BitField1[1] = (byte)((BitField1[1] & ~131072) | (((value) << 6) & 512));
-            }
+            get => unchecked((int)((int)(((BitField1 >> 12) & 1023U) << 22) >> 22));
+            set => BitField1 = (uint)((BitField1 & ~4190208U) | ((unchecked((uint)value) & 1023U) << 12));
         }
         /// <summary>refidx: [in]: Specifies the reference index (31=invalid). Current we support only 1 reference frame per direction for external hints, so \p refidx must be 0.</summary>
         public int Refidx {
-            get { fixed (byte* ptr = &BitField1[2]) { return ((*(int*)ptr >> 6) & 5); } }
-            set => BitField1[2] = (byte)((BitField1[2] & ~20971520) | (((value) << 6) & 320));
+            get => unchecked((int)((int)(((BitField1 >> 22) & 31U) << 27) >> 27));
+            set => BitField1 = (uint)((BitField1 & ~130023424U) | ((unchecked((uint)value) & 31U) << 22));
         }
         /// <summary>dir: [in]: Specifies the direction of motion estimation . 0=L0 1=L1.</summary>
         public bool Dir {
-            get => (BitField1[3] & 134217728) != 0;
-            set => BitField1[3] = value ? (byte)(BitField1[3] | 134217728) : (byte)(BitField1[3] & -134217729);
+            get => ((BitField1 >> 27) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~134217728U) | (((value ? 1U : 0U) & 1U) << 27));
         }
         /// <summary>partType: [in]: Specifies the block partition type.0=16x16 1=16x8 2=8x16 3=8x8 (blocks in partition must be consecutive).</summary>
         public int PartType {
-            get { fixed (byte* ptr = &BitField1[3]) { return ((*(int*)ptr >> 4) & 2); } }
-            set => BitField1[3] = (byte)((BitField1[3] & ~536870912) | (((value) << 4) & 32));
+            get => unchecked((int)((int)(((BitField1 >> 28) & 3U) << 30) >> 30));
+            set => BitField1 = (uint)((BitField1 & ~805306368U) | ((unchecked((uint)value) & 3U) << 28));
         }
         /// <summary>lastofPart: [in]: Set to 1 for the last MV of (sub) partition</summary>
         public bool LastofPart {
-            get => (BitField1[3] & 1073741824) != 0;
-            set => BitField1[3] = value ? (byte)(BitField1[3] | 1073741824) : (byte)(BitField1[3] & -1073741825);
+            get => ((BitField1 >> 30) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1073741824U) | (((value ? 1U : 0U) & 1U) << 30));
         }
         /// <summary>lastOfMB: [in]: Set to 1 for the last MV of macroblock.</summary>
         public bool LastOfMB {
-            get => (BitField1[3] & -2147483648) != 0;
-            set => BitField1[3] = value ? (byte)(BitField1[3] | -2147483648) : (byte)(BitField1[3] & 2147483647);
+            get => ((BitField1 >> 31) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2147483648U) | (((value ? 1U : 0U) & 1U) << 31));
         }
     }
 
@@ -1002,70 +990,64 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncExternalMeSbHint
     {
-        internal fixed byte BitField1[2];
+        internal ushort BitField1;
         /// <summary>refidx: [in]: Specifies the reference index (31=invalid)</summary>
         public short Refidx {
-            get { fixed (byte* ptr = &BitField1[0]) { return (short)((*(short*)ptr >> 0) & 5); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~5) | (((value) << 0) & 5));
+            get => unchecked((short)((int)(((BitField1 >> 0) & 31U) << 27) >> 27));
+            set => BitField1 = (ushort)((BitField1 & ~31U) | ((unchecked((uint)value) & 31U) << 0));
         }
         /// <summary>direction: [in]: Specifies the direction of motion estimation . 0=L0 1=L1.</summary>
         public bool Direction {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (ushort)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>bi: [in]: Specifies reference mode 0=single mv, 1=compound mv</summary>
         public bool Bi {
-            get => (BitField1[0] & 64) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 64) : (byte)(BitField1[0] & -65);
+            get => ((BitField1 >> 6) & 1U) != 0;
+            set => BitField1 = (ushort)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
         }
         /// <summary>partition_type: [in]: Specifies the partition type: 0: 2NX2N, 1:2NxN, 2:Nx2N. reserved 3bits for future modes</summary>
         public short Partition_type {
-            get { fixed (byte* ptr = &BitField1[0]) { return (short)((*(short*)ptr >> 7) & 3); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~384) | (((value) << 7) & 384));
+            get => unchecked((short)((int)(((BitField1 >> 7) & 7U) << 29) >> 29));
+            set => BitField1 = (ushort)((BitField1 & ~896U) | ((unchecked((uint)value) & 7U) << 7));
         }
         /// <summary>x8: [in]: Specifies the current partition's top left x position in 8 pixel unit</summary>
         public short X8 {
-            get { fixed (byte* ptr = &BitField1[1]) { return (short)((*(short*)ptr >> 2) & 3); } }
-            set => BitField1[1] = (byte)((BitField1[1] & ~3072) | (((value) << 2) & 12));
+            get => unchecked((short)((int)(((BitField1 >> 10) & 7U) << 29) >> 29));
+            set => BitField1 = (ushort)((BitField1 & ~7168U) | ((unchecked((uint)value) & 7U) << 10));
         }
         /// <summary>last_of_cu: [in]: Set to 1 for the last MV current CU</summary>
         public bool Last_of_cu {
-            get => (BitField1[1] & 8192) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 8192) : (byte)(BitField1[1] & -8193);
+            get => ((BitField1 >> 13) & 1U) != 0;
+            set => BitField1 = (ushort)((BitField1 & ~8192U) | (((value ? 1U : 0U) & 1U) << 13));
         }
         /// <summary>last_of_sb: [in]: Set to 1 for the last MV of current SB</summary>
         public bool Last_of_sb {
-            get => (BitField1[1] & 16384) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 16384) : (byte)(BitField1[1] & -16385);
+            get => ((BitField1 >> 14) & 1U) != 0;
+            set => BitField1 = (ushort)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
         }
         /// <summary>reserved0: [in]: Reserved and must be set to 0</summary>
-        internal fixed byte BitField2[2];
+        internal ushort BitField2;
         /// <summary>mvx: [in]: Specifies the x component of integer pixel MV (relative to current MB) S12.2.</summary>
         public short Mvx {
-            get { fixed (byte* ptr = &BitField2[0]) { return (short)((*(short*)ptr >> 0) & 14); } }
-            set {
-                BitField2[0] = (byte)((BitField2[0] & ~6) | (((value) << 0) & 6));
-                BitField2[0] = (byte)((BitField2[0] & ~512) | (((value) << 6) & 512));
-            }
+            get => unchecked((short)((int)(((BitField2 >> 0) & 16383U) << 18) >> 18));
+            set => BitField2 = (ushort)((BitField2 & ~16383U) | ((unchecked((uint)value) & 16383U) << 0));
         }
         /// <summary>cu_size: [in]: Specifies the CU size: 0: 8x8, 1: 16x16, 2:32x32, 3:64x64</summary>
         public short Cu_size {
-            get { fixed (byte* ptr = &BitField2[1]) { return (short)((*(short*)ptr >> 6) & 2); } }
-            set => BitField2[1] = (byte)((BitField2[1] & ~32768) | (((value) << 6) & 128));
+            get => unchecked((short)((int)(((BitField2 >> 14) & 3U) << 30) >> 30));
+            set => BitField2 = (ushort)((BitField2 & ~49152U) | ((unchecked((uint)value) & 3U) << 14));
         }
-        internal fixed byte BitField3[2];
+        internal ushort BitField3;
         /// <summary>mvy: [in]: Specifies the y component of integer pixel MV (relative to current MB) S10.2 .</summary>
         public short Mvy {
-            get { fixed (byte* ptr = &BitField3[0]) { return (short)((*(short*)ptr >> 0) & 12); } }
-            set {
-                BitField3[0] = (byte)((BitField3[0] & ~4) | (((value) << 0) & 4));
-                BitField3[0] = (byte)((BitField3[0] & ~128) | (((value) << 4) & 128));
-            }
+            get => unchecked((short)((int)(((BitField3 >> 0) & 4095U) << 20) >> 20));
+            set => BitField3 = (ushort)((BitField3 & ~4095U) | ((unchecked((uint)value) & 4095U) << 0));
         }
         /// <summary>y8: [in]: Specifies the current partition's top left y position in 8 pixel unit</summary>
         public short Y8 {
-            get { fixed (byte* ptr = &BitField3[1]) { return (short)((*(short*)ptr >> 4) & 3); } }
-            set => BitField3[1] = (byte)((BitField3[1] & ~12288) | (((value) << 4) & 48));
+            get => unchecked((short)((int)(((BitField3 >> 12) & 7U) << 29) >> 29));
+            set => BitField3 = (ushort)((BitField3 & ~28672U) | ((unchecked((uint)value) & 7U) << 12));
         }
         /// <summary>reserved1: [in]: Reserved and must be set to 0</summary>
     }
@@ -1076,80 +1058,79 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncConfigH264
     {
-        internal fixed byte BitField1[1];
+        internal uint BitField1;
         /// <summary>enableTemporalSVC: [in]: Set to 1 to enable SVC temporal</summary>
         public bool EnableTemporalSVC {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>enableStereoMVC: [in]: Set to 1 to enable stereo MVC</summary>
         public bool EnableStereoMVC {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>hierarchicalPFrames: [in]: Set to 1 to enable hierarchical P Frames</summary>
         public bool HierarchicalPFrames {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>hierarchicalBFrames: [in]: Set to 1 to enable hierarchical B Frames</summary>
         public bool HierarchicalBFrames {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>outputBufferingPeriodSEI: [in]: Set to 1 to write SEI buffering period syntax in the bitstream</summary>
         public bool OutputBufferingPeriodSEI {
-            get => (BitField1[0] & 16) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 16) : (byte)(BitField1[0] & -17);
+            get => ((BitField1 >> 4) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
         }
         /// <summary>outputPictureTimingSEI: [in]: Set to 1 to write SEI picture timing syntax in the bitstream.</summary>
         public bool OutputPictureTimingSEI {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>outputAUD: [in]: Set to 1 to write access unit delimiter syntax in bitstream</summary>
         public bool OutputAUD {
-            get => (BitField1[0] & 64) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 64) : (byte)(BitField1[0] & -65);
+            get => ((BitField1 >> 6) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
         }
         /// <summary>disableSPSPPS: [in]: Set to 1 to disable writing of Sequence and Picture parameter info in bitstream</summary>
         public bool DisableSPSPPS {
-            get => (BitField1[0] & 128) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 128) : (byte)(BitField1[0] & -129);
+            get => ((BitField1 >> 7) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
         }
-        internal fixed byte BitField2[1];
         /// <summary>outputFramePackingSEI: [in]: Set to 1 to enable writing of frame packing arrangement SEI messages to bitstream</summary>
         public bool OutputFramePackingSEI {
-            get => (BitField2[0] & 1) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 1) : (byte)(BitField2[0] & -2);
+            get => ((BitField1 >> 8) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
         }
         /// <summary>outputRecoveryPointSEI: [in]: Set to 1 to enable writing of recovery point SEI message</summary>
         public bool OutputRecoveryPointSEI {
-            get => (BitField2[0] & 2) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 2) : (byte)(BitField2[0] & -3);
+            get => ((BitField1 >> 9) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
         }
         /// <summary>enableIntraRefresh: [in]: Set to 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
         public bool EnableIntraRefresh {
-            get => (BitField2[0] & 4) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 4) : (byte)(BitField2[0] & -5);
+            get => ((BitField1 >> 10) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
         }
         /// <summary>enableConstrainedEncoding: [in]: Set this to 1 to enable constrainedFrame encoding where each slice in the constrained picture is independent of other slices.
         /// Constrained encoding works only with rectangular slices.
         /// Check support for constrained encoding using ::NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING caps.</summary>
         public bool EnableConstrainedEncoding {
-            get => (BitField2[0] & 8) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 8) : (byte)(BitField2[0] & -9);
+            get => ((BitField1 >> 11) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
         }
         /// <summary>repeatSPSPPS: [in]: Set to 1 to enable writing of Sequence and Picture parameter for every IDR frame</summary>
         public bool RepeatSPSPPS {
-            get => (BitField2[0] & 16) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 16) : (byte)(BitField2[0] & -17);
+            get => ((BitField1 >> 12) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4096U) | (((value ? 1U : 0U) & 1U) << 12));
         }
         /// <summary>enableVFR: [in]: Setting enableVFR=1 currently only sets the fixed_frame_rate_flag=0 in the VUI but otherwise
         /// has no impact on the encoder behavior. For more details please refer to E.1 VUI syntax of H.264 standard. Note, however, that NVENC does not support VFR encoding and rate control.</summary>
         public bool EnableVFR {
-            get => (BitField2[0] & 32) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 32) : (byte)(BitField2[0] & -33);
+            get => ((BitField1 >> 13) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8192U) | (((value ? 1U : 0U) & 1U) << 13));
         }
         /// <summary>enableLTR: [in]: Set to 1 to enable LTR (Long Term Reference) frame support. LTR can be used in two modes: "LTR Trust" mode and "LTR Per Picture" mode.
         /// LTR Trust mode: In this mode, ltrNumFrames pictures after IDR are automatically marked as LTR. This mode is enabled by setting ltrTrustMode = 1.
@@ -1159,20 +1140,19 @@ namespace Lennox.NvEncSharp
         /// for using LTR.
         /// Note that LTRs are not supported if encoding session is configured with B-frames</summary>
         public bool EnableLTR {
-            get => (BitField2[0] & 64) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 64) : (byte)(BitField2[0] & -65);
+            get => ((BitField1 >> 14) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
         }
         /// <summary>qpPrimeYZeroTransformBypassFlag: [in]: To enable lossless encode set this to 1, set QP to 0 and RC_mode to NV_ENC_PARAMS_RC_CONSTQP and profile to HIGH_444_PREDICTIVE_PROFILE.
         /// Check support for lossless encoding using ::NV_ENC_CAPS_SUPPORT_LOSSLESS_ENCODE caps.</summary>
         public bool QpPrimeYZeroTransformBypassFlag {
-            get => (BitField2[0] & 128) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 128) : (byte)(BitField2[0] & -129);
+            get => ((BitField1 >> 15) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32768U) | (((value ? 1U : 0U) & 1U) << 15));
         }
-        internal fixed byte BitField3[2];
         /// <summary>useConstrainedIntraPred: [in]: Set 1 to enable constrained intra prediction.</summary>
         public bool UseConstrainedIntraPred {
-            get => (BitField3[0] & 1) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 1) : (byte)(BitField3[0] & -2);
+            get => ((BitField1 >> 16) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
         }
         /// <summary>enableFillerDataInsertion: [in]: Set to 1 to enable insertion of filler data in the bitstream.
         /// This flag will take effect only when CBR rate control mode is in use and both
@@ -1183,32 +1163,32 @@ namespace Lennox.NvEncSharp
         /// is currently not supported and will make ::NvEncInitializeEncoder()
         /// return an error.</summary>
         public bool EnableFillerDataInsertion {
-            get => (BitField3[0] & 2) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 2) : (byte)(BitField3[0] & -3);
+            get => ((BitField1 >> 17) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~131072U) | (((value ? 1U : 0U) & 1U) << 17));
         }
         /// <summary>disableSVCPrefixNalu: [in]: Set to 1 to disable writing of SVC Prefix NALU preceding each slice in bitstream.
         /// Applicable only when temporal SVC is enabled (NV_ENC_CONFIG_H264::enableTemporalSVC = 1).</summary>
         public bool DisableSVCPrefixNalu {
-            get => (BitField3[0] & 4) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 4) : (byte)(BitField3[0] & -5);
+            get => ((BitField1 >> 18) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~262144U) | (((value ? 1U : 0U) & 1U) << 18));
         }
         /// <summary>enableScalabilityInfoSEI: [in]: Set to 1 to enable writing of Scalability Information SEI message preceding each IDR picture in bitstream
         /// Applicable only when temporal SVC is enabled (NV_ENC_CONFIG_H264::enableTemporalSVC = 1).</summary>
         public bool EnableScalabilityInfoSEI {
-            get => (BitField3[0] & 8) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 8) : (byte)(BitField3[0] & -9);
+            get => ((BitField1 >> 19) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~524288U) | (((value ? 1U : 0U) & 1U) << 19));
         }
         /// <summary>singleSliceIntraRefresh: [in]: Set to 1 to maintain single slice in frames during intra refresh.
         /// Check support for single slice intra refresh using ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps.
         /// This flag will be ignored if the value returned for ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps is false.</summary>
         public bool SingleSliceIntraRefresh {
-            get => (BitField3[0] & 16) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 16) : (byte)(BitField3[0] & -17);
+            get => ((BitField1 >> 20) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1048576U) | (((value ? 1U : 0U) & 1U) << 20));
         }
         /// <summary>enableTimeCode: [in]: Set to 1 to enable writing of clock timestamp sets in picture timing SEI. Note that this flag will be ignored for D3D12 interface.</summary>
         public bool EnableTimeCode {
-            get => (BitField3[0] & 32) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 32) : (byte)(BitField3[0] & -33);
+            get => ((BitField1 >> 21) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2097152U) | (((value ? 1U : 0U) & 1U) << 21));
         }
         /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
         /// <summary>level: [in]: Specifies the encoding level. Client is recommended to set this to NV_ENC_LEVEL_AUTOSELECT in order to enable the NvEncodeAPI interface to select the correct level.</summary>
@@ -1375,31 +1355,31 @@ namespace Lennox.NvEncSharp
         public NvEncHevcCusize MinCUSize;
         /// <summary>maxCUSize: [in]: Specifies the maximum size of luma coding unit. Currently NVENC SDK only supports maxCUSize equal to NV_ENC_HEVC_CUSIZE_32x32.</summary>
         public NvEncHevcCusize MaxCUSize;
-        internal fixed byte BitField1[1];
+        internal uint BitField1;
         /// <summary>useConstrainedIntraPred: [in]: Set 1 to enable constrained intra prediction.</summary>
         public bool UseConstrainedIntraPred {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>disableDeblockAcrossSliceBoundary: [in]: Set 1 to disable in loop filtering across slice boundary.</summary>
         public bool DisableDeblockAcrossSliceBoundary {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>outputBufferingPeriodSEI: [in]: Set 1 to write SEI buffering period syntax in the bitstream</summary>
         public bool OutputBufferingPeriodSEI {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>outputPictureTimingSEI: [in]: Set 1 to write SEI picture timing syntax in the bitstream</summary>
         public bool OutputPictureTimingSEI {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>outputAUD: [in]: Set 1 to write Access Unit Delimiter syntax.</summary>
         public bool OutputAUD {
-            get => (BitField1[0] & 16) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 16) : (byte)(BitField1[0] & -17);
+            get => ((BitField1 >> 4) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
         }
         /// <summary>enableLTR: [in]: Set to 1 to enable LTR (Long Term Reference) frame support. LTR can be used in two modes: "LTR Trust" mode and "LTR Per Picture" mode.
         /// LTR Trust mode: In this mode, ltrNumFrames pictures after IDR are automatically marked as LTR. This mode is enabled by setting ltrTrustMode = 1.
@@ -1409,29 +1389,28 @@ namespace Lennox.NvEncSharp
         /// for using LTR.
         /// Note that LTRs are not supported if encoding session is configured with B-frames</summary>
         public bool EnableLTR {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>disableSPSPPS: [in]: Set 1 to disable VPS, SPS and PPS signaling in the bitstream.</summary>
         public bool DisableSPSPPS {
-            get => (BitField1[0] & 64) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 64) : (byte)(BitField1[0] & -65);
+            get => ((BitField1 >> 6) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
         }
         /// <summary>repeatSPSPPS: [in]: Set 1 to output VPS,SPS and PPS for every IDR frame.</summary>
         public bool RepeatSPSPPS {
-            get => (BitField1[0] & 128) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 128) : (byte)(BitField1[0] & -129);
+            get => ((BitField1 >> 7) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
         }
-        internal fixed byte BitField2[1];
         /// <summary>enableIntraRefresh: [in]: Set 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
         public bool EnableIntraRefresh {
-            get => (BitField2[0] & 1) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 1) : (byte)(BitField2[0] & -2);
+            get => ((BitField1 >> 8) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
         }
         /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input, 3 for yuv444 input.</summary>
         public uint ChromaFormatIDC {
-            get { fixed (byte* ptr = &BitField2[0]) { return ((*(uint*)ptr >> 1) & 2); } }
-            set => BitField2[0] = (byte)((BitField2[0] & ~4) | (((value) << 1) & 4));
+            get => (uint)((BitField1 >> 9) & 3U);
+            set => BitField1 = (uint)((BitField1 & ~1536U) | ((unchecked((uint)value) & 3U) << 9));
         }
         /// <summary>reserved3: [in]: Reserved and must be set to 0.</summary>
         /// <summary>enableFillerDataInsertion: [in]: Set to 1 to enable insertion of filler data in the bitstream.
@@ -1443,38 +1422,37 @@ namespace Lennox.NvEncSharp
         /// is currently not supported and will make ::NvEncInitializeEncoder()
         /// return an error.</summary>
         public bool EnableFillerDataInsertion {
-            get => (BitField2[0] & 64) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 64) : (byte)(BitField2[0] & -65);
+            get => ((BitField1 >> 14) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
         }
         /// <summary>enableConstrainedEncoding: [in]: Set this to 1 to enable constrainedFrame encoding where each slice in the constrained picture is independent of other slices.
         /// Constrained encoding works only with rectangular slices.
         /// Check support for constrained encoding using ::NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING caps.</summary>
         public bool EnableConstrainedEncoding {
-            get => (BitField2[0] & 128) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 128) : (byte)(BitField2[0] & -129);
+            get => ((BitField1 >> 15) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32768U) | (((value ? 1U : 0U) & 1U) << 15));
         }
-        internal fixed byte BitField3[2];
         /// <summary>enableAlphaLayerEncoding: [in]: Set this to 1 to enable HEVC encode with alpha layer.</summary>
         public bool EnableAlphaLayerEncoding {
-            get => (BitField3[0] & 1) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 1) : (byte)(BitField3[0] & -2);
+            get => ((BitField1 >> 16) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
         }
         /// <summary>singleSliceIntraRefresh: [in]: Set this to 1 to maintain single slice frames during intra refresh.
         /// Check support for single slice intra refresh using ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps.
         /// This flag will be ignored if the value returned for ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps is false.</summary>
         public bool SingleSliceIntraRefresh {
-            get => (BitField3[0] & 2) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 2) : (byte)(BitField3[0] & -3);
+            get => ((BitField1 >> 17) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~131072U) | (((value ? 1U : 0U) & 1U) << 17));
         }
         /// <summary>outputRecoveryPointSEI: [in]: Set to 1 to enable writing of recovery point SEI message</summary>
         public bool OutputRecoveryPointSEI {
-            get => (BitField3[0] & 4) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 4) : (byte)(BitField3[0] & -5);
+            get => ((BitField1 >> 18) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~262144U) | (((value ? 1U : 0U) & 1U) << 18));
         }
         /// <summary>outputTimeCodeSEI: [in]: Set 1 to write SEI time code syntax in the bitstream. Note that this flag will be ignored for D3D12 interface.</summary>
         public bool OutputTimeCodeSEI {
-            get => (BitField3[0] & 8) != 0;
-            set => BitField3[0] = value ? (byte)(BitField3[0] | 8) : (byte)(BitField3[0] & -9);
+            get => ((BitField1 >> 19) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~524288U) | (((value ? 1U : 0U) & 1U) << 19));
         }
         /// <summary>reserved: [in]: Reserved bitfields.</summary>
         /// <summary>idrPeriod: [in]: Specifies the IDR interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG. Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
@@ -1620,65 +1598,62 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncFilmGrainParamsAv1
     {
-        internal fixed byte BitField1[1];
+        internal uint BitField1;
         /// <summary>applyGrain: [in]: Set to 1 to specify film grain should be added to frame</summary>
         public bool ApplyGrain {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>chromaScalingFromLuma: [in]: Set to 1 to specify the chroma scaling is inferred from luma scaling</summary>
         public bool ChromaScalingFromLuma {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>overlapFlag: [in]: Set to 1 to indicate that overlap between film grain blocks should be applied</summary>
         public bool OverlapFlag {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>clipToRestrictedRange: [in]: Set to 1 to clip values to restricted (studio) range after adding film grain</summary>
         public bool ClipToRestrictedRange {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>grainScalingMinus8: [in]: Represents the shift - 8 applied to the values of the chroma component</summary>
         public uint GrainScalingMinus8 {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 4) & 2); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~32) | (((value) << 4) & 32));
+            get => (uint)((BitField1 >> 4) & 3U);
+            set => BitField1 = (uint)((BitField1 & ~48U) | ((unchecked((uint)value) & 3U) << 4));
         }
         /// <summary>arCoeffLag: [in]: Specifies the number of auto-regressive coefficients for luma and chroma</summary>
         public uint ArCoeffLag {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 6) & 2); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~128) | (((value) << 6) & 128));
+            get => (uint)((BitField1 >> 6) & 3U);
+            set => BitField1 = (uint)((BitField1 & ~192U) | ((unchecked((uint)value) & 3U) << 6));
         }
-        internal fixed byte BitField2[1];
         /// <summary>numYPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the luma component</summary>
         public uint NumYPoints {
-            get { fixed (byte* ptr = &BitField2[0]) { return ((*(uint*)ptr >> 0) & 4); } }
-            set => BitField2[0] = (byte)((BitField2[0] & ~4) | (((value) << 0) & 4));
+            get => (uint)((BitField1 >> 8) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~3840U) | ((unchecked((uint)value) & 15U) << 8));
         }
         /// <summary>numCbPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the cb component</summary>
         public uint NumCbPoints {
-            get { fixed (byte* ptr = &BitField2[0]) { return ((*(uint*)ptr >> 4) & 4); } }
-            set => BitField2[0] = (byte)((BitField2[0] & ~64) | (((value) << 4) & 64));
+            get => (uint)((BitField1 >> 12) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
         }
-        internal fixed byte BitField3[1];
         /// <summary>numCrPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the cr component</summary>
         public uint NumCrPoints {
-            get { fixed (byte* ptr = &BitField3[0]) { return ((*(uint*)ptr >> 0) & 4); } }
-            set => BitField3[0] = (byte)((BitField3[0] & ~4) | (((value) << 0) & 4));
+            get => (uint)((BitField1 >> 16) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~983040U) | ((unchecked((uint)value) & 15U) << 16));
         }
         /// <summary>arCoeffShiftMinus6: [in]: specifies the range of the auto-regressive coefficients</summary>
         public uint ArCoeffShiftMinus6 {
-            get { fixed (byte* ptr = &BitField3[0]) { return ((*(uint*)ptr >> 4) & 2); } }
-            set => BitField3[0] = (byte)((BitField3[0] & ~32) | (((value) << 4) & 32));
+            get => (uint)((BitField1 >> 20) & 3U);
+            set => BitField1 = (uint)((BitField1 & ~3145728U) | ((unchecked((uint)value) & 3U) << 20));
         }
         /// <summary>grainScaleShift: [in]: Specifies how much the Gaussian random numbers should be scaled down during the grain synthesi process</summary>
         public uint GrainScaleShift {
-            get { fixed (byte* ptr = &BitField3[0]) { return ((*(uint*)ptr >> 6) & 2); } }
-            set => BitField3[0] = (byte)((BitField3[0] & ~128) | (((value) << 6) & 128));
+            get => (uint)((BitField1 >> 22) & 3U);
+            set => BitField1 = (uint)((BitField1 & ~12582912U) | ((unchecked((uint)value) & 3U) << 22));
         }
-        internal fixed byte BitField4[1];
         /// <summary>reserved1: [in]: Reserved bits field - should be set to 0</summary>
         /// <summary>pointYValue[14]: [in]: pointYValue[i]: x coordinate for i-th point of luma piecewise linear scaling function. Values on a scale of 0...255</summary>
         public fixed byte PointYValue[14];
@@ -1728,61 +1703,61 @@ namespace Lennox.NvEncSharp
         public NvEncAv1PartSize MinPartSize;
         /// <summary>maxPartSize: [in]: Specifies the maximum size of luma coding block partition.</summary>
         public NvEncAv1PartSize MaxPartSize;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>outputAnnexBFormat: [in]: Set 1 to use Annex B format for bitstream output.</summary>
         public bool OutputAnnexBFormat {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>enableTimingInfo: [in]: Set 1 to write Timing Info into sequence/frame headers</summary>
         public bool EnableTimingInfo {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>enableDecoderModelInfo: [in]: Set 1 to write Decoder Model Info into sequence/frame headers</summary>
         public bool EnableDecoderModelInfo {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>enableFrameIdNumbers: [in]: Set 1 to write Frame id numbers in bitstream</summary>
         public bool EnableFrameIdNumbers {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>disableSeqHdr: [in]: Set 1 to disable Sequence Header signaling in the bitstream.</summary>
         public bool DisableSeqHdr {
-            get => (BitField1[0] & 16) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 16) : (byte)(BitField1[0] & -17);
+            get => ((BitField1 >> 4) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
         }
         /// <summary>repeatSeqHdr: [in]: Set 1 to output Sequence Header for every Key frame.</summary>
         public bool RepeatSeqHdr {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>enableIntraRefresh: [in]: Set 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
         public bool EnableIntraRefresh {
-            get => (BitField1[0] & 64) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 64) : (byte)(BitField1[0] & -65);
+            get => ((BitField1 >> 6) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
         }
         /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input (yuv444 input currently not supported).</summary>
         public uint ChromaFormatIDC {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 7) & 2); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~256) | (((value) << 7) & 256));
+            get => (uint)((BitField1 >> 7) & 3U);
+            set => BitField1 = (uint)((BitField1 & ~384U) | ((unchecked((uint)value) & 3U) << 7));
         }
         /// <summary>enableBitstreamPadding: [in]: Set 1 to enable bitstream padding.</summary>
         public bool EnableBitstreamPadding {
-            get => (BitField1[1] & 512) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 512) : (byte)(BitField1[1] & -513);
+            get => ((BitField1 >> 9) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
         }
         /// <summary>enableCustomTileConfig: [in]: Set 1 to enable custom tile configuration: numTileColumns and numTileRows must have non zero values and tileWidths and tileHeights must point to a valid address</summary>
         public bool EnableCustomTileConfig {
-            get => (BitField1[1] & 1024) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 1024) : (byte)(BitField1[1] & -1025);
+            get => ((BitField1 >> 10) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
         }
         /// <summary>enableFilmGrainParams: [in]: Set 1 to enable custom film grain parameters: filmGrainParams must point to a valid address</summary>
         public bool EnableFilmGrainParams {
-            get => (BitField1[1] & 2048) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 2048) : (byte)(BitField1[1] & -2049);
+            get => ((BitField1 >> 11) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
         }
         /// <summary>reserved4: [in]: Reserved and must be set to 0.</summary>
         /// <summary>reserved: [in]: Reserved bitfields.</summary>
@@ -1916,36 +1891,36 @@ namespace Lennox.NvEncSharp
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct NvEncConfigH264Meonly
     {
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>disablePartition16x16: [in]: Disable Motion Estimation on 16x16 blocks</summary>
         public bool DisablePartition16x16 {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>disablePartition8x16: [in]: Disable Motion Estimation on 8x16 blocks</summary>
         public bool DisablePartition8x16 {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>disablePartition16x8: [in]: Disable Motion Estimation on 16x8 blocks</summary>
         public bool DisablePartition16x8 {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>disablePartition8x8: [in]: Disable Motion Estimation on 8x8 blocks</summary>
         public bool DisablePartition8x8 {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>disableIntraSearch: [in]: Disable Intra search during Motion Estimation</summary>
         public bool DisableIntraSearch {
-            get => (BitField1[0] & 16) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 16) : (byte)(BitField1[0] & -17);
+            get => ((BitField1 >> 4) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
         }
         /// <summary>bStereoEnable: [in]: Enable Stereo Mode for Motion Estimation where each view is independently executed</summary>
         public bool BStereoEnable {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
         /// <summary>reserved1 [255]: [in]: Reserved and must be set to 0</summary>
@@ -2221,36 +2196,36 @@ namespace Lennox.NvEncSharp
         public uint EnableEncodeAsync;
         /// <summary>enablePTD: [in]: Set this to 1 to enable the Picture Type Decision is be taken by the NvEncodeAPI interface.</summary>
         public uint EnablePTD;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>reportSliceOffsets: [in]: Set this to 1 to enable reporting slice offsets in ::_NV_ENC_LOCK_BITSTREAM. NV_ENC_INITIALIZE_PARAMS::enableEncodeAsync must be set to 0 to use this feature. Client must set this to 0 if NV_ENC_CONFIG_H264::sliceMode is 1 on Kepler GPUs</summary>
         public bool ReportSliceOffsets {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>enableSubFrameWrite: [in]: Set this to 1 to write out available bitstream to memory at subframe intervals.
         /// If enableSubFrameWrite = 1, then the hardware encoder returns data as soon as a slice (H264/HEVC) or tile (AV1) has completed encoding.
         /// This results in better encoding latency, but the downside is that the application has to keep polling via a call to nvEncLockBitstream API continuously to see if any encoded slice/tile data is available.
         /// Use this mode if you feel that the marginal reduction in latency from sub-frame encoding is worth the increase in complexity due to CPU-based polling.</summary>
         public bool EnableSubFrameWrite {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>enableExternalMEHints: [in]: Set to 1 to enable external ME hints for the current frame. For NV_ENC_INITIALIZE_PARAMS::enablePTD=1 with B frames, programming L1 hints is optional for B frames since Client doesn't know internal GOP structure.
         /// NV_ENC_PIC_PARAMS::meHintRefPicDist should preferably be set with enablePTD=1.</summary>
         public bool EnableExternalMEHints {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>enableMEOnlyMode: [in]: Set to 1 to enable ME Only Mode .</summary>
         public bool EnableMEOnlyMode {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>enableWeightedPrediction: [in]: Set this to 1 to enable weighted prediction. Not supported if encode session is configured for B-Frames (i.e. NV_ENC_CONFIG::frameIntervalP > 1 or preset >=P3 when tuningInfo = ::NV_ENC_TUNING_INFO_HIGH_QUALITY or
         /// tuningInfo = ::NV_ENC_TUNING_INFO_LOSSLESS. This is because preset >=p3 internally enables B frames when tuningInfo = ::NV_ENC_TUNING_INFO_HIGH_QUALITY or ::NV_ENC_TUNING_INFO_LOSSLESS).</summary>
         public bool EnableWeightedPrediction {
-            get => (BitField1[0] & 16) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 16) : (byte)(BitField1[0] & -17);
+            get => ((BitField1 >> 4) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
         }
         /// <summary>splitEncodeMode: [in]: Split Encoding mode in NVENC (Split Encoding is not applicable to H264).
         /// Not supported if any of the following features: weighted prediction, alpha layer encoding,
@@ -2258,30 +2233,30 @@ namespace Lennox.NvEncSharp
         /// insertion with DX12 interface are enabled in case of HEVC.
         /// For AV1, split encoding is not supported when output into video memory buffer is enabled.</summary>
         public uint SplitEncodeMode {
-            get { fixed (byte* ptr = &BitField1[0]) { return ((*(uint*)ptr >> 5) & 4); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~128) | (((value) << 5) & 128));
+            get => (uint)((BitField1 >> 5) & 15U);
+            set => BitField1 = (uint)((BitField1 & ~480U) | ((unchecked((uint)value) & 15U) << 5));
         }
         /// <summary>enableOutputInVidmem: [in]: Set this to 1 to enable output of NVENC in video memory buffer created by application. This feature is not supported for HEVC ME only mode.</summary>
         public bool EnableOutputInVidmem {
-            get => (BitField1[1] & 512) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 512) : (byte)(BitField1[1] & -513);
+            get => ((BitField1 >> 9) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
         }
         /// <summary>enableReconFrameOutput: [in]: Set this to 1 to enable reconstructed frame output.</summary>
         public bool EnableReconFrameOutput {
-            get => (BitField1[1] & 1024) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 1024) : (byte)(BitField1[1] & -1025);
+            get => ((BitField1 >> 10) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
         }
         /// <summary>enableOutputStats: [in]: Set this to 1 to enable encoded frame output stats. Client must allocate buffer of size equal to number of blocks multiplied by the size of
         /// NV_ENC_OUTPUT_STATS_BLOCK struct in system memory and assign to NV_ENC_LOCK_BITSTREAM::encodedOutputStatsPtr to receive the encoded frame output stats.</summary>
         public bool EnableOutputStats {
-            get => (BitField1[1] & 2048) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 2048) : (byte)(BitField1[1] & -2049);
+            get => ((BitField1 >> 11) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
         }
         /// <summary>enableUniDirectionalB: [in]: Set this to 1 to enable uni directional B-frame(both reference will be from past). It will give better compression
         /// efficiency for LowLatency/UltraLowLatency use case. Value of parameter is ignored when regular B frames are used.</summary>
         public bool EnableUniDirectionalB {
-            get => (BitField1[1] & 4096) != 0;
-            set => BitField1[1] = value ? (byte)(BitField1[1] | 4096) : (byte)(BitField1[1] & -4097);
+            get => ((BitField1 >> 12) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4096U) | (((value ? 1U : 0U) & 1U) << 12));
         }
         /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
         /// <summary>privDataSize: [in]: Reserved private data buffer size and must be set to 0</summary>
@@ -2414,18 +2389,18 @@ namespace Lennox.NvEncSharp
         /// configuration (e.g. the new configuration results in
         /// a change in the GOP structure).</summary>
         public NvEncInitializeParams ReInitEncodeParams;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>resetEncoder: [in]: This resets the rate control states and other internal encoder states. This should be used only with an IDR frame.
         /// If NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1, encoder will force the frame type to IDR</summary>
         public bool ResetEncoder {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>forceIDR: [in]: Encode the current picture as an IDR picture. This flag is only valid when Picture type decision is taken by the Encoder
         /// [_NV_ENC_INITIALIZE_PARAMS::enablePTD == 1].</summary>
         public bool ForceIDR {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>reserved1</summary>
         /// <summary>reserved2: [in]: Reserved and must be set to 0</summary>
@@ -2576,28 +2551,28 @@ namespace Lennox.NvEncSharp
         /// When outputRecoveryPointSEI is set this is value is used for recovery_frame_cnt in recovery point SEI message
         /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
         public uint ForceIntraRefreshWithFrameCnt;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>constrainedFrame: [in]: Set to 1 if client wants to encode this frame with each slice completely independent of other slices in the frame.
         /// NV_ENC_INITIALIZE_PARAMS::enableConstrainedEncoding should be set to 1</summary>
         public bool ConstrainedFrame {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>sliceModeDataUpdate: [in]: Set to 1 if client wants to change the sliceModeData field to specify new sliceSize Parameter
         /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting</summary>
         public bool SliceModeDataUpdate {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>ltrMarkFrame: [in]: Set to 1 if client wants to mark this frame as LTR</summary>
         public bool LtrMarkFrame {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>ltrUseFrames: [in]: Set to 1 if client allows encoding this frame using the LTR frames specified in ltrFrameBitmap</summary>
         public bool LtrUseFrames {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
         /// <summary>sliceTypeData: [in]: Deprecated.</summary>
@@ -2719,28 +2694,28 @@ namespace Lennox.NvEncSharp
         /// When outputRecoveryPointSEI is set this is value is used for recovery_frame_cnt in recovery point SEI message
         /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
         public uint ForceIntraRefreshWithFrameCnt;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>constrainedFrame: [in]: Set to 1 if client wants to encode this frame with each slice completely independent of other slices in the frame.
         /// NV_ENC_INITIALIZE_PARAMS::enableConstrainedEncoding should be set to 1</summary>
         public bool ConstrainedFrame {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>sliceModeDataUpdate: [in]: Set to 1 if client wants to change the sliceModeData field to specify new sliceSize Parameter
         /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting</summary>
         public bool SliceModeDataUpdate {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>ltrMarkFrame: [in]: Set to 1 if client wants to mark this frame as LTR</summary>
         public bool LtrMarkFrame {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>ltrUseFrames: [in]: Set to 1 if client allows encoding this frame using the LTR frames specified in ltrFrameBitmap</summary>
         public bool LtrUseFrames {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
         /// <summary>reserved1: [in]: Reserved and must be set to 0.</summary>
@@ -2860,61 +2835,60 @@ namespace Lennox.NvEncSharp
         /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
         /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
         public uint ForceIntraRefreshWithFrameCnt;
-        internal fixed byte BitField1[1];
+        internal uint BitField1;
         /// <summary>goldenFrameFlag: [in]: Encode frame as Golden Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public bool GoldenFrameFlag {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>arfFrameFlag: [in]: Encode frame as Alternate Reference Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public bool ArfFrameFlag {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>arf2FrameFlag: [in]: Encode frame as Alternate Reference 2 Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public bool Arf2FrameFlag {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>bwdFrameFlag: [in]: Encode frame as Backward Reference Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public bool BwdFrameFlag {
-            get => (BitField1[0] & 8) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & -9);
+            get => ((BitField1 >> 3) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
         }
         /// <summary>overlayFrameFlag: [in]: Encode frame as overlay frame. A previously encoded frame with the same displayPOCSyntax value should be present in reference frame buffer.
         /// This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public bool OverlayFrameFlag {
-            get => (BitField1[0] & 16) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 16) : (byte)(BitField1[0] & -17);
+            get => ((BitField1 >> 4) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
         }
         /// <summary>showExistingFrameFlag: [in]: When ovelayFrameFlag is set to 1, this flag controls the value of the show_existing_frame syntax element associated with the overlay frame.
         /// This flag is added to the interface as a placeholder. Its value is ignored for now and always assumed to be set to 1.
         /// This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
         public bool ShowExistingFrameFlag {
-            get => (BitField1[0] & 32) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 32) : (byte)(BitField1[0] & -33);
+            get => ((BitField1 >> 5) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
         }
         /// <summary>errorResilientModeFlag: [in]: encode frame independently from previously encoded frames</summary>
         public bool ErrorResilientModeFlag {
-            get => (BitField1[0] & 64) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 64) : (byte)(BitField1[0] & -65);
+            get => ((BitField1 >> 6) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
         }
         /// <summary>tileConfigUpdate: [in]: Set to 1 if client wants to overwrite the default tile configuration with the tile parameters specified below
         /// When forceIntraRefreshWithFrameCnt is set it will have priority over tileConfigUpdate setting</summary>
         public bool TileConfigUpdate {
-            get => (BitField1[0] & 128) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 128) : (byte)(BitField1[0] & -129);
+            get => ((BitField1 >> 7) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
         }
-        internal fixed byte BitField2[3];
         /// <summary>enableCustomTileConfig: [in]: Set 1 to enable custom tile configuration: numTileColumns and numTileRows must have non zero values and tileWidths and tileHeights must point to a valid address</summary>
         public bool EnableCustomTileConfig {
-            get => (BitField2[0] & 1) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 1) : (byte)(BitField2[0] & -2);
+            get => ((BitField1 >> 8) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
         }
         /// <summary>filmGrainParamsUpdate: [in]: Set to 1 if client wants to update previous film grain parameters: filmGrainParams must point to a valid address and encoder must have been configured with film grain enabled</summary>
         public bool FilmGrainParamsUpdate {
-            get => (BitField2[0] & 2) != 0;
-            set => BitField2[0] = value ? (byte)(BitField2[0] | 2) : (byte)(BitField2[0] & -3);
+            get => ((BitField1 >> 9) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
         }
         /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
         /// <summary>numTileColumns: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileWidths[] specifies the way in which the picture is divided into tile columns.
@@ -3290,21 +3264,21 @@ namespace Lennox.NvEncSharp
     {
         /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_LOCK_BITSTREAM_VER.</summary>
         public uint Version;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>doNotWait: [in]: If this flag is set, the NvEncodeAPI interface will return buffer pointer even if operation is not completed. If not set, the call will block until operation completes.</summary>
         public bool DoNotWait {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>ltrFrame: [out]: Flag indicating this frame is marked as LTR frame</summary>
         public bool LtrFrame {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>getRCStats: [in]: If this flag is set then lockBitstream call will add additional intra-inter MB count and average MVX, MVY</summary>
         public bool GetRCStats {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => ((BitField1 >> 2) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
         }
         /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
         /// <summary>outputBitstream: [in]: Pointer to the bitstream buffer being locked.</summary>
@@ -3441,11 +3415,11 @@ namespace Lennox.NvEncSharp
     {
         /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_LOCK_INPUT_BUFFER_VER.</summary>
         public uint Version;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>doNotWait: [in]: Set to 1 to make ::NvEncLockInputBuffer() a unblocking call. If the encoding is not completed, driver will return ::NV_ENC_ERR_ENCODER_BUSY error code.</summary>
         public bool DoNotWait {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
         /// <summary>inputBuffer: [in]: Pointer to the input buffer to be locked, client should pass the pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource API.</summary>
@@ -3642,16 +3616,16 @@ namespace Lennox.NvEncSharp
         public ulong WaitValue;
         /// <summary>signalValue: [in]: Fence value to set the fence to, after the GPU operation.</summary>
         public ulong SignalValue;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>bWait: [in]: Wait on 'waitValue' if bWait is set to 1, before starting GPU operation.</summary>
         public bool BWait {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>bSignal: [in]: Signal on 'signalValue' if bSignal is set to 1, after GPU operation is complete.</summary>
         public bool BSignal {
-            get => (BitField1[0] & 2) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 2) : (byte)(BitField1[0] & -3);
+            get => ((BitField1 >> 1) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
         }
         /// <summary>reservedBitField: [in]: Reserved and must be set to 0.</summary>
         /// <summary>reserved1[7]: [in]: Reserved and must be set to 0.</summary>
@@ -3882,11 +3856,11 @@ namespace Lennox.NvEncSharp
         public uint PicIdx;
         /// <summary>frameAvgQP: [out]: Average QP of the frame.</summary>
         public uint FrameAvgQP;
-        internal fixed byte BitField1[4];
+        internal uint BitField1;
         /// <summary>ltrFrame: [out]: Flag indicating this frame is marked as LTR frame</summary>
         public bool LtrFrame {
-            get => (BitField1[0] & 1) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 1) : (byte)(BitField1[0] & -2);
+            get => ((BitField1 >> 0) & 1U) != 0;
+            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
         }
         /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
         /// <summary>ltrFrameIdx: [out]: Frame index associated with this LTR frame.</summary>
