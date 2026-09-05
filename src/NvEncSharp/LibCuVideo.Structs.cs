@@ -306,15 +306,15 @@ namespace Lennox.NvEncSharp
         /// <summary>OUT: 0-Component, 1-PAL, 2-NTSC, 3-SECAM, 4-MAC, 5-Unspecified</summary>
         public byte VideoFormat
         {
-            get { fixed (byte* ptr = &BitField1[0]) { return (byte)((*(byte*)ptr >> 0) & 3); } }
-            set => BitField1[0] = (byte)((BitField1[0] & ~24) | (((value) << 0) & 24));
+            get => (byte)(BitField1[0] & 7);
+            set => BitField1[0] = (byte)((BitField1[0] & ~7) | (value & 7));
         }
 
         /// <summary>OUT: indicates the black level and luma and chroma range</summary>
         public bool VideoFullRange
         {
-            get => (BitField1[0] & 4) != 0;
-            set => BitField1[0] = value ? (byte)(BitField1[0] | 4) : (byte)(BitField1[0] & -5);
+            get => (BitField1[0] & 8) != 0;
+            set => BitField1[0] = value ? (byte)(BitField1[0] | 8) : (byte)(BitField1[0] & ~8);
         }
 
         /// <summary>OUT: chromaticity coordinates of source primaries</summary>
