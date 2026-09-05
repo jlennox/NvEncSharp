@@ -116,6 +116,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
             var destHost = new byte[rgbSize];
             fixed (byte* destHostPtr = destHost)
             {
+                frame.DecodeToHostRgba32(destHostPtr);
                 _device.ImmediateContext.UpdateSubresource(
                     buffer, 0, null, (IntPtr)destHostPtr, rgba32Pitch, 0);
             }
