@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Lennox.NvEncSharp
 {
-    public unsafe class LibCuVideo
+    public unsafe partial class LibCuVideo
     {
         private const string _dllpath = "nvcuvid.dll";
 
@@ -119,8 +119,20 @@ namespace Lennox.NvEncSharp
         /// calls back pfnDisplayPicture with CUVIDPARSERDISPINFO data to display a video frame
         /// </summary>
         /// CUresult CUDAAPI cuvidParseVideoData(CUvideoparser obj, CUVIDSOURCEDATAPACKET *pPacket);
+        public static CuResult ParseVideoData(CuVideoParser obj, ref CuVideoSourceDataPacket packet)
+        {
+#if NET8_0_OR_GREATER
+            if (OperatingSystem.IsLinux())
+            {
+                var native = new LinuxSourceDataPacket(packet);
+                return ParseVideoDataLinux(obj, ref native);
+            }
+#endif
+            return ParseVideoDataWindows(obj, ref packet);
+        }
+
         [DllImport(_dllpath, EntryPoint = "cuvidParseVideoData")]
-        public static extern CuResult ParseVideoData(CuVideoParser obj, ref CuVideoSourceDataPacket packet);
+        private static extern CuResult ParseVideoDataWindows(CuVideoParser obj, ref CuVideoSourceDataPacket packet);
 
         /// <summary>
         /// \fn CUresult CUDAAPI cuvidDestroyVideoParser(CUvideoparser obj)
@@ -190,8 +202,20 @@ namespace Lennox.NvEncSharp
         /// \fn CUresult CuAPI cuvidCreateDecoder(CUvideodecoder *phDecoder, CUVIDDECODECREATEINFO *pdci)
         /// Create the decoder object based on pdci. A handle to the created decoder is returned
         /// </summary>
+        public static CuResult CreateDecoder(out CuVideoDecoder decoder, ref CuVideoDecodeCreateInfo pdci)
+        {
+#if NET8_0_OR_GREATER
+            if (OperatingSystem.IsLinux())
+            {
+                var native = new LinuxDecodeCreateInfo(pdci);
+                return CreateDecoderLinux(out decoder, ref native);
+            }
+#endif
+            return CreateDecoderWindows(out decoder, ref pdci);
+        }
+
         [DllImport(_dllpath, EntryPoint = "cuvidCreateDecoder")]
-        public static extern CuResult CreateDecoder(out CuVideoDecoder decoder, ref CuVideoDecodeCreateInfo pdci);
+        private static extern CuResult CreateDecoderWindows(out CuVideoDecoder decoder, ref CuVideoDecodeCreateInfo pdci);
 
         /// <summary>
         /// \fn CUresult CuAPI cuvidDestroyDecoder(CUvideodecoder hDecoder)
@@ -229,16 +253,16 @@ namespace Lennox.NvEncSharp
         /// Post-process and map video frame corresponding to nPicIdx for use in Cu. Returns Cu device pointer and associated
         /// pitch of the video frame
         /// </summary>
-        [DllImport(_dllpath, EntryPoint = "cuvidMapVideoFrame")]
-        public static extern CuResult MapVideoFrame(CuVideoDecoder decoder, int picIdx,
-            out CuDevicePtr devPtr, out int pitch, ref CuVideoProcParams vpp);
+        public static CuResult MapVideoFrame(CuVideoDecoder decoder, int picIdx,
+            out CuDevicePtr devPtr, out int pitch, ref CuVideoProcParams vpp) =>
+            MapVideoFrame64(decoder, picIdx, out devPtr, out pitch, ref vpp);
 
         /// <summary>
         /// \fn CUresult CuAPI cuvidUnmapVideoFrame(CUvideodecoder hDecoder, unsigned int DevPtr)
         /// Unmap a previously mapped video frame
         /// </summary>
-        [DllImport(_dllpath, EntryPoint = "cuvidUnmapVideoFrame")]
-        public static extern CuResult UnmapVideoFrame(CuVideoDecoder decoder, CuDevicePtr devPtr);
+        public static CuResult UnmapVideoFrame(CuVideoDecoder decoder, CuDevicePtr devPtr) =>
+            UnmapVideoFrame64(decoder, devPtr);
 
         /// <summary>
         /// \fn CUresult CuAPI cuvidMapVideoFrame64(CUvideodecoder hDecoder, int nPicIdx, unsigned long long *pDevPtr,

@@ -9,7 +9,68 @@ permissions:
   contents: read
 
 jobs:
+  windows-native:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+      - name: Install CUDA build tools
+        uses: Jimver/cuda-toolkit@v0.2.35
+        with:
+          cuda: '12.6.3'
+          method: network
+          sub-packages: '["nvcc", "cudart"]'
+      - name: Build Windows CUDA helper
+        shell: pwsh
+        run: |
+          # CUDA 12.6 needs this override for the runner's newer MSVC toolset.
+          cmake -S src/NvEncSharp.Cuda.Library -B artifacts/windows-cuda -G Ninja -DCMAKE_BUILD_TYPE=Release '-DCMAKE_CUDA_ARCHITECTURES=50;61;75;86;89;90' -DCMAKE_CUDA_FLAGS=-allow-unsupported-compiler
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --build artifacts/windows-cuda --parallel 2
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --install artifacts/windows-cuda --prefix "$PWD/artifacts/windows-native"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-native
+          path: artifacts/windows-native/runtimes/win-x64/native/*.dll
+          if-no-files-found: error
+
+  linux-native:
+    runs-on: ubuntu-22.04
+    container: nvidia/cuda:12.6.3-devel-ubuntu22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install build tools
+        run: apt-get update && apt-get install -y --no-install-recommends cmake g++
+      - name: Build Linux CUDA helper
+        run: |
+          cmake -S src/NvEncSharp.Cuda.Library -B artifacts/linux-cuda -DCMAKE_BUILD_TYPE=Release '-DCMAKE_CUDA_ARCHITECTURES=50;61;75;86;89;90'
+          cmake --build artifacts/linux-cuda --parallel 2
+          cmake --install artifacts/linux-cuda --prefix "$PWD/src/NvEncSharp/lib"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-native
+          path: src/NvEncSharp/lib/runtimes/linux-x64/native/*.so
+          if-no-files-found: error
+
+  linux-test:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+      - name: Check Linux ABI and library loading without a GPU
+        run: bash src/NvEncSharp.Linux.Test/run.sh
+
   pack:
+    needs: [windows-native, linux-native, linux-test]
     runs-on: windows-latest
     timeout-minutes: 15
     steps:
@@ -20,12 +81,15 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Check prebuilt CUDA library
-        shell: pwsh
-        run: |
-          if (!(Test-Path -LiteralPath 'src/NvEncSharp/lib/runtimes/win-x64/native/NvEncSharp.Cuda.Library.dll')) {
-            throw 'The prebuilt CUDA DLL is required because CI skips the native build.'
-          }
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-native
+          path: src/NvEncSharp/lib/runtimes/win-x64/native
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: linux-native
+          path: src/NvEncSharp/lib/runtimes/linux-x64/native
 
       - name: Build and pack
         run: >-
@@ -36,6 +100,7 @@ jobs:
           -p:BuildCudaLibrary=false
           -p:GeneratePackageOnBuild=false
           -p:ContinuousIntegrationBuild=true
+          -p:RequireLinuxNativeLibrary=true
 
       - name: Upload NuGet package
         uses: actions/upload-artifact@v7

@@ -2,12 +2,14 @@
 // Once off, from an x64 MSVC developer prompt in this directory:
 // cl /nologo /EHsc /std:c++17 NativeSizes.cpp /Foobj\NativeSizes.obj /Feobj\NativeSizes.exe
 // obj\NativeSizes.exe > NativeSizes.windows-x64.txt
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include "nvEncodeAPI.h"
 #include <iostream>
 #include <type_traits>
 #include <utility>
-static_assert(sizeof(void*) == 8, "Capture the Windows x64 ABI");
+static_assert(sizeof(void*) == 8, "Capture a 64-bit ABI");
 
 template<class T> void argument(const char* name, size_t index) {
     std::cout << name << ".arg" << index << ' ' << sizeof(T) << '\n';
