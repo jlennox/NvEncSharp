@@ -11,689 +11,685 @@ using System.Threading.Channels;
 
 #nullable enable
 
-namespace Lennox.NvEncSharp.Sample.VideoDecode
+namespace Lennox.NvEncSharp.Sample.VideoDecode;
+
+internal unsafe class Program : IDisposable
 {
-    internal unsafe class Program : IDisposable
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        using var program = new Program(new ProgramArguments(args));
+        var result = program.Run();
+        Environment.Exit(result);
+    }
+
+    private CuContext _context;
+    private CuVideoDecoder _decoder;
+    private CuVideoContextLock _contextLock;
+    private readonly Channel<FrameInformation> _framesChannel;
+    private CuVideoDecodeCreateInfo _info;
+    private readonly CancellationTokenSource _cts;
+    private readonly Thread _displayThread;
+    private readonly ProgramArguments _args;
+    private int _displayedFrames;
+    private TimeSpan _frameDuration;
+    private readonly Stopwatch _playbackClock = new Stopwatch();
+    private TimeSpan _nextFrameTime;
+    private readonly Pool<BufferStorage> _nv12BufferPool = new Pool<BufferStorage>(5);
+    private readonly ManualResetEventSlim _renderingCompleted = new ManualResetEventSlim(false);
+    private DisplayWindow? _window;
+
+    private bool _useHostMemory => _args.UseHostMemory;
+    private bool _isDisposed = false;
+
+    public Program(ProgramArguments args)
+    {
+        _args = args;
+        _framesChannel = Channel.CreateBounded<FrameInformation>(
+            new BoundedChannelOptions(10)
+            {
+                FullMode = BoundedChannelFullMode.Wait,
+                SingleReader = true
+            });
+
+        _cts = new CancellationTokenSource();
+        _displayThread = new Thread(DisplayThread)
         {
-            using var program = new Program(new ProgramArguments(args));
-            var result = program.Run();
-            Environment.Exit(result);
+            IsBackground = true,
+            Name = nameof(DisplayThread)
+        };
+    }
+
+    private int Run()
+    {
+        _displayThread.Start();
+
+        LibCuda.Initialize();
+
+        var descriptions = CuDevice.GetDescriptions().ToArray();
+
+        if (descriptions.Length == 0)
+        {
+            Console.Error.WriteLine("No CUDA devices found.");
+            return -1;
         }
 
-        private CuContext _context;
-        private CuVideoDecoder _decoder;
-        private CuVideoContextLock _contextLock;
-        private readonly Channel<FrameInformation> _framesChannel;
-        private CuVideoDecodeCreateInfo _info;
-        private readonly CancellationTokenSource _cts;
-        private readonly Thread _displayThread;
-        private readonly ProgramArguments _args;
-        private int _displayedFrames;
-        private TimeSpan _frameDuration;
-        private readonly Stopwatch _playbackClock = new Stopwatch();
-        private TimeSpan _nextFrameTime;
-        private readonly Pool<BufferStorage> _nv12BufferPool = new Pool<BufferStorage>(5);
-        private readonly ManualResetEventSlim _renderingCompleted = new ManualResetEventSlim(false);
-        private DisplayWindow? _window;
-
-        private bool _useHostMemory => _args.UseHostMemory;
-        private bool _isDisposed = false;
-
-        public Program(ProgramArguments args)
+        foreach (var description in descriptions)
         {
-            _args = args;
-            _framesChannel = Channel.CreateBounded<FrameInformation>(
-                new BoundedChannelOptions(10)
-                {
-                    FullMode = BoundedChannelFullMode.Wait,
-                    SingleReader = true
-                });
-
-            _cts = new CancellationTokenSource();
-            _displayThread = new Thread(DisplayThread)
-            {
-                IsBackground = true,
-                Name = nameof(DisplayThread)
-            };
+            PrintInformation($"Device {description.Handle}", new Dictionary<string, object> {
+                ["Memory"] = description.TotalMemory,
+                ["Name"] = description.Name,
+                ["PciBusId"] = description.GetPciBusId(),
+                ["MaxThreadsPerBlock"] = description.GetAttribute(CuDeviceAttribute.MaxThreadsPerBlock),
+                ["SharedMemoryPerBlock"] = description.GetAttribute(CuDeviceAttribute.SharedMemoryPerBlock)
+            });
         }
 
-        private int Run()
+        var device = descriptions[0].Device;
+
+        _context = device.CreateContext(CuContextFlags.SchedBlockingSync);
+        _contextLock = _context.CreateLock();
+
+        _window = new DisplayWindow(_context, "Decoded video", 800, 600);
+
+        var parserParams = new CuVideoParserParams
         {
-            _displayThread.Start();
+            CodecType = _args.Codec,
+            MaxNumDecodeSurfaces = 1,
+            MaxDisplayDelay = 0,
+            ErrorThreshold = 100,
+            UserData = IntPtr.Zero,
+            DisplayPicture = VideoDisplayCallback,
+            DecodePicture = DecodePictureCallback,
+            SequenceCallback = SequenceCallback
+        };
 
-            LibCuda.Initialize();
+        using var parser = CuVideoParser.Create(ref parserParams);
+        using var fs = File.OpenRead(_args.InputPath);
+        const int bufferSize = 10 * 1024 * 1024;
+        var inputBufferPtr = Marshal.AllocHGlobal(bufferSize);
+        var count = 0;
 
-            var descriptions = CuDevice.GetDescriptions().ToArray();
+        var backbuffer = new byte[50 * 1024 * 1024];
+        var backbufferStream = new MemoryStream(backbuffer);
 
-            if (descriptions.Length == 0)
+        void SendBackbuffer()
+        {
+            if (backbufferStream.Position == 0) return;
+
+            var span = new Span<byte>(
+                backbuffer, 0,
+                (int) backbufferStream.Position);
+
+            parser.ParseVideoData(span);
+
+            Array.Fill<byte>(backbuffer, 0);
+            backbufferStream = new MemoryStream(backbuffer);
+        }
+
+        var watch = Stopwatch.StartNew();
+
+        while (true)
+        {
+            // AV1 uses size-delimited OBUs, not H.264/HEVC NAL start codes.
+            // Submit complete OBUs even when a file read splits a unit.
+            if (_args.Codec == CuVideoCodec.AV1)
             {
-                Console.Error.WriteLine("No CUDA devices found.");
-                return -1;
+                var obu = Av1ObuReader.ReadNext(fs);
+                if (obu == null) break;
+                parser.ParseVideoData(obu);
+                ++count;
+                continue;
             }
 
-            foreach (var description in descriptions)
-            {
-                PrintInformation($"Device {description.Handle}", new Dictionary<string, object> {
-                    ["Memory"] = description.TotalMemory,
-                    ["Name"] = description.Name,
-                    ["PciBusId"] = description.GetPciBusId(),
-                    ["MaxThreadsPerBlock"] = description.GetAttribute(CuDeviceAttribute.MaxThreadsPerBlock),
-                    ["SharedMemoryPerBlock"] = description.GetAttribute(CuDeviceAttribute.SharedMemoryPerBlock)
-                });
-            }
+            var inputBuffer = new Span<byte>(
+                (void*) inputBufferPtr, bufferSize);
 
-            var device = descriptions[0].Device;
+            var nread = fs.Read(inputBuffer);
+            if (nread == 0) break;
 
-            _context = device.CreateContext(CuContextFlags.SchedBlockingSync);
-            _contextLock = _context.CreateLock();
-
-            _window = new DisplayWindow(_context, "Decoded video", 800, 600);
-
-            var parserParams = new CuVideoParserParams
-            {
-                CodecType = _args.Codec,
-                MaxNumDecodeSurfaces = 1,
-                MaxDisplayDelay = 0,
-                ErrorThreshold = 100,
-                UserData = IntPtr.Zero,
-                DisplayPicture = VideoDisplayCallback,
-                DecodePicture = DecodePictureCallback,
-                SequenceCallback = SequenceCallback
-            };
-
-            using var parser = CuVideoParser.Create(ref parserParams);
-            using var fs = File.OpenRead(_args.InputPath);
-            const int bufferSize = 10 * 1024 * 1024;
-            var inputBufferPtr = Marshal.AllocHGlobal(bufferSize);
-            var count = 0;
-
-            var backbuffer = new byte[50 * 1024 * 1024];
-            var backbufferStream = new MemoryStream(backbuffer);
-
-            void SendBackbuffer()
-            {
-                if (backbufferStream.Position == 0) return;
-
-                var span = new Span<byte>(
-                    backbuffer, 0,
-                    (int) backbufferStream.Position);
-
-                parser.ParseVideoData(span);
-
-                Array.Fill<byte>(backbuffer, 0);
-                backbufferStream = new MemoryStream(backbuffer);
-            }
-
-            var watch = Stopwatch.StartNew();
+            var inputStream = inputBuffer.Slice(0, nread);
 
             while (true)
             {
-                // AV1 uses size-delimited OBUs, not H.264/HEVC NAL start codes.
-                // Submit complete OBUs even when a file read splits a unit.
-                if (_args.Codec == CuVideoCodec.AV1)
+                var packet = NalPacket.ReadNextPacket(ref inputStream);
+
+                if (packet.PacketPrefix.Length > 0)
                 {
-                    var obu = Av1ObuReader.ReadNext(fs);
-                    if (obu == null) break;
-                    parser.ParseVideoData(obu);
-                    ++count;
-                    continue;
+                    backbufferStream.Write(packet.PacketPrefix);
                 }
 
-                var inputBuffer = new Span<byte>(
-                    (void*) inputBufferPtr, bufferSize);
-
-                var nread = fs.Read(inputBuffer);
-                if (nread == 0) break;
-
-                var inputStream = inputBuffer.Slice(0, nread);
-
-                while (true)
+                // A new NAL completes the buffered one, even with no prefix bytes.
+                if (NalPacket.IndexOfSignature(packet.Packet, out _) == 0)
                 {
-                    var packet = NalPacket.ReadNextPacket(ref inputStream);
-
-                    if (packet.PacketPrefix.Length > 0)
-                    {
-                        backbufferStream.Write(packet.PacketPrefix);
-                    }
-
-                    // A new NAL completes the buffered one, even with no prefix bytes.
-                    if (NalPacket.IndexOfSignature(packet.Packet, out _) == 0)
-                    {
-                        SendBackbuffer();
-                    }
-
-                    if (packet.Packet.Length == 0)
-                    {
-                        break;
-                    }
-
-                    if (packet.Complete)
-                    {
-                        parser.ParseVideoData(packet.Packet);
-                    }
-                    else
-                    {
-                        backbufferStream.Write(packet.Packet);
-                    }
-
-                    ++count;
-
-                    if (inputStream.Length == 0) break;
+                    SendBackbuffer();
                 }
+
+                if (packet.Packet.Length == 0)
+                {
+                    break;
+                }
+
+                if (packet.Complete)
+                {
+                    parser.ParseVideoData(packet.Packet);
+                }
+                else
+                {
+                    backbufferStream.Write(packet.Packet);
+                }
+
+                ++count;
+
+                if (inputStream.Length == 0) break;
             }
-
-            SendBackbuffer();
-            parser.SendEndOfStream();
-
-            _renderingCompleted.Wait();
-            watch.Stop();
-
-            Marshal.FreeHGlobal(inputBufferPtr);
-            Console.WriteLine($"Sent {count} packets.");
-            Console.WriteLine($"Rendered {_displayedFrames} in {watch.Elapsed}. ~{Math.Round(_displayedFrames / watch.Elapsed.TotalSeconds, 2)} FPS.");
-
-            return 0;
         }
 
-        private void AllocateNv12FrameBuffer(
-            CuMemoryType type, IntPtr frameByteSize,
-            out CuDeviceMemory frameDevicePtr,
-            out IntPtr frameLocalPtr)
+        SendBackbuffer();
+        parser.SendEndOfStream();
+
+        _renderingCompleted.Wait();
+        watch.Stop();
+
+        Marshal.FreeHGlobal(inputBufferPtr);
+        Console.WriteLine($"Sent {count} packets.");
+        Console.WriteLine($"Rendered {_displayedFrames} in {watch.Elapsed}. ~{Math.Round(_displayedFrames / watch.Elapsed.TotalSeconds, 2)} FPS.");
+
+        return 0;
+    }
+
+    private void AllocateNv12FrameBuffer(
+        CuMemoryType type, IntPtr frameByteSize,
+        out CuDeviceMemory frameDevicePtr,
+        out IntPtr frameLocalPtr)
+    {
+        frameDevicePtr = default;
+        frameLocalPtr = default;
+
+        var pooled = _nv12BufferPool.Get();
+
+        if (pooled != null)
         {
-            frameDevicePtr = default;
-            frameLocalPtr = default;
-
-            var pooled = _nv12BufferPool.Get();
-
-            if (pooled != null)
+            // Only use exact size matches to allow memory reduction when
+            // sizing down.
+            if (pooled.Size == frameByteSize &&
+                pooled.MemoryType == type)
             {
-                // Only use exact size matches to allow memory reduction when
-                // sizing down.
-                if (pooled.Size == frameByteSize &&
-                    pooled.MemoryType == type)
-                {
-                    frameLocalPtr = pooled.Bytes;
-                    frameDevicePtr = pooled.DeviceMemory;
-                    return;
-                }
-
-                // The memory type or size has changed. Deallocate the old
-                // buffer and allocate new.
-                pooled.Dispose();
-            }
-
-            if (type == CuMemoryType.Host)
-            {
-                frameLocalPtr = Marshal.AllocHGlobal(frameByteSize);
+                frameLocalPtr = pooled.Bytes;
+                frameDevicePtr = pooled.DeviceMemory;
                 return;
             }
 
-            frameDevicePtr = CuDeviceMemory.Allocate(frameByteSize);
+            // The memory type or size has changed. Deallocate the old
+            // buffer and allocate new.
+            pooled.Dispose();
         }
 
-        private CuCallbackResult VideoDisplayCallback(
-            IntPtr data, IntPtr infoPtr)
+        if (type == CuMemoryType.Host)
         {
-            using var _ = _context.Push();
-
-            if (CuVideoParseDisplayInfo.IsFinalFrame(infoPtr, out var info))
-            {
-                return QueueFrame(FrameInformation.FinalFrame);
-            }
-
-            var processingParam = new CuVideoProcParams
-            {
-                ProgressiveFrame = info.ProgressiveFrame,
-                SecondField = info.RepeatFirstField + 1,
-                TopFieldFirst = info.TopFieldFirst,
-                UnpairedField = info.RepeatFirstField < 0 ? 1 : 0
-            };
-
-            using var frame = _decoder.MapVideoFrame(
-                info.PictureIndex, ref processingParam,
-                out var pitch);
-
-            var yuvInfo = _info.GetYuvInformation(pitch);
-            var status = _decoder.GetDecodeStatus(info.PictureIndex);
-
-            if (status != CuVideoDecodeStatus.Success)
-            {
-                // TODO: Determine what to do in this situation. This condition
-                // is non-exceptional but may require different handling?
-            }
-
-            var frameByteSize = _info.GetFrameByteSize(
-                pitch, out var chromaHeight);
-
-            var destMemoryType = _useHostMemory
-                ? CuMemoryType.Host
-                : CuMemoryType.Device;
-
-            AllocateNv12FrameBuffer(
-                destMemoryType, frameByteSize,
-                out var frameDevicePtr, out var frameLocalPtr);
-
-            var byteWidth = _info.Width * _info.GetBytesPerPixel();
-
-            // Copy luma
-            var memcopy = new CuMemcopy2D
-            {
-                SrcMemoryType = CuMemoryType.Device,
-                SrcDevice = frame,
-                SrcPitch = (IntPtr)pitch,
-                DstMemoryType = destMemoryType,
-                DstDevice = frameDevicePtr,
-                DstHost = frameLocalPtr,
-                DstPitch = (IntPtr)byteWidth,
-                WidthInBytes = (IntPtr)byteWidth,
-                Height = (IntPtr)_info.Height
-            };
-
-            memcopy.Memcpy2D();
-
-            // Copy chroma
-            memcopy.SrcDevice = new CuDevicePtr(frame.Handle + pitch * _info.Height);
-            memcopy.DstDevice = new CuDevicePtr(frameDevicePtr.Handle + byteWidth * _info.Height);
-            memcopy.DstHost = frameLocalPtr + byteWidth * _info.Height;
-            memcopy.Height = (IntPtr)chromaHeight;
-            memcopy.Memcpy2D();
-
-            var bufferStorage = new BufferStorage(
-                frameLocalPtr, destMemoryType,
-                frameDevicePtr, frameByteSize);
-
-            var frameInfo = new FrameInformation(
-                bufferStorage, pitch, _info, yuvInfo, _frameDuration);
-
-            return QueueFrame(frameInfo);
+            frameLocalPtr = Marshal.AllocHGlobal(frameByteSize);
+            return;
         }
 
-        private CuCallbackResult QueueFrame(FrameInformation frame)
+        frameDevicePtr = CuDeviceMemory.Allocate(frameByteSize);
+    }
+
+    private CuCallbackResult VideoDisplayCallback(IntPtr data, IntPtr infoPtr)
+    {
+        using var _ = _context.Push();
+
+        if (CuVideoParseDisplayInfo.IsFinalFrame(infoPtr, out var info))
         {
-            try
-            {
-                _framesChannel.Writer.WriteAsync(frame, _cts.Token)
-                    .AsTask().GetAwaiter().GetResult();
-                return CuCallbackResult.Success;
-            }
-            catch (OperationCanceledException)
-            {
-                frame.Buffer?.Dispose();
-                return CuCallbackResult.Failure;
-            }
+            return QueueFrame(FrameInformation.FinalFrame);
         }
 
-        private CuCallbackResult DecodePictureCallback(
-            IntPtr data, ref CuVideoPicParams param)
+        var processingParam = new CuVideoProcParams
         {
-            _decoder.DecodePicture(ref param);
+            ProgressiveFrame = info.ProgressiveFrame,
+            SecondField = info.RepeatFirstField + 1,
+            TopFieldFirst = info.TopFieldFirst,
+            UnpairedField = info.RepeatFirstField < 0 ? 1 : 0
+        };
+
+        using var frame = _decoder.MapVideoFrame(
+            info.PictureIndex, ref processingParam,
+            out var pitch);
+
+        var yuvInfo = _info.GetYuvInformation(pitch);
+        var status = _decoder.GetDecodeStatus(info.PictureIndex);
+
+        if (status != CuVideoDecodeStatus.Success)
+        {
+            // TODO: Determine what to do in this situation. This condition
+            // is non-exceptional but may require different handling?
+        }
+
+        var frameByteSize = _info.GetFrameByteSize(
+            pitch, out var chromaHeight);
+
+        var destMemoryType = _useHostMemory
+            ? CuMemoryType.Host
+            : CuMemoryType.Device;
+
+        AllocateNv12FrameBuffer(
+            destMemoryType, frameByteSize,
+            out var frameDevicePtr, out var frameLocalPtr);
+
+        var byteWidth = _info.Width * _info.GetBytesPerPixel();
+
+        // Copy luma
+        var memcopy = new CuMemcopy2D
+        {
+            SrcMemoryType = CuMemoryType.Device,
+            SrcDevice = frame,
+            SrcPitch = (IntPtr)pitch,
+            DstMemoryType = destMemoryType,
+            DstDevice = frameDevicePtr,
+            DstHost = frameLocalPtr,
+            DstPitch = (IntPtr)byteWidth,
+            WidthInBytes = (IntPtr)byteWidth,
+            Height = (IntPtr)_info.Height
+        };
+
+        memcopy.Memcpy2D();
+
+        // Copy chroma
+        memcopy.SrcDevice = new CuDevicePtr(frame.Handle + pitch * _info.Height);
+        memcopy.DstDevice = new CuDevicePtr(frameDevicePtr.Handle + byteWidth * _info.Height);
+        memcopy.DstHost = frameLocalPtr + byteWidth * _info.Height;
+        memcopy.Height = (IntPtr)chromaHeight;
+        memcopy.Memcpy2D();
+
+        var bufferStorage = new BufferStorage(
+            frameLocalPtr, destMemoryType,
+            frameDevicePtr, frameByteSize);
+
+        var frameInfo = new FrameInformation(
+            bufferStorage, pitch, _info, yuvInfo, _frameDuration);
+
+        return QueueFrame(frameInfo);
+    }
+
+    private CuCallbackResult QueueFrame(FrameInformation frame)
+    {
+        try
+        {
+            _framesChannel.Writer.WriteAsync(frame, _cts.Token)
+                .AsTask().GetAwaiter().GetResult();
+            return CuCallbackResult.Success;
+        }
+        catch (OperationCanceledException)
+        {
+            frame.Buffer?.Dispose();
+            return CuCallbackResult.Failure;
+        }
+    }
+
+    private CuCallbackResult DecodePictureCallback(IntPtr data, ref CuVideoPicParams param)
+    {
+        _decoder.DecodePicture(ref param);
+        return CuCallbackResult.Success;
+    }
+
+    private CuCallbackResult SequenceCallback(IntPtr data, ref CuVideoFormat format)
+    {
+        // Display and bitmap conversion only support 8-bit NV12 surfaces.
+        // Check every sequence, including changes to an existing decoder.
+        if (format.Codec != _args.Codec ||
+            format.ChromaFormat != CuVideoChromaFormat.YUV420 ||
+            format.BitDepthLumaMinus8 != 0 || format.BitDepthChromaMinus8 != 0)
+        {
+            Console.Error.WriteLine(
+                $"This sample requires 8-bit 4:2:0 {_args.Codec}. Received {format.Codec}, " +
+                $"{format.ChromaFormat}, luma {format.BitDepthLumaMinus8 + 8}-bit, " +
+                $"chroma {format.BitDepthChromaMinus8 + 8}-bit.");
+            return CuCallbackResult.Failure;
+        }
+
+        using var _ = _context.Push();
+
+        var hasFrameRate = format.FrameRateNumerator > 0 && format.FrameRateDenominator > 0;
+        // Raw streams can omit timing metadata; assume 30 FPS in that case.
+        _frameDuration = TimeSpan.FromTicks(hasFrameRate
+            ? TimeSpan.TicksPerSecond * format.FrameRateDenominator / format.FrameRateNumerator
+            : TimeSpan.TicksPerSecond / 30);
+
+        PrintInformation("CuVideoFormat", new Dictionary<string, object>
+        {
+            ["Codec"] = format.Codec,
+            ["Bitrate"] = format.Bitrate,
+            ["CodedWidth"] = format.CodedWidth,
+            ["CodedHeight"] = format.CodedHeight,
+            ["Framerate"] = hasFrameRate
+                ? (object)((double)format.FrameRateNumerator / format.FrameRateDenominator)
+                : "Unknown (using 30 FPS)",
+        });
+
+        if (!format.IsSupportedByDecoder(out var error, out var caps))
+        {
+            Console.Error.WriteLine(error);
+            Environment.Exit(-1);
+            return CuCallbackResult.Failure;
+        }
+
+        PrintInformation("CuVideoDecodeCaps", new Dictionary<string, object>
+        {
+            ["MaxWidth"] = caps.MaxWidth,
+            ["MaxHeight"] = caps.MaxHeight,
+        });
+
+        if (!_decoder.IsEmpty)
+        {
+            _decoder.Reconfigure(ref format);
             return CuCallbackResult.Success;
         }
 
-        private CuCallbackResult SequenceCallback(
-            IntPtr data, ref CuVideoFormat format)
+        _info = new CuVideoDecodeCreateInfo
         {
-            // Display and bitmap conversion only support 8-bit NV12 surfaces.
-            // Check every sequence, including changes to an existing decoder.
-            if (format.Codec != _args.Codec ||
-                format.ChromaFormat != CuVideoChromaFormat.YUV420 ||
-                format.BitDepthLumaMinus8 != 0 || format.BitDepthChromaMinus8 != 0)
-            {
-                Console.Error.WriteLine(
-                    $"This sample requires 8-bit 4:2:0 {_args.Codec}. Received {format.Codec}, " +
-                    $"{format.ChromaFormat}, luma {format.BitDepthLumaMinus8 + 8}-bit, " +
-                    $"chroma {format.BitDepthChromaMinus8 + 8}-bit.");
-                return CuCallbackResult.Failure;
-            }
+            CodecType = format.Codec,
+            ChromaFormat = format.ChromaFormat,
+            OutputFormat = CuVideoSurfaceFormat.NV12,
+            BitDepthMinus8 = format.BitDepthLumaMinus8,
+            DeinterlaceMode = format.ProgressiveSequence
+                ? CuVideoDeinterlaceMode.Weave
+                : CuVideoDeinterlaceMode.Adaptive,
+            NumOutputSurfaces = 2,
+            CreationFlags = CuVideoCreateFlags.PreferCUVID,
+            NumDecodeSurfaces = format.MinNumDecodeSurfaces,
+            VideoLock = _contextLock,
+            Width = format.CodedWidth,
+            Height = format.CodedHeight,
+            MaxWidth = format.CodedWidth,
+            MaxHeight = format.CodedHeight,
+            TargetWidth = format.CodedWidth,
+            TargetHeight = format.CodedHeight
+        };
 
-            using var _ = _context.Push();
+        _decoder = CuVideoDecoder.Create(ref _info);
 
-            var hasFrameRate = format.FrameRateNumerator > 0 && format.FrameRateDenominator > 0;
-            // Raw streams can omit timing metadata; assume 30 FPS in that case.
-            _frameDuration = TimeSpan.FromTicks(hasFrameRate
-                ? TimeSpan.TicksPerSecond * format.FrameRateDenominator / format.FrameRateNumerator
-                : TimeSpan.TicksPerSecond / 30);
+        return (CuCallbackResult)format.MinNumDecodeSurfaces;
+    }
 
-            PrintInformation("CuVideoFormat", new Dictionary<string, object>
-            {
-                ["Codec"] = format.Codec,
-                ["Bitrate"] = format.Bitrate,
-                ["CodedWidth"] = format.CodedWidth,
-                ["CodedHeight"] = format.CodedHeight,
-                ["Framerate"] = hasFrameRate
-                    ? (object)((double)format.FrameRateNumerator / format.FrameRateDenominator)
-                    : "Unknown (using 30 FPS)",
-            });
-
-            if (!format.IsSupportedByDecoder(out var error, out var caps))
-            {
-                Console.Error.WriteLine(error);
-                Environment.Exit(-1);
-                return CuCallbackResult.Failure;
-            }
-
-            PrintInformation("CuVideoDecodeCaps", new Dictionary<string, object>
-            {
-                ["MaxWidth"] = caps.MaxWidth,
-                ["MaxHeight"] = caps.MaxHeight,
-            });
-
-            if (!_decoder.IsEmpty)
-            {
-                _decoder.Reconfigure(ref format);
-                return CuCallbackResult.Success;
-            }
-
-            _info = new CuVideoDecodeCreateInfo
-            {
-                CodecType = format.Codec,
-                ChromaFormat = format.ChromaFormat,
-                OutputFormat = CuVideoSurfaceFormat.NV12,
-                BitDepthMinus8 = format.BitDepthLumaMinus8,
-                DeinterlaceMode = format.ProgressiveSequence
-                    ? CuVideoDeinterlaceMode.Weave
-                    : CuVideoDeinterlaceMode.Adaptive,
-                NumOutputSurfaces = 2,
-                CreationFlags = CuVideoCreateFlags.PreferCUVID,
-                NumDecodeSurfaces = format.MinNumDecodeSurfaces,
-                VideoLock = _contextLock,
-                Width = format.CodedWidth,
-                Height = format.CodedHeight,
-                MaxWidth = format.CodedWidth,
-                MaxHeight = format.CodedHeight,
-                TargetWidth = format.CodedWidth,
-                TargetHeight = format.CodedHeight
-            };
-
-            _decoder = CuVideoDecoder.Create(ref _info);
-
-            return (CuCallbackResult)format.MinNumDecodeSurfaces;
-        }
-
-        private void DisplayThread()
+    private void DisplayThread()
+    {
+        while (!_isDisposed)
         {
-            while (!_isDisposed)
+            try
             {
-                try
-                {
-                    DisplayThreadCore();
-                }
-                catch (OperationCanceledException)
-                {
-                    // Program is exiting.
-                    return;
-                }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine(e);
-                    throw;
-                }
+                DisplayThreadCore();
             }
-        }
-
-        private void DisplayThreadCore()
-        {
-            var frame = _framesChannel.Reader
-                .ReadAsync(_cts.Token)
-                .AsTask().GetAwaiter().GetResult();
-
-            if (frame.IsFinalFrame)
+            catch (OperationCanceledException)
             {
-                _renderingCompleted.Set();
+                // Program is exiting.
                 return;
             }
-
-            using var _lease = _nv12BufferPool.Lease(frame.Buffer);
-            using var _ = _context.Push();
-
-            if (!_playbackClock.IsRunning)
+            catch (Exception e)
             {
-                _playbackClock.Start();
-            }
-
-            var delay = _nextFrameTime - _playbackClock.Elapsed;
-            if (delay > TimeSpan.Zero)
-            {
-                _cts.Token.WaitHandle.WaitOne(delay);
-            }
-
-            _cts.Token.ThrowIfCancellationRequested();
-
-            _window.FrameArrived(frame);
-
-            if (_args.WriteBitmap)
-            {
-                SaveAsBitmap(
-                    frame,
-                    Path.Combine(_args.BitmapPath, $"output-{_displayedFrames:D8}.bmp"));
-            }
-
-            ++_displayedFrames;
-            _nextFrameTime += frame.Duration;
-        }
-
-        private static void SaveAsBitmap(
-            FrameInformation frame,
-            string filename)
-        {
-            var width = frame.Info.Width;
-            var height = frame.Info.Height;
-
-            using var bitmap = new Bitmap(
-                width, height,
-                PixelFormat.Format32bppRgb);
-
-            var locked = bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                ImageLockMode.WriteOnly, bitmap.PixelFormat);
-
-            frame.DecodeToHostRgba32((byte*)locked.Scan0);
-
-            bitmap.UnlockBits(locked);
-            bitmap.Save(filename, ImageFormat.Bmp);
-        }
-
-        private static void PrintInformation(
-            string title,
-            Dictionary<string, object> info)
-        {
-            Console.WriteLine(title);
-            foreach (var (key, value) in info)
-            {
-                Console.WriteLine($"  + {key}: {value}");
-            }
-
-            Console.WriteLine();
-        }
-
-        public void Dispose()
-        {
-            _isDisposed = true;
-            _cts.Cancel();
-            _displayThread.Join();
-            while (_framesChannel.Reader.TryRead(out var frame))
-            {
-                frame.Buffer?.Dispose();
-            }
-            _decoder.Dispose();
-            _contextLock.Dispose();
-            _context.Dispose();
-            _renderingCompleted.Dispose();
-            _cts.Dispose();
-        }
-    }
-
-    internal class BufferStorage : IDisposable
-    {
-        public IntPtr Bytes { get; set; }
-        public CuMemoryType MemoryType { get; set; }
-        public CuDeviceMemory DeviceMemory { get; set; }
-        public IntPtr Size { get; set; }
-
-        public BufferStorage(
-            IntPtr bytes,
-            CuMemoryType memoryType,
-            CuDeviceMemory deviceMemory,
-            IntPtr size)
-        {
-            Bytes = bytes;
-            Size = size;
-            DeviceMemory = deviceMemory;
-            MemoryType = memoryType;
-        }
-
-        private int _disposed = 0;
-
-        public void Dispose()
-        {
-            if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
-
-            switch (MemoryType)
-            {
-                case CuMemoryType.Device:
-                    DeviceMemory.Dispose();
-                    DeviceMemory = CuDeviceMemory.Empty;
-                    break;
-                case CuMemoryType.Host:
-                    Marshal.FreeHGlobal(Bytes);
-                    Bytes = IntPtr.Zero;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(MemoryType), MemoryType, "Unsupported memory type.");
+                Console.Error.WriteLine(e);
+                throw;
             }
         }
     }
 
-    internal class FrameInformation
+    private void DisplayThreadCore()
     {
-        public BufferStorage? Buffer { get; set; }
-        public int Pitch { get; set; }
-        public CuVideoDecodeCreateInfo Info { get; set; }
-        public YuvInformation YuvInfo { get; set; }
-        public TimeSpan Duration { get; set; }
-        public bool IsFinalFrame { get; set; }
+        var frame = _framesChannel.Reader
+            .ReadAsync(_cts.Token)
+            .AsTask().GetAwaiter().GetResult();
 
-        private BufferStorage DemandBuffer() => Buffer ?? throw new ArgumentNullException(nameof(Buffer));
-
-        public static FrameInformation FinalFrame => new FrameInformation(true);
-
-        public FrameInformation(
-            BufferStorage buffer,
-            int pitch,
-            CuVideoDecodeCreateInfo info,
-            YuvInformation yuvInfo,
-            TimeSpan duration)
+        if (frame.IsFinalFrame)
         {
-            Buffer = buffer;
-            Pitch = pitch;
-            Info = info;
-            YuvInfo = yuvInfo;
-            Duration = duration;
+            _renderingCompleted.Set();
+            return;
         }
 
-        private FrameInformation(bool isFinalFrame)
+        using var _lease = _nv12BufferPool.Lease(frame.Buffer);
+        using var _ = _context.Push();
+
+        if (!_playbackClock.IsRunning)
         {
-            IsFinalFrame = isFinalFrame;
+            _playbackClock.Start();
         }
 
-        public int GetRgba32Size()
+        var delay = _nextFrameTime - _playbackClock.Elapsed;
+        if (delay > TimeSpan.Zero)
         {
-            return Info.Width * Info.Height * 4;
+            _cts.Token.WaitHandle.WaitOne(delay);
         }
 
-        public unsafe void DecodeToHostRgba32(byte* destinationPtr)
+        _cts.Token.ThrowIfCancellationRequested();
+
+        _window.FrameArrived(frame);
+
+        if (_args.WriteBitmap)
         {
-            var width = Info.Width;
-            var height = Info.Height;
-            var buffer = DemandBuffer();
-            const int rgbBpp = 4;
-            var rgbSize = GetRgba32Size();
+            SaveAsBitmap(
+                frame,
+                Path.Combine(_args.BitmapPath, $"output-{_displayedFrames:D8}.bmp"));
+        }
+
+        ++_displayedFrames;
+        _nextFrameTime += frame.Duration;
+    }
+
+    private static void SaveAsBitmap(
+        FrameInformation frame,
+        string filename)
+    {
+        var width = frame.Info.Width;
+        var height = frame.Info.Height;
+
+        using var bitmap = new Bitmap(
+            width, height,
+            PixelFormat.Format32bppRgb);
+
+        var locked = bitmap.LockBits(
+            new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+            ImageLockMode.WriteOnly, bitmap.PixelFormat);
+
+        frame.DecodeToHostRgba32((byte*)locked.Scan0);
+
+        bitmap.UnlockBits(locked);
+        bitmap.Save(filename, ImageFormat.Bmp);
+    }
+
+    private static void PrintInformation(
+        string title,
+        Dictionary<string, object> info)
+    {
+        Console.WriteLine(title);
+        foreach (var (key, value) in info)
+        {
+            Console.WriteLine($"  + {key}: {value}");
+        }
+
+        Console.WriteLine();
+    }
+
+    public void Dispose()
+    {
+        _isDisposed = true;
+        _cts.Cancel();
+        _displayThread.Join();
+        while (_framesChannel.Reader.TryRead(out var frame))
+        {
+            frame.Buffer?.Dispose();
+        }
+        _decoder.Dispose();
+        _contextLock.Dispose();
+        _context.Dispose();
+        _renderingCompleted.Dispose();
+        _cts.Dispose();
+    }
+}
+
+internal class BufferStorage : IDisposable
+{
+    public IntPtr Bytes { get; set; }
+    public CuMemoryType MemoryType { get; set; }
+    public CuDeviceMemory DeviceMemory { get; set; }
+    public IntPtr Size { get; set; }
+
+    public BufferStorage(
+        IntPtr bytes,
+        CuMemoryType memoryType,
+        CuDeviceMemory deviceMemory,
+        IntPtr size)
+    {
+        Bytes = bytes;
+        Size = size;
+        DeviceMemory = deviceMemory;
+        MemoryType = memoryType;
+    }
+
+    private int _disposed = 0;
+
+    public void Dispose()
+    {
+        if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+
+        switch (MemoryType)
+        {
+            case CuMemoryType.Device:
+                DeviceMemory.Dispose();
+                DeviceMemory = CuDeviceMemory.Empty;
+                break;
+            case CuMemoryType.Host:
+                Marshal.FreeHGlobal(Bytes);
+                Bytes = IntPtr.Zero;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(MemoryType), MemoryType, "Unsupported memory type.");
+        }
+    }
+}
+
+internal class FrameInformation
+{
+    public BufferStorage? Buffer { get; set; }
+    public int Pitch { get; set; }
+    public CuVideoDecodeCreateInfo Info { get; set; }
+    public YuvInformation YuvInfo { get; set; }
+    public TimeSpan Duration { get; set; }
+    public bool IsFinalFrame { get; set; }
+
+    private BufferStorage DemandBuffer() => Buffer ?? throw new ArgumentNullException(nameof(Buffer));
+
+    public static FrameInformation FinalFrame => new FrameInformation(true);
+
+    public FrameInformation(
+        BufferStorage buffer,
+        int pitch,
+        CuVideoDecodeCreateInfo info,
+        YuvInformation yuvInfo,
+        TimeSpan duration)
+    {
+        Buffer = buffer;
+        Pitch = pitch;
+        Info = info;
+        YuvInfo = yuvInfo;
+        Duration = duration;
+    }
+
+    private FrameInformation(bool isFinalFrame)
+    {
+        IsFinalFrame = isFinalFrame;
+    }
+
+    public int GetRgba32Size()
+    {
+        return Info.Width * Info.Height * 4;
+    }
+
+    public unsafe void DecodeToHostRgba32(byte* destinationPtr)
+    {
+        var width = Info.Width;
+        var height = Info.Height;
+        var buffer = DemandBuffer();
+        const int rgbBpp = 4;
+        var rgbSize = GetRgba32Size();
+
+        switch (buffer.MemoryType)
+        {
+            case CuMemoryType.Host:
+                LibYuvSharp.LibYuv.NV12ToARGB(
+                    (byte*)buffer.Bytes, YuvInfo.LumaPitch,
+                    (byte*)buffer.Bytes + YuvInfo.ChromaOffset,
+                    YuvInfo.ChromaPitch,
+                    destinationPtr, width * rgbBpp, width, height);
+
+                break;
+            case CuMemoryType.Device:
+                using (var destPtr = CuDeviceMemory.Allocate(rgbSize))
+                {
+                    LibCudaLibrary.Nv12ToBGRA32(
+                        buffer.DeviceMemory.Handle, width,
+                        destPtr, width * rgbBpp, width, height);
+
+                    destPtr.CopyToHost(destinationPtr, rgbSize);
+                }
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(
+                    nameof(buffer.MemoryType), buffer.MemoryType,
+                    "Unsupported buffer memory type.");
+        }
+    }
+
+    public void DecodeToDeviceRgba32(
+        IntPtr destinationPtr,
+        Size? resize = null)
+    {
+        var width = Info.Width;
+        var height = Info.Height;
+        var buffer = DemandBuffer();
+        const int rgbBpp = 4;
+
+        var source = buffer.DeviceMemory;
+        var hasNewSource = false;
+
+        try
+        {
+            // This code path does not appear to properly resize the
+            // window.
+            if (resize.HasValue)
+            {
+                var newWidth = resize.Value.Width;
+                var newHeight = resize.Value.Height;
+
+                // This buffer size allocation is incorrect but should be
+                // oversized enough to be fine.
+                source = CuDeviceMemory.Allocate(
+                    newWidth * newHeight * rgbBpp);
+                hasNewSource = true;
+
+                LibCudaLibrary.ResizeNv12(
+                    source, newWidth, newWidth, newHeight,
+                    buffer.DeviceMemory, Pitch, width, height,
+                    CuDevicePtr.Empty);
+
+                width = newWidth;
+                height = newHeight;
+            }
 
             switch (buffer.MemoryType)
             {
-                case CuMemoryType.Host:
-                    LibYuvSharp.LibYuv.NV12ToARGB(
-                        (byte*)buffer.Bytes, YuvInfo.LumaPitch,
-                        (byte*)buffer.Bytes + YuvInfo.ChromaOffset,
-                        YuvInfo.ChromaPitch,
-                        destinationPtr, width * rgbBpp, width, height);
-
-                    break;
                 case CuMemoryType.Device:
-                    using (var destPtr = CuDeviceMemory.Allocate(rgbSize))
-                    {
-                        LibCudaLibrary.Nv12ToBGRA32(
-                            buffer.DeviceMemory.Handle, width,
-                            destPtr, width * rgbBpp, width, height);
-
-                        destPtr.CopyToHost(destinationPtr, rgbSize);
-                    }
-
+                    LibCudaLibrary.Nv12ToBGRA32(
+                        source, width,
+                        destinationPtr, width * rgbBpp, width, height);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(
                         nameof(buffer.MemoryType), buffer.MemoryType,
-                        "Unsupported buffer memory type.");
+                        "Unsupported memory type.");
             }
         }
-
-        public void DecodeToDeviceRgba32(
-            IntPtr destinationPtr,
-            Size? resize = null)
+        finally
         {
-            var width = Info.Width;
-            var height = Info.Height;
-            var buffer = DemandBuffer();
-            const int rgbBpp = 4;
-
-            var source = buffer.DeviceMemory;
-            var hasNewSource = false;
-
-            try
+            if (hasNewSource)
             {
-                // This code path does not appear to properly resize the
-                // window.
-                if (resize.HasValue)
-                {
-                    var newWidth = resize.Value.Width;
-                    var newHeight = resize.Value.Height;
-
-                    // This buffer size allocation is incorrect but should be
-                    // oversized enough to be fine.
-                    source = CuDeviceMemory.Allocate(
-                        newWidth * newHeight * rgbBpp);
-                    hasNewSource = true;
-
-                    LibCudaLibrary.ResizeNv12(
-                        source, newWidth, newWidth, newHeight,
-                        buffer.DeviceMemory, Pitch, width, height,
-                        CuDevicePtr.Empty);
-
-                    width = newWidth;
-                    height = newHeight;
-                }
-
-                switch (buffer.MemoryType)
-                {
-                    case CuMemoryType.Device:
-                        LibCudaLibrary.Nv12ToBGRA32(
-                            source, width,
-                            destinationPtr, width * rgbBpp, width, height);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(
-                            nameof(buffer.MemoryType), buffer.MemoryType,
-                            "Unsupported memory type.");
-                }
-            }
-            finally
-            {
-                if (hasNewSource)
-                {
-                    source.Dispose();
-                }
+                source.Dispose();
             }
         }
     }

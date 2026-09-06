@@ -7,4198 +7,4196 @@ using System.Runtime.InteropServices;
  *******/
 
 // ReSharper disable UnusedMember.Global
-namespace Lennox.NvEncSharp
+namespace Lennox.NvEncSharp;
+
+/// <summary>NV_ENC_CODEC_CONFIG
+/// struct _NV_ENC_CODEC_CONFIG
+/// Codec-specific encoder configuration parameters to be set during initialization.</summary>
+[StructLayout(LayoutKind.Explicit)]
+public unsafe struct NvEncCodecConfig
 {
-    /// <summary>NV_ENC_CODEC_CONFIG
-    /// struct _NV_ENC_CODEC_CONFIG
-    /// Codec-specific encoder configuration parameters to be set during initialization.</summary>
-    [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct NvEncCodecConfig
-    {
-        /// <summary>h264Config: [in]: Specifies the H.264-specific encoder configuration.</summary>
-        [FieldOffset(0)]
-        public NvEncConfigH264 H264Config;
-        /// <summary>hevcConfig: [in]: Specifies the HEVC-specific encoder configuration.</summary>
-        [FieldOffset(0)]
-        public NvEncConfigHevc HevcConfig;
-        /// <summary>av1Config: [in]: Specifies the AV1-specific encoder configuration.</summary>
-        [FieldOffset(0)]
-        public NvEncConfigAv1 Av1Config;
-        /// <summary>h264MeOnlyConfig: [in]: Specifies the H.264-specific ME only encoder configuration.</summary>
-        [FieldOffset(0)]
-        public NvEncConfigH264Meonly H264MeOnlyConfig;
-        /// <summary>hevcMeOnlyConfig: [in]: Specifies the HEVC-specific ME only encoder configuration.</summary>
-        [FieldOffset(0)]
-        public NvEncConfigHevcMeonly HevcMeOnlyConfig;
-        /// <summary>reserved[320]: [in]: Reserved and must be set to 0</summary>
-        [FieldOffset(0)]
-        private fixed uint Reserved[320];
-    }
+    /// <summary>h264Config: [in]: Specifies the H.264-specific encoder configuration.</summary>
+    [FieldOffset(0)]
+    public NvEncConfigH264 H264Config;
+    /// <summary>hevcConfig: [in]: Specifies the HEVC-specific encoder configuration.</summary>
+    [FieldOffset(0)]
+    public NvEncConfigHevc HevcConfig;
+    /// <summary>av1Config: [in]: Specifies the AV1-specific encoder configuration.</summary>
+    [FieldOffset(0)]
+    public NvEncConfigAv1 Av1Config;
+    /// <summary>h264MeOnlyConfig: [in]: Specifies the H.264-specific ME only encoder configuration.</summary>
+    [FieldOffset(0)]
+    public NvEncConfigH264Meonly H264MeOnlyConfig;
+    /// <summary>hevcMeOnlyConfig: [in]: Specifies the HEVC-specific ME only encoder configuration.</summary>
+    [FieldOffset(0)]
+    public NvEncConfigHevcMeonly HevcMeOnlyConfig;
+    /// <summary>reserved[320]: [in]: Reserved and must be set to 0</summary>
+    [FieldOffset(0)]
+    private fixed uint Reserved[320];
+}
 
-    /// <summary>NV_ENC_PIC_PARAMS_H264_EXT
-    /// union _NV_ENC_PIC_PARAMS_H264_EXT
-    /// H264 extension  picture parameters</summary>
-    [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct NvEncPicParamsH264Ext
-    {
-        /// <summary>mvcPicParams: [in]: Specifies the MVC picture parameters.</summary>
-        [FieldOffset(0)]
-        public NvEncPicParamsMvc MvcPicParams;
-        /// <summary>reserved1[32]: [in]: Reserved and must be set to 0.</summary>
-        [FieldOffset(0)]
-        private fixed uint Reserved1[32];
-    }
+/// <summary>NV_ENC_PIC_PARAMS_H264_EXT
+/// union _NV_ENC_PIC_PARAMS_H264_EXT
+/// H264 extension  picture parameters</summary>
+[StructLayout(LayoutKind.Explicit)]
+public unsafe struct NvEncPicParamsH264Ext
+{
+    /// <summary>mvcPicParams: [in]: Specifies the MVC picture parameters.</summary>
+    [FieldOffset(0)]
+    public NvEncPicParamsMvc MvcPicParams;
+    /// <summary>reserved1[32]: [in]: Reserved and must be set to 0.</summary>
+    [FieldOffset(0)]
+    private fixed uint Reserved1[32];
+}
 
-    /// <summary>NV_ENC_CODEC_PIC_PARAMS
-    /// Codec specific per-picture encoding parameters.</summary>
-    [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct NvEncCodecPicParams
-    {
-        /// <summary>h264PicParams: [in]: H264 encode picture params.</summary>
-        [FieldOffset(0)]
-        public NvEncPicParamsH264 H264PicParams;
-        /// <summary>hevcPicParams: [in]: HEVC encode picture params.</summary>
-        [FieldOffset(0)]
-        public NvEncPicParamsHevc HevcPicParams;
-        /// <summary>av1PicParams: [in]: AV1 encode picture params.</summary>
-        [FieldOffset(0)]
-        public NvEncPicParamsAv1 Av1PicParams;
-        /// <summary>reserved[256]: [in]: Reserved and must be set to 0.</summary>
-        [FieldOffset(0)]
-        private fixed uint Reserved[256];
-    }
+/// <summary>NV_ENC_CODEC_PIC_PARAMS
+/// Codec specific per-picture encoding parameters.</summary>
+[StructLayout(LayoutKind.Explicit)]
+public unsafe struct NvEncCodecPicParams
+{
+    /// <summary>h264PicParams: [in]: H264 encode picture params.</summary>
+    [FieldOffset(0)]
+    public NvEncPicParamsH264 H264PicParams;
+    /// <summary>hevcPicParams: [in]: HEVC encode picture params.</summary>
+    [FieldOffset(0)]
+    public NvEncPicParamsHevc HevcPicParams;
+    /// <summary>av1PicParams: [in]: AV1 encode picture params.</summary>
+    [FieldOffset(0)]
+    public NvEncPicParamsAv1 Av1PicParams;
+    /// <summary>reserved[256]: [in]: Reserved and must be set to 0.</summary>
+    [FieldOffset(0)]
+    private fixed uint Reserved[256];
+}
 
-    /// <summary>NVENC_RECT
-    /// struct _NVENC_RECT
-    /// Defines a Rectangle. Used in ::NV_ENC_PREPROCESS_FRAME.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncRect
-    {
-        /// <summary>left: [in]: X coordinate of the upper left corner of rectangular area to be specified.</summary>
-        public uint Left;
-        /// <summary>top: [in]: Y coordinate of the upper left corner of the rectangular area to be specified.</summary>
-        public uint Top;
-        /// <summary>right: [in]: X coordinate of the bottom right corner of the rectangular area to be specified.</summary>
-        public uint Right;
-        /// <summary>bottom: [in]: Y coordinate of the bottom right corner of the rectangular area to be specified.</summary>
-        public uint Bottom;
-    }
+/// <summary>NVENC_RECT
+/// struct _NVENC_RECT
+/// Defines a Rectangle. Used in ::NV_ENC_PREPROCESS_FRAME.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncRect
+{
+    /// <summary>left: [in]: X coordinate of the upper left corner of rectangular area to be specified.</summary>
+    public uint Left;
+    /// <summary>top: [in]: Y coordinate of the upper left corner of the rectangular area to be specified.</summary>
+    public uint Top;
+    /// <summary>right: [in]: X coordinate of the bottom right corner of the rectangular area to be specified.</summary>
+    public uint Right;
+    /// <summary>bottom: [in]: Y coordinate of the bottom right corner of the rectangular area to be specified.</summary>
+    public uint Bottom;
+}
 
-    /// <summary>NV_ENC_CAPS_PARAM
-    /// Input struct for querying Encoding capabilities.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncCapsParam
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CAPS_PARAM_VER</summary>
-        public uint Version;
-        /// <summary>capsToQuery: [in]: Specifies the encode capability to be queried. Client should pass a member for ::NV_ENC_CAPS enum.</summary>
-        public NvEncCaps CapsToQuery;
-        /// <summary>reserved[62]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved[62];
-    }
+/// <summary>NV_ENC_CAPS_PARAM
+/// Input struct for querying Encoding capabilities.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncCapsParam
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CAPS_PARAM_VER</summary>
+    public uint Version;
+    /// <summary>capsToQuery: [in]: Specifies the encode capability to be queried. Client should pass a member for ::NV_ENC_CAPS enum.</summary>
+    public NvEncCaps CapsToQuery;
+    /// <summary>reserved[62]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved[62];
+}
 
-    /// <summary>NV_ENC_RESTORE_ENCODER_STATE_PARAMS
-    /// Restore encoder state parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncRestoreEncoderStateParams
-    {
-        /// <summary>version: [in]: Struct version.</summary>
-        public uint Version;
-        /// <summary>bufferIdx: [in]: State buffer index to which the encoder state will be restored</summary>
-        public uint BufferIdx;
-        /// <summary>state: [in]: State type to restore</summary>
-        public NvEncStateRestoreType State;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>outputBitstream: [in]: Specifies the output buffer pointer, for AV1 encode only.
-        /// Application must call NvEncRestoreEncoderState() API with _NV_ENC_RESTORE_ENCODER_STATE_PARAMS::outputBitstream and
-        /// _NV_ENC_RESTORE_ENCODER_STATE_PARAMS::completionEvent as input when an earlier call to this API returned "NV_ENC_ERR_NEED_MORE_OUTPUT", for AV1 encode.</summary>
-        public NvEncOutputPtr OutputBitstream;
-        /// <summary>completionEvent: [in]: Specifies the completion event when asynchronous mode of encoding is enabled. Used for AV1 encode only.</summary>
-        public IntPtr CompletionEvent;
-        /// <summary>reserved1[64]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[64];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
-    }
+/// <summary>NV_ENC_RESTORE_ENCODER_STATE_PARAMS
+/// Restore encoder state parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncRestoreEncoderStateParams
+{
+    /// <summary>version: [in]: Struct version.</summary>
+    public uint Version;
+    /// <summary>bufferIdx: [in]: State buffer index to which the encoder state will be restored</summary>
+    public uint BufferIdx;
+    /// <summary>state: [in]: State type to restore</summary>
+    public NvEncStateRestoreType State;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>outputBitstream: [in]: Specifies the output buffer pointer, for AV1 encode only.
+    /// Application must call NvEncRestoreEncoderState() API with _NV_ENC_RESTORE_ENCODER_STATE_PARAMS::outputBitstream and
+    /// _NV_ENC_RESTORE_ENCODER_STATE_PARAMS::completionEvent as input when an earlier call to this API returned "NV_ENC_ERR_NEED_MORE_OUTPUT", for AV1 encode.</summary>
+    public NvEncOutputPtr OutputBitstream;
+    /// <summary>completionEvent: [in]: Specifies the completion event when asynchronous mode of encoding is enabled. Used for AV1 encode only.</summary>
+    public IntPtr CompletionEvent;
+    /// <summary>reserved1[64]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[64];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
 
-    /// <summary>NV_ENC_OUTPUT_STATS_BLOCK
-    /// Encoded frame information parameters for every block.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncOutputStatsBlock
-    {
-        /// <summary>version: [in]: Struct version</summary>
-        public uint Version;
-        /// <summary>QP: [out]: QP of the block</summary>
-        public byte QP;
-        /// <summary>reserved[3]: [in]: Reserved and must be set to 0</summary>
-        private fixed byte Reserved[3];
-        /// <summary>bitcount: [out]: Bitcount of the block</summary>
-        public uint Bitcount;
-        /// <summary>reserved1[13]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[13];
-    }
+/// <summary>NV_ENC_OUTPUT_STATS_BLOCK
+/// Encoded frame information parameters for every block.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncOutputStatsBlock
+{
+    /// <summary>version: [in]: Struct version</summary>
+    public uint Version;
+    /// <summary>QP: [out]: QP of the block</summary>
+    public byte QP;
+    /// <summary>reserved[3]: [in]: Reserved and must be set to 0</summary>
+    private fixed byte Reserved[3];
+    /// <summary>bitcount: [out]: Bitcount of the block</summary>
+    public uint Bitcount;
+    /// <summary>reserved1[13]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[13];
+}
 
-    /// <summary>NV_ENC_OUTPUT_STATS_ROW
-    /// Encoded frame information parameters for every row.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncOutputStatsRow
-    {
-        /// <summary>version: [in]: Struct version</summary>
-        public uint Version;
-        /// <summary>QP: [out]: QP of the row</summary>
-        public byte QP;
-        /// <summary>reserved[3]: [in]: Reserved and must be set to 0</summary>
-        private fixed byte Reserved[3];
-        /// <summary>bitcount: [out]: Bitcount of the row</summary>
-        public uint Bitcount;
-        /// <summary>reserved1[13]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[13];
-    }
+/// <summary>NV_ENC_OUTPUT_STATS_ROW
+/// Encoded frame information parameters for every row.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncOutputStatsRow
+{
+    /// <summary>version: [in]: Struct version</summary>
+    public uint Version;
+    /// <summary>QP: [out]: QP of the row</summary>
+    public byte QP;
+    /// <summary>reserved[3]: [in]: Reserved and must be set to 0</summary>
+    private fixed byte Reserved[3];
+    /// <summary>bitcount: [out]: Bitcount of the row</summary>
+    public uint Bitcount;
+    /// <summary>reserved1[13]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[13];
+}
 
-    /// <summary>NV_ENC_ENCODE_OUT_PARAMS
-    /// Encoder Output parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncEncodeOutParams
-    {
-        /// <summary>version: [out]: Struct version.</summary>
-        public uint Version;
-        /// <summary>bitstreamSizeInBytes: [out]: Encoded bitstream size in bytes</summary>
-        public uint BitstreamSizeInBytes;
-        /// <summary>reserved[62]: [out]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved[62];
-    }
+/// <summary>NV_ENC_ENCODE_OUT_PARAMS
+/// Encoder Output parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncEncodeOutParams
+{
+    /// <summary>version: [out]: Struct version.</summary>
+    public uint Version;
+    /// <summary>bitstreamSizeInBytes: [out]: Encoded bitstream size in bytes</summary>
+    public uint BitstreamSizeInBytes;
+    /// <summary>reserved[62]: [out]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved[62];
+}
 
-    /// <summary>NV_ENC_LOOKAHEAD_PIC_PARAMS
-    /// Lookahead picture parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncLookaheadPicParams
-    {
-        /// <summary>version: [in]: Struct version.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>inputBuffer: [in]: Specifies the input buffer pointer. Client must use a pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource() APIs.</summary>
-        public NvEncInputPtr InputBuffer;
-        /// <summary>pictureType: [in]: Specifies input picture type. Client required to be set explicitly by the client if the client has not set NV_ENC_INITALIZE_PARAMS::enablePTD to 1 while calling NvInitializeEncoder.</summary>
-        public NvEncPicType PictureType;
-        /// <summary>reserved1[63]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[63];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
-    }
+/// <summary>NV_ENC_LOOKAHEAD_PIC_PARAMS
+/// Lookahead picture parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncLookaheadPicParams
+{
+    /// <summary>version: [in]: Struct version.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>inputBuffer: [in]: Specifies the input buffer pointer. Client must use a pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource() APIs.</summary>
+    public NvEncInputPtr InputBuffer;
+    /// <summary>pictureType: [in]: Specifies input picture type. Client required to be set explicitly by the client if the client has not set NV_ENC_INITALIZE_PARAMS::enablePTD to 1 while calling NvInitializeEncoder.</summary>
+    public NvEncPicType PictureType;
+    /// <summary>reserved1[63]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[63];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
 
-    /// <summary>NV_ENC_CREATE_INPUT_BUFFER
-    /// Creation parameters for input buffer.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncCreateInputBuffer
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CREATE_INPUT_BUFFER_VER</summary>
-        public uint Version;
-        /// <summary>width: [in]: Input frame width</summary>
-        public uint Width;
-        /// <summary>height: [in]: Input frame height</summary>
-        public uint Height;
-        /// <summary>memoryHeap: [in]: Deprecated. Do not use</summary>
-        public NvEncMemoryHeap MemoryHeap;
-        /// <summary>bufferFmt: [in]: Input buffer format</summary>
-        public NvEncBufferFormat BufferFmt;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>inputBuffer: [out]: Pointer to input buffer</summary>
-        public NvEncInputPtr InputBuffer;
-        /// <summary>pSysMemBuffer: [in]: Pointer to existing system memory buffer</summary>
-        public IntPtr PSysMemBuffer;
-        /// <summary>reserved1[58]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[58];
-        /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[63]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        #endregion Reserved2[63]
-    }
+/// <summary>NV_ENC_CREATE_INPUT_BUFFER
+/// Creation parameters for input buffer.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncCreateInputBuffer
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CREATE_INPUT_BUFFER_VER</summary>
+    public uint Version;
+    /// <summary>width: [in]: Input frame width</summary>
+    public uint Width;
+    /// <summary>height: [in]: Input frame height</summary>
+    public uint Height;
+    /// <summary>memoryHeap: [in]: Deprecated. Do not use</summary>
+    public NvEncMemoryHeap MemoryHeap;
+    /// <summary>bufferFmt: [in]: Input buffer format</summary>
+    public NvEncBufferFormat BufferFmt;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>inputBuffer: [out]: Pointer to input buffer</summary>
+    public NvEncInputPtr InputBuffer;
+    /// <summary>pSysMemBuffer: [in]: Pointer to existing system memory buffer</summary>
+    public IntPtr PSysMemBuffer;
+    /// <summary>reserved1[58]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[58];
+    /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[63]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    #endregion Reserved2[63]
+}
 
-    /// <summary>NV_ENC_CREATE_BITSTREAM_BUFFER
-    /// Creation parameters for output bitstream buffer.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncCreateBitstreamBuffer
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CREATE_BITSTREAM_BUFFER_VER</summary>
-        public uint Version;
-        /// <summary>size: [in]: Deprecated. Do not use</summary>
-        public uint Size;
-        /// <summary>memoryHeap: [in]: Deprecated. Do not use</summary>
-        public NvEncMemoryHeap MemoryHeap;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>bitstreamBuffer: [out]: Pointer to the output bitstream buffer</summary>
-        public NvEncOutputPtr BitstreamBuffer;
-        /// <summary>bitstreamBufferPtr: [out]: Reserved and should not be used</summary>
-        public IntPtr BitstreamBufferPtr;
-        /// <summary>reserved1[58]: [in]: Reserved and should be set to 0</summary>
-        private fixed uint Reserved1[58];
-        /// <summary>reserved2[64]: [in]: Reserved and should be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
-    }
+/// <summary>NV_ENC_CREATE_BITSTREAM_BUFFER
+/// Creation parameters for output bitstream buffer.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncCreateBitstreamBuffer
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CREATE_BITSTREAM_BUFFER_VER</summary>
+    public uint Version;
+    /// <summary>size: [in]: Deprecated. Do not use</summary>
+    public uint Size;
+    /// <summary>memoryHeap: [in]: Deprecated. Do not use</summary>
+    public NvEncMemoryHeap MemoryHeap;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>bitstreamBuffer: [out]: Pointer to the output bitstream buffer</summary>
+    public NvEncOutputPtr BitstreamBuffer;
+    /// <summary>bitstreamBufferPtr: [out]: Reserved and should not be used</summary>
+    public IntPtr BitstreamBufferPtr;
+    /// <summary>reserved1[58]: [in]: Reserved and should be set to 0</summary>
+    private fixed uint Reserved1[58];
+    /// <summary>reserved2[64]: [in]: Reserved and should be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
 
-    /// <summary>NV_ENC_MVECTOR
-    /// Structs needed for ME only mode.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncMvector
-    {
-        /// <summary>mvx: the x component of MV in quarter-pel units</summary>
-        public short Mvx;
-        /// <summary>mvy: the y component of MV in quarter-pel units</summary>
-        public short Mvy;
-    }
+/// <summary>NV_ENC_MVECTOR
+/// Structs needed for ME only mode.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncMvector
+{
+    /// <summary>mvx: the x component of MV in quarter-pel units</summary>
+    public short Mvx;
+    /// <summary>mvy: the y component of MV in quarter-pel units</summary>
+    public short Mvy;
+}
 
-    /// <summary>NV_ENC_H264_MV_DATA
-    /// Motion vector structure per macroblock for H264 motion estimation.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncH264MvData
-    {
-        /// <summary>mv[4]: up to 4 vectors for 8x8 partition</summary>
-        public NvEncMvector Mv0;
-        public NvEncMvector Mv1;
-        public NvEncMvector Mv2;
-        public NvEncMvector Mv3;
-        /// <summary>mbType: 0 (I), 1 (P), 2 (IPCM), 3 (B)</summary>
-        public byte MbType;
-        /// <summary>partitionType: Specifies the block partition type. 0:16x16, 1:8x8, 2:16x8, 3:8x16</summary>
-        public byte PartitionType;
-        /// <summary>reserved: reserved padding for alignment</summary>
-        private ushort Reserved;
-        /// <summary>mbCost</summary>
-        public uint MbCost;
-    }
+/// <summary>NV_ENC_H264_MV_DATA
+/// Motion vector structure per macroblock for H264 motion estimation.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncH264MvData
+{
+    /// <summary>mv[4]: up to 4 vectors for 8x8 partition</summary>
+    public NvEncMvector Mv0;
+    public NvEncMvector Mv1;
+    public NvEncMvector Mv2;
+    public NvEncMvector Mv3;
+    /// <summary>mbType: 0 (I), 1 (P), 2 (IPCM), 3 (B)</summary>
+    public byte MbType;
+    /// <summary>partitionType: Specifies the block partition type. 0:16x16, 1:8x8, 2:16x8, 3:8x16</summary>
+    public byte PartitionType;
+    /// <summary>reserved: reserved padding for alignment</summary>
+    private ushort Reserved;
+    /// <summary>mbCost</summary>
+    public uint MbCost;
+}
 
-    /// <summary>NV_ENC_HEVC_MV_DATA
-    /// Motion vector structure per CU for HEVC motion estimation.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncHevcMvData
-    {
-        /// <summary>mv[4]: up to 4 vectors within a CU</summary>
-        public NvEncMvector Mv0;
-        public NvEncMvector Mv1;
-        public NvEncMvector Mv2;
-        public NvEncMvector Mv3;
-        /// <summary>cuType: 0 (I), 1(P)</summary>
-        public byte CuType;
-        /// <summary>cuSize: 0: 8x8, 1: 16x16, 2: 32x32, 3: 64x64</summary>
-        public byte CuSize;
-        /// <summary>partitionMode: The CU partition mode
-        /// 0 (2Nx2N), 1 (2NxN), 2(Nx2N), 3 (NxN),
-        /// 4 (2NxnU), 5 (2NxnD), 6(nLx2N), 7 (nRx2N)</summary>
-        public byte PartitionMode;
-        /// <summary>lastCUInCTB: Marker to separate CUs in the current CTB from CUs in the next CTB</summary>
-        public byte LastCUInCTB;
-    }
+/// <summary>NV_ENC_HEVC_MV_DATA
+/// Motion vector structure per CU for HEVC motion estimation.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncHevcMvData
+{
+    /// <summary>mv[4]: up to 4 vectors within a CU</summary>
+    public NvEncMvector Mv0;
+    public NvEncMvector Mv1;
+    public NvEncMvector Mv2;
+    public NvEncMvector Mv3;
+    /// <summary>cuType: 0 (I), 1(P)</summary>
+    public byte CuType;
+    /// <summary>cuSize: 0: 8x8, 1: 16x16, 2: 32x32, 3: 64x64</summary>
+    public byte CuSize;
+    /// <summary>partitionMode: The CU partition mode
+    /// 0 (2Nx2N), 1 (2NxN), 2(Nx2N), 3 (NxN),
+    /// 4 (2NxnU), 5 (2NxnD), 6(nLx2N), 7 (nRx2N)</summary>
+    public byte PartitionMode;
+    /// <summary>lastCUInCTB: Marker to separate CUs in the current CTB from CUs in the next CTB</summary>
+    public byte LastCUInCTB;
+}
 
-    /// <summary>NV_ENC_CREATE_MV_BUFFER
-    /// Creation parameters for output motion vector buffer for ME only mode.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncCreateMvBuffer
-    {
-        /// <summary>version: [in]: Struct version. Must be set to NV_ENC_CREATE_MV_BUFFER_VER</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and should be set to 0</summary>
-        private uint Reserved;
-        /// <summary>mvBuffer: [out]: Pointer to the output motion vector buffer</summary>
-        public NvEncOutputPtr MvBuffer;
-        /// <summary>reserved1[254]: [in]: Reserved and should be set to 0</summary>
-        private fixed uint Reserved1[254];
-        /// <summary>reserved2[63]: [in]: Reserved and should be set to NULL</summary>
-        #region Reserved2[63]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        #endregion Reserved2[63]
-    }
+/// <summary>NV_ENC_CREATE_MV_BUFFER
+/// Creation parameters for output motion vector buffer for ME only mode.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncCreateMvBuffer
+{
+    /// <summary>version: [in]: Struct version. Must be set to NV_ENC_CREATE_MV_BUFFER_VER</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and should be set to 0</summary>
+    private uint Reserved;
+    /// <summary>mvBuffer: [out]: Pointer to the output motion vector buffer</summary>
+    public NvEncOutputPtr MvBuffer;
+    /// <summary>reserved1[254]: [in]: Reserved and should be set to 0</summary>
+    private fixed uint Reserved1[254];
+    /// <summary>reserved2[63]: [in]: Reserved and should be set to NULL</summary>
+    #region Reserved2[63]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    #endregion Reserved2[63]
+}
 
-    /// <summary>NV_ENC_QP
-    /// QP value for frames</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncQp
-    {
-        /// <summary>qpInterP: [in]: Specifies QP value for P-frame. Even though this field is uint32_t for legacy reasons, the client should treat this as a signed parameter(int32_t) for cases in which negative QP values are to be specified.</summary>
-        public uint QpInterP;
-        /// <summary>qpInterB: [in]: Specifies QP value for B-frame. Even though this field is uint32_t for legacy reasons, the client should treat this as a signed parameter(int32_t) for cases in which negative QP values are to be specified.</summary>
-        public uint QpInterB;
-        /// <summary>qpIntra: [in]: Specifies QP value for Intra Frame. Even though this field is uint32_t for legacy reasons, the client should treat this as a signed parameter(int32_t) for cases in which negative QP values are to be specified.</summary>
-        public uint QpIntra;
-    }
+/// <summary>NV_ENC_QP
+/// QP value for frames</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncQp
+{
+    /// <summary>qpInterP: [in]: Specifies QP value for P-frame. Even though this field is uint32_t for legacy reasons, the client should treat this as a signed parameter(int32_t) for cases in which negative QP values are to be specified.</summary>
+    public uint QpInterP;
+    /// <summary>qpInterB: [in]: Specifies QP value for B-frame. Even though this field is uint32_t for legacy reasons, the client should treat this as a signed parameter(int32_t) for cases in which negative QP values are to be specified.</summary>
+    public uint QpInterB;
+    /// <summary>qpIntra: [in]: Specifies QP value for Intra Frame. Even though this field is uint32_t for legacy reasons, the client should treat this as a signed parameter(int32_t) for cases in which negative QP values are to be specified.</summary>
+    public uint QpIntra;
+}
 
-    /// <summary>NV_ENC_RC_PARAMS
-    /// Rate Control Configuration Parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncRcParams
-    {
-        /// <summary>version</summary>
-        public uint Version;
-        /// <summary>rateControlMode: [in]: Specifies the rate control mode. Check support for various rate control modes using ::NV_ENC_CAPS_SUPPORTED_RATECONTROL_MODES caps.</summary>
-        public NvEncParamsRcMode RateControlMode;
-        /// <summary>constQP: [in]: Specifies the initial QP to be used for encoding, these values would be used for all frames if in Constant QP mode.</summary>
-        public NvEncQp ConstQP;
-        /// <summary>averageBitRate: [in]: Specifies the average bitrate(in bits/sec) used for encoding.</summary>
-        public uint AverageBitRate;
-        /// <summary>maxBitRate: [in]: Specifies the maximum bitrate for the encoded output. This is used for VBR and ignored for CBR mode.</summary>
-        public uint MaxBitRate;
-        /// <summary>vbvBufferSize: [in]: Specifies the VBV(HRD) buffer size. in bits. Set 0 to use the default VBV buffer size.</summary>
-        public uint VbvBufferSize;
-        /// <summary>vbvInitialDelay: [in]: Specifies the VBV(HRD) initial delay in bits. Set 0 to use the default VBV initial delay .</summary>
-        public uint VbvInitialDelay;
-        internal uint BitField1;
-        /// <summary>enableMinQP: [in]: Set this to 1 if minimum QP used for rate control.</summary>
-        public bool EnableMinQP {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>enableMaxQP: [in]: Set this to 1 if maximum QP used for rate control.</summary>
-        public bool EnableMaxQP {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>enableInitialRCQP: [in]: Set this to 1 if user supplied initial QP is used for rate control.</summary>
-        public bool EnableInitialRCQP {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>enableAQ: [in]: Set this to 1 to enable adaptive quantization (Spatial).</summary>
-        public bool EnableAQ {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>reservedBitField1: [in]: Reserved bitfields and must be set to 0.</summary>
-        /// <summary>enableLookahead: [in]: Set this to 1 to enable lookahead with depth <lookaheadDepth> (if lookahead is enabled, input frames must remain available to the encoder until encode completion)</summary>
-        public bool EnableLookahead {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>disableIadapt: [in]: Set this to 1 to disable adaptive I-frame insertion at scene cuts (only has an effect when lookahead is enabled)</summary>
-        public bool DisableIadapt {
-            get => ((BitField1 >> 6) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
-        }
-        /// <summary>disableBadapt: [in]: Set this to 1 to disable adaptive B-frame decision (only has an effect when lookahead is enabled)</summary>
-        public bool DisableBadapt {
-            get => ((BitField1 >> 7) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
-        }
-        /// <summary>enableTemporalAQ: [in]: Set this to 1 to enable temporal AQ</summary>
-        public bool EnableTemporalAQ {
-            get => ((BitField1 >> 8) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
-        }
-        /// <summary>zeroReorderDelay: [in]: Set this to 1 to indicate zero latency operation (no reordering delay, num_reorder_frames=0)</summary>
-        public bool ZeroReorderDelay {
-            get => ((BitField1 >> 9) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
-        }
-        /// <summary>enableNonRefP: [in]: Set this to 1 to enable automatic insertion of non-reference P-frames (no effect if enablePTD=0)</summary>
-        public bool EnableNonRefP {
-            get => ((BitField1 >> 10) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
-        }
-        /// <summary>strictGOPTarget: [in]: Set this to 1 to minimize GOP-to-GOP rate fluctuations</summary>
-        public bool StrictGOPTarget {
-            get => ((BitField1 >> 11) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
-        }
-        /// <summary>aqStrength: [in]: When AQ (Spatial) is enabled (i.e. NV_ENC_RC_PARAMS::enableAQ is set), this field is used to specify AQ strength. AQ strength scale is from 1 (low) - 15 (aggressive).
-        /// If not set, strength is auto selected by driver.</summary>
-        public uint AqStrength {
-            get => (uint)((BitField1 >> 12) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
-        }
-        /// <summary>enableExtLookahead: [in]: Set this to 1 to enable lookahead externally.
-        /// Application must call NvEncLookahead() for NV_ENC_RC_PARAMS::lookaheadDepth number of frames,
-        /// before calling NvEncEncodePicture() for the first frame</summary>
-        public bool EnableExtLookahead {
-            get => ((BitField1 >> 16) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        /// <summary>minQP: [in]: Specifies the minimum QP used for rate control. Client must set NV_ENC_CONFIG::enableMinQP to 1.</summary>
-        public NvEncQp MinQP;
-        /// <summary>maxQP: [in]: Specifies the maximum QP used for rate control. Client must set NV_ENC_CONFIG::enableMaxQP to 1.</summary>
-        public NvEncQp MaxQP;
-        /// <summary>initialRCQP: [in]: Specifies the initial QP hint used for rate control. The parameter is just used as hint to influence the QP difference between I,P and B frames.
-        /// Client must set NV_ENC_CONFIG::enableInitialRCQP to 1.</summary>
-        public NvEncQp InitialRCQP;
-        /// <summary>temporallayerIdxMask: [in]: Specifies the temporal layers (as a bitmask) whose QPs have changed. Valid max bitmask is [2^NV_ENC_CAPS_NUM_MAX_TEMPORAL_LAYERS - 1].
-        /// Applicable only for constant QP mode (NV_ENC_RC_PARAMS::rateControlMode = NV_ENC_PARAMS_RC_CONSTQP).</summary>
-        public uint TemporallayerIdxMask;
-        /// <summary>temporalLayerQP[8]: [in]: Specifies the temporal layer QPs used for rate control. Temporal layer index is used as the array index.
-        /// Applicable only for constant QP mode (NV_ENC_RC_PARAMS::rateControlMode = NV_ENC_PARAMS_RC_CONSTQP).</summary>
-        public fixed byte TemporalLayerQP[8];
-        /// <summary>targetQuality: [in]: Target CQ (Constant Quality) level for VBR mode (range 0-51 with 0-automatic)</summary>
-        public byte TargetQuality;
-        /// <summary>targetQualityLSB: [in]: Fractional part of target quality (as 8.8 fixed point format)</summary>
-        public byte TargetQualityLSB;
-        /// <summary>lookaheadDepth: [in]: Maximum depth of lookahead with range 0-(31 - number of B frames).
-        /// lookaheadDepth is only used if enableLookahead=1.</summary>
-        public ushort LookaheadDepth;
-        /// <summary>lowDelayKeyFrameScale: [in]: Specifies the ratio of I frame bits to P frame bits in case of single frame VBV and CBR rate control mode,
-        /// is set to 2 by default for low latency tuning info and 1 by default for ultra low latency tuning info</summary>
-        public byte LowDelayKeyFrameScale;
-        /// <summary>yDcQPIndexOffset: [in]: Specifies the value of 'deltaQ_y_dc' in AV1.</summary>
-        public byte YDcQPIndexOffset;
-        /// <summary>uDcQPIndexOffset: [in]: Specifies the value of 'deltaQ_u_dc' in AV1.</summary>
-        public byte UDcQPIndexOffset;
-        /// <summary>vDcQPIndexOffset: [in]: Specifies the value of 'deltaQ_v_dc' in AV1 (for future use only - deltaQ_v_dc is currently always internally set to same value as deltaQ_u_dc).</summary>
-        public byte VDcQPIndexOffset;
-        /// <summary>qpMapMode: [in]: This flag is used to interpret values in array specified by NV_ENC_PIC_PARAMS::qpDeltaMap.
-        /// Set this to NV_ENC_QP_MAP_EMPHASIS to treat values specified by NV_ENC_PIC_PARAMS::qpDeltaMap as Emphasis Level Map.
-        /// Emphasis Level can be assigned any value specified in enum NV_ENC_EMPHASIS_MAP_LEVEL.
-        /// Emphasis Level Map is used to specify regions to be encoded at varying levels of quality.
-        /// The hardware encoder adjusts the quantization within the image as per the provided emphasis map,
-        /// by adjusting the quantization parameter (QP) assigned to each macroblock. This adjustment is commonly called "Delta QP".
-        /// The adjustment depends on the absolute QP decided by the rate control algorithm, and is applied after the rate control has decided each macroblock's QP.
-        /// Since the Delta QP overrides rate control, enabling Emphasis Level Map may violate bitrate and VBV buffer size constraints.
-        /// Emphasis Level Map is useful in situations where client has a priori knowledge of the image complexity (e.g. via use of NVFBC's Classification feature) and encoding those high-complexity areas at higher quality (lower QP) is important, even at the possible cost of violating bitrate/VBV buffer size constraints
-        /// This feature is not supported when AQ( Spatial/Temporal) is enabled.
-        /// This feature is only supported for H264 codec currently.
-        /// Set this to NV_ENC_QP_MAP_DELTA to treat values specified by NV_ENC_PIC_PARAMS::qpDeltaMap as QP Delta. This specifies QP modifier to be applied on top of the QP chosen by rate control
-        /// Set this to NV_ENC_QP_MAP_DISABLED to ignore NV_ENC_PIC_PARAMS::qpDeltaMap values. In this case, qpDeltaMap should be set to NULL.
-        /// Other values are reserved for future use.</summary>
-        public NvEncQpMapMode QpMapMode;
-        /// <summary>multiPass: [in]: This flag is used to enable multi-pass encoding for a given ::NV_ENC_PARAMS_RC_MODE. This flag is not valid for H264 and HEVC MEOnly mode</summary>
-        public NvEncMultiPass MultiPass;
-        /// <summary>alphaLayerBitrateRatio: [in]: Specifies the ratio in which bitrate should be split between base and alpha layer. A value 'x' for this field will split the target bitrate in a ratio of x : 1 between base and alpha layer.
-        /// The default split ratio is 15.</summary>
-        public uint AlphaLayerBitrateRatio;
-        /// <summary>cbQPIndexOffset: [in]: Specifies the value of 'chroma_qp_index_offset' in H264 / 'pps_cb_qp_offset' in HEVC / 'deltaQ_u_ac' in AV1.</summary>
-        public byte CbQPIndexOffset;
-        /// <summary>crQPIndexOffset: [in]: Specifies the value of 'second_chroma_qp_index_offset' in H264 / 'pps_cr_qp_offset' in HEVC / 'deltaQ_v_ac' in AV1 (for future use only - deltaQ_v_ac is currently always internally set to same value as deltaQ_u_ac).</summary>
-        public byte CrQPIndexOffset;
-        /// <summary>reserved2</summary>
-        private ushort Reserved2;
-        /// <summary>lookaheadLevel: [in]: Specifies the lookahead level. Higher level may improve quality at the expense of performance.</summary>
-        public NvEncLookaheadLevel LookaheadLevel;
-        /// <summary>reserved[3]</summary>
-        private fixed uint Reserved[3];
+/// <summary>NV_ENC_RC_PARAMS
+/// Rate Control Configuration Parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncRcParams
+{
+    /// <summary>version</summary>
+    public uint Version;
+    /// <summary>rateControlMode: [in]: Specifies the rate control mode. Check support for various rate control modes using ::NV_ENC_CAPS_SUPPORTED_RATECONTROL_MODES caps.</summary>
+    public NvEncParamsRcMode RateControlMode;
+    /// <summary>constQP: [in]: Specifies the initial QP to be used for encoding, these values would be used for all frames if in Constant QP mode.</summary>
+    public NvEncQp ConstQP;
+    /// <summary>averageBitRate: [in]: Specifies the average bitrate(in bits/sec) used for encoding.</summary>
+    public uint AverageBitRate;
+    /// <summary>maxBitRate: [in]: Specifies the maximum bitrate for the encoded output. This is used for VBR and ignored for CBR mode.</summary>
+    public uint MaxBitRate;
+    /// <summary>vbvBufferSize: [in]: Specifies the VBV(HRD) buffer size. in bits. Set 0 to use the default VBV buffer size.</summary>
+    public uint VbvBufferSize;
+    /// <summary>vbvInitialDelay: [in]: Specifies the VBV(HRD) initial delay in bits. Set 0 to use the default VBV initial delay .</summary>
+    public uint VbvInitialDelay;
+    internal uint BitField1;
+    /// <summary>enableMinQP: [in]: Set this to 1 if minimum QP used for rate control.</summary>
+    public bool EnableMinQP {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
     }
-
-    /// <summary>NV_ENC_CLOCK_TIMESTAMP_SET
-    /// Clock Timestamp set parameters
-    /// For H264, this structure is used to populate Picture Timing SEI when NV_ENC_CONFIG_H264::enableTimeCode is set to 1.
-    /// For HEVC, this structure is used to populate Time Code SEI when NV_ENC_CONFIG_HEVC::enableTimeCodeSEI is set to 1.
-    /// For more details, refer to Annex D of ITU-T Specification.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncClockTimestampSet
-    {
-        internal uint BitField1;
-        /// <summary>countingType: [in] Specifies the 'counting_type'</summary>
-        public bool CountingType {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>discontinuityFlag: [in] Specifies the 'discontinuity_flag'</summary>
-        public bool DiscontinuityFlag {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>cntDroppedFrames: [in] Specifies the 'cnt_dropped_flag'</summary>
-        public bool CntDroppedFrames {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>nFrames: [in] Specifies the value of 'n_frames'</summary>
-        public uint NFrames {
-            get => (uint)((BitField1 >> 3) & 255U);
-            set => BitField1 = (uint)((BitField1 & ~2040U) | ((unchecked((uint)value) & 255U) << 3));
-        }
-        /// <summary>secondsValue: [in] Specifies the 'seconds_value'</summary>
-        public uint SecondsValue {
-            get => (uint)((BitField1 >> 11) & 63U);
-            set => BitField1 = (uint)((BitField1 & ~129024U) | ((unchecked((uint)value) & 63U) << 11));
-        }
-        /// <summary>minutesValue: [in] Specifies the 'minutes_value'</summary>
-        public uint MinutesValue {
-            get => (uint)((BitField1 >> 17) & 63U);
-            set => BitField1 = (uint)((BitField1 & ~8257536U) | ((unchecked((uint)value) & 63U) << 17));
-        }
-        /// <summary>hoursValue: [in] Specifies the 'hours_value'</summary>
-        public uint HoursValue {
-            get => (uint)((BitField1 >> 23) & 31U);
-            set => BitField1 = (uint)((BitField1 & ~260046848U) | ((unchecked((uint)value) & 31U) << 23));
-        }
-        /// <summary>reserved2: [in] Reserved and must be set to 0</summary>
-        /// <summary>timeOffset: [in] Specifies the 'time_offset_value'</summary>
-        public uint TimeOffset;
+    /// <summary>enableMaxQP: [in]: Set this to 1 if maximum QP used for rate control.</summary>
+    public bool EnableMaxQP {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
     }
-
-    /// <summary>NV_ENC_TIME_CODE</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncTimeCode
-    {
-        /// <summary>displayPicStruct: [in] Display picStruct</summary>
-        public NvEncDisplayPicStruct DisplayPicStruct;
-        /// <summary>clockTimestamp[MAX_NUM_CLOCK_TS]: [in] Clock Timestamp set</summary>
-        public NvEncClockTimestampSet ClockTimestamp0;
-        public NvEncClockTimestampSet ClockTimestamp1;
-        public NvEncClockTimestampSet ClockTimestamp2;
-        /// <summary>skipClockTimestampInsertion: [in] 0 : Inserts Clock Timestamp if NV_ENC_CONFIG_H264::enableTimeCode (H264) or
-        /// NV_ENC_CONFIG_HEVC::outputTimeCodeSEI (HEVC) is specified
-        /// 1 : Skips insertion of Clock Timestamp for current frame</summary>
-        public uint SkipClockTimestampInsertion;
+    /// <summary>enableInitialRCQP: [in]: Set this to 1 if user supplied initial QP is used for rate control.</summary>
+    public bool EnableInitialRCQP {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
     }
-
-    /// <summary>NV_ENC_CONFIG_H264_VUI_PARAMETERS
-    /// struct _NV_ENC_CONFIG_H264_VUI_PARAMETERS
-    /// H264 Video Usability Info parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfigH264VuiParameters
-    {
-        /// <summary>overscanInfoPresentFlag: [in]: If set to 1 , it specifies that the overscanInfo is present</summary>
-        public uint OverscanInfoPresentFlag;
-        /// <summary>overscanInfo: [in]: Specifies the overscan info(as defined in Annex E of the ITU-T Specification).</summary>
-        public uint OverscanInfo;
-        /// <summary>videoSignalTypePresentFlag: [in]: If set to 1, it specifies that the videoFormat, videoFullRangeFlag and colourDescriptionPresentFlag are present.</summary>
-        public uint VideoSignalTypePresentFlag;
-        /// <summary>videoFormat: [in]: Specifies the source video format(as defined in Annex E of the ITU-T Specification).</summary>
-        public NvEncVuiVideoFormat VideoFormat;
-        /// <summary>videoFullRangeFlag: [in]: Specifies the output range of the luma and chroma samples(as defined in Annex E of the ITU-T Specification).</summary>
-        public uint VideoFullRangeFlag;
-        /// <summary>colourDescriptionPresentFlag: [in]: If set to 1, it specifies that the colourPrimaries, transferCharacteristics and colourMatrix are present.</summary>
-        public uint ColourDescriptionPresentFlag;
-        /// <summary>colourPrimaries: [in]: Specifies color primaries for converting to RGB(as defined in Annex E of the ITU-T Specification)</summary>
-        public NvEncVuiColorPrimaries ColourPrimaries;
-        /// <summary>transferCharacteristics: [in]: Specifies the opto-electronic transfer characteristics to use (as defined in Annex E of the ITU-T Specification)</summary>
-        public NvEncVuiTransferCharacteristic TransferCharacteristics;
-        /// <summary>colourMatrix: [in]: Specifies the matrix coefficients used in deriving the luma and chroma from the RGB primaries (as defined in Annex E of the ITU-T Specification).</summary>
-        public NvEncVuiMatrixCoeffs ColourMatrix;
-        /// <summary>chromaSampleLocationFlag: [in]: If set to 1 , it specifies that the chromaSampleLocationTop and chromaSampleLocationBot are present.</summary>
-        public uint ChromaSampleLocationFlag;
-        /// <summary>chromaSampleLocationTop: [in]: Specifies the chroma sample location for top field(as defined in Annex E of the ITU-T Specification)</summary>
-        public uint ChromaSampleLocationTop;
-        /// <summary>chromaSampleLocationBot: [in]: Specifies the chroma sample location for bottom field(as defined in Annex E of the ITU-T Specification)</summary>
-        public uint ChromaSampleLocationBot;
-        /// <summary>bitstreamRestrictionFlag: [in]: If set to 1, it specifies the bitstream restriction parameters are present in the bitstream.</summary>
-        public uint BitstreamRestrictionFlag;
-        /// <summary>timingInfoPresentFlag: [in]: If set to 1, it specifies that the timingInfo is present and the 'numUnitInTicks' and 'timeScale' fields are specified by the application.</summary>
-        public uint TimingInfoPresentFlag;
-        /// <summary>numUnitInTicks: [in]: If not set, the timingInfo may still be present with timing related fields calculated internally basedon the frame rate specified by the application.</summary>
-        public uint NumUnitInTicks;
-        /// <summary>timeScale: [in]: Specifies the number of time units of the clock(as defined in Annex E of the ITU-T Specification).</summary>
-        public uint TimeScale;
-        /// <summary>reserved[12]: [in]: Specifies the frquency of the clock(as defined in Annex E of the ITU-T Specification).</summary>
-        private fixed uint Reserved[12];
+    /// <summary>enableAQ: [in]: Set this to 1 to enable adaptive quantization (Spatial).</summary>
+    public bool EnableAQ {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
     }
-
-    /// <summary>NVENC_EXTERNAL_ME_HINT_COUNTS_PER_BLOCKTYPE
-    /// struct _NVENC_EXTERNAL_ME_HINT_COUNTS_PER_BLOCKTYPE
-    /// External motion vector hint counts per block type.
-    /// H264 and AV1 support multiple hint while HEVC supports one hint for each valid candidate.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncExternalMeHintCountsPerBlocktype
-    {
-        internal uint BitField1;
-        /// <summary>numCandsPerBlk16x16: [in]: Supported for H264, HEVC. It Specifies the number of candidates per 16x16 block.</summary>
-        public uint NumCandsPerBlk16x16 {
-            get => (uint)((BitField1 >> 0) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~15U) | ((unchecked((uint)value) & 15U) << 0));
-        }
-        /// <summary>numCandsPerBlk16x8: [in]: Supported for H264 only. Specifies the number of candidates per 16x8 block.</summary>
-        public uint NumCandsPerBlk16x8 {
-            get => (uint)((BitField1 >> 4) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~240U) | ((unchecked((uint)value) & 15U) << 4));
-        }
-        /// <summary>numCandsPerBlk8x16: [in]: Supported for H264 only. Specifies the number of candidates per 8x16 block.</summary>
-        public uint NumCandsPerBlk8x16 {
-            get => (uint)((BitField1 >> 8) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~3840U) | ((unchecked((uint)value) & 15U) << 8));
-        }
-        /// <summary>numCandsPerBlk8x8: [in]: Supported for H264, HEVC. Specifies the number of candidates per 8x8 block.</summary>
-        public uint NumCandsPerBlk8x8 {
-            get => (uint)((BitField1 >> 12) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
-        }
-        /// <summary>numCandsPerSb: [in]: Supported for AV1 only. Specifies the number of candidates per SB.</summary>
-        public uint NumCandsPerSb {
-            get => (uint)((BitField1 >> 16) & 255U);
-            set => BitField1 = (uint)((BitField1 & ~16711680U) | ((unchecked((uint)value) & 255U) << 16));
-        }
-        /// <summary>reserved: [in]: Reserved for padding.</summary>
-        /// <summary>reserved1[3]: [in]: Reserved for future use.</summary>
-        private fixed uint Reserved1[3];
+    /// <summary>reservedBitField1: [in]: Reserved bitfields and must be set to 0.</summary>
+    /// <summary>enableLookahead: [in]: Set this to 1 to enable lookahead with depth <lookaheadDepth> (if lookahead is enabled, input frames must remain available to the encoder until encode completion)</summary>
+    public bool EnableLookahead {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
     }
-
-    /// <summary>NVENC_EXTERNAL_ME_HINT
-    /// struct _NVENC_EXTERNAL_ME_HINT
-    /// External Motion Vector hint structure for H264 and HEVC.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncExternalMeHint
-    {
-        internal uint BitField1;
-        /// <summary>mvx: [in]: Specifies the x component of integer pixel MV (relative to current MB) S12.0.</summary>
-        public int Mvx {
-            get => unchecked((int)((int)(((BitField1 >> 0) & 4095U) << 20) >> 20));
-            set => BitField1 = (uint)((BitField1 & ~4095U) | ((unchecked((uint)value) & 4095U) << 0));
-        }
-        /// <summary>mvy: [in]: Specifies the y component of integer pixel MV (relative to current MB) S10.0 .</summary>
-        public int Mvy {
-            get => unchecked((int)((int)(((BitField1 >> 12) & 1023U) << 22) >> 22));
-            set => BitField1 = (uint)((BitField1 & ~4190208U) | ((unchecked((uint)value) & 1023U) << 12));
-        }
-        /// <summary>refidx: [in]: Specifies the reference index (31=invalid). Current we support only 1 reference frame per direction for external hints, so \p refidx must be 0.</summary>
-        public int Refidx {
-            get => unchecked((int)((int)(((BitField1 >> 22) & 31U) << 27) >> 27));
-            set => BitField1 = (uint)((BitField1 & ~130023424U) | ((unchecked((uint)value) & 31U) << 22));
-        }
-        /// <summary>dir: [in]: Specifies the direction of motion estimation . 0=L0 1=L1.</summary>
-        public bool Dir {
-            get => ((BitField1 >> 27) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~134217728U) | (((value ? 1U : 0U) & 1U) << 27));
-        }
-        /// <summary>partType: [in]: Specifies the block partition type.0=16x16 1=16x8 2=8x16 3=8x8 (blocks in partition must be consecutive).</summary>
-        public int PartType {
-            get => unchecked((int)((int)(((BitField1 >> 28) & 3U) << 30) >> 30));
-            set => BitField1 = (uint)((BitField1 & ~805306368U) | ((unchecked((uint)value) & 3U) << 28));
-        }
-        /// <summary>lastofPart: [in]: Set to 1 for the last MV of (sub) partition</summary>
-        public bool LastofPart {
-            get => ((BitField1 >> 30) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1073741824U) | (((value ? 1U : 0U) & 1U) << 30));
-        }
-        /// <summary>lastOfMB: [in]: Set to 1 for the last MV of macroblock.</summary>
-        public bool LastOfMB {
-            get => ((BitField1 >> 31) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2147483648U) | (((value ? 1U : 0U) & 1U) << 31));
-        }
+    /// <summary>disableIadapt: [in]: Set this to 1 to disable adaptive I-frame insertion at scene cuts (only has an effect when lookahead is enabled)</summary>
+    public bool DisableIadapt {
+        get => ((BitField1 >> 6) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
     }
-
-    /// <summary>NVENC_EXTERNAL_ME_SB_HINT
-    /// struct _NVENC_EXTERNAL_ME_SB_HINT
-    /// External Motion Vector SB hint structure for AV1</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncExternalMeSbHint
-    {
-        internal ushort BitField1;
-        /// <summary>refidx: [in]: Specifies the reference index (31=invalid)</summary>
-        public short Refidx {
-            get => unchecked((short)((int)(((BitField1 >> 0) & 31U) << 27) >> 27));
-            set => BitField1 = (ushort)((BitField1 & ~31U) | ((unchecked((uint)value) & 31U) << 0));
-        }
-        /// <summary>direction: [in]: Specifies the direction of motion estimation . 0=L0 1=L1.</summary>
-        public bool Direction {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (ushort)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>bi: [in]: Specifies reference mode 0=single mv, 1=compound mv</summary>
-        public bool Bi {
-            get => ((BitField1 >> 6) & 1U) != 0;
-            set => BitField1 = (ushort)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
-        }
-        /// <summary>partition_type: [in]: Specifies the partition type: 0: 2NX2N, 1:2NxN, 2:Nx2N. reserved 3bits for future modes</summary>
-        public short Partition_type {
-            get => unchecked((short)((int)(((BitField1 >> 7) & 7U) << 29) >> 29));
-            set => BitField1 = (ushort)((BitField1 & ~896U) | ((unchecked((uint)value) & 7U) << 7));
-        }
-        /// <summary>x8: [in]: Specifies the current partition's top left x position in 8 pixel unit</summary>
-        public short X8 {
-            get => unchecked((short)((int)(((BitField1 >> 10) & 7U) << 29) >> 29));
-            set => BitField1 = (ushort)((BitField1 & ~7168U) | ((unchecked((uint)value) & 7U) << 10));
-        }
-        /// <summary>last_of_cu: [in]: Set to 1 for the last MV current CU</summary>
-        public bool Last_of_cu {
-            get => ((BitField1 >> 13) & 1U) != 0;
-            set => BitField1 = (ushort)((BitField1 & ~8192U) | (((value ? 1U : 0U) & 1U) << 13));
-        }
-        /// <summary>last_of_sb: [in]: Set to 1 for the last MV of current SB</summary>
-        public bool Last_of_sb {
-            get => ((BitField1 >> 14) & 1U) != 0;
-            set => BitField1 = (ushort)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
-        }
-        /// <summary>reserved0: [in]: Reserved and must be set to 0</summary>
-        internal ushort BitField2;
-        /// <summary>mvx: [in]: Specifies the x component of integer pixel MV (relative to current MB) S12.2.</summary>
-        public short Mvx {
-            get => unchecked((short)((int)(((BitField2 >> 0) & 16383U) << 18) >> 18));
-            set => BitField2 = (ushort)((BitField2 & ~16383U) | ((unchecked((uint)value) & 16383U) << 0));
-        }
-        /// <summary>cu_size: [in]: Specifies the CU size: 0: 8x8, 1: 16x16, 2:32x32, 3:64x64</summary>
-        public short Cu_size {
-            get => unchecked((short)((int)(((BitField2 >> 14) & 3U) << 30) >> 30));
-            set => BitField2 = (ushort)((BitField2 & ~49152U) | ((unchecked((uint)value) & 3U) << 14));
-        }
-        internal ushort BitField3;
-        /// <summary>mvy: [in]: Specifies the y component of integer pixel MV (relative to current MB) S10.2 .</summary>
-        public short Mvy {
-            get => unchecked((short)((int)(((BitField3 >> 0) & 4095U) << 20) >> 20));
-            set => BitField3 = (ushort)((BitField3 & ~4095U) | ((unchecked((uint)value) & 4095U) << 0));
-        }
-        /// <summary>y8: [in]: Specifies the current partition's top left y position in 8 pixel unit</summary>
-        public short Y8 {
-            get => unchecked((short)((int)(((BitField3 >> 12) & 7U) << 29) >> 29));
-            set => BitField3 = (ushort)((BitField3 & ~28672U) | ((unchecked((uint)value) & 7U) << 12));
-        }
-        /// <summary>reserved1: [in]: Reserved and must be set to 0</summary>
+    /// <summary>disableBadapt: [in]: Set this to 1 to disable adaptive B-frame decision (only has an effect when lookahead is enabled)</summary>
+    public bool DisableBadapt {
+        get => ((BitField1 >> 7) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
     }
-
-    /// <summary>NV_ENC_CONFIG_H264
-    /// struct _NV_ENC_CONFIG_H264
-    /// H264 encoder configuration parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfigH264
-    {
-        internal uint BitField1;
-        /// <summary>enableTemporalSVC: [in]: Set to 1 to enable SVC temporal</summary>
-        public bool EnableTemporalSVC {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>enableStereoMVC: [in]: Set to 1 to enable stereo MVC</summary>
-        public bool EnableStereoMVC {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>hierarchicalPFrames: [in]: Set to 1 to enable hierarchical P Frames</summary>
-        public bool HierarchicalPFrames {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>hierarchicalBFrames: [in]: Set to 1 to enable hierarchical B Frames</summary>
-        public bool HierarchicalBFrames {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>outputBufferingPeriodSEI: [in]: Set to 1 to write SEI buffering period syntax in the bitstream</summary>
-        public bool OutputBufferingPeriodSEI {
-            get => ((BitField1 >> 4) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
-        }
-        /// <summary>outputPictureTimingSEI: [in]: Set to 1 to write SEI picture timing syntax in the bitstream.</summary>
-        public bool OutputPictureTimingSEI {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>outputAUD: [in]: Set to 1 to write access unit delimiter syntax in bitstream</summary>
-        public bool OutputAUD {
-            get => ((BitField1 >> 6) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
-        }
-        /// <summary>disableSPSPPS: [in]: Set to 1 to disable writing of Sequence and Picture parameter info in bitstream</summary>
-        public bool DisableSPSPPS {
-            get => ((BitField1 >> 7) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
-        }
-        /// <summary>outputFramePackingSEI: [in]: Set to 1 to enable writing of frame packing arrangement SEI messages to bitstream</summary>
-        public bool OutputFramePackingSEI {
-            get => ((BitField1 >> 8) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
-        }
-        /// <summary>outputRecoveryPointSEI: [in]: Set to 1 to enable writing of recovery point SEI message</summary>
-        public bool OutputRecoveryPointSEI {
-            get => ((BitField1 >> 9) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
-        }
-        /// <summary>enableIntraRefresh: [in]: Set to 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
-        public bool EnableIntraRefresh {
-            get => ((BitField1 >> 10) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
-        }
-        /// <summary>enableConstrainedEncoding: [in]: Set this to 1 to enable constrainedFrame encoding where each slice in the constrained picture is independent of other slices.
-        /// Constrained encoding works only with rectangular slices.
-        /// Check support for constrained encoding using ::NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING caps.</summary>
-        public bool EnableConstrainedEncoding {
-            get => ((BitField1 >> 11) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
-        }
-        /// <summary>repeatSPSPPS: [in]: Set to 1 to enable writing of Sequence and Picture parameter for every IDR frame</summary>
-        public bool RepeatSPSPPS {
-            get => ((BitField1 >> 12) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4096U) | (((value ? 1U : 0U) & 1U) << 12));
-        }
-        /// <summary>enableVFR: [in]: Setting enableVFR=1 currently only sets the fixed_frame_rate_flag=0 in the VUI but otherwise
-        /// has no impact on the encoder behavior. For more details please refer to E.1 VUI syntax of H.264 standard. Note, however, that NVENC does not support VFR encoding and rate control.</summary>
-        public bool EnableVFR {
-            get => ((BitField1 >> 13) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8192U) | (((value ? 1U : 0U) & 1U) << 13));
-        }
-        /// <summary>enableLTR: [in]: Set to 1 to enable LTR (Long Term Reference) frame support. LTR can be used in two modes: "LTR Trust" mode and "LTR Per Picture" mode.
-        /// LTR Trust mode: In this mode, ltrNumFrames pictures after IDR are automatically marked as LTR. This mode is enabled by setting ltrTrustMode = 1.
-        /// Use of LTR Trust mode is strongly discouraged as this mode may be deprecated in future.
-        /// LTR Per Picture mode: In this mode, client can control whether the current picture should be marked as LTR. Enable this mode by setting
-        /// ltrTrustMode = 0 and ltrMarkFrame = 1 for the picture to be marked as LTR. This is the preferred mode
-        /// for using LTR.
-        /// Note that LTRs are not supported if encoding session is configured with B-frames</summary>
-        public bool EnableLTR {
-            get => ((BitField1 >> 14) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
-        }
-        /// <summary>qpPrimeYZeroTransformBypassFlag: [in]: To enable lossless encode set this to 1, set QP to 0 and RC_mode to NV_ENC_PARAMS_RC_CONSTQP and profile to HIGH_444_PREDICTIVE_PROFILE.
-        /// Check support for lossless encoding using ::NV_ENC_CAPS_SUPPORT_LOSSLESS_ENCODE caps.</summary>
-        public bool QpPrimeYZeroTransformBypassFlag {
-            get => ((BitField1 >> 15) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32768U) | (((value ? 1U : 0U) & 1U) << 15));
-        }
-        /// <summary>useConstrainedIntraPred: [in]: Set 1 to enable constrained intra prediction.</summary>
-        public bool UseConstrainedIntraPred {
-            get => ((BitField1 >> 16) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
-        }
-        /// <summary>enableFillerDataInsertion: [in]: Set to 1 to enable insertion of filler data in the bitstream.
-        /// This flag will take effect only when CBR rate control mode is in use and both
-        /// NV_ENC_INITIALIZE_PARAMS::frameRateNum and
-        /// NV_ENC_INITIALIZE_PARAMS::frameRateDen are set to non-zero
-        /// values. Setting this field when
-        /// NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is also set
-        /// is currently not supported and will make ::NvEncInitializeEncoder()
-        /// return an error.</summary>
-        public bool EnableFillerDataInsertion {
-            get => ((BitField1 >> 17) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~131072U) | (((value ? 1U : 0U) & 1U) << 17));
-        }
-        /// <summary>disableSVCPrefixNalu: [in]: Set to 1 to disable writing of SVC Prefix NALU preceding each slice in bitstream.
-        /// Applicable only when temporal SVC is enabled (NV_ENC_CONFIG_H264::enableTemporalSVC = 1).</summary>
-        public bool DisableSVCPrefixNalu {
-            get => ((BitField1 >> 18) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~262144U) | (((value ? 1U : 0U) & 1U) << 18));
-        }
-        /// <summary>enableScalabilityInfoSEI: [in]: Set to 1 to enable writing of Scalability Information SEI message preceding each IDR picture in bitstream
-        /// Applicable only when temporal SVC is enabled (NV_ENC_CONFIG_H264::enableTemporalSVC = 1).</summary>
-        public bool EnableScalabilityInfoSEI {
-            get => ((BitField1 >> 19) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~524288U) | (((value ? 1U : 0U) & 1U) << 19));
-        }
-        /// <summary>singleSliceIntraRefresh: [in]: Set to 1 to maintain single slice in frames during intra refresh.
-        /// Check support for single slice intra refresh using ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps.
-        /// This flag will be ignored if the value returned for ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps is false.</summary>
-        public bool SingleSliceIntraRefresh {
-            get => ((BitField1 >> 20) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1048576U) | (((value ? 1U : 0U) & 1U) << 20));
-        }
-        /// <summary>enableTimeCode: [in]: Set to 1 to enable writing of clock timestamp sets in picture timing SEI. Note that this flag will be ignored for D3D12 interface.</summary>
-        public bool EnableTimeCode {
-            get => ((BitField1 >> 21) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2097152U) | (((value ? 1U : 0U) & 1U) << 21));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        /// <summary>level: [in]: Specifies the encoding level. Client is recommended to set this to NV_ENC_LEVEL_AUTOSELECT in order to enable the NvEncodeAPI interface to select the correct level.</summary>
-        public uint Level;
-        /// <summary>idrPeriod: [in]: Specifies the IDR interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG.Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
-        public uint IdrPeriod;
-        /// <summary>separateColourPlaneFlag: [in]: Set to 1 to enable 4:4:4 separate colour planes</summary>
-        public uint SeparateColourPlaneFlag;
-        /// <summary>disableDeblockingFilterIDC: [in]: Specifies the deblocking filter mode. Permissible value range: [0,2]. This flag corresponds
-        /// to the flag disable_deblocking_filter_idc specified in section 7.4.3 of H.264 specification,
-        /// which specifies whether the operation of the deblocking filter shall be disabled across some
-        /// block edges of the slice and specifies for which edges the filtering is disabled. See section
-        /// 7.4.3 of H.264 specification for more details.</summary>
-        public uint DisableDeblockingFilterIDC;
-        /// <summary>numTemporalLayers: [in]: Specifies number of temporal layers to be used for hierarchical coding / temporal SVC. Valid value range is [1,::NV_ENC_CAPS_NUM_MAX_TEMPORAL_LAYERS]</summary>
-        public uint NumTemporalLayers;
-        /// <summary>spsId: [in]: Specifies the SPS id of the sequence header</summary>
-        public uint SpsId;
-        /// <summary>ppsId: [in]: Specifies the PPS id of the picture header</summary>
-        public uint PpsId;
-        /// <summary>adaptiveTransformMode: [in]: Specifies the AdaptiveTransform Mode. Check support for AdaptiveTransform mode using ::NV_ENC_CAPS_SUPPORT_ADAPTIVE_TRANSFORM caps.</summary>
-        public NvEncH264AdaptiveTransformMode AdaptiveTransformMode;
-        /// <summary>fmoMode: [in]: Specified the FMO Mode. Check support for FMO using ::NV_ENC_CAPS_SUPPORT_FMO caps.</summary>
-        public NvEncH264FmoMode FmoMode;
-        /// <summary>bdirectMode: [in]: Specifies the BDirect mode. Check support for BDirect mode using ::NV_ENC_CAPS_SUPPORT_BDIRECT_MODE caps.</summary>
-        public NvEncH264BdirectMode BdirectMode;
-        /// <summary>entropyCodingMode: [in]: Specifies the entropy coding mode. Check support for CABAC mode using ::NV_ENC_CAPS_SUPPORT_CABAC caps.</summary>
-        public NvEncH264EntropyCodingMode EntropyCodingMode;
-        /// <summary>stereoMode: [in]: Specifies the stereo frame packing mode which is to be signaled in frame packing arrangement SEI</summary>
-        public NvEncStereoPackingMode StereoMode;
-        /// <summary>intraRefreshPeriod: [in]: Specifies the interval between successive intra refresh if enableIntrarefresh is set. Requires enableIntraRefresh to be set.
-        /// Will be disabled if NV_ENC_CONFIG::gopLength is not set to NVENC_INFINITE_GOPLENGTH.</summary>
-        public uint IntraRefreshPeriod;
-        /// <summary>intraRefreshCnt: [in]: Specifies the length of intra refresh in number of frames for periodic intra refresh. This value should be smaller than intraRefreshPeriod</summary>
-        public uint IntraRefreshCnt;
-        /// <summary>maxNumRefFrames: [in]: Specifies the DPB size used for encoding. Setting it to 0 will let driver use the default DPB size.
-        /// The low latency application which wants to invalidate reference frame as an error resilience tool
-        /// is recommended to use a large DPB size so that the encoder can keep old reference frames which can be used if recent
-        /// frames are invalidated.</summary>
-        public uint MaxNumRefFrames;
-        /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
-        /// sliceMode = 0 MB based slices, sliceMode = 1 Byte based slices, sliceMode = 2 MB row based slices, sliceMode = 3 numSlices in Picture.
-        /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting
-        /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
-        public uint SliceMode;
-        /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
-        /// sliceMode = 0, sliceModeData specifies # of MBs in each slice (except last slice)
-        /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
-        /// sliceMode = 2, sliceModeData specifies # of MB rows in each slice (except last slice)
-        /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
-        public uint SliceModeData;
-        /// <summary>h264VUIParameters: [in]: Specifies the H264 video usability info parameters</summary>
-        public NvEncConfigH264VuiParameters H264VUIParameters;
-        /// <summary>ltrNumFrames: [in]: Specifies the number of LTR frames. This parameter has different meaning in two LTR modes.
-        /// In "LTR Trust" mode (ltrTrustMode = 1), encoder will mark the first ltrNumFrames base layer reference frames within each IDR interval as LTR.
-        /// In "LTR Per Picture" mode (ltrTrustMode = 0 and ltrMarkFrame = 1), ltrNumFrames specifies maximum number of LTR frames in DPB.</summary>
-        public uint LtrNumFrames;
-        /// <summary>ltrTrustMode: [in]: Specifies the LTR operating mode. See comments near NV_ENC_CONFIG_H264::enableLTR for description of the two modes.
-        /// Set to 1 to use "LTR Trust" mode of LTR operation. Clients are discouraged to use "LTR Trust" mode as this mode may
-        /// be deprecated in future releases.
-        /// Set to 0 when using "LTR Per Picture" mode of LTR operation.</summary>
-        public uint LtrTrustMode;
-        /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input, 3 for yuv444 input.
-        /// Check support for YUV444 encoding using ::NV_ENC_CAPS_SUPPORT_YUV444_ENCODE caps.</summary>
-        public uint ChromaFormatIDC;
-        /// <summary>maxTemporalLayers: [in]: Specifies the max temporal layer used for temporal SVC / hierarchical coding.
-        /// Defaut value of this field is NV_ENC_CAPS::NV_ENC_CAPS_NUM_MAX_TEMPORAL_LAYERS. Note that the value NV_ENC_CONFIG_H264::maxNumRefFrames should
-        /// be greater than or equal to (NV_ENC_CONFIG_H264::maxTemporalLayers - 2) * 2, for NV_ENC_CONFIG_H264::maxTemporalLayers >= 2.</summary>
-        public uint MaxTemporalLayers;
-        /// <summary>useBFramesAsRef: [in]: Specifies the B-Frame as reference mode. Check support for useBFramesAsRef mode using ::NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE caps.</summary>
-        public NvEncBframeRefMode UseBFramesAsRef;
-        /// <summary>numRefL0: [in]: Specifies max number of reference frames in reference picture list L0, that can be used by hardware for prediction of a frame.
-        /// Check support for numRefL0 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
-        public NvEncNumRefFrames NumRefL0;
-        /// <summary>numRefL1: [in]: Specifies max number of reference frames in reference picture list L1, that can be used by hardware for prediction of a frame.
-        /// Check support for numRefL1 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
-        public NvEncNumRefFrames NumRefL1;
-        /// <summary>outputBitDepth: [in]: Specifies pixel bit depth of encoded video. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit, NV_ENC_BIT_DEPTH_10 for 10 bit.</summary>
-        public NvEncBitDepth OutputBitDepth;
-        /// <summary>inputBitDepth: [in]: Specifies pixel bit depth of video input. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit input, NV_ENC_BIT_DEPTH_10 for 10 bit input.</summary>
-        public NvEncBitDepth InputBitDepth;
-        /// <summary>reserved1[265]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[265];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>enableTemporalAQ: [in]: Set this to 1 to enable temporal AQ</summary>
+    public bool EnableTemporalAQ {
+        get => ((BitField1 >> 8) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
     }
-
-    /// <summary>NV_ENC_CONFIG_HEVC
-    /// struct _NV_ENC_CONFIG_HEVC
-    /// HEVC encoder configuration parameters to be set during initialization.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfigHevc
-    {
-        /// <summary>level: [in]: Specifies the level of the encoded bitstream.</summary>
-        public uint Level;
-        /// <summary>tier: [in]: Specifies the level tier of the encoded bitstream.</summary>
-        public uint Tier;
-        /// <summary>minCUSize: [in]: Specifies the minimum size of luma coding unit.</summary>
-        public NvEncHevcCusize MinCUSize;
-        /// <summary>maxCUSize: [in]: Specifies the maximum size of luma coding unit. Currently NVENC SDK only supports maxCUSize equal to NV_ENC_HEVC_CUSIZE_32x32.</summary>
-        public NvEncHevcCusize MaxCUSize;
-        internal uint BitField1;
-        /// <summary>useConstrainedIntraPred: [in]: Set 1 to enable constrained intra prediction.</summary>
-        public bool UseConstrainedIntraPred {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>disableDeblockAcrossSliceBoundary: [in]: Set 1 to disable in loop filtering across slice boundary.</summary>
-        public bool DisableDeblockAcrossSliceBoundary {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>outputBufferingPeriodSEI: [in]: Set 1 to write SEI buffering period syntax in the bitstream</summary>
-        public bool OutputBufferingPeriodSEI {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>outputPictureTimingSEI: [in]: Set 1 to write SEI picture timing syntax in the bitstream</summary>
-        public bool OutputPictureTimingSEI {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>outputAUD: [in]: Set 1 to write Access Unit Delimiter syntax.</summary>
-        public bool OutputAUD {
-            get => ((BitField1 >> 4) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
-        }
-        /// <summary>enableLTR: [in]: Set to 1 to enable LTR (Long Term Reference) frame support. LTR can be used in two modes: "LTR Trust" mode and "LTR Per Picture" mode.
-        /// LTR Trust mode: In this mode, ltrNumFrames pictures after IDR are automatically marked as LTR. This mode is enabled by setting ltrTrustMode = 1.
-        /// Use of LTR Trust mode is strongly discouraged as this mode may be deprecated in future releases.
-        /// LTR Per Picture mode: In this mode, client can control whether the current picture should be marked as LTR. Enable this mode by setting
-        /// ltrTrustMode = 0 and ltrMarkFrame = 1 for the picture to be marked as LTR. This is the preferred mode
-        /// for using LTR.
-        /// Note that LTRs are not supported if encoding session is configured with B-frames</summary>
-        public bool EnableLTR {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>disableSPSPPS: [in]: Set 1 to disable VPS, SPS and PPS signaling in the bitstream.</summary>
-        public bool DisableSPSPPS {
-            get => ((BitField1 >> 6) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
-        }
-        /// <summary>repeatSPSPPS: [in]: Set 1 to output VPS,SPS and PPS for every IDR frame.</summary>
-        public bool RepeatSPSPPS {
-            get => ((BitField1 >> 7) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
-        }
-        /// <summary>enableIntraRefresh: [in]: Set 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
-        public bool EnableIntraRefresh {
-            get => ((BitField1 >> 8) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
-        }
-        /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input, 3 for yuv444 input.</summary>
-        public uint ChromaFormatIDC {
-            get => (uint)((BitField1 >> 9) & 3U);
-            set => BitField1 = (uint)((BitField1 & ~1536U) | ((unchecked((uint)value) & 3U) << 9));
-        }
-        /// <summary>reserved3: [in]: Reserved and must be set to 0.</summary>
-        /// <summary>enableFillerDataInsertion: [in]: Set to 1 to enable insertion of filler data in the bitstream.
-        /// This flag will take effect only when CBR rate control mode is in use and both
-        /// NV_ENC_INITIALIZE_PARAMS::frameRateNum and
-        /// NV_ENC_INITIALIZE_PARAMS::frameRateDen are set to non-zero
-        /// values. Setting this field when
-        /// NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is also set
-        /// is currently not supported and will make ::NvEncInitializeEncoder()
-        /// return an error.</summary>
-        public bool EnableFillerDataInsertion {
-            get => ((BitField1 >> 14) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
-        }
-        /// <summary>enableConstrainedEncoding: [in]: Set this to 1 to enable constrainedFrame encoding where each slice in the constrained picture is independent of other slices.
-        /// Constrained encoding works only with rectangular slices.
-        /// Check support for constrained encoding using ::NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING caps.</summary>
-        public bool EnableConstrainedEncoding {
-            get => ((BitField1 >> 15) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32768U) | (((value ? 1U : 0U) & 1U) << 15));
-        }
-        /// <summary>enableAlphaLayerEncoding: [in]: Set this to 1 to enable HEVC encode with alpha layer.</summary>
-        public bool EnableAlphaLayerEncoding {
-            get => ((BitField1 >> 16) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
-        }
-        /// <summary>singleSliceIntraRefresh: [in]: Set this to 1 to maintain single slice frames during intra refresh.
-        /// Check support for single slice intra refresh using ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps.
-        /// This flag will be ignored if the value returned for ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps is false.</summary>
-        public bool SingleSliceIntraRefresh {
-            get => ((BitField1 >> 17) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~131072U) | (((value ? 1U : 0U) & 1U) << 17));
-        }
-        /// <summary>outputRecoveryPointSEI: [in]: Set to 1 to enable writing of recovery point SEI message</summary>
-        public bool OutputRecoveryPointSEI {
-            get => ((BitField1 >> 18) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~262144U) | (((value ? 1U : 0U) & 1U) << 18));
-        }
-        /// <summary>outputTimeCodeSEI: [in]: Set 1 to write SEI time code syntax in the bitstream. Note that this flag will be ignored for D3D12 interface.</summary>
-        public bool OutputTimeCodeSEI {
-            get => ((BitField1 >> 19) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~524288U) | (((value ? 1U : 0U) & 1U) << 19));
-        }
-        /// <summary>reserved: [in]: Reserved bitfields.</summary>
-        /// <summary>idrPeriod: [in]: Specifies the IDR interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG. Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
-        public uint IdrPeriod;
-        /// <summary>intraRefreshPeriod: [in]: Specifies the interval between successive intra refresh if enableIntrarefresh is set. Requires enableIntraRefresh to be set.
-        /// Will be disabled if NV_ENC_CONFIG::gopLength is not set to NVENC_INFINITE_GOPLENGTH.</summary>
-        public uint IntraRefreshPeriod;
-        /// <summary>intraRefreshCnt: [in]: Specifies the length of intra refresh in number of frames for periodic intra refresh. This value should be smaller than intraRefreshPeriod</summary>
-        public uint IntraRefreshCnt;
-        /// <summary>maxNumRefFramesInDPB: [in]: Specifies the maximum number of references frames in the DPB.</summary>
-        public uint MaxNumRefFramesInDPB;
-        /// <summary>ltrNumFrames: [in]: This parameter has different meaning in two LTR modes.
-        /// In "LTR Trust" mode (ltrTrustMode = 1), encoder will mark the first ltrNumFrames base layer reference frames within each IDR interval as LTR.
-        /// In "LTR Per Picture" mode (ltrTrustMode = 0 and ltrMarkFrame = 1), ltrNumFrames specifies maximum number of LTR frames in DPB.
-        /// These ltrNumFrames acts as a guidance to the encoder and are not necessarily honored. To achieve a right balance between the encoding
-        /// quality and keeping LTR frames in the DPB queue, the encoder can internally limit the number of LTR frames.
-        /// The number of LTR frames actually used depends upon the encoding preset being used; Faster encoding presets will use fewer LTR frames.</summary>
-        public uint LtrNumFrames;
-        /// <summary>vpsId: [in]: Specifies the VPS id of the video parameter set</summary>
-        public uint VpsId;
-        /// <summary>spsId: [in]: Specifies the SPS id of the sequence header</summary>
-        public uint SpsId;
-        /// <summary>ppsId: [in]: Specifies the PPS id of the picture header</summary>
-        public uint PpsId;
-        /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
-        /// sliceMode = 0 CTU based slices, sliceMode = 1 Byte based slices, sliceMode = 2 CTU row based slices, sliceMode = 3, numSlices in Picture
-        /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
-        public uint SliceMode;
-        /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
-        /// sliceMode = 0, sliceModeData specifies # of CTUs in each slice (except last slice)
-        /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
-        /// sliceMode = 2, sliceModeData specifies # of CTU rows in each slice (except last slice)
-        /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
-        public uint SliceModeData;
-        /// <summary>maxTemporalLayersMinus1: [in]: Specifies the max temporal layer used for hierarchical coding.</summary>
-        public uint MaxTemporalLayersMinus1;
-        /// <summary>hevcVUIParameters: [in]: Specifies the HEVC video usability info parameters</summary>
-        public NvEncConfigH264VuiParameters HevcVUIParameters;
-        /// <summary>ltrTrustMode: [in]: Specifies the LTR operating mode. See comments near NV_ENC_CONFIG_HEVC::enableLTR for description of the two modes.
-        /// Set to 1 to use "LTR Trust" mode of LTR operation. Clients are discouraged to use "LTR Trust" mode as this mode may
-        /// be deprecated in future releases.
-        /// Set to 0 when using "LTR Per Picture" mode of LTR operation.</summary>
-        public uint LtrTrustMode;
-        /// <summary>useBFramesAsRef: [in]: Specifies the B-Frame as reference mode. Check support for useBFramesAsRef mode using ::NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE caps.</summary>
-        public NvEncBframeRefMode UseBFramesAsRef;
-        /// <summary>numRefL0: [in]: Specifies max number of reference frames in reference picture list L0, that can be used by hardware for prediction of a frame.
-        /// Check support for numRefL0 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
-        public NvEncNumRefFrames NumRefL0;
-        /// <summary>numRefL1: [in]: Specifies max number of reference frames in reference picture list L1, that can be used by hardware for prediction of a frame.
-        /// Check support for numRefL1 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
-        public NvEncNumRefFrames NumRefL1;
-        /// <summary>tfLevel: [in]: Specifies the strength of the temporal filtering.
-        /// Temporal filter feature is supported only if frameIntervalP >= 5.
-        /// Temporal filter feature is not supported with ZeroReorderDelay/enableStereoMVC/AlphaLayerEncoding.
-        /// Temporal filter is recommended for natural contents.</summary>
-        public NvEncTemporalFilterLevel TfLevel;
-        /// <summary>disableDeblockingFilterIDC: [in]: Specifies the deblocking filter mode. Permissible value range: [0,2]. This flag corresponds
-        /// to the flag pps_deblocking_filter_disabled_flag specified in section 7.4.3.3 of H.265 specification,
-        /// which specifies whether the operation of the deblocking filter shall be disabled across some
-        /// block edges of the slice and specifies for which edges the filtering is disabled. See section
-        /// 7.4.3.3 of H.265 specification for more details.</summary>
-        public uint DisableDeblockingFilterIDC;
-        /// <summary>outputBitDepth: [in]: Specifies pixel bit depth of encoded video. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit, NV_ENC_BIT_DEPTH_10 for 10 bit.
-        /// SW will do the bitdepth conversion internally from inputBitDepth -> outputBitDepth if bit depths differ
-        /// Support for 8 bit input to 10 bit encode conversion only</summary>
-        public NvEncBitDepth OutputBitDepth;
-        /// <summary>inputBitDepth: [in]: Specifies pixel bit depth of video input. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit input, NV_ENC_BIT_DEPTH_10 for 10 bit input.</summary>
-        public NvEncBitDepth InputBitDepth;
-        /// <summary>reserved1[210]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[210];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>zeroReorderDelay: [in]: Set this to 1 to indicate zero latency operation (no reordering delay, num_reorder_frames=0)</summary>
+    public bool ZeroReorderDelay {
+        get => ((BitField1 >> 9) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
     }
-
-    /// <summary>NV_ENC_FILM_GRAIN_PARAMS_AV1
-    /// struct _NV_ENC_FILM_GRAIN_PARAMS_AV1
-    /// AV1 Film Grain Parameters structure</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncFilmGrainParamsAv1
-    {
-        internal uint BitField1;
-        /// <summary>applyGrain: [in]: Set to 1 to specify film grain should be added to frame</summary>
-        public bool ApplyGrain {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>chromaScalingFromLuma: [in]: Set to 1 to specify the chroma scaling is inferred from luma scaling</summary>
-        public bool ChromaScalingFromLuma {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>overlapFlag: [in]: Set to 1 to indicate that overlap between film grain blocks should be applied</summary>
-        public bool OverlapFlag {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>clipToRestrictedRange: [in]: Set to 1 to clip values to restricted (studio) range after adding film grain</summary>
-        public bool ClipToRestrictedRange {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>grainScalingMinus8: [in]: Represents the shift - 8 applied to the values of the chroma component</summary>
-        public uint GrainScalingMinus8 {
-            get => (uint)((BitField1 >> 4) & 3U);
-            set => BitField1 = (uint)((BitField1 & ~48U) | ((unchecked((uint)value) & 3U) << 4));
-        }
-        /// <summary>arCoeffLag: [in]: Specifies the number of auto-regressive coefficients for luma and chroma</summary>
-        public uint ArCoeffLag {
-            get => (uint)((BitField1 >> 6) & 3U);
-            set => BitField1 = (uint)((BitField1 & ~192U) | ((unchecked((uint)value) & 3U) << 6));
-        }
-        /// <summary>numYPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the luma component</summary>
-        public uint NumYPoints {
-            get => (uint)((BitField1 >> 8) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~3840U) | ((unchecked((uint)value) & 15U) << 8));
-        }
-        /// <summary>numCbPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the cb component</summary>
-        public uint NumCbPoints {
-            get => (uint)((BitField1 >> 12) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
-        }
-        /// <summary>numCrPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the cr component</summary>
-        public uint NumCrPoints {
-            get => (uint)((BitField1 >> 16) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~983040U) | ((unchecked((uint)value) & 15U) << 16));
-        }
-        /// <summary>arCoeffShiftMinus6: [in]: specifies the range of the auto-regressive coefficients</summary>
-        public uint ArCoeffShiftMinus6 {
-            get => (uint)((BitField1 >> 20) & 3U);
-            set => BitField1 = (uint)((BitField1 & ~3145728U) | ((unchecked((uint)value) & 3U) << 20));
-        }
-        /// <summary>grainScaleShift: [in]: Specifies how much the Gaussian random numbers should be scaled down during the grain synthesi process</summary>
-        public uint GrainScaleShift {
-            get => (uint)((BitField1 >> 22) & 3U);
-            set => BitField1 = (uint)((BitField1 & ~12582912U) | ((unchecked((uint)value) & 3U) << 22));
-        }
-        /// <summary>reserved1: [in]: Reserved bits field - should be set to 0</summary>
-        /// <summary>pointYValue[14]: [in]: pointYValue[i]: x coordinate for i-th point of luma piecewise linear scaling function. Values on a scale of 0...255</summary>
-        public fixed byte PointYValue[14];
-        /// <summary>pointYScaling[14]: [in]: pointYScaling[i]: i-th point output value of luma piecewise linear scaling function</summary>
-        public fixed byte PointYScaling[14];
-        /// <summary>pointCbValue[10]: [in]: pointCbValue[i]: x coordinate for i-th point of cb piecewise linear scaling function. Values on a scale of 0...255</summary>
-        public fixed byte PointCbValue[10];
-        /// <summary>pointCbScaling[10]: [in]: pointCbScaling[i]: i-th point output value of cb piecewise linear scaling function</summary>
-        public fixed byte PointCbScaling[10];
-        /// <summary>pointCrValue[10]: [in]: pointCrValue[i]: x coordinate for i-th point of cr piecewise linear scaling function. Values on a scale of 0...255</summary>
-        public fixed byte PointCrValue[10];
-        /// <summary>pointCrScaling[10]: [in]: pointCrScaling[i]: i-th point output value of cr piecewise linear scaling function</summary>
-        public fixed byte PointCrScaling[10];
-        /// <summary>arCoeffsYPlus128[24]: [in]: Specifies auto-regressive coefficients used for the Y plane</summary>
-        public fixed byte ArCoeffsYPlus128[24];
-        /// <summary>arCoeffsCbPlus128[25]: [in]: Specifies auto-regressive coefficients used for the U plane</summary>
-        public fixed byte ArCoeffsCbPlus128[25];
-        /// <summary>arCoeffsCrPlus128[25]: [in]: Specifies auto-regressive coefficients used for the V plane</summary>
-        public fixed byte ArCoeffsCrPlus128[25];
-        /// <summary>reserved2[2]: [in]: Reserved bytes - should be set to 0</summary>
-        private fixed byte Reserved2[2];
-        /// <summary>cbMult: [in]: Represents a multiplier for the cb component used in derivation of the input index to the cb component scaling function</summary>
-        public byte CbMult;
-        /// <summary>cbLumaMult: [in]: represents a multiplier for the average luma component used in derivation of the input index to the cb component scaling function.</summary>
-        public byte CbLumaMult;
-        /// <summary>cbOffset: [in]: Represents an offset used in derivation of the input index to the cb component scaling function</summary>
-        public ushort CbOffset;
-        /// <summary>crMult: [in]: Represents a multiplier for the cr component used in derivation of the input index to the cr component scaling function</summary>
-        public byte CrMult;
-        /// <summary>crLumaMult: [in]: represents a multiplier for the average luma component used in derivation of the input index to the cr component scaling function.</summary>
-        public byte CrLumaMult;
-        /// <summary>crOffset: [in]: Represents an offset used in derivation of the input index to the cr component scaling function</summary>
-        public ushort CrOffset;
+    /// <summary>enableNonRefP: [in]: Set this to 1 to enable automatic insertion of non-reference P-frames (no effect if enablePTD=0)</summary>
+    public bool EnableNonRefP {
+        get => ((BitField1 >> 10) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
     }
-
-    /// <summary>NV_ENC_CONFIG_AV1
-    /// struct _NV_ENC_CONFIG_AV1
-    /// AV1 encoder configuration parameters to be set during initialization.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfigAv1
-    {
-        /// <summary>level: [in]: Specifies the level of the encoded bitstream.</summary>
-        public uint Level;
-        /// <summary>tier: [in]: Specifies the level tier of the encoded bitstream.</summary>
-        public uint Tier;
-        /// <summary>minPartSize: [in]: Specifies the minimum size of luma coding block partition.</summary>
-        public NvEncAv1PartSize MinPartSize;
-        /// <summary>maxPartSize: [in]: Specifies the maximum size of luma coding block partition.</summary>
-        public NvEncAv1PartSize MaxPartSize;
-        internal uint BitField1;
-        /// <summary>outputAnnexBFormat: [in]: Set 1 to use Annex B format for bitstream output.</summary>
-        public bool OutputAnnexBFormat {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>enableTimingInfo: [in]: Set 1 to write Timing Info into sequence/frame headers</summary>
-        public bool EnableTimingInfo {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>enableDecoderModelInfo: [in]: Set 1 to write Decoder Model Info into sequence/frame headers</summary>
-        public bool EnableDecoderModelInfo {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>enableFrameIdNumbers: [in]: Set 1 to write Frame id numbers in bitstream</summary>
-        public bool EnableFrameIdNumbers {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>disableSeqHdr: [in]: Set 1 to disable Sequence Header signaling in the bitstream.</summary>
-        public bool DisableSeqHdr {
-            get => ((BitField1 >> 4) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
-        }
-        /// <summary>repeatSeqHdr: [in]: Set 1 to output Sequence Header for every Key frame.</summary>
-        public bool RepeatSeqHdr {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>enableIntraRefresh: [in]: Set 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
-        public bool EnableIntraRefresh {
-            get => ((BitField1 >> 6) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
-        }
-        /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input (yuv444 input currently not supported).</summary>
-        public uint ChromaFormatIDC {
-            get => (uint)((BitField1 >> 7) & 3U);
-            set => BitField1 = (uint)((BitField1 & ~384U) | ((unchecked((uint)value) & 3U) << 7));
-        }
-        /// <summary>enableBitstreamPadding: [in]: Set 1 to enable bitstream padding.</summary>
-        public bool EnableBitstreamPadding {
-            get => ((BitField1 >> 9) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
-        }
-        /// <summary>enableCustomTileConfig: [in]: Set 1 to enable custom tile configuration: numTileColumns and numTileRows must have non zero values and tileWidths and tileHeights must point to a valid address</summary>
-        public bool EnableCustomTileConfig {
-            get => ((BitField1 >> 10) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
-        }
-        /// <summary>enableFilmGrainParams: [in]: Set 1 to enable custom film grain parameters: filmGrainParams must point to a valid address</summary>
-        public bool EnableFilmGrainParams {
-            get => ((BitField1 >> 11) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
-        }
-        /// <summary>reserved4: [in]: Reserved and must be set to 0.</summary>
-        /// <summary>reserved: [in]: Reserved bitfields.</summary>
-        /// <summary>idrPeriod: [in]: Specifies the IDR/Key frame interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG.Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
-        public uint IdrPeriod;
-        /// <summary>intraRefreshPeriod: [in]: Specifies the interval between successive intra refresh if enableIntrarefresh is set. Requires enableIntraRefresh to be set.
-        /// Will be disabled if NV_ENC_CONFIG::gopLength is not set to NVENC_INFINITE_GOPLENGTH.</summary>
-        public uint IntraRefreshPeriod;
-        /// <summary>intraRefreshCnt: [in]: Specifies the length of intra refresh in number of frames for periodic intra refresh. This value should be smaller than intraRefreshPeriod</summary>
-        public uint IntraRefreshCnt;
-        /// <summary>maxNumRefFramesInDPB: [in]: Specifies the maximum number of references frames in the DPB.</summary>
-        public uint MaxNumRefFramesInDPB;
-        /// <summary>numTileColumns: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileWidths[] specifies the way in which the picture is divided into tile columns.
-        /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileColumns tile columns. If numTileColumns is not a power of 2,
-        /// it will be rounded down to the next power of 2 value. If numTileColumns == 0, the picture will be coded with the smallest number of vertical tiles as allowed by standard.
-        /// When enableCustomTileConfig == 1, numTileColumns must be > 0 and <= NV_MAX_TILE_COLS_AV1 and tileWidths must point to a valid array of numTileColumns entries.
-        /// Entry i specifies the width in 64x64 CTU unit of tile colum i. The sum of all the entries should be equal to the picture width in 64x64 CTU units.</summary>
-        public uint NumTileColumns;
-        /// <summary>numTileRows: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileHeights[] specifies the way in which the picture is divided into tiles rows
-        /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileRows tile rows. If numTileRows is not a power of 2,
-        /// it will be rounded down to the next power of 2 value. If numTileRows == 0, the picture will be coded with the smallest number of horizontal tiles as allowed by standard.
-        /// When enableCustomTileConfig == 1, numTileRows must be > 0 and <= NV_MAX_TILE_ROWS_AV1 and tileHeights must point to a valid array of numTileRows entries.
-        /// Entry i specifies the height in 64x64 CTU unit of tile row i. The sum of all the entries should be equal to the picture hieght in 64x64 CTU units.</summary>
-        public uint NumTileRows;
-        /// <summary>reserved2: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved2;
-        /// <summary>*tileWidths: [in]: If enableCustomTileConfig == 1, tileWidths[i] specifies the width of tile column i in 64x64 CTU unit, with 0 <= i <= numTileColumns -1.</summary>
-        public uint *tileWidths;
-        /// <summary>*tileHeights: [in]: If enableCustomTileConfig == 1, tileHeights[i] specifies the height of tile row i in 64x64 CTU unit, with 0 <= i <= numTileRows -1.</summary>
-        public uint *tileHeights;
-        /// <summary>maxTemporalLayersMinus1: [in]: Specifies the max temporal layer used for hierarchical coding. Cannot be reconfigured and must be specified during encoder creation if temporal layer is considered.</summary>
-        public uint MaxTemporalLayersMinus1;
-        /// <summary>colorPrimaries: [in]: as defined in section of ISO/IEC 23091-4/ITU-T H.273</summary>
-        public NvEncVuiColorPrimaries ColorPrimaries;
-        /// <summary>transferCharacteristics: [in]: as defined in section of ISO/IEC 23091-4/ITU-T H.273</summary>
-        public NvEncVuiTransferCharacteristic TransferCharacteristics;
-        /// <summary>matrixCoefficients: [in]: as defined in section of ISO/IEC 23091-4/ITU-T H.273</summary>
-        public NvEncVuiMatrixCoeffs MatrixCoefficients;
-        /// <summary>colorRange: [in]: 0: studio swing representation - 1: full swing representation</summary>
-        public uint ColorRange;
-        /// <summary>chromaSamplePosition: [in]: 0: unknown
-        /// 1: Horizontally collocated with luma (0,0) sample, between two vertical samples
-        /// 2: Co-located with luma (0,0) sample</summary>
-        public uint ChromaSamplePosition;
-        /// <summary>useBFramesAsRef: [in]: Specifies the B-Frame as reference mode. Check support for useBFramesAsRef mode using ::NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE caps.</summary>
-        public NvEncBframeRefMode UseBFramesAsRef;
-        /// <summary>*filmGrainParams: [in]: If enableFilmGrainParams == 1, filmGrainParams must point to a valid NV_ENC_FILM_GRAIN_PARAMS_AV1 structure</summary>
-        public NvEncFilmGrainParamsAv1 *filmGrainParams;
-        /// <summary>numFwdRefs: [in]: Specifies max number of forward reference frame used for prediction of a frame. It must be in range 1-4 (Last, Last2, last3 and Golden). It's a suggestive value not necessarily be honored always.</summary>
-        public NvEncNumRefFrames NumFwdRefs;
-        /// <summary>numBwdRefs: [in]: Specifies max number of L1 list reference frame used for prediction of a frame. It must be in range 1-3 (Backward, Altref2, Altref). It's a suggestive value not necessarily be honored always.</summary>
-        public NvEncNumRefFrames NumBwdRefs;
-        /// <summary>outputBitDepth: [in]: Specifies pixel bit depth of encoded video. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit, NV_ENC_BIT_DEPTH_10 for 10 bit.
-        /// HW will do the bitdepth conversion internally from inputBitDepth -> outputBitDepth if bit depths differ
-        /// Support for 8 bit input to 10 bit encode conversion only</summary>
-        public NvEncBitDepth OutputBitDepth;
-        /// <summary>inputBitDepth: [in]: Specifies pixel bit depth of video input. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit input, NV_ENC_BIT_DEPTH_10 for 10 bit input.</summary>
-        public NvEncBitDepth InputBitDepth;
-        /// <summary>reserved1[233]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[233];
-        /// <summary>reserved3[62]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved3[62]
-        private IntPtr Reserved30;
-        private IntPtr Reserved31;
-        private IntPtr Reserved32;
-        private IntPtr Reserved33;
-        private IntPtr Reserved34;
-        private IntPtr Reserved35;
-        private IntPtr Reserved36;
-        private IntPtr Reserved37;
-        private IntPtr Reserved38;
-        private IntPtr Reserved39;
-        private IntPtr Reserved310;
-        private IntPtr Reserved311;
-        private IntPtr Reserved312;
-        private IntPtr Reserved313;
-        private IntPtr Reserved314;
-        private IntPtr Reserved315;
-        private IntPtr Reserved316;
-        private IntPtr Reserved317;
-        private IntPtr Reserved318;
-        private IntPtr Reserved319;
-        private IntPtr Reserved320;
-        private IntPtr Reserved321;
-        private IntPtr Reserved322;
-        private IntPtr Reserved323;
-        private IntPtr Reserved324;
-        private IntPtr Reserved325;
-        private IntPtr Reserved326;
-        private IntPtr Reserved327;
-        private IntPtr Reserved328;
-        private IntPtr Reserved329;
-        private IntPtr Reserved330;
-        private IntPtr Reserved331;
-        private IntPtr Reserved332;
-        private IntPtr Reserved333;
-        private IntPtr Reserved334;
-        private IntPtr Reserved335;
-        private IntPtr Reserved336;
-        private IntPtr Reserved337;
-        private IntPtr Reserved338;
-        private IntPtr Reserved339;
-        private IntPtr Reserved340;
-        private IntPtr Reserved341;
-        private IntPtr Reserved342;
-        private IntPtr Reserved343;
-        private IntPtr Reserved344;
-        private IntPtr Reserved345;
-        private IntPtr Reserved346;
-        private IntPtr Reserved347;
-        private IntPtr Reserved348;
-        private IntPtr Reserved349;
-        private IntPtr Reserved350;
-        private IntPtr Reserved351;
-        private IntPtr Reserved352;
-        private IntPtr Reserved353;
-        private IntPtr Reserved354;
-        private IntPtr Reserved355;
-        private IntPtr Reserved356;
-        private IntPtr Reserved357;
-        private IntPtr Reserved358;
-        private IntPtr Reserved359;
-        private IntPtr Reserved360;
-        private IntPtr Reserved361;
-        #endregion Reserved3[62]
+    /// <summary>strictGOPTarget: [in]: Set this to 1 to minimize GOP-to-GOP rate fluctuations</summary>
+    public bool StrictGOPTarget {
+        get => ((BitField1 >> 11) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
     }
-
-    /// <summary>NV_ENC_CONFIG_H264_MEONLY
-    /// struct _NV_ENC_CONFIG_H264_MEONLY
-    /// H264 encoder configuration parameters for ME only Mode</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfigH264Meonly
-    {
-        internal uint BitField1;
-        /// <summary>disablePartition16x16: [in]: Disable Motion Estimation on 16x16 blocks</summary>
-        public bool DisablePartition16x16 {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>disablePartition8x16: [in]: Disable Motion Estimation on 8x16 blocks</summary>
-        public bool DisablePartition8x16 {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>disablePartition16x8: [in]: Disable Motion Estimation on 16x8 blocks</summary>
-        public bool DisablePartition16x8 {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>disablePartition8x8: [in]: Disable Motion Estimation on 8x8 blocks</summary>
-        public bool DisablePartition8x8 {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>disableIntraSearch: [in]: Disable Intra search during Motion Estimation</summary>
-        public bool DisableIntraSearch {
-            get => ((BitField1 >> 4) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
-        }
-        /// <summary>bStereoEnable: [in]: Enable Stereo Mode for Motion Estimation where each view is independently executed</summary>
-        public bool BStereoEnable {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        /// <summary>reserved1 [255]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1 [255];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>aqStrength: [in]: When AQ (Spatial) is enabled (i.e. NV_ENC_RC_PARAMS::enableAQ is set), this field is used to specify AQ strength. AQ strength scale is from 1 (low) - 15 (aggressive).
+    /// If not set, strength is auto selected by driver.</summary>
+    public uint AqStrength {
+        get => (uint)((BitField1 >> 12) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
     }
-
-    /// <summary>NV_ENC_CONFIG_HEVC_MEONLY
-    /// struct _NV_ENC_CONFIG_HEVC_MEONLY
-    /// HEVC encoder configuration parameters for ME only Mode</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfigHevcMeonly
-    {
-        /// <summary>reserved [256]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved [256];
-        /// <summary>reserved1[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved1[64]
-        private IntPtr Reserved10;
-        private IntPtr Reserved11;
-        private IntPtr Reserved12;
-        private IntPtr Reserved13;
-        private IntPtr Reserved14;
-        private IntPtr Reserved15;
-        private IntPtr Reserved16;
-        private IntPtr Reserved17;
-        private IntPtr Reserved18;
-        private IntPtr Reserved19;
-        private IntPtr Reserved110;
-        private IntPtr Reserved111;
-        private IntPtr Reserved112;
-        private IntPtr Reserved113;
-        private IntPtr Reserved114;
-        private IntPtr Reserved115;
-        private IntPtr Reserved116;
-        private IntPtr Reserved117;
-        private IntPtr Reserved118;
-        private IntPtr Reserved119;
-        private IntPtr Reserved120;
-        private IntPtr Reserved121;
-        private IntPtr Reserved122;
-        private IntPtr Reserved123;
-        private IntPtr Reserved124;
-        private IntPtr Reserved125;
-        private IntPtr Reserved126;
-        private IntPtr Reserved127;
-        private IntPtr Reserved128;
-        private IntPtr Reserved129;
-        private IntPtr Reserved130;
-        private IntPtr Reserved131;
-        private IntPtr Reserved132;
-        private IntPtr Reserved133;
-        private IntPtr Reserved134;
-        private IntPtr Reserved135;
-        private IntPtr Reserved136;
-        private IntPtr Reserved137;
-        private IntPtr Reserved138;
-        private IntPtr Reserved139;
-        private IntPtr Reserved140;
-        private IntPtr Reserved141;
-        private IntPtr Reserved142;
-        private IntPtr Reserved143;
-        private IntPtr Reserved144;
-        private IntPtr Reserved145;
-        private IntPtr Reserved146;
-        private IntPtr Reserved147;
-        private IntPtr Reserved148;
-        private IntPtr Reserved149;
-        private IntPtr Reserved150;
-        private IntPtr Reserved151;
-        private IntPtr Reserved152;
-        private IntPtr Reserved153;
-        private IntPtr Reserved154;
-        private IntPtr Reserved155;
-        private IntPtr Reserved156;
-        private IntPtr Reserved157;
-        private IntPtr Reserved158;
-        private IntPtr Reserved159;
-        private IntPtr Reserved160;
-        private IntPtr Reserved161;
-        private IntPtr Reserved162;
-        private IntPtr Reserved163;
-        #endregion Reserved1[64]
+    /// <summary>enableExtLookahead: [in]: Set this to 1 to enable lookahead externally.
+    /// Application must call NvEncLookahead() for NV_ENC_RC_PARAMS::lookaheadDepth number of frames,
+    /// before calling NvEncEncodePicture() for the first frame</summary>
+    public bool EnableExtLookahead {
+        get => ((BitField1 >> 16) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
     }
+    /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
+    /// <summary>minQP: [in]: Specifies the minimum QP used for rate control. Client must set NV_ENC_CONFIG::enableMinQP to 1.</summary>
+    public NvEncQp MinQP;
+    /// <summary>maxQP: [in]: Specifies the maximum QP used for rate control. Client must set NV_ENC_CONFIG::enableMaxQP to 1.</summary>
+    public NvEncQp MaxQP;
+    /// <summary>initialRCQP: [in]: Specifies the initial QP hint used for rate control. The parameter is just used as hint to influence the QP difference between I,P and B frames.
+    /// Client must set NV_ENC_CONFIG::enableInitialRCQP to 1.</summary>
+    public NvEncQp InitialRCQP;
+    /// <summary>temporallayerIdxMask: [in]: Specifies the temporal layers (as a bitmask) whose QPs have changed. Valid max bitmask is [2^NV_ENC_CAPS_NUM_MAX_TEMPORAL_LAYERS - 1].
+    /// Applicable only for constant QP mode (NV_ENC_RC_PARAMS::rateControlMode = NV_ENC_PARAMS_RC_CONSTQP).</summary>
+    public uint TemporallayerIdxMask;
+    /// <summary>temporalLayerQP[8]: [in]: Specifies the temporal layer QPs used for rate control. Temporal layer index is used as the array index.
+    /// Applicable only for constant QP mode (NV_ENC_RC_PARAMS::rateControlMode = NV_ENC_PARAMS_RC_CONSTQP).</summary>
+    public fixed byte TemporalLayerQP[8];
+    /// <summary>targetQuality: [in]: Target CQ (Constant Quality) level for VBR mode (range 0-51 with 0-automatic)</summary>
+    public byte TargetQuality;
+    /// <summary>targetQualityLSB: [in]: Fractional part of target quality (as 8.8 fixed point format)</summary>
+    public byte TargetQualityLSB;
+    /// <summary>lookaheadDepth: [in]: Maximum depth of lookahead with range 0-(31 - number of B frames).
+    /// lookaheadDepth is only used if enableLookahead=1.</summary>
+    public ushort LookaheadDepth;
+    /// <summary>lowDelayKeyFrameScale: [in]: Specifies the ratio of I frame bits to P frame bits in case of single frame VBV and CBR rate control mode,
+    /// is set to 2 by default for low latency tuning info and 1 by default for ultra low latency tuning info</summary>
+    public byte LowDelayKeyFrameScale;
+    /// <summary>yDcQPIndexOffset: [in]: Specifies the value of 'deltaQ_y_dc' in AV1.</summary>
+    public byte YDcQPIndexOffset;
+    /// <summary>uDcQPIndexOffset: [in]: Specifies the value of 'deltaQ_u_dc' in AV1.</summary>
+    public byte UDcQPIndexOffset;
+    /// <summary>vDcQPIndexOffset: [in]: Specifies the value of 'deltaQ_v_dc' in AV1 (for future use only - deltaQ_v_dc is currently always internally set to same value as deltaQ_u_dc).</summary>
+    public byte VDcQPIndexOffset;
+    /// <summary>qpMapMode: [in]: This flag is used to interpret values in array specified by NV_ENC_PIC_PARAMS::qpDeltaMap.
+    /// Set this to NV_ENC_QP_MAP_EMPHASIS to treat values specified by NV_ENC_PIC_PARAMS::qpDeltaMap as Emphasis Level Map.
+    /// Emphasis Level can be assigned any value specified in enum NV_ENC_EMPHASIS_MAP_LEVEL.
+    /// Emphasis Level Map is used to specify regions to be encoded at varying levels of quality.
+    /// The hardware encoder adjusts the quantization within the image as per the provided emphasis map,
+    /// by adjusting the quantization parameter (QP) assigned to each macroblock. This adjustment is commonly called "Delta QP".
+    /// The adjustment depends on the absolute QP decided by the rate control algorithm, and is applied after the rate control has decided each macroblock's QP.
+    /// Since the Delta QP overrides rate control, enabling Emphasis Level Map may violate bitrate and VBV buffer size constraints.
+    /// Emphasis Level Map is useful in situations where client has a priori knowledge of the image complexity (e.g. via use of NVFBC's Classification feature) and encoding those high-complexity areas at higher quality (lower QP) is important, even at the possible cost of violating bitrate/VBV buffer size constraints
+    /// This feature is not supported when AQ( Spatial/Temporal) is enabled.
+    /// This feature is only supported for H264 codec currently.
+    /// Set this to NV_ENC_QP_MAP_DELTA to treat values specified by NV_ENC_PIC_PARAMS::qpDeltaMap as QP Delta. This specifies QP modifier to be applied on top of the QP chosen by rate control
+    /// Set this to NV_ENC_QP_MAP_DISABLED to ignore NV_ENC_PIC_PARAMS::qpDeltaMap values. In this case, qpDeltaMap should be set to NULL.
+    /// Other values are reserved for future use.</summary>
+    public NvEncQpMapMode QpMapMode;
+    /// <summary>multiPass: [in]: This flag is used to enable multi-pass encoding for a given ::NV_ENC_PARAMS_RC_MODE. This flag is not valid for H264 and HEVC MEOnly mode</summary>
+    public NvEncMultiPass MultiPass;
+    /// <summary>alphaLayerBitrateRatio: [in]: Specifies the ratio in which bitrate should be split between base and alpha layer. A value 'x' for this field will split the target bitrate in a ratio of x : 1 between base and alpha layer.
+    /// The default split ratio is 15.</summary>
+    public uint AlphaLayerBitrateRatio;
+    /// <summary>cbQPIndexOffset: [in]: Specifies the value of 'chroma_qp_index_offset' in H264 / 'pps_cb_qp_offset' in HEVC / 'deltaQ_u_ac' in AV1.</summary>
+    public byte CbQPIndexOffset;
+    /// <summary>crQPIndexOffset: [in]: Specifies the value of 'second_chroma_qp_index_offset' in H264 / 'pps_cr_qp_offset' in HEVC / 'deltaQ_v_ac' in AV1 (for future use only - deltaQ_v_ac is currently always internally set to same value as deltaQ_u_ac).</summary>
+    public byte CrQPIndexOffset;
+    /// <summary>reserved2</summary>
+    private ushort Reserved2;
+    /// <summary>lookaheadLevel: [in]: Specifies the lookahead level. Higher level may improve quality at the expense of performance.</summary>
+    public NvEncLookaheadLevel LookaheadLevel;
+    /// <summary>reserved[3]</summary>
+    private fixed uint Reserved[3];
+}
 
-    /// <summary>NV_ENC_CONFIG
-    /// struct _NV_ENC_CONFIG
-    /// Encoder configuration parameters to be set during initialization.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncConfig
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CONFIG_VER.</summary>
-        public uint Version;
-        /// <summary>profileGUID: [in]: Specifies the codec profile GUID. If client specifies \p NV_ENC_CODEC_PROFILE_AUTOSELECT_GUID the NvEncodeAPI interface will select the appropriate codec profile.</summary>
-        public Guid ProfileGuid;
-        /// <summary>gopLength: [in]: Specifies the number of pictures in one GOP. Low latency application client can set goplength to NVENC_INFINITE_GOPLENGTH so that keyframes are not inserted automatically.</summary>
-        public uint GopLength;
-        /// <summary>frameIntervalP: [in]: Specifies the GOP pattern as follows: \p frameIntervalP = 0: I, 1: IPP, 2: IBP, 3: IBBP If goplength is set to NVENC_INFINITE_GOPLENGTH \p frameIntervalP should be set to 1.</summary>
-        public int FrameIntervalP;
-        /// <summary>monoChromeEncoding: [in]: Set this to 1 to enable monochrome encoding for this session.</summary>
-        public uint MonoChromeEncoding;
-        /// <summary>frameFieldMode: [in]: Specifies the frame/field mode.
-        /// Check support for field encoding using ::NV_ENC_CAPS_SUPPORT_FIELD_ENCODING caps.
-        /// Using a frameFieldMode other than NV_ENC_PARAMS_FRAME_FIELD_MODE_FRAME for RGB input is not supported.</summary>
-        public NvEncParamsFrameFieldMode FrameFieldMode;
-        /// <summary>mvPrecision: [in]: Specifies the desired motion vector prediction precision.</summary>
-        public NvEncMvPrecision MvPrecision;
-        /// <summary>rcParams: [in]: Specifies the rate control parameters for the current encoding session.</summary>
-        public NvEncRcParams RcParams;
-        /// <summary>encodeCodecConfig: [in]: Specifies the codec specific config parameters through this union.</summary>
-        public NvEncCodecConfig EncodeCodecConfig;
-        /// <summary>reserved [278]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved [278];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+/// <summary>NV_ENC_CLOCK_TIMESTAMP_SET
+/// Clock Timestamp set parameters
+/// For H264, this structure is used to populate Picture Timing SEI when NV_ENC_CONFIG_H264::enableTimeCode is set to 1.
+/// For HEVC, this structure is used to populate Time Code SEI when NV_ENC_CONFIG_HEVC::enableTimeCodeSEI is set to 1.
+/// For more details, refer to Annex D of ITU-T Specification.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncClockTimestampSet
+{
+    internal uint BitField1;
+    /// <summary>countingType: [in] Specifies the 'counting_type'</summary>
+    public bool CountingType {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
     }
-
-    /// <summary>NV_ENC_INITIALIZE_PARAMS
-    /// struct _NV_ENC_INITIALIZE_PARAMS
-    /// Encode Session Initialization parameters.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncInitializeParams
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_INITIALIZE_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>encodeGUID: [in]: Specifies the Encode GUID for which the encoder is being created. ::NvEncInitializeEncoder() API will fail if this is not set, or set to unsupported value.</summary>
-        public Guid EncodeGuid;
-        /// <summary>presetGUID: [in]: Specifies the preset for encoding. If the preset GUID is set then , the preset configuration will be applied before any other parameter.</summary>
-        public Guid PresetGuid;
-        /// <summary>encodeWidth: [in]: Specifies the encode width. If not set ::NvEncInitializeEncoder() API will fail.</summary>
-        public uint EncodeWidth;
-        /// <summary>encodeHeight: [in]: Specifies the encode height. If not set ::NvEncInitializeEncoder() API will fail.</summary>
-        public uint EncodeHeight;
-        /// <summary>darWidth: [in]: Specifies the display aspect ratio width (H264/HEVC) or the render width (AV1).</summary>
-        public uint DarWidth;
-        /// <summary>darHeight: [in]: Specifies the display aspect ratio height (H264/HEVC) or the render height (AV1).</summary>
-        public uint DarHeight;
-        /// <summary>frameRateNum: [in]: Specifies the numerator for frame rate used for encoding in frames per second ( Frame rate = frameRateNum / frameRateDen ).</summary>
-        public uint FrameRateNum;
-        /// <summary>frameRateDen: [in]: Specifies the denominator for frame rate used for encoding in frames per second ( Frame rate = frameRateNum / frameRateDen ).</summary>
-        public uint FrameRateDen;
-        /// <summary>enableEncodeAsync: [in]: Set this to 1 to enable asynchronous mode and is expected to use events to get picture completion notification.</summary>
-        public uint EnableEncodeAsync;
-        /// <summary>enablePTD: [in]: Set this to 1 to enable the Picture Type Decision is be taken by the NvEncodeAPI interface.</summary>
-        public uint EnablePTD;
-        internal uint BitField1;
-        /// <summary>reportSliceOffsets: [in]: Set this to 1 to enable reporting slice offsets in ::_NV_ENC_LOCK_BITSTREAM. NV_ENC_INITIALIZE_PARAMS::enableEncodeAsync must be set to 0 to use this feature. Client must set this to 0 if NV_ENC_CONFIG_H264::sliceMode is 1 on Kepler GPUs</summary>
-        public bool ReportSliceOffsets {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>enableSubFrameWrite: [in]: Set this to 1 to write out available bitstream to memory at subframe intervals.
-        /// If enableSubFrameWrite = 1, then the hardware encoder returns data as soon as a slice (H264/HEVC) or tile (AV1) has completed encoding.
-        /// This results in better encoding latency, but the downside is that the application has to keep polling via a call to nvEncLockBitstream API continuously to see if any encoded slice/tile data is available.
-        /// Use this mode if you feel that the marginal reduction in latency from sub-frame encoding is worth the increase in complexity due to CPU-based polling.</summary>
-        public bool EnableSubFrameWrite {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>enableExternalMEHints: [in]: Set to 1 to enable external ME hints for the current frame. For NV_ENC_INITIALIZE_PARAMS::enablePTD=1 with B frames, programming L1 hints is optional for B frames since Client doesn't know internal GOP structure.
-        /// NV_ENC_PIC_PARAMS::meHintRefPicDist should preferably be set with enablePTD=1.</summary>
-        public bool EnableExternalMEHints {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>enableMEOnlyMode: [in]: Set to 1 to enable ME Only Mode .</summary>
-        public bool EnableMEOnlyMode {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>enableWeightedPrediction: [in]: Set this to 1 to enable weighted prediction. Not supported if encode session is configured for B-Frames (i.e. NV_ENC_CONFIG::frameIntervalP > 1 or preset >=P3 when tuningInfo = ::NV_ENC_TUNING_INFO_HIGH_QUALITY or
-        /// tuningInfo = ::NV_ENC_TUNING_INFO_LOSSLESS. This is because preset >=p3 internally enables B frames when tuningInfo = ::NV_ENC_TUNING_INFO_HIGH_QUALITY or ::NV_ENC_TUNING_INFO_LOSSLESS).</summary>
-        public bool EnableWeightedPrediction {
-            get => ((BitField1 >> 4) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
-        }
-        /// <summary>splitEncodeMode: [in]: Split Encoding mode in NVENC (Split Encoding is not applicable to H264).
-        /// Not supported if any of the following features: weighted prediction, alpha layer encoding,
-        /// subframe mode, output into video memory buffer, picture timing/buffering period SEI message
-        /// insertion with DX12 interface are enabled in case of HEVC.
-        /// For AV1, split encoding is not supported when output into video memory buffer is enabled.</summary>
-        public uint SplitEncodeMode {
-            get => (uint)((BitField1 >> 5) & 15U);
-            set => BitField1 = (uint)((BitField1 & ~480U) | ((unchecked((uint)value) & 15U) << 5));
-        }
-        /// <summary>enableOutputInVidmem: [in]: Set this to 1 to enable output of NVENC in video memory buffer created by application. This feature is not supported for HEVC ME only mode.</summary>
-        public bool EnableOutputInVidmem {
-            get => ((BitField1 >> 9) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
-        }
-        /// <summary>enableReconFrameOutput: [in]: Set this to 1 to enable reconstructed frame output.</summary>
-        public bool EnableReconFrameOutput {
-            get => ((BitField1 >> 10) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
-        }
-        /// <summary>enableOutputStats: [in]: Set this to 1 to enable encoded frame output stats. Client must allocate buffer of size equal to number of blocks multiplied by the size of
-        /// NV_ENC_OUTPUT_STATS_BLOCK struct in system memory and assign to NV_ENC_LOCK_BITSTREAM::encodedOutputStatsPtr to receive the encoded frame output stats.</summary>
-        public bool EnableOutputStats {
-            get => ((BitField1 >> 11) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
-        }
-        /// <summary>enableUniDirectionalB: [in]: Set this to 1 to enable uni directional B-frame(both reference will be from past). It will give better compression
-        /// efficiency for LowLatency/UltraLowLatency use case. Value of parameter is ignored when regular B frames are used.</summary>
-        public bool EnableUniDirectionalB {
-            get => ((BitField1 >> 12) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4096U) | (((value ? 1U : 0U) & 1U) << 12));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        /// <summary>privDataSize: [in]: Reserved private data buffer size and must be set to 0</summary>
-        public uint PrivDataSize;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>privData: [in]: Reserved private data buffer and must be set to NULL</summary>
-        public IntPtr PrivData;
-        /// <summary>encodeConfig: [in]: Specifies the advanced codec specific structure. If client has sent a valid codec config structure, it will override parameters set by the NV_ENC_INITIALIZE_PARAMS::presetGUID parameter. If set to NULL the NvEncodeAPI interface will use the NV_ENC_INITIALIZE_PARAMS::presetGUID to set the codec specific parameters.
-        /// Client can also optionally query the NvEncodeAPI interface to get codec specific parameters for a presetGUID using ::NvEncGetEncodePresetConfigEx() API. It can then modify (if required) some of the codec config parameters and send down a custom config structure as part of ::_NV_ENC_INITIALIZE_PARAMS.
-        /// Even in this case client is recommended to pass the same preset guid it has used in ::NvEncGetEncodePresetConfigEx() API to query the config structure; as NV_ENC_INITIALIZE_PARAMS::presetGUID. This will not override the custom config structure but will be used to determine other Encoder HW specific parameters not exposed in the API.</summary>
-        public NvEncConfig* EncodeConfig;
-        /// <summary>maxEncodeWidth: [in]: Maximum encode width to be used for current Encode session.
-        /// Client should allocate output buffers according to this dimension for dynamic resolution change. If set to 0, Encoder will not allow dynamic resolution change.</summary>
-        public uint MaxEncodeWidth;
-        /// <summary>maxEncodeHeight: [in]: Maximum encode height to be allowed for current Encode session.
-        /// Client should allocate output buffers according to this dimension for dynamic resolution change. If set to 0, Encode will not allow dynamic resolution change.</summary>
-        public uint MaxEncodeHeight;
-        /// <summary>maxMEHintCountsPerBlock[2]: [in]: If Client wants to pass external motion vectors in NV_ENC_PIC_PARAMS::meExternalHints buffer it must specify the maximum number of hint candidates per block per direction for the encode session.
-        /// The NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[0] is for L0 predictors and NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[1] is for L1 predictors.
-        /// This client must also set NV_ENC_INITIALIZE_PARAMS::enableExternalMEHints to 1.</summary>
-        public NvEncExternalMeHintCountsPerBlocktype MaxMEHintCountsPerBlock0;
-        public NvEncExternalMeHintCountsPerBlocktype MaxMEHintCountsPerBlock1;
-        /// <summary>tuningInfo: [in]: Tuning Info of NVENC encoding(TuningInfo is not applicable to H264 and HEVC meonly mode).</summary>
-        public NvEncTuningInfo TuningInfo;
-        /// <summary>bufferFormat: [in]: Input buffer format. Used only when DX12 interface type is used</summary>
-        public NvEncBufferFormat BufferFormat;
-        /// <summary>numStateBuffers: [in]: Number of state buffers to allocate to save encoder state. Set this to value greater than zero to enable encoding without advancing the encoder state.</summary>
-        public uint NumStateBuffers;
-        /// <summary>outputStatsLevel: [in]: Specifies the level for encoded frame output stats, when NV_ENC_INITIALIZE_PARAMS::enableOutputStats is set to 1.
-        /// Client should allocate buffer of size equal to number of blocks multiplied by the size of NV_ENC_OUTPUT_STATS_BLOCK struct
-        /// if NV_ENC_INITIALIZE_PARAMS::outputStatsLevel is set to NV_ENC_OUTPUT_STATS_BLOCK or number of rows multiplied by the size of
-        /// NV_ENC_OUTPUT_STATS_ROW struct if NV_ENC_INITIALIZE_PARAMS::outputStatsLevel is set to NV_ENC_OUTPUT_STATS_ROW
-        /// in system memory and assign to NV_ENC_LOCK_BITSTREAM::encodedOutputStatsPtr to receive the encoded frame output stats.</summary>
-        public NvEncOutputStatsLevel OutputStatsLevel;
-        /// <summary>reserved1 [284]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1 [284];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>discontinuityFlag: [in] Specifies the 'discontinuity_flag'</summary>
+    public bool DiscontinuityFlag {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
     }
-
-    /// <summary>NV_ENC_RECONFIGURE_PARAMS
-    /// struct _NV_ENC_RECONFIGURE_PARAMS
-    /// Encode Session Reconfigured parameters.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncReconfigureParams
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_RECONFIGURE_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>reInitEncodeParams: [in]: Encoder session re-initialization parameters.
-        /// If reInitEncodeParams.encodeConfig is NULL and
-        /// reInitEncodeParams.presetGUID is the same as the preset
-        /// GUID specified on the call to NvEncInitializeEncoder(),
-        /// EncodeAPI will continue to use the existing encode
-        /// configuration.
-        /// If reInitEncodeParams.encodeConfig is NULL and
-        /// reInitEncodeParams.presetGUID is different from the preset
-        /// GUID specified on the call to NvEncInitializeEncoder(),
-        /// EncodeAPI will try to use the default configuration for
-        /// the preset specified by reInitEncodeParams.presetGUID.
-        /// In this case, reconfiguration may fail if the new
-        /// configuration is incompatible with the existing
-        /// configuration (e.g. the new configuration results in
-        /// a change in the GOP structure).</summary>
-        public NvEncInitializeParams ReInitEncodeParams;
-        internal uint BitField1;
-        /// <summary>resetEncoder: [in]: This resets the rate control states and other internal encoder states. This should be used only with an IDR frame.
-        /// If NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1, encoder will force the frame type to IDR</summary>
-        public bool ResetEncoder {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>forceIDR: [in]: Encode the current picture as an IDR picture. This flag is only valid when Picture type decision is taken by the Encoder
-        /// [_NV_ENC_INITIALIZE_PARAMS::enablePTD == 1].</summary>
-        public bool ForceIDR {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>reserved1</summary>
-        /// <summary>reserved2: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved2;
+    /// <summary>cntDroppedFrames: [in] Specifies the 'cnt_dropped_flag'</summary>
+    public bool CntDroppedFrames {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
     }
-
-    /// <summary>NV_ENC_PRESET_CONFIG
-    /// struct _NV_ENC_PRESET_CONFIG
-    /// Encoder preset config</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncPresetConfig
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_PRESET_CONFIG_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>presetCfg: [out]: preset config returned by the Nvidia Video Encoder interface.</summary>
-        public NvEncConfig PresetCfg;
-        /// <summary>reserved1[256]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[256];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>nFrames: [in] Specifies the value of 'n_frames'</summary>
+    public uint NFrames {
+        get => (uint)((BitField1 >> 3) & 255U);
+        set => BitField1 = (uint)((BitField1 & ~2040U) | ((unchecked((uint)value) & 255U) << 3));
     }
-
-    /// <summary>NV_ENC_PIC_PARAMS_MVC
-    /// struct _NV_ENC_PIC_PARAMS_MVC
-    /// MVC-specific parameters to be sent on a per-frame basis.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncPicParamsMvc
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_PIC_PARAMS_MVC_VER.</summary>
-        public uint Version;
-        /// <summary>viewID: [in]: Specifies the view ID associated with the current input view.</summary>
-        public uint ViewID;
-        /// <summary>temporalID: [in]: Specifies the temporal ID associated with the current input view.</summary>
-        public uint TemporalID;
-        /// <summary>priorityID: [in]: Specifies the priority ID associated with the current input view. Reserved and ignored by the NvEncodeAPI interface.</summary>
-        public uint PriorityID;
-        /// <summary>reserved1[12]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[12];
-        /// <summary>reserved2[8]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved2[8]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        #endregion Reserved2[8]
+    /// <summary>secondsValue: [in] Specifies the 'seconds_value'</summary>
+    public uint SecondsValue {
+        get => (uint)((BitField1 >> 11) & 63U);
+        set => BitField1 = (uint)((BitField1 & ~129024U) | ((unchecked((uint)value) & 63U) << 11));
     }
-
-    /// <summary>NV_ENC_SEI_PAYLOAD
-    /// struct _NV_ENC_SEI_PAYLOAD
-    /// User SEI message</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncSeiPayload
-    {
-        /// <summary>payloadSize: [in] SEI payload size in bytes. SEI payload must be byte aligned, as described in Annex D</summary>
-        public uint PayloadSize;
-        /// <summary>payloadType: [in] SEI payload types and syntax can be found in Annex D of the H.264 Specification.</summary>
-        public uint PayloadType;
-        /// <summary>*payload: [in] pointer to user data</summary>
-        public byte *payload;
+    /// <summary>minutesValue: [in] Specifies the 'minutes_value'</summary>
+    public uint MinutesValue {
+        get => (uint)((BitField1 >> 17) & 63U);
+        set => BitField1 = (uint)((BitField1 & ~8257536U) | ((unchecked((uint)value) & 63U) << 17));
     }
-
-    /// <summary>NV_ENC_PIC_PARAMS_H264
-    /// struct _NV_ENC_PIC_PARAMS_H264
-    /// H264 specific enc pic params. sent on a per frame basis.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncPicParamsH264
-    {
-        /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
-        public uint DisplayPOCSyntax;
-        /// <summary>reserved3: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved3;
-        /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public uint RefPicFlag;
-        /// <summary>colourPlaneId: [in]: Specifies the colour plane ID associated with the current input.</summary>
-        public uint ColourPlaneId;
-        /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
-        /// When outputRecoveryPointSEI is set this is value is used for recovery_frame_cnt in recovery point SEI message
-        /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
-        public uint ForceIntraRefreshWithFrameCnt;
-        internal uint BitField1;
-        /// <summary>constrainedFrame: [in]: Set to 1 if client wants to encode this frame with each slice completely independent of other slices in the frame.
-        /// NV_ENC_INITIALIZE_PARAMS::enableConstrainedEncoding should be set to 1</summary>
-        public bool ConstrainedFrame {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>sliceModeDataUpdate: [in]: Set to 1 if client wants to change the sliceModeData field to specify new sliceSize Parameter
-        /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting</summary>
-        public bool SliceModeDataUpdate {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>ltrMarkFrame: [in]: Set to 1 if client wants to mark this frame as LTR</summary>
-        public bool LtrMarkFrame {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>ltrUseFrames: [in]: Set to 1 if client allows encoding this frame using the LTR frames specified in ltrFrameBitmap</summary>
-        public bool LtrUseFrames {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
-        /// <summary>sliceTypeData: [in]: Deprecated.</summary>
-        public byte* SliceTypeData;
-        /// <summary>sliceTypeArrayCnt: [in]: Deprecated.</summary>
-        public uint SliceTypeArrayCnt;
-        /// <summary>seiPayloadArrayCnt: [in]: Specifies the number of elements allocated in seiPayloadArray array.</summary>
-        public uint SeiPayloadArrayCnt;
-        /// <summary>seiPayloadArray: [in]: Array of SEI payloads which will be inserted for this frame.</summary>
-        public NvEncSeiPayload* SeiPayloadArray;
-        /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
-        /// sliceMode = 0 MB based slices, sliceMode = 1 Byte based slices, sliceMode = 2 MB row based slices, sliceMode = 3, numSlices in Picture
-        /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting
-        /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
-        public uint SliceMode;
-        /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
-        /// sliceMode = 0, sliceModeData specifies # of MBs in each slice (except last slice)
-        /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
-        /// sliceMode = 2, sliceModeData specifies # of MB rows in each slice (except last slice)
-        /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
-        public uint SliceModeData;
-        /// <summary>ltrMarkFrameIdx: [in]: Specifies the long term referenceframe index to use for marking this frame as LTR.</summary>
-        public uint LtrMarkFrameIdx;
-        /// <summary>ltrUseFrameBitmap: [in]: Specifies the associated bitmap of LTR frame indices to use when encoding this frame.</summary>
-        public uint LtrUseFrameBitmap;
-        /// <summary>ltrUsageMode: [in]: Not supported. Reserved for future use and must be set to 0.</summary>
-        public uint LtrUsageMode;
-        /// <summary>forceIntraSliceCount: [in]: Specifies the number of slices to be forced to Intra in the current picture.
-        /// This option along with forceIntraSliceIdx[] array needs to be used with sliceMode = 3 only</summary>
-        public uint ForceIntraSliceCount;
-        /// <summary>*forceIntraSliceIdx: [in]: Slice indices to be forced to intra in the current picture. Each slice index should be <= num_slices_in_picture -1. Index starts from 0 for first slice.
-        /// The number of entries in this array should be equal to forceIntraSliceCount</summary>
-        public uint *forceIntraSliceIdx;
-        /// <summary>h264ExtPicParams: [in]: Specifies the H264 extension config parameters using this config.</summary>
-        public NvEncPicParamsH264Ext H264ExtPicParams;
-        /// <summary>timeCode: [in]: Specifies the clock timestamp sets used in picture timing SEI. Applicable only when NV_ENC_CONFIG_H264::enableTimeCode is set to 1.</summary>
-        public NvEncTimeCode TimeCode;
-        /// <summary>reserved [202]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved [202];
-        /// <summary>reserved2[61]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved2[61]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        #endregion Reserved2[61]
+    /// <summary>hoursValue: [in] Specifies the 'hours_value'</summary>
+    public uint HoursValue {
+        get => (uint)((BitField1 >> 23) & 31U);
+        set => BitField1 = (uint)((BitField1 & ~260046848U) | ((unchecked((uint)value) & 31U) << 23));
     }
+    /// <summary>reserved2: [in] Reserved and must be set to 0</summary>
+    /// <summary>timeOffset: [in] Specifies the 'time_offset_value'</summary>
+    public uint TimeOffset;
+}
 
-    /// <summary>NV_ENC_PIC_PARAMS_HEVC
-    /// struct _NV_ENC_PIC_PARAMS_HEVC
-    /// HEVC specific enc pic params. sent on a per frame basis.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncPicParamsHevc
-    {
-        /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
-        public uint DisplayPOCSyntax;
-        /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public uint RefPicFlag;
-        /// <summary>temporalId: [in]: Specifies the temporal id of the picture</summary>
-        public uint TemporalId;
-        /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
-        /// When outputRecoveryPointSEI is set this is value is used for recovery_frame_cnt in recovery point SEI message
-        /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
-        public uint ForceIntraRefreshWithFrameCnt;
-        internal uint BitField1;
-        /// <summary>constrainedFrame: [in]: Set to 1 if client wants to encode this frame with each slice completely independent of other slices in the frame.
-        /// NV_ENC_INITIALIZE_PARAMS::enableConstrainedEncoding should be set to 1</summary>
-        public bool ConstrainedFrame {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>sliceModeDataUpdate: [in]: Set to 1 if client wants to change the sliceModeData field to specify new sliceSize Parameter
-        /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting</summary>
-        public bool SliceModeDataUpdate {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>ltrMarkFrame: [in]: Set to 1 if client wants to mark this frame as LTR</summary>
-        public bool LtrMarkFrame {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>ltrUseFrames: [in]: Set to 1 if client allows encoding this frame using the LTR frames specified in ltrFrameBitmap</summary>
-        public bool LtrUseFrames {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
-        /// <summary>reserved1: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved1;
-        /// <summary>sliceTypeData: [in]: Array which specifies the slice type used to force intra slice for a particular slice. Currently supported only for NV_ENC_CONFIG_H264::sliceMode == 3.
-        /// Client should allocate array of size sliceModeData where sliceModeData is specified in field of ::_NV_ENC_CONFIG_H264
-        /// Array element with index n corresponds to nth slice. To force a particular slice to intra client should set corresponding array element to NV_ENC_SLICE_TYPE_I
-        /// all other array elements should be set to NV_ENC_SLICE_TYPE_DEFAULT</summary>
-        public byte* SliceTypeData;
-        /// <summary>sliceTypeArrayCnt: [in]: Client should set this to the number of elements allocated in sliceTypeData array. If sliceTypeData is NULL then this should be set to 0</summary>
-        public uint SliceTypeArrayCnt;
-        /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
-        /// sliceMode = 0 CTU based slices, sliceMode = 1 Byte based slices, sliceMode = 2 CTU row based slices, sliceMode = 3, numSlices in Picture
-        /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting
-        /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
-        public uint SliceMode;
-        /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
-        /// sliceMode = 0, sliceModeData specifies # of CTUs in each slice (except last slice)
-        /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
-        /// sliceMode = 2, sliceModeData specifies # of CTU rows in each slice (except last slice)
-        /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
-        public uint SliceModeData;
-        /// <summary>ltrMarkFrameIdx: [in]: Specifies the long term reference frame index to use for marking this frame as LTR.</summary>
-        public uint LtrMarkFrameIdx;
-        /// <summary>ltrUseFrameBitmap: [in]: Specifies the associated bitmap of LTR frame indices to use when encoding this frame.</summary>
-        public uint LtrUseFrameBitmap;
-        /// <summary>ltrUsageMode: [in]: Not supported. Reserved for future use and must be set to 0.</summary>
-        public uint LtrUsageMode;
-        /// <summary>seiPayloadArrayCnt: [in]: Specifies the number of elements allocated in seiPayloadArray array.</summary>
-        public uint SeiPayloadArrayCnt;
-        /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved;
-        /// <summary>seiPayloadArray: [in]: Array of SEI payloads which will be inserted for this frame.</summary>
-        public NvEncSeiPayload* SeiPayloadArray;
-        /// <summary>timeCode: [in]: Specifies the clock timestamp sets used in time code SEI. Applicable only when NV_ENC_CONFIG_HEVC::enableTimeCodeSEI is set to 1.</summary>
-        public NvEncTimeCode TimeCode;
-        /// <summary>reserved2[236]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved2[236];
-        /// <summary>reserved3[61]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved3[61]
-        private IntPtr Reserved30;
-        private IntPtr Reserved31;
-        private IntPtr Reserved32;
-        private IntPtr Reserved33;
-        private IntPtr Reserved34;
-        private IntPtr Reserved35;
-        private IntPtr Reserved36;
-        private IntPtr Reserved37;
-        private IntPtr Reserved38;
-        private IntPtr Reserved39;
-        private IntPtr Reserved310;
-        private IntPtr Reserved311;
-        private IntPtr Reserved312;
-        private IntPtr Reserved313;
-        private IntPtr Reserved314;
-        private IntPtr Reserved315;
-        private IntPtr Reserved316;
-        private IntPtr Reserved317;
-        private IntPtr Reserved318;
-        private IntPtr Reserved319;
-        private IntPtr Reserved320;
-        private IntPtr Reserved321;
-        private IntPtr Reserved322;
-        private IntPtr Reserved323;
-        private IntPtr Reserved324;
-        private IntPtr Reserved325;
-        private IntPtr Reserved326;
-        private IntPtr Reserved327;
-        private IntPtr Reserved328;
-        private IntPtr Reserved329;
-        private IntPtr Reserved330;
-        private IntPtr Reserved331;
-        private IntPtr Reserved332;
-        private IntPtr Reserved333;
-        private IntPtr Reserved334;
-        private IntPtr Reserved335;
-        private IntPtr Reserved336;
-        private IntPtr Reserved337;
-        private IntPtr Reserved338;
-        private IntPtr Reserved339;
-        private IntPtr Reserved340;
-        private IntPtr Reserved341;
-        private IntPtr Reserved342;
-        private IntPtr Reserved343;
-        private IntPtr Reserved344;
-        private IntPtr Reserved345;
-        private IntPtr Reserved346;
-        private IntPtr Reserved347;
-        private IntPtr Reserved348;
-        private IntPtr Reserved349;
-        private IntPtr Reserved350;
-        private IntPtr Reserved351;
-        private IntPtr Reserved352;
-        private IntPtr Reserved353;
-        private IntPtr Reserved354;
-        private IntPtr Reserved355;
-        private IntPtr Reserved356;
-        private IntPtr Reserved357;
-        private IntPtr Reserved358;
-        private IntPtr Reserved359;
-        private IntPtr Reserved360;
-        #endregion Reserved3[61]
+/// <summary>NV_ENC_TIME_CODE</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncTimeCode
+{
+    /// <summary>displayPicStruct: [in] Display picStruct</summary>
+    public NvEncDisplayPicStruct DisplayPicStruct;
+    /// <summary>clockTimestamp[MAX_NUM_CLOCK_TS]: [in] Clock Timestamp set</summary>
+    public NvEncClockTimestampSet ClockTimestamp0;
+    public NvEncClockTimestampSet ClockTimestamp1;
+    public NvEncClockTimestampSet ClockTimestamp2;
+    /// <summary>skipClockTimestampInsertion: [in] 0 : Inserts Clock Timestamp if NV_ENC_CONFIG_H264::enableTimeCode (H264) or
+    /// NV_ENC_CONFIG_HEVC::outputTimeCodeSEI (HEVC) is specified
+    /// 1 : Skips insertion of Clock Timestamp for current frame</summary>
+    public uint SkipClockTimestampInsertion;
+}
+
+/// <summary>NV_ENC_CONFIG_H264_VUI_PARAMETERS
+/// struct _NV_ENC_CONFIG_H264_VUI_PARAMETERS
+/// H264 Video Usability Info parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfigH264VuiParameters
+{
+    /// <summary>overscanInfoPresentFlag: [in]: If set to 1 , it specifies that the overscanInfo is present</summary>
+    public uint OverscanInfoPresentFlag;
+    /// <summary>overscanInfo: [in]: Specifies the overscan info(as defined in Annex E of the ITU-T Specification).</summary>
+    public uint OverscanInfo;
+    /// <summary>videoSignalTypePresentFlag: [in]: If set to 1, it specifies that the videoFormat, videoFullRangeFlag and colourDescriptionPresentFlag are present.</summary>
+    public uint VideoSignalTypePresentFlag;
+    /// <summary>videoFormat: [in]: Specifies the source video format(as defined in Annex E of the ITU-T Specification).</summary>
+    public NvEncVuiVideoFormat VideoFormat;
+    /// <summary>videoFullRangeFlag: [in]: Specifies the output range of the luma and chroma samples(as defined in Annex E of the ITU-T Specification).</summary>
+    public uint VideoFullRangeFlag;
+    /// <summary>colourDescriptionPresentFlag: [in]: If set to 1, it specifies that the colourPrimaries, transferCharacteristics and colourMatrix are present.</summary>
+    public uint ColourDescriptionPresentFlag;
+    /// <summary>colourPrimaries: [in]: Specifies color primaries for converting to RGB(as defined in Annex E of the ITU-T Specification)</summary>
+    public NvEncVuiColorPrimaries ColourPrimaries;
+    /// <summary>transferCharacteristics: [in]: Specifies the opto-electronic transfer characteristics to use (as defined in Annex E of the ITU-T Specification)</summary>
+    public NvEncVuiTransferCharacteristic TransferCharacteristics;
+    /// <summary>colourMatrix: [in]: Specifies the matrix coefficients used in deriving the luma and chroma from the RGB primaries (as defined in Annex E of the ITU-T Specification).</summary>
+    public NvEncVuiMatrixCoeffs ColourMatrix;
+    /// <summary>chromaSampleLocationFlag: [in]: If set to 1 , it specifies that the chromaSampleLocationTop and chromaSampleLocationBot are present.</summary>
+    public uint ChromaSampleLocationFlag;
+    /// <summary>chromaSampleLocationTop: [in]: Specifies the chroma sample location for top field(as defined in Annex E of the ITU-T Specification)</summary>
+    public uint ChromaSampleLocationTop;
+    /// <summary>chromaSampleLocationBot: [in]: Specifies the chroma sample location for bottom field(as defined in Annex E of the ITU-T Specification)</summary>
+    public uint ChromaSampleLocationBot;
+    /// <summary>bitstreamRestrictionFlag: [in]: If set to 1, it specifies the bitstream restriction parameters are present in the bitstream.</summary>
+    public uint BitstreamRestrictionFlag;
+    /// <summary>timingInfoPresentFlag: [in]: If set to 1, it specifies that the timingInfo is present and the 'numUnitInTicks' and 'timeScale' fields are specified by the application.</summary>
+    public uint TimingInfoPresentFlag;
+    /// <summary>numUnitInTicks: [in]: If not set, the timingInfo may still be present with timing related fields calculated internally basedon the frame rate specified by the application.</summary>
+    public uint NumUnitInTicks;
+    /// <summary>timeScale: [in]: Specifies the number of time units of the clock(as defined in Annex E of the ITU-T Specification).</summary>
+    public uint TimeScale;
+    /// <summary>reserved[12]: [in]: Specifies the frquency of the clock(as defined in Annex E of the ITU-T Specification).</summary>
+    private fixed uint Reserved[12];
+}
+
+/// <summary>NVENC_EXTERNAL_ME_HINT_COUNTS_PER_BLOCKTYPE
+/// struct _NVENC_EXTERNAL_ME_HINT_COUNTS_PER_BLOCKTYPE
+/// External motion vector hint counts per block type.
+/// H264 and AV1 support multiple hint while HEVC supports one hint for each valid candidate.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncExternalMeHintCountsPerBlocktype
+{
+    internal uint BitField1;
+    /// <summary>numCandsPerBlk16x16: [in]: Supported for H264, HEVC. It Specifies the number of candidates per 16x16 block.</summary>
+    public uint NumCandsPerBlk16x16 {
+        get => (uint)((BitField1 >> 0) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~15U) | ((unchecked((uint)value) & 15U) << 0));
     }
-
-    /// <summary>NV_ENC_PIC_PARAMS_AV1
-    /// struct _NV_ENC_PIC_PARAMS_AV1
-    /// AV1 specific enc pic params. sent on a per frame basis.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncPicParamsAv1
-    {
-        /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
-        public uint DisplayPOCSyntax;
-        /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public uint RefPicFlag;
-        /// <summary>temporalId: [in]: Specifies the temporal id of the picture</summary>
-        public uint TemporalId;
-        /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
-        /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
-        public uint ForceIntraRefreshWithFrameCnt;
-        internal uint BitField1;
-        /// <summary>goldenFrameFlag: [in]: Encode frame as Golden Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public bool GoldenFrameFlag {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>arfFrameFlag: [in]: Encode frame as Alternate Reference Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public bool ArfFrameFlag {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>arf2FrameFlag: [in]: Encode frame as Alternate Reference 2 Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public bool Arf2FrameFlag {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>bwdFrameFlag: [in]: Encode frame as Backward Reference Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public bool BwdFrameFlag {
-            get => ((BitField1 >> 3) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
-        }
-        /// <summary>overlayFrameFlag: [in]: Encode frame as overlay frame. A previously encoded frame with the same displayPOCSyntax value should be present in reference frame buffer.
-        /// This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public bool OverlayFrameFlag {
-            get => ((BitField1 >> 4) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
-        }
-        /// <summary>showExistingFrameFlag: [in]: When ovelayFrameFlag is set to 1, this flag controls the value of the show_existing_frame syntax element associated with the overlay frame.
-        /// This flag is added to the interface as a placeholder. Its value is ignored for now and always assumed to be set to 1.
-        /// This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
-        public bool ShowExistingFrameFlag {
-            get => ((BitField1 >> 5) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
-        }
-        /// <summary>errorResilientModeFlag: [in]: encode frame independently from previously encoded frames</summary>
-        public bool ErrorResilientModeFlag {
-            get => ((BitField1 >> 6) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
-        }
-        /// <summary>tileConfigUpdate: [in]: Set to 1 if client wants to overwrite the default tile configuration with the tile parameters specified below
-        /// When forceIntraRefreshWithFrameCnt is set it will have priority over tileConfigUpdate setting</summary>
-        public bool TileConfigUpdate {
-            get => ((BitField1 >> 7) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
-        }
-        /// <summary>enableCustomTileConfig: [in]: Set 1 to enable custom tile configuration: numTileColumns and numTileRows must have non zero values and tileWidths and tileHeights must point to a valid address</summary>
-        public bool EnableCustomTileConfig {
-            get => ((BitField1 >> 8) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
-        }
-        /// <summary>filmGrainParamsUpdate: [in]: Set to 1 if client wants to update previous film grain parameters: filmGrainParams must point to a valid address and encoder must have been configured with film grain enabled</summary>
-        public bool FilmGrainParamsUpdate {
-            get => ((BitField1 >> 9) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        /// <summary>numTileColumns: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileWidths[] specifies the way in which the picture is divided into tile columns.
-        /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileColumns tile columns. If numTileColumns is not a power of 2,
-        /// it will be rounded down to the next power of 2 value. If numTileColumns == 0, the picture will be coded with the smallest number of vertical tiles as allowed by standard.
-        /// When enableCustomTileConfig == 1, numTileColumns must be > 0 and <= NV_MAX_TILE_COLS_AV1 and tileWidths must point to a valid array of numTileColumns entries.
-        /// Entry i specifies the width in 64x64 CTU unit of tile colum i. The sum of all the entries should be equal to the picture width in 64x64 CTU units.</summary>
-        public uint NumTileColumns;
-        /// <summary>numTileRows: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileHeights[] specifies the way in which the picture is divided into tiles rows
-        /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileRows tile rows. If numTileRows is not a power of 2,
-        /// it will be rounded down to the next power of 2 value. If numTileRows == 0, the picture will be coded with the smallest number of horizontal tiles as allowed by standard.
-        /// When enableCustomTileConfig == 1, numTileRows must be > 0 and <= NV_MAX_TILE_ROWS_AV1 and tileHeights must point to a valid array of numTileRows entries.
-        /// Entry i specifies the height in 64x64 CTU unit of tile row i. The sum of all the entries should be equal to the picture hieght in 64x64 CTU units.</summary>
-        public uint NumTileRows;
-        /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved;
-        /// <summary>*tileWidths: [in]: If enableCustomTileConfig == 1, tileWidths[i] specifies the width of tile column i in 64x64 CTU unit, with 0 <= i <= numTileColumns -1.</summary>
-        public uint *tileWidths;
-        /// <summary>*tileHeights: [in]: If enableCustomTileConfig == 1, tileHeights[i] specifies the height of tile row i in 64x64 CTU unit, with 0 <= i <= numTileRows -1.</summary>
-        public uint *tileHeights;
-        /// <summary>obuPayloadArrayCnt: [in]: Specifies the number of elements allocated in obuPayloadArray array.</summary>
-        public uint ObuPayloadArrayCnt;
-        /// <summary>reserved1: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved1;
-        /// <summary>obuPayloadArray: [in]: Array of OBU payloads which will be inserted for this frame.</summary>
-        public NvEncSeiPayload* ObuPayloadArray;
-        /// <summary>*filmGrainParams: [in]: If filmGrainParamsUpdate == 1, filmGrainParams must point to a valid NV_ENC_FILM_GRAIN_PARAMS_AV1 structure</summary>
-        public NvEncFilmGrainParamsAv1 *filmGrainParams;
-        /// <summary>reserved2[246]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved2[246];
-        /// <summary>reserved3[61]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved3[61]
-        private IntPtr Reserved30;
-        private IntPtr Reserved31;
-        private IntPtr Reserved32;
-        private IntPtr Reserved33;
-        private IntPtr Reserved34;
-        private IntPtr Reserved35;
-        private IntPtr Reserved36;
-        private IntPtr Reserved37;
-        private IntPtr Reserved38;
-        private IntPtr Reserved39;
-        private IntPtr Reserved310;
-        private IntPtr Reserved311;
-        private IntPtr Reserved312;
-        private IntPtr Reserved313;
-        private IntPtr Reserved314;
-        private IntPtr Reserved315;
-        private IntPtr Reserved316;
-        private IntPtr Reserved317;
-        private IntPtr Reserved318;
-        private IntPtr Reserved319;
-        private IntPtr Reserved320;
-        private IntPtr Reserved321;
-        private IntPtr Reserved322;
-        private IntPtr Reserved323;
-        private IntPtr Reserved324;
-        private IntPtr Reserved325;
-        private IntPtr Reserved326;
-        private IntPtr Reserved327;
-        private IntPtr Reserved328;
-        private IntPtr Reserved329;
-        private IntPtr Reserved330;
-        private IntPtr Reserved331;
-        private IntPtr Reserved332;
-        private IntPtr Reserved333;
-        private IntPtr Reserved334;
-        private IntPtr Reserved335;
-        private IntPtr Reserved336;
-        private IntPtr Reserved337;
-        private IntPtr Reserved338;
-        private IntPtr Reserved339;
-        private IntPtr Reserved340;
-        private IntPtr Reserved341;
-        private IntPtr Reserved342;
-        private IntPtr Reserved343;
-        private IntPtr Reserved344;
-        private IntPtr Reserved345;
-        private IntPtr Reserved346;
-        private IntPtr Reserved347;
-        private IntPtr Reserved348;
-        private IntPtr Reserved349;
-        private IntPtr Reserved350;
-        private IntPtr Reserved351;
-        private IntPtr Reserved352;
-        private IntPtr Reserved353;
-        private IntPtr Reserved354;
-        private IntPtr Reserved355;
-        private IntPtr Reserved356;
-        private IntPtr Reserved357;
-        private IntPtr Reserved358;
-        private IntPtr Reserved359;
-        private IntPtr Reserved360;
-        #endregion Reserved3[61]
+    /// <summary>numCandsPerBlk16x8: [in]: Supported for H264 only. Specifies the number of candidates per 16x8 block.</summary>
+    public uint NumCandsPerBlk16x8 {
+        get => (uint)((BitField1 >> 4) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~240U) | ((unchecked((uint)value) & 15U) << 4));
     }
-
-    /// <summary>NV_ENC_PIC_PARAMS
-    /// struct _NV_ENC_PIC_PARAMS
-    /// Encoding parameters that need to be sent on a per frame basis.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncPicParams
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_PIC_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>inputWidth: [in]: Specifies the input frame width</summary>
-        public uint InputWidth;
-        /// <summary>inputHeight: [in]: Specifies the input frame height</summary>
-        public uint InputHeight;
-        /// <summary>inputPitch: [in]: Specifies the input buffer pitch. If pitch value is not known, set this to inputWidth.</summary>
-        public uint InputPitch;
-        /// <summary>encodePicFlags: [in]: Specifies bit-wise OR of encode picture flags. See ::NV_ENC_PIC_FLAGS enum.</summary>
-        public uint EncodePicFlags;
-        /// <summary>frameIdx: [in]: Specifies the frame index associated with the input frame. It is necessary to pass this as monotonically increasing starting 0 when lookaheadLevel, UHQ Tuning Info
-        /// or encoding same frames multiple times without advancing encoder state feature are enabled</summary>
-        public uint FrameIdx;
-        /// <summary>inputTimeStamp: [in]: Specifies opaque data which is associated with the encoded frame, but not actually encoded in the output bitstream.
-        /// This opaque data can be used later to uniquely refer to the corresponding encoded frame. For example, it can be used
-        /// for identifying the frame to be invalidated in the reference picture buffer, if lost at the client.</summary>
-        public ulong InputTimeStamp;
-        /// <summary>inputDuration: [in]: Specifies duration of the input picture</summary>
-        public ulong InputDuration;
-        /// <summary>inputBuffer: [in]: Specifies the input buffer pointer. Client must use a pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource() APIs.</summary>
-        public NvEncInputPtr InputBuffer;
-        /// <summary>outputBitstream: [in]: Specifies the output buffer pointer.
-        /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 0, specifies the pointer to output buffer. Client should use a pointer obtained from ::NvEncCreateBitstreamBuffer() API.
-        /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 1, client should allocate buffer in video memory for NV_ENC_ENCODE_OUT_PARAMS struct and encoded bitstream data. Client
-        /// should use a pointer obtained from ::NvEncMapInputResource() API, when mapping this output buffer and assign it to NV_ENC_PIC_PARAMS::outputBitstream.
-        /// First 256 bytes of this buffer should be interpreted as NV_ENC_ENCODE_OUT_PARAMS struct followed by encoded bitstream data. Recommended size for output buffer is sum of size of
-        /// NV_ENC_ENCODE_OUT_PARAMS struct and twice the input frame size for lower resolution eg. CIF and 1.5 times the input frame size for higher resolutions. If encoded bitstream size is
-        /// greater than the allocated buffer size for encoded bitstream, then the output buffer will have encoded bitstream data equal to buffer size. All CUDA operations on this buffer must use
-        /// the default stream.</summary>
-        public NvEncOutputPtr OutputBitstream;
-        /// <summary>completionEvent: [in]: Specifies an event to be signaled on completion of encoding of this Frame [only if operating in Asynchronous mode]. Each output buffer should be associated with a distinct event pointer.</summary>
-        public IntPtr CompletionEvent;
-        /// <summary>bufferFmt: [in]: Specifies the input buffer format.</summary>
-        public NvEncBufferFormat BufferFmt;
-        /// <summary>pictureStruct: [in]: Specifies structure of the input picture.</summary>
-        public NvEncPicStruct PictureStruct;
-        /// <summary>pictureType: [in]: Specifies input picture type. Client required to be set explicitly by the client if the client has not set NV_ENC_INITALIZE_PARAMS::enablePTD to 1 while calling NvInitializeEncoder.</summary>
-        public NvEncPicType PictureType;
-        /// <summary>codecPicParams: [in]: Specifies the codec specific per-picture encoding parameters.</summary>
-        public NvEncCodecPicParams CodecPicParams;
-        /// <summary>meHintCountsPerBlock[2]: [in]: For H264 and Hevc, specifies the number of hint candidates per block per direction for the current frame. meHintCountsPerBlock[0] is for L0 predictors and meHintCountsPerBlock[1] is for L1 predictors.
-        /// The candidate count in NV_ENC_PIC_PARAMS::meHintCountsPerBlock[lx] must never exceed NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[lx] provided during encoder initialization.</summary>
-        public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock0;
-        public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock1;
-        /// <summary>*meExternalHints: [in]: For H264 and Hevc, Specifies the pointer to ME external hints for the current frame. The size of ME hint buffer should be equal to number of macroblocks * the total number of candidates per macroblock.
-        /// The total number of candidates per MB per direction = 1*meHintCountsPerBlock[Lx].numCandsPerBlk16x16 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk16x8 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk8x8
-        /// + 4*meHintCountsPerBlock[Lx].numCandsPerBlk8x8. For frames using bidirectional ME , the total number of candidates for single macroblock is sum of total number of candidates per MB for each direction (L0 and L1)</summary>
-        public NvEncExternalMeHint *meExternalHints;
-        /// <summary>reserved2[7]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved2[7];
-        /// <summary>reserved5[2]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved5[2]
-        private IntPtr Reserved50;
-        private IntPtr Reserved51;
-        #endregion Reserved5[2]
-        /// <summary>*qpDeltaMap: [in]: Specifies the pointer to signed byte array containing value per MB for H264, per CTB for HEVC and per SB for AV1 in raster scan order for the current picture, which will be interpreted depending on NV_ENC_RC_PARAMS::qpMapMode.
-        /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_DELTA, qpDeltaMap specifies QP modifier per MB for H264, per CTB for HEVC and per SB for AV1. This QP modifier will be applied on top of the QP chosen by rate control.
-        /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_EMPHASIS, qpDeltaMap specifies Emphasis Level Map per MB for H264. This level value along with QP chosen by rate control is used to
-        /// compute the QP modifier, which in turn is applied on top of QP chosen by rate control.
-        /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_DISABLED, value in qpDeltaMap will be ignored.</summary>
-        public byte *qpDeltaMap;
-        /// <summary>qpDeltaMapSize: [in]: Specifies the size in bytes of qpDeltaMap surface allocated by client and pointed to by NV_ENC_PIC_PARAMS::qpDeltaMap. Surface (array) should be picWidthInMbs * picHeightInMbs for H264, picWidthInCtbs * picHeightInCtbs for HEVC and
-        /// picWidthInSbs * picHeightInSbs for AV1</summary>
-        public uint QpDeltaMapSize;
-        /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        private uint ReservedBitFields;
-        /// <summary>meHintRefPicDist[2]: [in]: Specifies temporal distance for reference picture (NVENC_EXTERNAL_ME_HINT::refidx = 0) used during external ME with NV_ENC_INITALIZE_PARAMS::enablePTD = 1 . meHintRefPicDist[0] is for L0 hints and meHintRefPicDist[1] is for L1 hints.
-        /// If not set, will internally infer distance of 1. Ignored for NV_ENC_INITALIZE_PARAMS::enablePTD = 0</summary>
-        public fixed ushort MeHintRefPicDist[2];
-        /// <summary>reserved4: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved4;
-        /// <summary>alphaBuffer: [in]: Specifies the input alpha buffer pointer. Client must use a pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource() APIs.
-        /// Applicable only when encoding hevc with alpha layer is enabled.</summary>
-        public NvEncInputPtr AlphaBuffer;
-        /// <summary>*meExternalSbHints: [in]: For AV1,Specifies the pointer to ME external SB hints for the current frame. The size of ME hint buffer should be equal to meSbHintsCount.</summary>
-        public NvEncExternalMeSbHint *meExternalSbHints;
-        /// <summary>meSbHintsCount: [in]: For AV1, specifies the total number of external ME SB hint candidates for the frame
-        /// NV_ENC_PIC_PARAMS::meSbHintsCount must never exceed the total number of SBs in frame * the max number of candidates per SB provided during encoder initialization.
-        /// The max number of candidates per SB is maxMeHintCountsPerBlock[0].numCandsPerSb + maxMeHintCountsPerBlock[1].numCandsPerSb</summary>
-        public uint MeSbHintsCount;
-        /// <summary>stateBufferIdx: [in]: Specifies the buffer index in which the encoder state will be saved for current frame encode. It must be in the
-        /// range 0 to NV_ENC_INITIALIZE_PARAMS::numStateBuffers - 1.</summary>
-        public uint StateBufferIdx;
-        /// <summary>outputReconBuffer: [in]: Specifies the reconstructed frame buffer pointer to output reconstructed frame, if enabled by setting NV_ENC_INITIALIZE_PARAMS::enableReconFrameOutput.
-        /// Client must allocate buffers for writing the reconstructed frames and register them with the Nvidia Video Encoder Interface with NV_ENC_REGISTER_RESOURCE::bufferUsage
-        /// set to NV_ENC_OUTPUT_RECON.
-        /// Client must use the pointer obtained from ::NvEncMapInputResource() API and assign it to NV_ENC_PIC_PARAMS::outputReconBuffer.
-        /// Reconstructed output will be in NV_ENC_BUFFER_FORMAT_NV12 format when chromaFormatIDC is set to 1.
-        /// chromaFormatIDC = 3 is not supported.</summary>
-        public NvEncOutputPtr OutputReconBuffer;
-        /// <summary>reserved3[284]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved3[284];
-        /// <summary>reserved6[57]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved6[57]
-        private IntPtr Reserved60;
-        private IntPtr Reserved61;
-        private IntPtr Reserved62;
-        private IntPtr Reserved63;
-        private IntPtr Reserved64;
-        private IntPtr Reserved65;
-        private IntPtr Reserved66;
-        private IntPtr Reserved67;
-        private IntPtr Reserved68;
-        private IntPtr Reserved69;
-        private IntPtr Reserved610;
-        private IntPtr Reserved611;
-        private IntPtr Reserved612;
-        private IntPtr Reserved613;
-        private IntPtr Reserved614;
-        private IntPtr Reserved615;
-        private IntPtr Reserved616;
-        private IntPtr Reserved617;
-        private IntPtr Reserved618;
-        private IntPtr Reserved619;
-        private IntPtr Reserved620;
-        private IntPtr Reserved621;
-        private IntPtr Reserved622;
-        private IntPtr Reserved623;
-        private IntPtr Reserved624;
-        private IntPtr Reserved625;
-        private IntPtr Reserved626;
-        private IntPtr Reserved627;
-        private IntPtr Reserved628;
-        private IntPtr Reserved629;
-        private IntPtr Reserved630;
-        private IntPtr Reserved631;
-        private IntPtr Reserved632;
-        private IntPtr Reserved633;
-        private IntPtr Reserved634;
-        private IntPtr Reserved635;
-        private IntPtr Reserved636;
-        private IntPtr Reserved637;
-        private IntPtr Reserved638;
-        private IntPtr Reserved639;
-        private IntPtr Reserved640;
-        private IntPtr Reserved641;
-        private IntPtr Reserved642;
-        private IntPtr Reserved643;
-        private IntPtr Reserved644;
-        private IntPtr Reserved645;
-        private IntPtr Reserved646;
-        private IntPtr Reserved647;
-        private IntPtr Reserved648;
-        private IntPtr Reserved649;
-        private IntPtr Reserved650;
-        private IntPtr Reserved651;
-        private IntPtr Reserved652;
-        private IntPtr Reserved653;
-        private IntPtr Reserved654;
-        private IntPtr Reserved655;
-        private IntPtr Reserved656;
-        #endregion Reserved6[57]
+    /// <summary>numCandsPerBlk8x16: [in]: Supported for H264 only. Specifies the number of candidates per 8x16 block.</summary>
+    public uint NumCandsPerBlk8x16 {
+        get => (uint)((BitField1 >> 8) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~3840U) | ((unchecked((uint)value) & 15U) << 8));
     }
-
-    /// <summary>NV_ENC_MEONLY_PARAMS
-    /// struct _NV_ENC_MEONLY_PARAMS
-    /// MEOnly parameters that need to be sent on a per motion estimation basis.
-    /// NV_ENC_MEONLY_PARAMS::meExternalHints is supported for H264 only.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncMeonlyParams
-    {
-        /// <summary>version: [in]: Struct version. Must be set to NV_ENC_MEONLY_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>inputWidth: [in]: Specifies the input frame width</summary>
-        public uint InputWidth;
-        /// <summary>inputHeight: [in]: Specifies the input frame height</summary>
-        public uint InputHeight;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>inputBuffer: [in]: Specifies the input buffer pointer. Client must use a pointer obtained from NvEncCreateInputBuffer() or NvEncMapInputResource() APIs.</summary>
-        public NvEncInputPtr InputBuffer;
-        /// <summary>referenceFrame: [in]: Specifies the reference frame pointer</summary>
-        public NvEncInputPtr ReferenceFrame;
-        /// <summary>mvBuffer: [in]: Specifies the output buffer pointer.
-        /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 0, specifies the pointer to motion vector data buffer allocated by NvEncCreateMVBuffer.
-        /// Client must lock mvBuffer using ::NvEncLockBitstream() API to get the motion vector data.
-        /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 1, client should allocate buffer in video memory for storing the motion vector data. The size of this buffer must
-        /// be equal to total number of macroblocks multiplied by size of NV_ENC_H264_MV_DATA struct. Client should use a pointer obtained from ::NvEncMapInputResource() API, when mapping this
-        /// output buffer and assign it to NV_ENC_MEONLY_PARAMS::mvBuffer. All CUDA operations on this buffer must use the default stream.</summary>
-        public NvEncOutputPtr MvBuffer;
-        /// <summary>reserved2: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved2;
-        /// <summary>bufferFmt: [in]: Specifies the input buffer format.</summary>
-        public NvEncBufferFormat BufferFmt;
-        /// <summary>completionEvent: [in]: Specifies an event to be signaled on completion of motion estimation
-        /// of this Frame [only if operating in Asynchronous mode].
-        /// Each output buffer should be associated with a distinct event pointer.</summary>
-        public IntPtr CompletionEvent;
-        /// <summary>viewID: [in]: Specifies left or right viewID if NV_ENC_CONFIG_H264_MEONLY::bStereoEnable is set.
-        /// viewID can be 0,1 if bStereoEnable is set, 0 otherwise.</summary>
-        public uint ViewID;
-        /// <summary>meHintCountsPerBlock[2]: [in]: Specifies the number of hint candidates per block for the current frame. meHintCountsPerBlock[0] is for L0 predictors.
-        /// The candidate count in NV_ENC_PIC_PARAMS::meHintCountsPerBlock[lx] must never exceed NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[lx] provided during encoder initialization.</summary>
-        public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock0;
-        public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock1;
-        /// <summary>*meExternalHints: [in]: Specifies the pointer to ME external hints for the current frame. The size of ME hint buffer should be equal to number of macroblocks * the total number of candidates per macroblock.
-        /// The total number of candidates per MB per direction = 1*meHintCountsPerBlock[Lx].numCandsPerBlk16x16 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk16x8 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk8x8
-        /// + 4*meHintCountsPerBlock[Lx].numCandsPerBlk8x8. For frames using bidirectional ME , the total number of candidates for single macroblock is sum of total number of candidates per MB for each direction (L0 and L1)</summary>
-        public NvEncExternalMeHint *meExternalHints;
-        /// <summary>reserved1[241]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[241];
-        /// <summary>reserved3[59]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved3[59]
-        private IntPtr Reserved30;
-        private IntPtr Reserved31;
-        private IntPtr Reserved32;
-        private IntPtr Reserved33;
-        private IntPtr Reserved34;
-        private IntPtr Reserved35;
-        private IntPtr Reserved36;
-        private IntPtr Reserved37;
-        private IntPtr Reserved38;
-        private IntPtr Reserved39;
-        private IntPtr Reserved310;
-        private IntPtr Reserved311;
-        private IntPtr Reserved312;
-        private IntPtr Reserved313;
-        private IntPtr Reserved314;
-        private IntPtr Reserved315;
-        private IntPtr Reserved316;
-        private IntPtr Reserved317;
-        private IntPtr Reserved318;
-        private IntPtr Reserved319;
-        private IntPtr Reserved320;
-        private IntPtr Reserved321;
-        private IntPtr Reserved322;
-        private IntPtr Reserved323;
-        private IntPtr Reserved324;
-        private IntPtr Reserved325;
-        private IntPtr Reserved326;
-        private IntPtr Reserved327;
-        private IntPtr Reserved328;
-        private IntPtr Reserved329;
-        private IntPtr Reserved330;
-        private IntPtr Reserved331;
-        private IntPtr Reserved332;
-        private IntPtr Reserved333;
-        private IntPtr Reserved334;
-        private IntPtr Reserved335;
-        private IntPtr Reserved336;
-        private IntPtr Reserved337;
-        private IntPtr Reserved338;
-        private IntPtr Reserved339;
-        private IntPtr Reserved340;
-        private IntPtr Reserved341;
-        private IntPtr Reserved342;
-        private IntPtr Reserved343;
-        private IntPtr Reserved344;
-        private IntPtr Reserved345;
-        private IntPtr Reserved346;
-        private IntPtr Reserved347;
-        private IntPtr Reserved348;
-        private IntPtr Reserved349;
-        private IntPtr Reserved350;
-        private IntPtr Reserved351;
-        private IntPtr Reserved352;
-        private IntPtr Reserved353;
-        private IntPtr Reserved354;
-        private IntPtr Reserved355;
-        private IntPtr Reserved356;
-        private IntPtr Reserved357;
-        private IntPtr Reserved358;
-        #endregion Reserved3[59]
+    /// <summary>numCandsPerBlk8x8: [in]: Supported for H264, HEVC. Specifies the number of candidates per 8x8 block.</summary>
+    public uint NumCandsPerBlk8x8 {
+        get => (uint)((BitField1 >> 12) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
     }
-
-    /// <summary>NV_ENC_LOCK_BITSTREAM
-    /// struct _NV_ENC_LOCK_BITSTREAM
-    /// Bitstream buffer lock parameters.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncLockBitstream
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_LOCK_BITSTREAM_VER.</summary>
-        public uint Version;
-        internal uint BitField1;
-        /// <summary>doNotWait: [in]: If this flag is set, the NvEncodeAPI interface will return buffer pointer even if operation is not completed. If not set, the call will block until operation completes.</summary>
-        public bool DoNotWait {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>ltrFrame: [out]: Flag indicating this frame is marked as LTR frame</summary>
-        public bool LtrFrame {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>getRCStats: [in]: If this flag is set then lockBitstream call will add additional intra-inter MB count and average MVX, MVY</summary>
-        public bool GetRCStats {
-            get => ((BitField1 >> 2) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
-        /// <summary>outputBitstream: [in]: Pointer to the bitstream buffer being locked.</summary>
-        public IntPtr OutputBitstream;
-        /// <summary>sliceOffsets: [in, out]: Array which receives the slice (H264/HEVC) or tile (AV1) offsets. This is not supported if NV_ENC_CONFIG_H264::sliceMode is 1 on Kepler GPUs. Array size must be equal to size of frame in MBs.</summary>
-        public uint* SliceOffsets;
-        /// <summary>frameIdx: [out]: Frame no. for which the bitstream is being retrieved.</summary>
-        public uint FrameIdx;
-        /// <summary>hwEncodeStatus: [out]: The NvEncodeAPI interface status for the locked picture.</summary>
-        public uint HwEncodeStatus;
-        /// <summary>numSlices: [out]: Number of slices (H264/HEVC) or tiles (AV1) in the encoded picture. Will be reported only if NV_ENC_INITIALIZE_PARAMS::reportSliceOffsets set to 1.</summary>
-        public uint NumSlices;
-        /// <summary>bitstreamSizeInBytes: [out]: Actual number of bytes generated and copied to the memory pointed by bitstreamBufferPtr.
-        /// When HEVC alpha layer encoding is enabled, this field reports the total encoded size in bytes i.e it is the encoded size of the base plus the alpha layer.
-        /// For AV1 when enablePTD is set, this field reports the total encoded size in bytes of all the encoded frames packed into the current output surface i.e. show frame plus all preceding no-show frames</summary>
-        public uint BitstreamSizeInBytes;
-        /// <summary>outputTimeStamp: [out]: Presentation timestamp associated with the encoded output.</summary>
-        public ulong OutputTimeStamp;
-        /// <summary>outputDuration: [out]: Presentation duration associates with the encoded output.</summary>
-        public ulong OutputDuration;
-        /// <summary>bitstreamBufferPtr: [out]: Pointer to the generated output bitstream.
-        /// For MEOnly mode _NV_ENC_LOCK_BITSTREAM::bitstreamBufferPtr should be typecast to
-        /// NV_ENC_H264_MV_DATA/NV_ENC_HEVC_MV_DATA pointer respectively for H264/HEVC</summary>
-        public IntPtr BitstreamBufferPtr;
-        /// <summary>pictureType: [out]: Picture type of the encoded picture.</summary>
-        public NvEncPicType PictureType;
-        /// <summary>pictureStruct: [out]: Structure of the generated output picture.</summary>
-        public NvEncPicStruct PictureStruct;
-        /// <summary>frameAvgQP: [out]: Average QP of the frame.</summary>
-        public uint FrameAvgQP;
-        /// <summary>frameSatd: [out]: Total SATD cost for whole frame.</summary>
-        public uint FrameSatd;
-        /// <summary>ltrFrameIdx: [out]: Frame index associated with this LTR frame.</summary>
-        public uint LtrFrameIdx;
-        /// <summary>ltrFrameBitmap: [out]: Bitmap of LTR frames indices which were used for encoding this frame. Value of 0 if no LTR frames were used.</summary>
-        public uint LtrFrameBitmap;
-        /// <summary>temporalId: [out]: TemporalId value of the frame when using temporalSVC encoding</summary>
-        public uint TemporalId;
-        /// <summary>intraMBCount: [out]: For H264, Number of Intra MBs in the encoded frame. For HEVC, Number of Intra CTBs in the encoded frame. For AV1, Number of Intra SBs in the encoded show frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
-        public uint IntraMBCount;
-        /// <summary>interMBCount: [out]: For H264, Number of Inter MBs in the encoded frame, includes skip MBs. For HEVC, Number of Inter CTBs in the encoded frame. For AV1, Number of Inter SBs in the encoded show frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
-        public uint InterMBCount;
-        /// <summary>averageMVX: [out]: Average Motion Vector in X direction for the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
-        public int AverageMVX;
-        /// <summary>averageMVY: [out]: Average Motion Vector in y direction for the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
-        public int AverageMVY;
-        /// <summary>alphaLayerSizeInBytes: [out]: Number of bytes generated for the alpha layer in the encoded output. Applicable only when HEVC with alpha encoding is enabled.</summary>
-        public uint AlphaLayerSizeInBytes;
-        /// <summary>outputStatsPtrSize: [in]: Size of the buffer pointed by NV_ENC_LOCK_BITSTREAM::outputStatsPtr.</summary>
-        public uint OutputStatsPtrSize;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>outputStatsPtr: [in, out]: Buffer which receives the encoded frame output stats, if NV_ENC_INITIALIZE_PARAMS::enableOutputStats is set to 1.</summary>
-        public IntPtr OutputStatsPtr;
-        /// <summary>frameIdxDisplay: [out]: Frame index in display order</summary>
-        public uint FrameIdxDisplay;
-        /// <summary>reserved1[219]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[219];
-        /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[63]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        #endregion Reserved2[63]
-        /// <summary>reservedInternal[8]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint ReservedInternal[8];
+    /// <summary>numCandsPerSb: [in]: Supported for AV1 only. Specifies the number of candidates per SB.</summary>
+    public uint NumCandsPerSb {
+        get => (uint)((BitField1 >> 16) & 255U);
+        set => BitField1 = (uint)((BitField1 & ~16711680U) | ((unchecked((uint)value) & 255U) << 16));
     }
+    /// <summary>reserved: [in]: Reserved for padding.</summary>
+    /// <summary>reserved1[3]: [in]: Reserved for future use.</summary>
+    private fixed uint Reserved1[3];
+}
 
-    /// <summary>NV_ENC_LOCK_INPUT_BUFFER
-    /// struct _NV_ENC_LOCK_INPUT_BUFFER
-    /// Uncompressed Input Buffer lock parameters.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncLockInputBuffer
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_LOCK_INPUT_BUFFER_VER.</summary>
-        public uint Version;
-        internal uint BitField1;
-        /// <summary>doNotWait: [in]: Set to 1 to make ::NvEncLockInputBuffer() a unblocking call. If the encoding is not completed, driver will return ::NV_ENC_ERR_ENCODER_BUSY error code.</summary>
-        public bool DoNotWait {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
-        /// <summary>inputBuffer: [in]: Pointer to the input buffer to be locked, client should pass the pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource API.</summary>
-        public NvEncInputPtr InputBuffer;
-        /// <summary>bufferDataPtr: [out]: Pointed to the locked input buffer data. Client can only access input buffer using the \p bufferDataPtr.</summary>
-        public IntPtr BufferDataPtr;
-        /// <summary>pitch: [out]: Pitch of the locked input buffer.</summary>
-        public uint Pitch;
-        /// <summary>reserved1[251]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[251];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+/// <summary>NVENC_EXTERNAL_ME_HINT
+/// struct _NVENC_EXTERNAL_ME_HINT
+/// External Motion Vector hint structure for H264 and HEVC.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncExternalMeHint
+{
+    internal uint BitField1;
+    /// <summary>mvx: [in]: Specifies the x component of integer pixel MV (relative to current MB) S12.0.</summary>
+    public int Mvx {
+        get => unchecked((int)((int)(((BitField1 >> 0) & 4095U) << 20) >> 20));
+        set => BitField1 = (uint)((BitField1 & ~4095U) | ((unchecked((uint)value) & 4095U) << 0));
     }
-
-    /// <summary>NV_ENC_MAP_INPUT_RESOURCE
-    /// struct _NV_ENC_MAP_INPUT_RESOURCE
-    /// Map an input resource to a Nvidia Encoder Input Buffer</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncMapInputResource
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_MAP_INPUT_RESOURCE_VER.</summary>
-        public uint Version;
-        /// <summary>subResourceIndex: [in]: Deprecated. Do not use.</summary>
-        public uint SubResourceIndex;
-        /// <summary>inputResource: [in]: Deprecated. Do not use.</summary>
-        public IntPtr InputResource;
-        /// <summary>registeredResource: [in]: The Registered resource handle obtained by calling NvEncRegisterInputResource.</summary>
-        public NvEncRegisteredPtr RegisteredResource;
-        /// <summary>mappedResource: [out]: Mapped pointer corresponding to the registeredResource. This pointer must be used in NV_ENC_PIC_PARAMS::inputBuffer parameter in ::NvEncEncodePicture() API.</summary>
-        public NvEncInputPtr MappedResource;
-        /// <summary>mappedBufferFmt: [out]: Buffer format of the outputResource. This buffer format must be used in NV_ENC_PIC_PARAMS::bufferFmt if client using the above mapped resource pointer.</summary>
-        public NvEncBufferFormat MappedBufferFmt;
-        /// <summary>reserved1[251]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[251];
-        /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[63]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        #endregion Reserved2[63]
+    /// <summary>mvy: [in]: Specifies the y component of integer pixel MV (relative to current MB) S10.0 .</summary>
+    public int Mvy {
+        get => unchecked((int)((int)(((BitField1 >> 12) & 1023U) << 22) >> 22));
+        set => BitField1 = (uint)((BitField1 & ~4190208U) | ((unchecked((uint)value) & 1023U) << 12));
     }
-
-    /// <summary>NV_ENC_INPUT_RESOURCE_OPENGL_TEX
-    /// struct _NV_ENC_INPUT_RESOURCE_OPENGL_TEX
-    /// NV_ENC_REGISTER_RESOURCE::resourceToRegister must be a pointer to a variable of this type,
-    /// when NV_ENC_REGISTER_RESOURCE::resourceType is NV_ENC_INPUT_RESOURCE_TYPE_OPENGL_TEX</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncInputResourceOpenglTex
-    {
-        /// <summary>texture: [in]: The name of the texture to be used.</summary>
-        public uint Texture;
-        /// <summary>target: [in]: Accepted values are GL_TEXTURE_RECTANGLE and GL_TEXTURE_2D.</summary>
-        public uint Target;
+    /// <summary>refidx: [in]: Specifies the reference index (31=invalid). Current we support only 1 reference frame per direction for external hints, so \p refidx must be 0.</summary>
+    public int Refidx {
+        get => unchecked((int)((int)(((BitField1 >> 22) & 31U) << 27) >> 27));
+        set => BitField1 = (uint)((BitField1 & ~130023424U) | ((unchecked((uint)value) & 31U) << 22));
     }
-
-    /// <summary>NV_ENC_FENCE_POINT_D3D12
-    /// struct NV_ENC_FENCE_POINT_D3D12
-    /// Fence and fence value for synchronization.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncFencePointD3d12
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_FENCE_POINT_D3D12_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved;
-        /// <summary>pFence: [in]: Pointer to ID3D12Fence. This fence object is used for synchronization.</summary>
-        public IntPtr PFence;
-        /// <summary>waitValue: [in]: Fence value to reach or exceed before the GPU operation.</summary>
-        public ulong WaitValue;
-        /// <summary>signalValue: [in]: Fence value to set the fence to, after the GPU operation.</summary>
-        public ulong SignalValue;
-        internal uint BitField1;
-        /// <summary>bWait: [in]: Wait on 'waitValue' if bWait is set to 1, before starting GPU operation.</summary>
-        public bool BWait {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>bSignal: [in]: Signal on 'signalValue' if bSignal is set to 1, after GPU operation is complete.</summary>
-        public bool BSignal {
-            get => ((BitField1 >> 1) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
-        }
-        /// <summary>reservedBitField: [in]: Reserved and must be set to 0.</summary>
-        /// <summary>reserved1[7]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[7];
+    /// <summary>dir: [in]: Specifies the direction of motion estimation . 0=L0 1=L1.</summary>
+    public bool Dir {
+        get => ((BitField1 >> 27) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~134217728U) | (((value ? 1U : 0U) & 1U) << 27));
     }
-
-    /// <summary>NV_ENC_INPUT_RESOURCE_D3D12
-    /// struct _NV_ENC_INPUT_RESOURCE_D3D12
-    /// NV_ENC_PIC_PARAMS::inputBuffer and NV_ENC_PIC_PARAMS::alphaBuffer must be a pointer to a struct of this type,
-    /// when D3D12 interface is used</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncInputResourceD3d12
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_INPUT_RESOURCE_D3D12_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved;
-        /// <summary>pInputBuffer: [in]: Specifies the input surface pointer. Client must use a pointer obtained from NvEncMapInputResource() in NV_ENC_MAP_INPUT_RESOURCE::mappedResource
-        /// when mapping the input surface.</summary>
-        public NvEncInputPtr PInputBuffer;
-        /// <summary>inputFencePoint: [in]: Specifies the fence and corresponding fence values to do GPU wait and signal.</summary>
-        public NvEncFencePointD3d12 InputFencePoint;
-        /// <summary>reserved1[16]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[16];
-        /// <summary>reserved2[16]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved2[16]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        #endregion Reserved2[16]
+    /// <summary>partType: [in]: Specifies the block partition type.0=16x16 1=16x8 2=8x16 3=8x8 (blocks in partition must be consecutive).</summary>
+    public int PartType {
+        get => unchecked((int)((int)(((BitField1 >> 28) & 3U) << 30) >> 30));
+        set => BitField1 = (uint)((BitField1 & ~805306368U) | ((unchecked((uint)value) & 3U) << 28));
     }
-
-    /// <summary>NV_ENC_OUTPUT_RESOURCE_D3D12
-    /// struct _NV_ENC_OUTPUT_RESOURCE_D3D12
-    /// NV_ENC_PIC_PARAMS::outputBitstream and NV_ENC_LOCK_BITSTREAM::outputBitstream must be a pointer to a struct of this type,
-    /// when D3D12 interface is used</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncOutputResourceD3d12
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_OUTPUT_RESOURCE_D3D12_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        private uint Reserved;
-        /// <summary>pOutputBuffer: [in]: Specifies the output buffer pointer. Client must use a pointer obtained from NvEncMapInputResource() in NV_ENC_MAP_INPUT_RESOURCE::mappedResource
-        /// when mapping output bitstream buffer</summary>
-        public NvEncInputPtr POutputBuffer;
-        /// <summary>outputFencePoint: [in]: Specifies the fence and corresponding fence values to do GPU wait and signal.</summary>
-        public NvEncFencePointD3d12 OutputFencePoint;
-        /// <summary>reserved1[16]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[16];
-        /// <summary>reserved2[16]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved2[16]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        #endregion Reserved2[16]
+    /// <summary>lastofPart: [in]: Set to 1 for the last MV of (sub) partition</summary>
+    public bool LastofPart {
+        get => ((BitField1 >> 30) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1073741824U) | (((value ? 1U : 0U) & 1U) << 30));
     }
-
-    /// <summary>NV_ENC_REGISTER_RESOURCE
-    /// struct _NV_ENC_REGISTER_RESOURCE
-    /// Register a resource for future use with the Nvidia Video Encoder Interface.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncRegisterResource
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_REGISTER_RESOURCE_VER.</summary>
-        public uint Version;
-        /// <summary>resourceType: [in]: Specifies the type of resource to be registered.
-        /// Supported values are
-        /// ::NV_ENC_INPUT_RESOURCE_TYPE_DIRECTX,
-        /// ::NV_ENC_INPUT_RESOURCE_TYPE_CUDADEVICEPTR,
-        /// ::NV_ENC_INPUT_RESOURCE_TYPE_OPENGL_TEX</summary>
-        public NvEncInputResourceType ResourceType;
-        /// <summary>width: [in]: Input frame width.</summary>
-        public uint Width;
-        /// <summary>height: [in]: Input frame height.</summary>
-        public uint Height;
-        /// <summary>pitch: [in]: Input buffer pitch.
-        /// For ::NV_ENC_INPUT_RESOURCE_TYPE_DIRECTX resources, set this to 0.
-        /// For ::NV_ENC_INPUT_RESOURCE_TYPE_CUDADEVICEPTR resources, set this to
-        /// the pitch as obtained from cuMemAllocPitch(), or to the width in
-        /// bytes (if this resource was created by using cuMemAlloc()). This
-        /// value must be a multiple of 4.
-        /// For ::NV_ENC_INPUT_RESOURCE_TYPE_CUDAARRAY resources, set this to the
-        /// width of the allocation in bytes (i.e.
-        /// CUDA_ARRAY3D_DESCRIPTOR::Width * CUDA_ARRAY3D_DESCRIPTOR::NumChannels).
-        /// For ::NV_ENC_INPUT_RESOURCE_TYPE_OPENGL_TEX resources, set this to the
-        /// texture width multiplied by the number of components in the texture
-        /// format.</summary>
-        public uint Pitch;
-        /// <summary>subResourceIndex: [in]: Subresource Index of the DirectX resource to be registered. Should be set to 0 for other interfaces.</summary>
-        public uint SubResourceIndex;
-        /// <summary>resourceToRegister: [in]: Handle to the resource that is being registered.</summary>
-        public IntPtr ResourceToRegister;
-        /// <summary>registeredResource: [out]: Registered resource handle. This should be used in future interactions with the Nvidia Video Encoder Interface.</summary>
-        public NvEncRegisteredPtr RegisteredResource;
-        /// <summary>bufferFormat: [in]: Buffer format of resource to be registered.</summary>
-        public NvEncBufferFormat BufferFormat;
-        /// <summary>bufferUsage: [in]: Usage of resource to be registered.</summary>
-        public NvEncBufferUsage BufferUsage;
-        /// <summary>pInputFencePoint: [in]: Specifies the input fence and corresponding fence values to do GPU wait and signal.
-        /// To be used only when NV_ENC_REGISTER_RESOURCE::resourceToRegister represents D3D12 surface and
-        /// NV_ENC_BUFFER_USAGE::bufferUsage is NV_ENC_INPUT_IMAGE.
-        /// The fence NV_ENC_FENCE_POINT_D3D12::pFence and NV_ENC_FENCE_POINT_D3D12::waitValue will be used to do GPU wait
-        /// before starting GPU operation, if NV_ENC_FENCE_POINT_D3D12::bWait is set.
-        /// The fence NV_ENC_FENCE_POINT_D3D12::pFence and NV_ENC_FENCE_POINT_D3D12::signalValue will be used to do GPU signal
-        /// when GPU operation finishes, if NV_ENC_FENCE_POINT_D3D12::bSignal is set.</summary>
-        public NvEncFencePointD3d12* PInputFencePoint;
-        /// <summary>chromaOffset[2]: [out]: Chroma offset for the reconstructed output buffer when NV_ENC_BUFFER_USAGE::bufferUsage is set
-        /// to NV_ENC_OUTPUT_RECON and D3D11 interface is used.
-        /// When chroma components are interleaved, 'chromaOffset[0]' will contain chroma offset.
-        /// chromaOffset[1] is reserved for future use.</summary>
-        public fixed uint ChromaOffset[2];
-        /// <summary>reserved1[246]: [in]: Reserved and must be set to 0.</summary>
-        private fixed uint Reserved1[246];
-        /// <summary>reserved2[61]: [in]: Reserved and must be set to NULL.</summary>
-        #region Reserved2[61]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        #endregion Reserved2[61]
+    /// <summary>lastOfMB: [in]: Set to 1 for the last MV of macroblock.</summary>
+    public bool LastOfMB {
+        get => ((BitField1 >> 31) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2147483648U) | (((value ? 1U : 0U) & 1U) << 31));
     }
+}
 
-    /// <summary>NV_ENC_STAT
-    /// struct _NV_ENC_STAT
-    /// Encode Stats structure.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncStat
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_STAT_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>outputBitStream: [in]: Specifies the pointer to output bitstream.</summary>
-        public NvEncOutputPtr OutputBitStream;
-        /// <summary>bitStreamSize: [out]: Size of generated bitstream in bytes.</summary>
-        public uint BitStreamSize;
-        /// <summary>picType: [out]: Picture type of encoded picture. See ::NV_ENC_PIC_TYPE.</summary>
-        public uint PicType;
-        /// <summary>lastValidByteOffset: [out]: Offset of last valid bytes of completed bitstream</summary>
-        public uint LastValidByteOffset;
-        /// <summary>sliceOffsets[16]: [out]: Offsets of each slice</summary>
-        public fixed uint SliceOffsets[16];
-        /// <summary>picIdx: [out]: Picture number</summary>
-        public uint PicIdx;
-        /// <summary>frameAvgQP: [out]: Average QP of the frame.</summary>
-        public uint FrameAvgQP;
-        internal uint BitField1;
-        /// <summary>ltrFrame: [out]: Flag indicating this frame is marked as LTR frame</summary>
-        public bool LtrFrame {
-            get => ((BitField1 >> 0) & 1U) != 0;
-            set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
-        }
-        /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
-        /// <summary>ltrFrameIdx: [out]: Frame index associated with this LTR frame.</summary>
-        public uint LtrFrameIdx;
-        /// <summary>intraMBCount: [out]: For H264, Number of Intra MBs in the encoded frame. For HEVC, Number of Intra CTBs in the encoded frame.</summary>
-        public uint IntraMBCount;
-        /// <summary>interMBCount: [out]: For H264, Number of Inter MBs in the encoded frame, includes skip MBs. For HEVC, Number of Inter CTBs in the encoded frame.</summary>
-        public uint InterMBCount;
-        /// <summary>averageMVX: [out]: Average Motion Vector in X direction for the encoded frame.</summary>
-        public int AverageMVX;
-        /// <summary>averageMVY: [out]: Average Motion Vector in y direction for the encoded frame.</summary>
-        public int AverageMVY;
-        /// <summary>reserved1[227]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[227];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+/// <summary>NVENC_EXTERNAL_ME_SB_HINT
+/// struct _NVENC_EXTERNAL_ME_SB_HINT
+/// External Motion Vector SB hint structure for AV1</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncExternalMeSbHint
+{
+    internal ushort BitField1;
+    /// <summary>refidx: [in]: Specifies the reference index (31=invalid)</summary>
+    public short Refidx {
+        get => unchecked((short)((int)(((BitField1 >> 0) & 31U) << 27) >> 27));
+        set => BitField1 = (ushort)((BitField1 & ~31U) | ((unchecked((uint)value) & 31U) << 0));
     }
-
-    /// <summary>NV_ENC_SEQUENCE_PARAM_PAYLOAD
-    /// struct _NV_ENC_SEQUENCE_PARAM_PAYLOAD
-    /// Sequence and picture paramaters payload.</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncSequenceParamPayload
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_INITIALIZE_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>inBufferSize: [in]: Specifies the size of the spsppsBuffer provided by the client</summary>
-        public uint InBufferSize;
-        /// <summary>spsId: [in]: Specifies the SPS id to be used in sequence header. Default value is 0.</summary>
-        public uint SpsId;
-        /// <summary>ppsId: [in]: Specifies the PPS id to be used in picture header. Default value is 0.</summary>
-        public uint PpsId;
-        /// <summary>spsppsBuffer: [in]: Specifies bitstream header pointer of size NV_ENC_SEQUENCE_PARAM_PAYLOAD::inBufferSize.
-        /// It is the client's responsibility to manage this memory.</summary>
-        public IntPtr SpsppsBuffer;
-        /// <summary>outSPSPPSPayloadSize: [out]: Size of the sequence and picture header in bytes.</summary>
-        public uint* OutSPSPPSPayloadSize;
-        /// <summary>reserved [250]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved [250];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>direction: [in]: Specifies the direction of motion estimation . 0=L0 1=L1.</summary>
+    public bool Direction {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (ushort)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
     }
-
-    /// <summary>NV_ENC_EVENT_PARAMS</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncEventParams
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_EVENT_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
-        private uint Reserved;
-        /// <summary>completionEvent: [in]: Handle to event to be registered/unregistered with the NvEncodeAPI interface.</summary>
-        public IntPtr CompletionEvent;
-        /// <summary>reserved1[254]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[254];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>bi: [in]: Specifies reference mode 0=single mv, 1=compound mv</summary>
+    public bool Bi {
+        get => ((BitField1 >> 6) & 1U) != 0;
+        set => BitField1 = (ushort)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
     }
-
-    /// <summary>NV_ENC_OPEN_ENCODE_SESSIONEX_PARAMS
-    /// Encoder Session Creation parameters</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct NvEncOpenEncodeSessionExParams
-    {
-        /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_OPEN_ENCODE_SESSION_EX_PARAMS_VER.</summary>
-        public uint Version;
-        /// <summary>deviceType: [in]: Specified the device Type</summary>
-        public NvEncDeviceType DeviceType;
-        /// <summary>device: [in]: Pointer to client device.</summary>
-        public IntPtr Device;
-        /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
-        private IntPtr Reserved;
-        /// <summary>apiVersion: [in]: API version. Should be set to NVENCAPI_VERSION.</summary>
-        public uint ApiVersion;
-        /// <summary>reserved1[253]: [in]: Reserved and must be set to 0</summary>
-        private fixed uint Reserved1[253];
-        /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
-        #region Reserved2[64]
-        private IntPtr Reserved20;
-        private IntPtr Reserved21;
-        private IntPtr Reserved22;
-        private IntPtr Reserved23;
-        private IntPtr Reserved24;
-        private IntPtr Reserved25;
-        private IntPtr Reserved26;
-        private IntPtr Reserved27;
-        private IntPtr Reserved28;
-        private IntPtr Reserved29;
-        private IntPtr Reserved210;
-        private IntPtr Reserved211;
-        private IntPtr Reserved212;
-        private IntPtr Reserved213;
-        private IntPtr Reserved214;
-        private IntPtr Reserved215;
-        private IntPtr Reserved216;
-        private IntPtr Reserved217;
-        private IntPtr Reserved218;
-        private IntPtr Reserved219;
-        private IntPtr Reserved220;
-        private IntPtr Reserved221;
-        private IntPtr Reserved222;
-        private IntPtr Reserved223;
-        private IntPtr Reserved224;
-        private IntPtr Reserved225;
-        private IntPtr Reserved226;
-        private IntPtr Reserved227;
-        private IntPtr Reserved228;
-        private IntPtr Reserved229;
-        private IntPtr Reserved230;
-        private IntPtr Reserved231;
-        private IntPtr Reserved232;
-        private IntPtr Reserved233;
-        private IntPtr Reserved234;
-        private IntPtr Reserved235;
-        private IntPtr Reserved236;
-        private IntPtr Reserved237;
-        private IntPtr Reserved238;
-        private IntPtr Reserved239;
-        private IntPtr Reserved240;
-        private IntPtr Reserved241;
-        private IntPtr Reserved242;
-        private IntPtr Reserved243;
-        private IntPtr Reserved244;
-        private IntPtr Reserved245;
-        private IntPtr Reserved246;
-        private IntPtr Reserved247;
-        private IntPtr Reserved248;
-        private IntPtr Reserved249;
-        private IntPtr Reserved250;
-        private IntPtr Reserved251;
-        private IntPtr Reserved252;
-        private IntPtr Reserved253;
-        private IntPtr Reserved254;
-        private IntPtr Reserved255;
-        private IntPtr Reserved256;
-        private IntPtr Reserved257;
-        private IntPtr Reserved258;
-        private IntPtr Reserved259;
-        private IntPtr Reserved260;
-        private IntPtr Reserved261;
-        private IntPtr Reserved262;
-        private IntPtr Reserved263;
-        #endregion Reserved2[64]
+    /// <summary>partition_type: [in]: Specifies the partition type: 0: 2NX2N, 1:2NxN, 2:Nx2N. reserved 3bits for future modes</summary>
+    public short Partition_type {
+        get => unchecked((short)((int)(((BitField1 >> 7) & 7U) << 29) >> 29));
+        set => BitField1 = (ushort)((BitField1 & ~896U) | ((unchecked((uint)value) & 7U) << 7));
     }
+    /// <summary>x8: [in]: Specifies the current partition's top left x position in 8 pixel unit</summary>
+    public short X8 {
+        get => unchecked((short)((int)(((BitField1 >> 10) & 7U) << 29) >> 29));
+        set => BitField1 = (ushort)((BitField1 & ~7168U) | ((unchecked((uint)value) & 7U) << 10));
+    }
+    /// <summary>last_of_cu: [in]: Set to 1 for the last MV current CU</summary>
+    public bool Last_of_cu {
+        get => ((BitField1 >> 13) & 1U) != 0;
+        set => BitField1 = (ushort)((BitField1 & ~8192U) | (((value ? 1U : 0U) & 1U) << 13));
+    }
+    /// <summary>last_of_sb: [in]: Set to 1 for the last MV of current SB</summary>
+    public bool Last_of_sb {
+        get => ((BitField1 >> 14) & 1U) != 0;
+        set => BitField1 = (ushort)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
+    }
+    /// <summary>reserved0: [in]: Reserved and must be set to 0</summary>
+    internal ushort BitField2;
+    /// <summary>mvx: [in]: Specifies the x component of integer pixel MV (relative to current MB) S12.2.</summary>
+    public short Mvx {
+        get => unchecked((short)((int)(((BitField2 >> 0) & 16383U) << 18) >> 18));
+        set => BitField2 = (ushort)((BitField2 & ~16383U) | ((unchecked((uint)value) & 16383U) << 0));
+    }
+    /// <summary>cu_size: [in]: Specifies the CU size: 0: 8x8, 1: 16x16, 2:32x32, 3:64x64</summary>
+    public short Cu_size {
+        get => unchecked((short)((int)(((BitField2 >> 14) & 3U) << 30) >> 30));
+        set => BitField2 = (ushort)((BitField2 & ~49152U) | ((unchecked((uint)value) & 3U) << 14));
+    }
+    internal ushort BitField3;
+    /// <summary>mvy: [in]: Specifies the y component of integer pixel MV (relative to current MB) S10.2 .</summary>
+    public short Mvy {
+        get => unchecked((short)((int)(((BitField3 >> 0) & 4095U) << 20) >> 20));
+        set => BitField3 = (ushort)((BitField3 & ~4095U) | ((unchecked((uint)value) & 4095U) << 0));
+    }
+    /// <summary>y8: [in]: Specifies the current partition's top left y position in 8 pixel unit</summary>
+    public short Y8 {
+        get => unchecked((short)((int)(((BitField3 >> 12) & 7U) << 29) >> 29));
+        set => BitField3 = (ushort)((BitField3 & ~28672U) | ((unchecked((uint)value) & 7U) << 12));
+    }
+    /// <summary>reserved1: [in]: Reserved and must be set to 0</summary>
+}
 
+/// <summary>NV_ENC_CONFIG_H264
+/// struct _NV_ENC_CONFIG_H264
+/// H264 encoder configuration parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfigH264
+{
+    internal uint BitField1;
+    /// <summary>enableTemporalSVC: [in]: Set to 1 to enable SVC temporal</summary>
+    public bool EnableTemporalSVC {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>enableStereoMVC: [in]: Set to 1 to enable stereo MVC</summary>
+    public bool EnableStereoMVC {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>hierarchicalPFrames: [in]: Set to 1 to enable hierarchical P Frames</summary>
+    public bool HierarchicalPFrames {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>hierarchicalBFrames: [in]: Set to 1 to enable hierarchical B Frames</summary>
+    public bool HierarchicalBFrames {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>outputBufferingPeriodSEI: [in]: Set to 1 to write SEI buffering period syntax in the bitstream</summary>
+    public bool OutputBufferingPeriodSEI {
+        get => ((BitField1 >> 4) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
+    }
+    /// <summary>outputPictureTimingSEI: [in]: Set to 1 to write SEI picture timing syntax in the bitstream.</summary>
+    public bool OutputPictureTimingSEI {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
+    }
+    /// <summary>outputAUD: [in]: Set to 1 to write access unit delimiter syntax in bitstream</summary>
+    public bool OutputAUD {
+        get => ((BitField1 >> 6) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
+    }
+    /// <summary>disableSPSPPS: [in]: Set to 1 to disable writing of Sequence and Picture parameter info in bitstream</summary>
+    public bool DisableSPSPPS {
+        get => ((BitField1 >> 7) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
+    }
+    /// <summary>outputFramePackingSEI: [in]: Set to 1 to enable writing of frame packing arrangement SEI messages to bitstream</summary>
+    public bool OutputFramePackingSEI {
+        get => ((BitField1 >> 8) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
+    }
+    /// <summary>outputRecoveryPointSEI: [in]: Set to 1 to enable writing of recovery point SEI message</summary>
+    public bool OutputRecoveryPointSEI {
+        get => ((BitField1 >> 9) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
+    }
+    /// <summary>enableIntraRefresh: [in]: Set to 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
+    public bool EnableIntraRefresh {
+        get => ((BitField1 >> 10) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
+    }
+    /// <summary>enableConstrainedEncoding: [in]: Set this to 1 to enable constrainedFrame encoding where each slice in the constrained picture is independent of other slices.
+    /// Constrained encoding works only with rectangular slices.
+    /// Check support for constrained encoding using ::NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING caps.</summary>
+    public bool EnableConstrainedEncoding {
+        get => ((BitField1 >> 11) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
+    }
+    /// <summary>repeatSPSPPS: [in]: Set to 1 to enable writing of Sequence and Picture parameter for every IDR frame</summary>
+    public bool RepeatSPSPPS {
+        get => ((BitField1 >> 12) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4096U) | (((value ? 1U : 0U) & 1U) << 12));
+    }
+    /// <summary>enableVFR: [in]: Setting enableVFR=1 currently only sets the fixed_frame_rate_flag=0 in the VUI but otherwise
+    /// has no impact on the encoder behavior. For more details please refer to E.1 VUI syntax of H.264 standard. Note, however, that NVENC does not support VFR encoding and rate control.</summary>
+    public bool EnableVFR {
+        get => ((BitField1 >> 13) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8192U) | (((value ? 1U : 0U) & 1U) << 13));
+    }
+    /// <summary>enableLTR: [in]: Set to 1 to enable LTR (Long Term Reference) frame support. LTR can be used in two modes: "LTR Trust" mode and "LTR Per Picture" mode.
+    /// LTR Trust mode: In this mode, ltrNumFrames pictures after IDR are automatically marked as LTR. This mode is enabled by setting ltrTrustMode = 1.
+    /// Use of LTR Trust mode is strongly discouraged as this mode may be deprecated in future.
+    /// LTR Per Picture mode: In this mode, client can control whether the current picture should be marked as LTR. Enable this mode by setting
+    /// ltrTrustMode = 0 and ltrMarkFrame = 1 for the picture to be marked as LTR. This is the preferred mode
+    /// for using LTR.
+    /// Note that LTRs are not supported if encoding session is configured with B-frames</summary>
+    public bool EnableLTR {
+        get => ((BitField1 >> 14) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
+    }
+    /// <summary>qpPrimeYZeroTransformBypassFlag: [in]: To enable lossless encode set this to 1, set QP to 0 and RC_mode to NV_ENC_PARAMS_RC_CONSTQP and profile to HIGH_444_PREDICTIVE_PROFILE.
+    /// Check support for lossless encoding using ::NV_ENC_CAPS_SUPPORT_LOSSLESS_ENCODE caps.</summary>
+    public bool QpPrimeYZeroTransformBypassFlag {
+        get => ((BitField1 >> 15) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32768U) | (((value ? 1U : 0U) & 1U) << 15));
+    }
+    /// <summary>useConstrainedIntraPred: [in]: Set 1 to enable constrained intra prediction.</summary>
+    public bool UseConstrainedIntraPred {
+        get => ((BitField1 >> 16) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
+    }
+    /// <summary>enableFillerDataInsertion: [in]: Set to 1 to enable insertion of filler data in the bitstream.
+    /// This flag will take effect only when CBR rate control mode is in use and both
+    /// NV_ENC_INITIALIZE_PARAMS::frameRateNum and
+    /// NV_ENC_INITIALIZE_PARAMS::frameRateDen are set to non-zero
+    /// values. Setting this field when
+    /// NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is also set
+    /// is currently not supported and will make ::NvEncInitializeEncoder()
+    /// return an error.</summary>
+    public bool EnableFillerDataInsertion {
+        get => ((BitField1 >> 17) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~131072U) | (((value ? 1U : 0U) & 1U) << 17));
+    }
+    /// <summary>disableSVCPrefixNalu: [in]: Set to 1 to disable writing of SVC Prefix NALU preceding each slice in bitstream.
+    /// Applicable only when temporal SVC is enabled (NV_ENC_CONFIG_H264::enableTemporalSVC = 1).</summary>
+    public bool DisableSVCPrefixNalu {
+        get => ((BitField1 >> 18) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~262144U) | (((value ? 1U : 0U) & 1U) << 18));
+    }
+    /// <summary>enableScalabilityInfoSEI: [in]: Set to 1 to enable writing of Scalability Information SEI message preceding each IDR picture in bitstream
+    /// Applicable only when temporal SVC is enabled (NV_ENC_CONFIG_H264::enableTemporalSVC = 1).</summary>
+    public bool EnableScalabilityInfoSEI {
+        get => ((BitField1 >> 19) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~524288U) | (((value ? 1U : 0U) & 1U) << 19));
+    }
+    /// <summary>singleSliceIntraRefresh: [in]: Set to 1 to maintain single slice in frames during intra refresh.
+    /// Check support for single slice intra refresh using ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps.
+    /// This flag will be ignored if the value returned for ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps is false.</summary>
+    public bool SingleSliceIntraRefresh {
+        get => ((BitField1 >> 20) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1048576U) | (((value ? 1U : 0U) & 1U) << 20));
+    }
+    /// <summary>enableTimeCode: [in]: Set to 1 to enable writing of clock timestamp sets in picture timing SEI. Note that this flag will be ignored for D3D12 interface.</summary>
+    public bool EnableTimeCode {
+        get => ((BitField1 >> 21) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2097152U) | (((value ? 1U : 0U) & 1U) << 21));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
+    /// <summary>level: [in]: Specifies the encoding level. Client is recommended to set this to NV_ENC_LEVEL_AUTOSELECT in order to enable the NvEncodeAPI interface to select the correct level.</summary>
+    public uint Level;
+    /// <summary>idrPeriod: [in]: Specifies the IDR interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG.Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
+    public uint IdrPeriod;
+    /// <summary>separateColourPlaneFlag: [in]: Set to 1 to enable 4:4:4 separate colour planes</summary>
+    public uint SeparateColourPlaneFlag;
+    /// <summary>disableDeblockingFilterIDC: [in]: Specifies the deblocking filter mode. Permissible value range: [0,2]. This flag corresponds
+    /// to the flag disable_deblocking_filter_idc specified in section 7.4.3 of H.264 specification,
+    /// which specifies whether the operation of the deblocking filter shall be disabled across some
+    /// block edges of the slice and specifies for which edges the filtering is disabled. See section
+    /// 7.4.3 of H.264 specification for more details.</summary>
+    public uint DisableDeblockingFilterIDC;
+    /// <summary>numTemporalLayers: [in]: Specifies number of temporal layers to be used for hierarchical coding / temporal SVC. Valid value range is [1,::NV_ENC_CAPS_NUM_MAX_TEMPORAL_LAYERS]</summary>
+    public uint NumTemporalLayers;
+    /// <summary>spsId: [in]: Specifies the SPS id of the sequence header</summary>
+    public uint SpsId;
+    /// <summary>ppsId: [in]: Specifies the PPS id of the picture header</summary>
+    public uint PpsId;
+    /// <summary>adaptiveTransformMode: [in]: Specifies the AdaptiveTransform Mode. Check support for AdaptiveTransform mode using ::NV_ENC_CAPS_SUPPORT_ADAPTIVE_TRANSFORM caps.</summary>
+    public NvEncH264AdaptiveTransformMode AdaptiveTransformMode;
+    /// <summary>fmoMode: [in]: Specified the FMO Mode. Check support for FMO using ::NV_ENC_CAPS_SUPPORT_FMO caps.</summary>
+    public NvEncH264FmoMode FmoMode;
+    /// <summary>bdirectMode: [in]: Specifies the BDirect mode. Check support for BDirect mode using ::NV_ENC_CAPS_SUPPORT_BDIRECT_MODE caps.</summary>
+    public NvEncH264BdirectMode BdirectMode;
+    /// <summary>entropyCodingMode: [in]: Specifies the entropy coding mode. Check support for CABAC mode using ::NV_ENC_CAPS_SUPPORT_CABAC caps.</summary>
+    public NvEncH264EntropyCodingMode EntropyCodingMode;
+    /// <summary>stereoMode: [in]: Specifies the stereo frame packing mode which is to be signaled in frame packing arrangement SEI</summary>
+    public NvEncStereoPackingMode StereoMode;
+    /// <summary>intraRefreshPeriod: [in]: Specifies the interval between successive intra refresh if enableIntrarefresh is set. Requires enableIntraRefresh to be set.
+    /// Will be disabled if NV_ENC_CONFIG::gopLength is not set to NVENC_INFINITE_GOPLENGTH.</summary>
+    public uint IntraRefreshPeriod;
+    /// <summary>intraRefreshCnt: [in]: Specifies the length of intra refresh in number of frames for periodic intra refresh. This value should be smaller than intraRefreshPeriod</summary>
+    public uint IntraRefreshCnt;
+    /// <summary>maxNumRefFrames: [in]: Specifies the DPB size used for encoding. Setting it to 0 will let driver use the default DPB size.
+    /// The low latency application which wants to invalidate reference frame as an error resilience tool
+    /// is recommended to use a large DPB size so that the encoder can keep old reference frames which can be used if recent
+    /// frames are invalidated.</summary>
+    public uint MaxNumRefFrames;
+    /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
+    /// sliceMode = 0 MB based slices, sliceMode = 1 Byte based slices, sliceMode = 2 MB row based slices, sliceMode = 3 numSlices in Picture.
+    /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting
+    /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
+    public uint SliceMode;
+    /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
+    /// sliceMode = 0, sliceModeData specifies # of MBs in each slice (except last slice)
+    /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
+    /// sliceMode = 2, sliceModeData specifies # of MB rows in each slice (except last slice)
+    /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
+    public uint SliceModeData;
+    /// <summary>h264VUIParameters: [in]: Specifies the H264 video usability info parameters</summary>
+    public NvEncConfigH264VuiParameters H264VUIParameters;
+    /// <summary>ltrNumFrames: [in]: Specifies the number of LTR frames. This parameter has different meaning in two LTR modes.
+    /// In "LTR Trust" mode (ltrTrustMode = 1), encoder will mark the first ltrNumFrames base layer reference frames within each IDR interval as LTR.
+    /// In "LTR Per Picture" mode (ltrTrustMode = 0 and ltrMarkFrame = 1), ltrNumFrames specifies maximum number of LTR frames in DPB.</summary>
+    public uint LtrNumFrames;
+    /// <summary>ltrTrustMode: [in]: Specifies the LTR operating mode. See comments near NV_ENC_CONFIG_H264::enableLTR for description of the two modes.
+    /// Set to 1 to use "LTR Trust" mode of LTR operation. Clients are discouraged to use "LTR Trust" mode as this mode may
+    /// be deprecated in future releases.
+    /// Set to 0 when using "LTR Per Picture" mode of LTR operation.</summary>
+    public uint LtrTrustMode;
+    /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input, 3 for yuv444 input.
+    /// Check support for YUV444 encoding using ::NV_ENC_CAPS_SUPPORT_YUV444_ENCODE caps.</summary>
+    public uint ChromaFormatIDC;
+    /// <summary>maxTemporalLayers: [in]: Specifies the max temporal layer used for temporal SVC / hierarchical coding.
+    /// Defaut value of this field is NV_ENC_CAPS::NV_ENC_CAPS_NUM_MAX_TEMPORAL_LAYERS. Note that the value NV_ENC_CONFIG_H264::maxNumRefFrames should
+    /// be greater than or equal to (NV_ENC_CONFIG_H264::maxTemporalLayers - 2) * 2, for NV_ENC_CONFIG_H264::maxTemporalLayers >= 2.</summary>
+    public uint MaxTemporalLayers;
+    /// <summary>useBFramesAsRef: [in]: Specifies the B-Frame as reference mode. Check support for useBFramesAsRef mode using ::NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE caps.</summary>
+    public NvEncBframeRefMode UseBFramesAsRef;
+    /// <summary>numRefL0: [in]: Specifies max number of reference frames in reference picture list L0, that can be used by hardware for prediction of a frame.
+    /// Check support for numRefL0 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
+    public NvEncNumRefFrames NumRefL0;
+    /// <summary>numRefL1: [in]: Specifies max number of reference frames in reference picture list L1, that can be used by hardware for prediction of a frame.
+    /// Check support for numRefL1 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
+    public NvEncNumRefFrames NumRefL1;
+    /// <summary>outputBitDepth: [in]: Specifies pixel bit depth of encoded video. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit, NV_ENC_BIT_DEPTH_10 for 10 bit.</summary>
+    public NvEncBitDepth OutputBitDepth;
+    /// <summary>inputBitDepth: [in]: Specifies pixel bit depth of video input. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit input, NV_ENC_BIT_DEPTH_10 for 10 bit input.</summary>
+    public NvEncBitDepth InputBitDepth;
+    /// <summary>reserved1[265]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[265];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_CONFIG_HEVC
+/// struct _NV_ENC_CONFIG_HEVC
+/// HEVC encoder configuration parameters to be set during initialization.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfigHevc
+{
+    /// <summary>level: [in]: Specifies the level of the encoded bitstream.</summary>
+    public uint Level;
+    /// <summary>tier: [in]: Specifies the level tier of the encoded bitstream.</summary>
+    public uint Tier;
+    /// <summary>minCUSize: [in]: Specifies the minimum size of luma coding unit.</summary>
+    public NvEncHevcCusize MinCUSize;
+    /// <summary>maxCUSize: [in]: Specifies the maximum size of luma coding unit. Currently NVENC SDK only supports maxCUSize equal to NV_ENC_HEVC_CUSIZE_32x32.</summary>
+    public NvEncHevcCusize MaxCUSize;
+    internal uint BitField1;
+    /// <summary>useConstrainedIntraPred: [in]: Set 1 to enable constrained intra prediction.</summary>
+    public bool UseConstrainedIntraPred {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>disableDeblockAcrossSliceBoundary: [in]: Set 1 to disable in loop filtering across slice boundary.</summary>
+    public bool DisableDeblockAcrossSliceBoundary {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>outputBufferingPeriodSEI: [in]: Set 1 to write SEI buffering period syntax in the bitstream</summary>
+    public bool OutputBufferingPeriodSEI {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>outputPictureTimingSEI: [in]: Set 1 to write SEI picture timing syntax in the bitstream</summary>
+    public bool OutputPictureTimingSEI {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>outputAUD: [in]: Set 1 to write Access Unit Delimiter syntax.</summary>
+    public bool OutputAUD {
+        get => ((BitField1 >> 4) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
+    }
+    /// <summary>enableLTR: [in]: Set to 1 to enable LTR (Long Term Reference) frame support. LTR can be used in two modes: "LTR Trust" mode and "LTR Per Picture" mode.
+    /// LTR Trust mode: In this mode, ltrNumFrames pictures after IDR are automatically marked as LTR. This mode is enabled by setting ltrTrustMode = 1.
+    /// Use of LTR Trust mode is strongly discouraged as this mode may be deprecated in future releases.
+    /// LTR Per Picture mode: In this mode, client can control whether the current picture should be marked as LTR. Enable this mode by setting
+    /// ltrTrustMode = 0 and ltrMarkFrame = 1 for the picture to be marked as LTR. This is the preferred mode
+    /// for using LTR.
+    /// Note that LTRs are not supported if encoding session is configured with B-frames</summary>
+    public bool EnableLTR {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
+    }
+    /// <summary>disableSPSPPS: [in]: Set 1 to disable VPS, SPS and PPS signaling in the bitstream.</summary>
+    public bool DisableSPSPPS {
+        get => ((BitField1 >> 6) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
+    }
+    /// <summary>repeatSPSPPS: [in]: Set 1 to output VPS,SPS and PPS for every IDR frame.</summary>
+    public bool RepeatSPSPPS {
+        get => ((BitField1 >> 7) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
+    }
+    /// <summary>enableIntraRefresh: [in]: Set 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
+    public bool EnableIntraRefresh {
+        get => ((BitField1 >> 8) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
+    }
+    /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input, 3 for yuv444 input.</summary>
+    public uint ChromaFormatIDC {
+        get => (uint)((BitField1 >> 9) & 3U);
+        set => BitField1 = (uint)((BitField1 & ~1536U) | ((unchecked((uint)value) & 3U) << 9));
+    }
+    /// <summary>reserved3: [in]: Reserved and must be set to 0.</summary>
+    /// <summary>enableFillerDataInsertion: [in]: Set to 1 to enable insertion of filler data in the bitstream.
+    /// This flag will take effect only when CBR rate control mode is in use and both
+    /// NV_ENC_INITIALIZE_PARAMS::frameRateNum and
+    /// NV_ENC_INITIALIZE_PARAMS::frameRateDen are set to non-zero
+    /// values. Setting this field when
+    /// NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is also set
+    /// is currently not supported and will make ::NvEncInitializeEncoder()
+    /// return an error.</summary>
+    public bool EnableFillerDataInsertion {
+        get => ((BitField1 >> 14) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16384U) | (((value ? 1U : 0U) & 1U) << 14));
+    }
+    /// <summary>enableConstrainedEncoding: [in]: Set this to 1 to enable constrainedFrame encoding where each slice in the constrained picture is independent of other slices.
+    /// Constrained encoding works only with rectangular slices.
+    /// Check support for constrained encoding using ::NV_ENC_CAPS_SUPPORT_CONSTRAINED_ENCODING caps.</summary>
+    public bool EnableConstrainedEncoding {
+        get => ((BitField1 >> 15) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32768U) | (((value ? 1U : 0U) & 1U) << 15));
+    }
+    /// <summary>enableAlphaLayerEncoding: [in]: Set this to 1 to enable HEVC encode with alpha layer.</summary>
+    public bool EnableAlphaLayerEncoding {
+        get => ((BitField1 >> 16) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~65536U) | (((value ? 1U : 0U) & 1U) << 16));
+    }
+    /// <summary>singleSliceIntraRefresh: [in]: Set this to 1 to maintain single slice frames during intra refresh.
+    /// Check support for single slice intra refresh using ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps.
+    /// This flag will be ignored if the value returned for ::NV_ENC_CAPS_SINGLE_SLICE_INTRA_REFRESH caps is false.</summary>
+    public bool SingleSliceIntraRefresh {
+        get => ((BitField1 >> 17) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~131072U) | (((value ? 1U : 0U) & 1U) << 17));
+    }
+    /// <summary>outputRecoveryPointSEI: [in]: Set to 1 to enable writing of recovery point SEI message</summary>
+    public bool OutputRecoveryPointSEI {
+        get => ((BitField1 >> 18) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~262144U) | (((value ? 1U : 0U) & 1U) << 18));
+    }
+    /// <summary>outputTimeCodeSEI: [in]: Set 1 to write SEI time code syntax in the bitstream. Note that this flag will be ignored for D3D12 interface.</summary>
+    public bool OutputTimeCodeSEI {
+        get => ((BitField1 >> 19) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~524288U) | (((value ? 1U : 0U) & 1U) << 19));
+    }
+    /// <summary>reserved: [in]: Reserved bitfields.</summary>
+    /// <summary>idrPeriod: [in]: Specifies the IDR interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG. Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
+    public uint IdrPeriod;
+    /// <summary>intraRefreshPeriod: [in]: Specifies the interval between successive intra refresh if enableIntrarefresh is set. Requires enableIntraRefresh to be set.
+    /// Will be disabled if NV_ENC_CONFIG::gopLength is not set to NVENC_INFINITE_GOPLENGTH.</summary>
+    public uint IntraRefreshPeriod;
+    /// <summary>intraRefreshCnt: [in]: Specifies the length of intra refresh in number of frames for periodic intra refresh. This value should be smaller than intraRefreshPeriod</summary>
+    public uint IntraRefreshCnt;
+    /// <summary>maxNumRefFramesInDPB: [in]: Specifies the maximum number of references frames in the DPB.</summary>
+    public uint MaxNumRefFramesInDPB;
+    /// <summary>ltrNumFrames: [in]: This parameter has different meaning in two LTR modes.
+    /// In "LTR Trust" mode (ltrTrustMode = 1), encoder will mark the first ltrNumFrames base layer reference frames within each IDR interval as LTR.
+    /// In "LTR Per Picture" mode (ltrTrustMode = 0 and ltrMarkFrame = 1), ltrNumFrames specifies maximum number of LTR frames in DPB.
+    /// These ltrNumFrames acts as a guidance to the encoder and are not necessarily honored. To achieve a right balance between the encoding
+    /// quality and keeping LTR frames in the DPB queue, the encoder can internally limit the number of LTR frames.
+    /// The number of LTR frames actually used depends upon the encoding preset being used; Faster encoding presets will use fewer LTR frames.</summary>
+    public uint LtrNumFrames;
+    /// <summary>vpsId: [in]: Specifies the VPS id of the video parameter set</summary>
+    public uint VpsId;
+    /// <summary>spsId: [in]: Specifies the SPS id of the sequence header</summary>
+    public uint SpsId;
+    /// <summary>ppsId: [in]: Specifies the PPS id of the picture header</summary>
+    public uint PpsId;
+    /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
+    /// sliceMode = 0 CTU based slices, sliceMode = 1 Byte based slices, sliceMode = 2 CTU row based slices, sliceMode = 3, numSlices in Picture
+    /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
+    public uint SliceMode;
+    /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
+    /// sliceMode = 0, sliceModeData specifies # of CTUs in each slice (except last slice)
+    /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
+    /// sliceMode = 2, sliceModeData specifies # of CTU rows in each slice (except last slice)
+    /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
+    public uint SliceModeData;
+    /// <summary>maxTemporalLayersMinus1: [in]: Specifies the max temporal layer used for hierarchical coding.</summary>
+    public uint MaxTemporalLayersMinus1;
+    /// <summary>hevcVUIParameters: [in]: Specifies the HEVC video usability info parameters</summary>
+    public NvEncConfigH264VuiParameters HevcVUIParameters;
+    /// <summary>ltrTrustMode: [in]: Specifies the LTR operating mode. See comments near NV_ENC_CONFIG_HEVC::enableLTR for description of the two modes.
+    /// Set to 1 to use "LTR Trust" mode of LTR operation. Clients are discouraged to use "LTR Trust" mode as this mode may
+    /// be deprecated in future releases.
+    /// Set to 0 when using "LTR Per Picture" mode of LTR operation.</summary>
+    public uint LtrTrustMode;
+    /// <summary>useBFramesAsRef: [in]: Specifies the B-Frame as reference mode. Check support for useBFramesAsRef mode using ::NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE caps.</summary>
+    public NvEncBframeRefMode UseBFramesAsRef;
+    /// <summary>numRefL0: [in]: Specifies max number of reference frames in reference picture list L0, that can be used by hardware for prediction of a frame.
+    /// Check support for numRefL0 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
+    public NvEncNumRefFrames NumRefL0;
+    /// <summary>numRefL1: [in]: Specifies max number of reference frames in reference picture list L1, that can be used by hardware for prediction of a frame.
+    /// Check support for numRefL1 using ::NV_ENC_CAPS_SUPPORT_MULTIPLE_REF_FRAMES caps.</summary>
+    public NvEncNumRefFrames NumRefL1;
+    /// <summary>tfLevel: [in]: Specifies the strength of the temporal filtering.
+    /// Temporal filter feature is supported only if frameIntervalP >= 5.
+    /// Temporal filter feature is not supported with ZeroReorderDelay/enableStereoMVC/AlphaLayerEncoding.
+    /// Temporal filter is recommended for natural contents.</summary>
+    public NvEncTemporalFilterLevel TfLevel;
+    /// <summary>disableDeblockingFilterIDC: [in]: Specifies the deblocking filter mode. Permissible value range: [0,2]. This flag corresponds
+    /// to the flag pps_deblocking_filter_disabled_flag specified in section 7.4.3.3 of H.265 specification,
+    /// which specifies whether the operation of the deblocking filter shall be disabled across some
+    /// block edges of the slice and specifies for which edges the filtering is disabled. See section
+    /// 7.4.3.3 of H.265 specification for more details.</summary>
+    public uint DisableDeblockingFilterIDC;
+    /// <summary>outputBitDepth: [in]: Specifies pixel bit depth of encoded video. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit, NV_ENC_BIT_DEPTH_10 for 10 bit.
+    /// SW will do the bitdepth conversion internally from inputBitDepth -> outputBitDepth if bit depths differ
+    /// Support for 8 bit input to 10 bit encode conversion only</summary>
+    public NvEncBitDepth OutputBitDepth;
+    /// <summary>inputBitDepth: [in]: Specifies pixel bit depth of video input. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit input, NV_ENC_BIT_DEPTH_10 for 10 bit input.</summary>
+    public NvEncBitDepth InputBitDepth;
+    /// <summary>reserved1[210]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[210];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_FILM_GRAIN_PARAMS_AV1
+/// struct _NV_ENC_FILM_GRAIN_PARAMS_AV1
+/// AV1 Film Grain Parameters structure</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncFilmGrainParamsAv1
+{
+    internal uint BitField1;
+    /// <summary>applyGrain: [in]: Set to 1 to specify film grain should be added to frame</summary>
+    public bool ApplyGrain {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>chromaScalingFromLuma: [in]: Set to 1 to specify the chroma scaling is inferred from luma scaling</summary>
+    public bool ChromaScalingFromLuma {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>overlapFlag: [in]: Set to 1 to indicate that overlap between film grain blocks should be applied</summary>
+    public bool OverlapFlag {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>clipToRestrictedRange: [in]: Set to 1 to clip values to restricted (studio) range after adding film grain</summary>
+    public bool ClipToRestrictedRange {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>grainScalingMinus8: [in]: Represents the shift - 8 applied to the values of the chroma component</summary>
+    public uint GrainScalingMinus8 {
+        get => (uint)((BitField1 >> 4) & 3U);
+        set => BitField1 = (uint)((BitField1 & ~48U) | ((unchecked((uint)value) & 3U) << 4));
+    }
+    /// <summary>arCoeffLag: [in]: Specifies the number of auto-regressive coefficients for luma and chroma</summary>
+    public uint ArCoeffLag {
+        get => (uint)((BitField1 >> 6) & 3U);
+        set => BitField1 = (uint)((BitField1 & ~192U) | ((unchecked((uint)value) & 3U) << 6));
+    }
+    /// <summary>numYPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the luma component</summary>
+    public uint NumYPoints {
+        get => (uint)((BitField1 >> 8) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~3840U) | ((unchecked((uint)value) & 15U) << 8));
+    }
+    /// <summary>numCbPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the cb component</summary>
+    public uint NumCbPoints {
+        get => (uint)((BitField1 >> 12) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~61440U) | ((unchecked((uint)value) & 15U) << 12));
+    }
+    /// <summary>numCrPoints: [in]: Specifies the number of points for the piecewise linear scaling function of the cr component</summary>
+    public uint NumCrPoints {
+        get => (uint)((BitField1 >> 16) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~983040U) | ((unchecked((uint)value) & 15U) << 16));
+    }
+    /// <summary>arCoeffShiftMinus6: [in]: specifies the range of the auto-regressive coefficients</summary>
+    public uint ArCoeffShiftMinus6 {
+        get => (uint)((BitField1 >> 20) & 3U);
+        set => BitField1 = (uint)((BitField1 & ~3145728U) | ((unchecked((uint)value) & 3U) << 20));
+    }
+    /// <summary>grainScaleShift: [in]: Specifies how much the Gaussian random numbers should be scaled down during the grain synthesi process</summary>
+    public uint GrainScaleShift {
+        get => (uint)((BitField1 >> 22) & 3U);
+        set => BitField1 = (uint)((BitField1 & ~12582912U) | ((unchecked((uint)value) & 3U) << 22));
+    }
+    /// <summary>reserved1: [in]: Reserved bits field - should be set to 0</summary>
+    /// <summary>pointYValue[14]: [in]: pointYValue[i]: x coordinate for i-th point of luma piecewise linear scaling function. Values on a scale of 0...255</summary>
+    public fixed byte PointYValue[14];
+    /// <summary>pointYScaling[14]: [in]: pointYScaling[i]: i-th point output value of luma piecewise linear scaling function</summary>
+    public fixed byte PointYScaling[14];
+    /// <summary>pointCbValue[10]: [in]: pointCbValue[i]: x coordinate for i-th point of cb piecewise linear scaling function. Values on a scale of 0...255</summary>
+    public fixed byte PointCbValue[10];
+    /// <summary>pointCbScaling[10]: [in]: pointCbScaling[i]: i-th point output value of cb piecewise linear scaling function</summary>
+    public fixed byte PointCbScaling[10];
+    /// <summary>pointCrValue[10]: [in]: pointCrValue[i]: x coordinate for i-th point of cr piecewise linear scaling function. Values on a scale of 0...255</summary>
+    public fixed byte PointCrValue[10];
+    /// <summary>pointCrScaling[10]: [in]: pointCrScaling[i]: i-th point output value of cr piecewise linear scaling function</summary>
+    public fixed byte PointCrScaling[10];
+    /// <summary>arCoeffsYPlus128[24]: [in]: Specifies auto-regressive coefficients used for the Y plane</summary>
+    public fixed byte ArCoeffsYPlus128[24];
+    /// <summary>arCoeffsCbPlus128[25]: [in]: Specifies auto-regressive coefficients used for the U plane</summary>
+    public fixed byte ArCoeffsCbPlus128[25];
+    /// <summary>arCoeffsCrPlus128[25]: [in]: Specifies auto-regressive coefficients used for the V plane</summary>
+    public fixed byte ArCoeffsCrPlus128[25];
+    /// <summary>reserved2[2]: [in]: Reserved bytes - should be set to 0</summary>
+    private fixed byte Reserved2[2];
+    /// <summary>cbMult: [in]: Represents a multiplier for the cb component used in derivation of the input index to the cb component scaling function</summary>
+    public byte CbMult;
+    /// <summary>cbLumaMult: [in]: represents a multiplier for the average luma component used in derivation of the input index to the cb component scaling function.</summary>
+    public byte CbLumaMult;
+    /// <summary>cbOffset: [in]: Represents an offset used in derivation of the input index to the cb component scaling function</summary>
+    public ushort CbOffset;
+    /// <summary>crMult: [in]: Represents a multiplier for the cr component used in derivation of the input index to the cr component scaling function</summary>
+    public byte CrMult;
+    /// <summary>crLumaMult: [in]: represents a multiplier for the average luma component used in derivation of the input index to the cr component scaling function.</summary>
+    public byte CrLumaMult;
+    /// <summary>crOffset: [in]: Represents an offset used in derivation of the input index to the cr component scaling function</summary>
+    public ushort CrOffset;
+}
+
+/// <summary>NV_ENC_CONFIG_AV1
+/// struct _NV_ENC_CONFIG_AV1
+/// AV1 encoder configuration parameters to be set during initialization.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfigAv1
+{
+    /// <summary>level: [in]: Specifies the level of the encoded bitstream.</summary>
+    public uint Level;
+    /// <summary>tier: [in]: Specifies the level tier of the encoded bitstream.</summary>
+    public uint Tier;
+    /// <summary>minPartSize: [in]: Specifies the minimum size of luma coding block partition.</summary>
+    public NvEncAv1PartSize MinPartSize;
+    /// <summary>maxPartSize: [in]: Specifies the maximum size of luma coding block partition.</summary>
+    public NvEncAv1PartSize MaxPartSize;
+    internal uint BitField1;
+    /// <summary>outputAnnexBFormat: [in]: Set 1 to use Annex B format for bitstream output.</summary>
+    public bool OutputAnnexBFormat {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>enableTimingInfo: [in]: Set 1 to write Timing Info into sequence/frame headers</summary>
+    public bool EnableTimingInfo {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>enableDecoderModelInfo: [in]: Set 1 to write Decoder Model Info into sequence/frame headers</summary>
+    public bool EnableDecoderModelInfo {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>enableFrameIdNumbers: [in]: Set 1 to write Frame id numbers in bitstream</summary>
+    public bool EnableFrameIdNumbers {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>disableSeqHdr: [in]: Set 1 to disable Sequence Header signaling in the bitstream.</summary>
+    public bool DisableSeqHdr {
+        get => ((BitField1 >> 4) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
+    }
+    /// <summary>repeatSeqHdr: [in]: Set 1 to output Sequence Header for every Key frame.</summary>
+    public bool RepeatSeqHdr {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
+    }
+    /// <summary>enableIntraRefresh: [in]: Set 1 to enable gradual decoder refresh or intra refresh. If the GOP structure uses B frames this will be ignored</summary>
+    public bool EnableIntraRefresh {
+        get => ((BitField1 >> 6) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
+    }
+    /// <summary>chromaFormatIDC: [in]: Specifies the chroma format. Should be set to 1 for yuv420 input (yuv444 input currently not supported).</summary>
+    public uint ChromaFormatIDC {
+        get => (uint)((BitField1 >> 7) & 3U);
+        set => BitField1 = (uint)((BitField1 & ~384U) | ((unchecked((uint)value) & 3U) << 7));
+    }
+    /// <summary>enableBitstreamPadding: [in]: Set 1 to enable bitstream padding.</summary>
+    public bool EnableBitstreamPadding {
+        get => ((BitField1 >> 9) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
+    }
+    /// <summary>enableCustomTileConfig: [in]: Set 1 to enable custom tile configuration: numTileColumns and numTileRows must have non zero values and tileWidths and tileHeights must point to a valid address</summary>
+    public bool EnableCustomTileConfig {
+        get => ((BitField1 >> 10) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
+    }
+    /// <summary>enableFilmGrainParams: [in]: Set 1 to enable custom film grain parameters: filmGrainParams must point to a valid address</summary>
+    public bool EnableFilmGrainParams {
+        get => ((BitField1 >> 11) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
+    }
+    /// <summary>reserved4: [in]: Reserved and must be set to 0.</summary>
+    /// <summary>reserved: [in]: Reserved bitfields.</summary>
+    /// <summary>idrPeriod: [in]: Specifies the IDR/Key frame interval. If not set, this is made equal to gopLength in NV_ENC_CONFIG.Low latency application client can set IDR interval to NVENC_INFINITE_GOPLENGTH so that IDR frames are not inserted automatically.</summary>
+    public uint IdrPeriod;
+    /// <summary>intraRefreshPeriod: [in]: Specifies the interval between successive intra refresh if enableIntrarefresh is set. Requires enableIntraRefresh to be set.
+    /// Will be disabled if NV_ENC_CONFIG::gopLength is not set to NVENC_INFINITE_GOPLENGTH.</summary>
+    public uint IntraRefreshPeriod;
+    /// <summary>intraRefreshCnt: [in]: Specifies the length of intra refresh in number of frames for periodic intra refresh. This value should be smaller than intraRefreshPeriod</summary>
+    public uint IntraRefreshCnt;
+    /// <summary>maxNumRefFramesInDPB: [in]: Specifies the maximum number of references frames in the DPB.</summary>
+    public uint MaxNumRefFramesInDPB;
+    /// <summary>numTileColumns: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileWidths[] specifies the way in which the picture is divided into tile columns.
+    /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileColumns tile columns. If numTileColumns is not a power of 2,
+    /// it will be rounded down to the next power of 2 value. If numTileColumns == 0, the picture will be coded with the smallest number of vertical tiles as allowed by standard.
+    /// When enableCustomTileConfig == 1, numTileColumns must be > 0 and <= NV_MAX_TILE_COLS_AV1 and tileWidths must point to a valid array of numTileColumns entries.
+    /// Entry i specifies the width in 64x64 CTU unit of tile colum i. The sum of all the entries should be equal to the picture width in 64x64 CTU units.</summary>
+    public uint NumTileColumns;
+    /// <summary>numTileRows: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileHeights[] specifies the way in which the picture is divided into tiles rows
+    /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileRows tile rows. If numTileRows is not a power of 2,
+    /// it will be rounded down to the next power of 2 value. If numTileRows == 0, the picture will be coded with the smallest number of horizontal tiles as allowed by standard.
+    /// When enableCustomTileConfig == 1, numTileRows must be > 0 and <= NV_MAX_TILE_ROWS_AV1 and tileHeights must point to a valid array of numTileRows entries.
+    /// Entry i specifies the height in 64x64 CTU unit of tile row i. The sum of all the entries should be equal to the picture hieght in 64x64 CTU units.</summary>
+    public uint NumTileRows;
+    /// <summary>reserved2: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved2;
+    /// <summary>*tileWidths: [in]: If enableCustomTileConfig == 1, tileWidths[i] specifies the width of tile column i in 64x64 CTU unit, with 0 <= i <= numTileColumns -1.</summary>
+    public uint *tileWidths;
+    /// <summary>*tileHeights: [in]: If enableCustomTileConfig == 1, tileHeights[i] specifies the height of tile row i in 64x64 CTU unit, with 0 <= i <= numTileRows -1.</summary>
+    public uint *tileHeights;
+    /// <summary>maxTemporalLayersMinus1: [in]: Specifies the max temporal layer used for hierarchical coding. Cannot be reconfigured and must be specified during encoder creation if temporal layer is considered.</summary>
+    public uint MaxTemporalLayersMinus1;
+    /// <summary>colorPrimaries: [in]: as defined in section of ISO/IEC 23091-4/ITU-T H.273</summary>
+    public NvEncVuiColorPrimaries ColorPrimaries;
+    /// <summary>transferCharacteristics: [in]: as defined in section of ISO/IEC 23091-4/ITU-T H.273</summary>
+    public NvEncVuiTransferCharacteristic TransferCharacteristics;
+    /// <summary>matrixCoefficients: [in]: as defined in section of ISO/IEC 23091-4/ITU-T H.273</summary>
+    public NvEncVuiMatrixCoeffs MatrixCoefficients;
+    /// <summary>colorRange: [in]: 0: studio swing representation - 1: full swing representation</summary>
+    public uint ColorRange;
+    /// <summary>chromaSamplePosition: [in]: 0: unknown
+    /// 1: Horizontally collocated with luma (0,0) sample, between two vertical samples
+    /// 2: Co-located with luma (0,0) sample</summary>
+    public uint ChromaSamplePosition;
+    /// <summary>useBFramesAsRef: [in]: Specifies the B-Frame as reference mode. Check support for useBFramesAsRef mode using ::NV_ENC_CAPS_SUPPORT_BFRAME_REF_MODE caps.</summary>
+    public NvEncBframeRefMode UseBFramesAsRef;
+    /// <summary>*filmGrainParams: [in]: If enableFilmGrainParams == 1, filmGrainParams must point to a valid NV_ENC_FILM_GRAIN_PARAMS_AV1 structure</summary>
+    public NvEncFilmGrainParamsAv1 *filmGrainParams;
+    /// <summary>numFwdRefs: [in]: Specifies max number of forward reference frame used for prediction of a frame. It must be in range 1-4 (Last, Last2, last3 and Golden). It's a suggestive value not necessarily be honored always.</summary>
+    public NvEncNumRefFrames NumFwdRefs;
+    /// <summary>numBwdRefs: [in]: Specifies max number of L1 list reference frame used for prediction of a frame. It must be in range 1-3 (Backward, Altref2, Altref). It's a suggestive value not necessarily be honored always.</summary>
+    public NvEncNumRefFrames NumBwdRefs;
+    /// <summary>outputBitDepth: [in]: Specifies pixel bit depth of encoded video. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit, NV_ENC_BIT_DEPTH_10 for 10 bit.
+    /// HW will do the bitdepth conversion internally from inputBitDepth -> outputBitDepth if bit depths differ
+    /// Support for 8 bit input to 10 bit encode conversion only</summary>
+    public NvEncBitDepth OutputBitDepth;
+    /// <summary>inputBitDepth: [in]: Specifies pixel bit depth of video input. Should be set to NV_ENC_BIT_DEPTH_8 for 8 bit input, NV_ENC_BIT_DEPTH_10 for 10 bit input.</summary>
+    public NvEncBitDepth InputBitDepth;
+    /// <summary>reserved1[233]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[233];
+    /// <summary>reserved3[62]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved3[62]
+    private IntPtr Reserved30;
+    private IntPtr Reserved31;
+    private IntPtr Reserved32;
+    private IntPtr Reserved33;
+    private IntPtr Reserved34;
+    private IntPtr Reserved35;
+    private IntPtr Reserved36;
+    private IntPtr Reserved37;
+    private IntPtr Reserved38;
+    private IntPtr Reserved39;
+    private IntPtr Reserved310;
+    private IntPtr Reserved311;
+    private IntPtr Reserved312;
+    private IntPtr Reserved313;
+    private IntPtr Reserved314;
+    private IntPtr Reserved315;
+    private IntPtr Reserved316;
+    private IntPtr Reserved317;
+    private IntPtr Reserved318;
+    private IntPtr Reserved319;
+    private IntPtr Reserved320;
+    private IntPtr Reserved321;
+    private IntPtr Reserved322;
+    private IntPtr Reserved323;
+    private IntPtr Reserved324;
+    private IntPtr Reserved325;
+    private IntPtr Reserved326;
+    private IntPtr Reserved327;
+    private IntPtr Reserved328;
+    private IntPtr Reserved329;
+    private IntPtr Reserved330;
+    private IntPtr Reserved331;
+    private IntPtr Reserved332;
+    private IntPtr Reserved333;
+    private IntPtr Reserved334;
+    private IntPtr Reserved335;
+    private IntPtr Reserved336;
+    private IntPtr Reserved337;
+    private IntPtr Reserved338;
+    private IntPtr Reserved339;
+    private IntPtr Reserved340;
+    private IntPtr Reserved341;
+    private IntPtr Reserved342;
+    private IntPtr Reserved343;
+    private IntPtr Reserved344;
+    private IntPtr Reserved345;
+    private IntPtr Reserved346;
+    private IntPtr Reserved347;
+    private IntPtr Reserved348;
+    private IntPtr Reserved349;
+    private IntPtr Reserved350;
+    private IntPtr Reserved351;
+    private IntPtr Reserved352;
+    private IntPtr Reserved353;
+    private IntPtr Reserved354;
+    private IntPtr Reserved355;
+    private IntPtr Reserved356;
+    private IntPtr Reserved357;
+    private IntPtr Reserved358;
+    private IntPtr Reserved359;
+    private IntPtr Reserved360;
+    private IntPtr Reserved361;
+    #endregion Reserved3[62]
+}
+
+/// <summary>NV_ENC_CONFIG_H264_MEONLY
+/// struct _NV_ENC_CONFIG_H264_MEONLY
+/// H264 encoder configuration parameters for ME only Mode</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfigH264Meonly
+{
+    internal uint BitField1;
+    /// <summary>disablePartition16x16: [in]: Disable Motion Estimation on 16x16 blocks</summary>
+    public bool DisablePartition16x16 {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>disablePartition8x16: [in]: Disable Motion Estimation on 8x16 blocks</summary>
+    public bool DisablePartition8x16 {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>disablePartition16x8: [in]: Disable Motion Estimation on 16x8 blocks</summary>
+    public bool DisablePartition16x8 {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>disablePartition8x8: [in]: Disable Motion Estimation on 8x8 blocks</summary>
+    public bool DisablePartition8x8 {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>disableIntraSearch: [in]: Disable Intra search during Motion Estimation</summary>
+    public bool DisableIntraSearch {
+        get => ((BitField1 >> 4) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
+    }
+    /// <summary>bStereoEnable: [in]: Enable Stereo Mode for Motion Estimation where each view is independently executed</summary>
+    public bool BStereoEnable {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
+    }
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    /// <summary>reserved1 [255]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1 [255];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_CONFIG_HEVC_MEONLY
+/// struct _NV_ENC_CONFIG_HEVC_MEONLY
+/// HEVC encoder configuration parameters for ME only Mode</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfigHevcMeonly
+{
+    /// <summary>reserved [256]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved [256];
+    /// <summary>reserved1[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved1[64]
+    private IntPtr Reserved10;
+    private IntPtr Reserved11;
+    private IntPtr Reserved12;
+    private IntPtr Reserved13;
+    private IntPtr Reserved14;
+    private IntPtr Reserved15;
+    private IntPtr Reserved16;
+    private IntPtr Reserved17;
+    private IntPtr Reserved18;
+    private IntPtr Reserved19;
+    private IntPtr Reserved110;
+    private IntPtr Reserved111;
+    private IntPtr Reserved112;
+    private IntPtr Reserved113;
+    private IntPtr Reserved114;
+    private IntPtr Reserved115;
+    private IntPtr Reserved116;
+    private IntPtr Reserved117;
+    private IntPtr Reserved118;
+    private IntPtr Reserved119;
+    private IntPtr Reserved120;
+    private IntPtr Reserved121;
+    private IntPtr Reserved122;
+    private IntPtr Reserved123;
+    private IntPtr Reserved124;
+    private IntPtr Reserved125;
+    private IntPtr Reserved126;
+    private IntPtr Reserved127;
+    private IntPtr Reserved128;
+    private IntPtr Reserved129;
+    private IntPtr Reserved130;
+    private IntPtr Reserved131;
+    private IntPtr Reserved132;
+    private IntPtr Reserved133;
+    private IntPtr Reserved134;
+    private IntPtr Reserved135;
+    private IntPtr Reserved136;
+    private IntPtr Reserved137;
+    private IntPtr Reserved138;
+    private IntPtr Reserved139;
+    private IntPtr Reserved140;
+    private IntPtr Reserved141;
+    private IntPtr Reserved142;
+    private IntPtr Reserved143;
+    private IntPtr Reserved144;
+    private IntPtr Reserved145;
+    private IntPtr Reserved146;
+    private IntPtr Reserved147;
+    private IntPtr Reserved148;
+    private IntPtr Reserved149;
+    private IntPtr Reserved150;
+    private IntPtr Reserved151;
+    private IntPtr Reserved152;
+    private IntPtr Reserved153;
+    private IntPtr Reserved154;
+    private IntPtr Reserved155;
+    private IntPtr Reserved156;
+    private IntPtr Reserved157;
+    private IntPtr Reserved158;
+    private IntPtr Reserved159;
+    private IntPtr Reserved160;
+    private IntPtr Reserved161;
+    private IntPtr Reserved162;
+    private IntPtr Reserved163;
+    #endregion Reserved1[64]
+}
+
+/// <summary>NV_ENC_CONFIG
+/// struct _NV_ENC_CONFIG
+/// Encoder configuration parameters to be set during initialization.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncConfig
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_CONFIG_VER.</summary>
+    public uint Version;
+    /// <summary>profileGUID: [in]: Specifies the codec profile GUID. If client specifies \p NV_ENC_CODEC_PROFILE_AUTOSELECT_GUID the NvEncodeAPI interface will select the appropriate codec profile.</summary>
+    public Guid ProfileGuid;
+    /// <summary>gopLength: [in]: Specifies the number of pictures in one GOP. Low latency application client can set goplength to NVENC_INFINITE_GOPLENGTH so that keyframes are not inserted automatically.</summary>
+    public uint GopLength;
+    /// <summary>frameIntervalP: [in]: Specifies the GOP pattern as follows: \p frameIntervalP = 0: I, 1: IPP, 2: IBP, 3: IBBP If goplength is set to NVENC_INFINITE_GOPLENGTH \p frameIntervalP should be set to 1.</summary>
+    public int FrameIntervalP;
+    /// <summary>monoChromeEncoding: [in]: Set this to 1 to enable monochrome encoding for this session.</summary>
+    public uint MonoChromeEncoding;
+    /// <summary>frameFieldMode: [in]: Specifies the frame/field mode.
+    /// Check support for field encoding using ::NV_ENC_CAPS_SUPPORT_FIELD_ENCODING caps.
+    /// Using a frameFieldMode other than NV_ENC_PARAMS_FRAME_FIELD_MODE_FRAME for RGB input is not supported.</summary>
+    public NvEncParamsFrameFieldMode FrameFieldMode;
+    /// <summary>mvPrecision: [in]: Specifies the desired motion vector prediction precision.</summary>
+    public NvEncMvPrecision MvPrecision;
+    /// <summary>rcParams: [in]: Specifies the rate control parameters for the current encoding session.</summary>
+    public NvEncRcParams RcParams;
+    /// <summary>encodeCodecConfig: [in]: Specifies the codec specific config parameters through this union.</summary>
+    public NvEncCodecConfig EncodeCodecConfig;
+    /// <summary>reserved [278]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved [278];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_INITIALIZE_PARAMS
+/// struct _NV_ENC_INITIALIZE_PARAMS
+/// Encode Session Initialization parameters.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncInitializeParams
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_INITIALIZE_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>encodeGUID: [in]: Specifies the Encode GUID for which the encoder is being created. ::NvEncInitializeEncoder() API will fail if this is not set, or set to unsupported value.</summary>
+    public Guid EncodeGuid;
+    /// <summary>presetGUID: [in]: Specifies the preset for encoding. If the preset GUID is set then , the preset configuration will be applied before any other parameter.</summary>
+    public Guid PresetGuid;
+    /// <summary>encodeWidth: [in]: Specifies the encode width. If not set ::NvEncInitializeEncoder() API will fail.</summary>
+    public uint EncodeWidth;
+    /// <summary>encodeHeight: [in]: Specifies the encode height. If not set ::NvEncInitializeEncoder() API will fail.</summary>
+    public uint EncodeHeight;
+    /// <summary>darWidth: [in]: Specifies the display aspect ratio width (H264/HEVC) or the render width (AV1).</summary>
+    public uint DarWidth;
+    /// <summary>darHeight: [in]: Specifies the display aspect ratio height (H264/HEVC) or the render height (AV1).</summary>
+    public uint DarHeight;
+    /// <summary>frameRateNum: [in]: Specifies the numerator for frame rate used for encoding in frames per second ( Frame rate = frameRateNum / frameRateDen ).</summary>
+    public uint FrameRateNum;
+    /// <summary>frameRateDen: [in]: Specifies the denominator for frame rate used for encoding in frames per second ( Frame rate = frameRateNum / frameRateDen ).</summary>
+    public uint FrameRateDen;
+    /// <summary>enableEncodeAsync: [in]: Set this to 1 to enable asynchronous mode and is expected to use events to get picture completion notification.</summary>
+    public uint EnableEncodeAsync;
+    /// <summary>enablePTD: [in]: Set this to 1 to enable the Picture Type Decision is be taken by the NvEncodeAPI interface.</summary>
+    public uint EnablePTD;
+    internal uint BitField1;
+    /// <summary>reportSliceOffsets: [in]: Set this to 1 to enable reporting slice offsets in ::_NV_ENC_LOCK_BITSTREAM. NV_ENC_INITIALIZE_PARAMS::enableEncodeAsync must be set to 0 to use this feature. Client must set this to 0 if NV_ENC_CONFIG_H264::sliceMode is 1 on Kepler GPUs</summary>
+    public bool ReportSliceOffsets {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>enableSubFrameWrite: [in]: Set this to 1 to write out available bitstream to memory at subframe intervals.
+    /// If enableSubFrameWrite = 1, then the hardware encoder returns data as soon as a slice (H264/HEVC) or tile (AV1) has completed encoding.
+    /// This results in better encoding latency, but the downside is that the application has to keep polling via a call to nvEncLockBitstream API continuously to see if any encoded slice/tile data is available.
+    /// Use this mode if you feel that the marginal reduction in latency from sub-frame encoding is worth the increase in complexity due to CPU-based polling.</summary>
+    public bool EnableSubFrameWrite {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>enableExternalMEHints: [in]: Set to 1 to enable external ME hints for the current frame. For NV_ENC_INITIALIZE_PARAMS::enablePTD=1 with B frames, programming L1 hints is optional for B frames since Client doesn't know internal GOP structure.
+    /// NV_ENC_PIC_PARAMS::meHintRefPicDist should preferably be set with enablePTD=1.</summary>
+    public bool EnableExternalMEHints {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>enableMEOnlyMode: [in]: Set to 1 to enable ME Only Mode .</summary>
+    public bool EnableMEOnlyMode {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>enableWeightedPrediction: [in]: Set this to 1 to enable weighted prediction. Not supported if encode session is configured for B-Frames (i.e. NV_ENC_CONFIG::frameIntervalP > 1 or preset >=P3 when tuningInfo = ::NV_ENC_TUNING_INFO_HIGH_QUALITY or
+    /// tuningInfo = ::NV_ENC_TUNING_INFO_LOSSLESS. This is because preset >=p3 internally enables B frames when tuningInfo = ::NV_ENC_TUNING_INFO_HIGH_QUALITY or ::NV_ENC_TUNING_INFO_LOSSLESS).</summary>
+    public bool EnableWeightedPrediction {
+        get => ((BitField1 >> 4) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
+    }
+    /// <summary>splitEncodeMode: [in]: Split Encoding mode in NVENC (Split Encoding is not applicable to H264).
+    /// Not supported if any of the following features: weighted prediction, alpha layer encoding,
+    /// subframe mode, output into video memory buffer, picture timing/buffering period SEI message
+    /// insertion with DX12 interface are enabled in case of HEVC.
+    /// For AV1, split encoding is not supported when output into video memory buffer is enabled.</summary>
+    public uint SplitEncodeMode {
+        get => (uint)((BitField1 >> 5) & 15U);
+        set => BitField1 = (uint)((BitField1 & ~480U) | ((unchecked((uint)value) & 15U) << 5));
+    }
+    /// <summary>enableOutputInVidmem: [in]: Set this to 1 to enable output of NVENC in video memory buffer created by application. This feature is not supported for HEVC ME only mode.</summary>
+    public bool EnableOutputInVidmem {
+        get => ((BitField1 >> 9) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
+    }
+    /// <summary>enableReconFrameOutput: [in]: Set this to 1 to enable reconstructed frame output.</summary>
+    public bool EnableReconFrameOutput {
+        get => ((BitField1 >> 10) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1024U) | (((value ? 1U : 0U) & 1U) << 10));
+    }
+    /// <summary>enableOutputStats: [in]: Set this to 1 to enable encoded frame output stats. Client must allocate buffer of size equal to number of blocks multiplied by the size of
+    /// NV_ENC_OUTPUT_STATS_BLOCK struct in system memory and assign to NV_ENC_LOCK_BITSTREAM::encodedOutputStatsPtr to receive the encoded frame output stats.</summary>
+    public bool EnableOutputStats {
+        get => ((BitField1 >> 11) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2048U) | (((value ? 1U : 0U) & 1U) << 11));
+    }
+    /// <summary>enableUniDirectionalB: [in]: Set this to 1 to enable uni directional B-frame(both reference will be from past). It will give better compression
+    /// efficiency for LowLatency/UltraLowLatency use case. Value of parameter is ignored when regular B frames are used.</summary>
+    public bool EnableUniDirectionalB {
+        get => ((BitField1 >> 12) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4096U) | (((value ? 1U : 0U) & 1U) << 12));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
+    /// <summary>privDataSize: [in]: Reserved private data buffer size and must be set to 0</summary>
+    public uint PrivDataSize;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>privData: [in]: Reserved private data buffer and must be set to NULL</summary>
+    public IntPtr PrivData;
+    /// <summary>encodeConfig: [in]: Specifies the advanced codec specific structure. If client has sent a valid codec config structure, it will override parameters set by the NV_ENC_INITIALIZE_PARAMS::presetGUID parameter. If set to NULL the NvEncodeAPI interface will use the NV_ENC_INITIALIZE_PARAMS::presetGUID to set the codec specific parameters.
+    /// Client can also optionally query the NvEncodeAPI interface to get codec specific parameters for a presetGUID using ::NvEncGetEncodePresetConfigEx() API. It can then modify (if required) some of the codec config parameters and send down a custom config structure as part of ::_NV_ENC_INITIALIZE_PARAMS.
+    /// Even in this case client is recommended to pass the same preset guid it has used in ::NvEncGetEncodePresetConfigEx() API to query the config structure; as NV_ENC_INITIALIZE_PARAMS::presetGUID. This will not override the custom config structure but will be used to determine other Encoder HW specific parameters not exposed in the API.</summary>
+    public NvEncConfig* EncodeConfig;
+    /// <summary>maxEncodeWidth: [in]: Maximum encode width to be used for current Encode session.
+    /// Client should allocate output buffers according to this dimension for dynamic resolution change. If set to 0, Encoder will not allow dynamic resolution change.</summary>
+    public uint MaxEncodeWidth;
+    /// <summary>maxEncodeHeight: [in]: Maximum encode height to be allowed for current Encode session.
+    /// Client should allocate output buffers according to this dimension for dynamic resolution change. If set to 0, Encode will not allow dynamic resolution change.</summary>
+    public uint MaxEncodeHeight;
+    /// <summary>maxMEHintCountsPerBlock[2]: [in]: If Client wants to pass external motion vectors in NV_ENC_PIC_PARAMS::meExternalHints buffer it must specify the maximum number of hint candidates per block per direction for the encode session.
+    /// The NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[0] is for L0 predictors and NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[1] is for L1 predictors.
+    /// This client must also set NV_ENC_INITIALIZE_PARAMS::enableExternalMEHints to 1.</summary>
+    public NvEncExternalMeHintCountsPerBlocktype MaxMEHintCountsPerBlock0;
+    public NvEncExternalMeHintCountsPerBlocktype MaxMEHintCountsPerBlock1;
+    /// <summary>tuningInfo: [in]: Tuning Info of NVENC encoding(TuningInfo is not applicable to H264 and HEVC meonly mode).</summary>
+    public NvEncTuningInfo TuningInfo;
+    /// <summary>bufferFormat: [in]: Input buffer format. Used only when DX12 interface type is used</summary>
+    public NvEncBufferFormat BufferFormat;
+    /// <summary>numStateBuffers: [in]: Number of state buffers to allocate to save encoder state. Set this to value greater than zero to enable encoding without advancing the encoder state.</summary>
+    public uint NumStateBuffers;
+    /// <summary>outputStatsLevel: [in]: Specifies the level for encoded frame output stats, when NV_ENC_INITIALIZE_PARAMS::enableOutputStats is set to 1.
+    /// Client should allocate buffer of size equal to number of blocks multiplied by the size of NV_ENC_OUTPUT_STATS_BLOCK struct
+    /// if NV_ENC_INITIALIZE_PARAMS::outputStatsLevel is set to NV_ENC_OUTPUT_STATS_BLOCK or number of rows multiplied by the size of
+    /// NV_ENC_OUTPUT_STATS_ROW struct if NV_ENC_INITIALIZE_PARAMS::outputStatsLevel is set to NV_ENC_OUTPUT_STATS_ROW
+    /// in system memory and assign to NV_ENC_LOCK_BITSTREAM::encodedOutputStatsPtr to receive the encoded frame output stats.</summary>
+    public NvEncOutputStatsLevel OutputStatsLevel;
+    /// <summary>reserved1 [284]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1 [284];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_RECONFIGURE_PARAMS
+/// struct _NV_ENC_RECONFIGURE_PARAMS
+/// Encode Session Reconfigured parameters.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncReconfigureParams
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_RECONFIGURE_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>reInitEncodeParams: [in]: Encoder session re-initialization parameters.
+    /// If reInitEncodeParams.encodeConfig is NULL and
+    /// reInitEncodeParams.presetGUID is the same as the preset
+    /// GUID specified on the call to NvEncInitializeEncoder(),
+    /// EncodeAPI will continue to use the existing encode
+    /// configuration.
+    /// If reInitEncodeParams.encodeConfig is NULL and
+    /// reInitEncodeParams.presetGUID is different from the preset
+    /// GUID specified on the call to NvEncInitializeEncoder(),
+    /// EncodeAPI will try to use the default configuration for
+    /// the preset specified by reInitEncodeParams.presetGUID.
+    /// In this case, reconfiguration may fail if the new
+    /// configuration is incompatible with the existing
+    /// configuration (e.g. the new configuration results in
+    /// a change in the GOP structure).</summary>
+    public NvEncInitializeParams ReInitEncodeParams;
+    internal uint BitField1;
+    /// <summary>resetEncoder: [in]: This resets the rate control states and other internal encoder states. This should be used only with an IDR frame.
+    /// If NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1, encoder will force the frame type to IDR</summary>
+    public bool ResetEncoder {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>forceIDR: [in]: Encode the current picture as an IDR picture. This flag is only valid when Picture type decision is taken by the Encoder
+    /// [_NV_ENC_INITIALIZE_PARAMS::enablePTD == 1].</summary>
+    public bool ForceIDR {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>reserved1</summary>
+    /// <summary>reserved2: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved2;
+}
+
+/// <summary>NV_ENC_PRESET_CONFIG
+/// struct _NV_ENC_PRESET_CONFIG
+/// Encoder preset config</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncPresetConfig
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_PRESET_CONFIG_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>presetCfg: [out]: preset config returned by the Nvidia Video Encoder interface.</summary>
+    public NvEncConfig PresetCfg;
+    /// <summary>reserved1[256]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[256];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_PIC_PARAMS_MVC
+/// struct _NV_ENC_PIC_PARAMS_MVC
+/// MVC-specific parameters to be sent on a per-frame basis.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncPicParamsMvc
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_PIC_PARAMS_MVC_VER.</summary>
+    public uint Version;
+    /// <summary>viewID: [in]: Specifies the view ID associated with the current input view.</summary>
+    public uint ViewID;
+    /// <summary>temporalID: [in]: Specifies the temporal ID associated with the current input view.</summary>
+    public uint TemporalID;
+    /// <summary>priorityID: [in]: Specifies the priority ID associated with the current input view. Reserved and ignored by the NvEncodeAPI interface.</summary>
+    public uint PriorityID;
+    /// <summary>reserved1[12]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[12];
+    /// <summary>reserved2[8]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved2[8]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    #endregion Reserved2[8]
+}
+
+/// <summary>NV_ENC_SEI_PAYLOAD
+/// struct _NV_ENC_SEI_PAYLOAD
+/// User SEI message</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncSeiPayload
+{
+    /// <summary>payloadSize: [in] SEI payload size in bytes. SEI payload must be byte aligned, as described in Annex D</summary>
+    public uint PayloadSize;
+    /// <summary>payloadType: [in] SEI payload types and syntax can be found in Annex D of the H.264 Specification.</summary>
+    public uint PayloadType;
+    /// <summary>*payload: [in] pointer to user data</summary>
+    public byte *payload;
+}
+
+/// <summary>NV_ENC_PIC_PARAMS_H264
+/// struct _NV_ENC_PIC_PARAMS_H264
+/// H264 specific enc pic params. sent on a per frame basis.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncPicParamsH264
+{
+    /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
+    public uint DisplayPOCSyntax;
+    /// <summary>reserved3: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved3;
+    /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public uint RefPicFlag;
+    /// <summary>colourPlaneId: [in]: Specifies the colour plane ID associated with the current input.</summary>
+    public uint ColourPlaneId;
+    /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
+    /// When outputRecoveryPointSEI is set this is value is used for recovery_frame_cnt in recovery point SEI message
+    /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
+    public uint ForceIntraRefreshWithFrameCnt;
+    internal uint BitField1;
+    /// <summary>constrainedFrame: [in]: Set to 1 if client wants to encode this frame with each slice completely independent of other slices in the frame.
+    /// NV_ENC_INITIALIZE_PARAMS::enableConstrainedEncoding should be set to 1</summary>
+    public bool ConstrainedFrame {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>sliceModeDataUpdate: [in]: Set to 1 if client wants to change the sliceModeData field to specify new sliceSize Parameter
+    /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting</summary>
+    public bool SliceModeDataUpdate {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>ltrMarkFrame: [in]: Set to 1 if client wants to mark this frame as LTR</summary>
+    public bool LtrMarkFrame {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>ltrUseFrames: [in]: Set to 1 if client allows encoding this frame using the LTR frames specified in ltrFrameBitmap</summary>
+    public bool LtrUseFrames {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
+    /// <summary>sliceTypeData: [in]: Deprecated.</summary>
+    public byte* SliceTypeData;
+    /// <summary>sliceTypeArrayCnt: [in]: Deprecated.</summary>
+    public uint SliceTypeArrayCnt;
+    /// <summary>seiPayloadArrayCnt: [in]: Specifies the number of elements allocated in seiPayloadArray array.</summary>
+    public uint SeiPayloadArrayCnt;
+    /// <summary>seiPayloadArray: [in]: Array of SEI payloads which will be inserted for this frame.</summary>
+    public NvEncSeiPayload* SeiPayloadArray;
+    /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
+    /// sliceMode = 0 MB based slices, sliceMode = 1 Byte based slices, sliceMode = 2 MB row based slices, sliceMode = 3, numSlices in Picture
+    /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting
+    /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
+    public uint SliceMode;
+    /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
+    /// sliceMode = 0, sliceModeData specifies # of MBs in each slice (except last slice)
+    /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
+    /// sliceMode = 2, sliceModeData specifies # of MB rows in each slice (except last slice)
+    /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
+    public uint SliceModeData;
+    /// <summary>ltrMarkFrameIdx: [in]: Specifies the long term referenceframe index to use for marking this frame as LTR.</summary>
+    public uint LtrMarkFrameIdx;
+    /// <summary>ltrUseFrameBitmap: [in]: Specifies the associated bitmap of LTR frame indices to use when encoding this frame.</summary>
+    public uint LtrUseFrameBitmap;
+    /// <summary>ltrUsageMode: [in]: Not supported. Reserved for future use and must be set to 0.</summary>
+    public uint LtrUsageMode;
+    /// <summary>forceIntraSliceCount: [in]: Specifies the number of slices to be forced to Intra in the current picture.
+    /// This option along with forceIntraSliceIdx[] array needs to be used with sliceMode = 3 only</summary>
+    public uint ForceIntraSliceCount;
+    /// <summary>*forceIntraSliceIdx: [in]: Slice indices to be forced to intra in the current picture. Each slice index should be <= num_slices_in_picture -1. Index starts from 0 for first slice.
+    /// The number of entries in this array should be equal to forceIntraSliceCount</summary>
+    public uint *forceIntraSliceIdx;
+    /// <summary>h264ExtPicParams: [in]: Specifies the H264 extension config parameters using this config.</summary>
+    public NvEncPicParamsH264Ext H264ExtPicParams;
+    /// <summary>timeCode: [in]: Specifies the clock timestamp sets used in picture timing SEI. Applicable only when NV_ENC_CONFIG_H264::enableTimeCode is set to 1.</summary>
+    public NvEncTimeCode TimeCode;
+    /// <summary>reserved [202]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved [202];
+    /// <summary>reserved2[61]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved2[61]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    #endregion Reserved2[61]
+}
+
+/// <summary>NV_ENC_PIC_PARAMS_HEVC
+/// struct _NV_ENC_PIC_PARAMS_HEVC
+/// HEVC specific enc pic params. sent on a per frame basis.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncPicParamsHevc
+{
+    /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
+    public uint DisplayPOCSyntax;
+    /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public uint RefPicFlag;
+    /// <summary>temporalId: [in]: Specifies the temporal id of the picture</summary>
+    public uint TemporalId;
+    /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
+    /// When outputRecoveryPointSEI is set this is value is used for recovery_frame_cnt in recovery point SEI message
+    /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
+    public uint ForceIntraRefreshWithFrameCnt;
+    internal uint BitField1;
+    /// <summary>constrainedFrame: [in]: Set to 1 if client wants to encode this frame with each slice completely independent of other slices in the frame.
+    /// NV_ENC_INITIALIZE_PARAMS::enableConstrainedEncoding should be set to 1</summary>
+    public bool ConstrainedFrame {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>sliceModeDataUpdate: [in]: Set to 1 if client wants to change the sliceModeData field to specify new sliceSize Parameter
+    /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting</summary>
+    public bool SliceModeDataUpdate {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>ltrMarkFrame: [in]: Set to 1 if client wants to mark this frame as LTR</summary>
+    public bool LtrMarkFrame {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>ltrUseFrames: [in]: Set to 1 if client allows encoding this frame using the LTR frames specified in ltrFrameBitmap</summary>
+    public bool LtrUseFrames {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
+    /// <summary>reserved1: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved1;
+    /// <summary>sliceTypeData: [in]: Array which specifies the slice type used to force intra slice for a particular slice. Currently supported only for NV_ENC_CONFIG_H264::sliceMode == 3.
+    /// Client should allocate array of size sliceModeData where sliceModeData is specified in field of ::_NV_ENC_CONFIG_H264
+    /// Array element with index n corresponds to nth slice. To force a particular slice to intra client should set corresponding array element to NV_ENC_SLICE_TYPE_I
+    /// all other array elements should be set to NV_ENC_SLICE_TYPE_DEFAULT</summary>
+    public byte* SliceTypeData;
+    /// <summary>sliceTypeArrayCnt: [in]: Client should set this to the number of elements allocated in sliceTypeData array. If sliceTypeData is NULL then this should be set to 0</summary>
+    public uint SliceTypeArrayCnt;
+    /// <summary>sliceMode: [in]: This parameter in conjunction with sliceModeData specifies the way in which the picture is divided into slices
+    /// sliceMode = 0 CTU based slices, sliceMode = 1 Byte based slices, sliceMode = 2 CTU row based slices, sliceMode = 3, numSlices in Picture
+    /// When forceIntraRefreshWithFrameCnt is set it will have priority over sliceMode setting
+    /// When sliceMode == 0 and sliceModeData == 0 whole picture will be coded with one slice</summary>
+    public uint SliceMode;
+    /// <summary>sliceModeData: [in]: Specifies the parameter needed for sliceMode. For:
+    /// sliceMode = 0, sliceModeData specifies # of CTUs in each slice (except last slice)
+    /// sliceMode = 1, sliceModeData specifies maximum # of bytes in each slice (except last slice)
+    /// sliceMode = 2, sliceModeData specifies # of CTU rows in each slice (except last slice)
+    /// sliceMode = 3, sliceModeData specifies number of slices in the picture. Driver will divide picture into slices optimally</summary>
+    public uint SliceModeData;
+    /// <summary>ltrMarkFrameIdx: [in]: Specifies the long term reference frame index to use for marking this frame as LTR.</summary>
+    public uint LtrMarkFrameIdx;
+    /// <summary>ltrUseFrameBitmap: [in]: Specifies the associated bitmap of LTR frame indices to use when encoding this frame.</summary>
+    public uint LtrUseFrameBitmap;
+    /// <summary>ltrUsageMode: [in]: Not supported. Reserved for future use and must be set to 0.</summary>
+    public uint LtrUsageMode;
+    /// <summary>seiPayloadArrayCnt: [in]: Specifies the number of elements allocated in seiPayloadArray array.</summary>
+    public uint SeiPayloadArrayCnt;
+    /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved;
+    /// <summary>seiPayloadArray: [in]: Array of SEI payloads which will be inserted for this frame.</summary>
+    public NvEncSeiPayload* SeiPayloadArray;
+    /// <summary>timeCode: [in]: Specifies the clock timestamp sets used in time code SEI. Applicable only when NV_ENC_CONFIG_HEVC::enableTimeCodeSEI is set to 1.</summary>
+    public NvEncTimeCode TimeCode;
+    /// <summary>reserved2[236]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved2[236];
+    /// <summary>reserved3[61]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved3[61]
+    private IntPtr Reserved30;
+    private IntPtr Reserved31;
+    private IntPtr Reserved32;
+    private IntPtr Reserved33;
+    private IntPtr Reserved34;
+    private IntPtr Reserved35;
+    private IntPtr Reserved36;
+    private IntPtr Reserved37;
+    private IntPtr Reserved38;
+    private IntPtr Reserved39;
+    private IntPtr Reserved310;
+    private IntPtr Reserved311;
+    private IntPtr Reserved312;
+    private IntPtr Reserved313;
+    private IntPtr Reserved314;
+    private IntPtr Reserved315;
+    private IntPtr Reserved316;
+    private IntPtr Reserved317;
+    private IntPtr Reserved318;
+    private IntPtr Reserved319;
+    private IntPtr Reserved320;
+    private IntPtr Reserved321;
+    private IntPtr Reserved322;
+    private IntPtr Reserved323;
+    private IntPtr Reserved324;
+    private IntPtr Reserved325;
+    private IntPtr Reserved326;
+    private IntPtr Reserved327;
+    private IntPtr Reserved328;
+    private IntPtr Reserved329;
+    private IntPtr Reserved330;
+    private IntPtr Reserved331;
+    private IntPtr Reserved332;
+    private IntPtr Reserved333;
+    private IntPtr Reserved334;
+    private IntPtr Reserved335;
+    private IntPtr Reserved336;
+    private IntPtr Reserved337;
+    private IntPtr Reserved338;
+    private IntPtr Reserved339;
+    private IntPtr Reserved340;
+    private IntPtr Reserved341;
+    private IntPtr Reserved342;
+    private IntPtr Reserved343;
+    private IntPtr Reserved344;
+    private IntPtr Reserved345;
+    private IntPtr Reserved346;
+    private IntPtr Reserved347;
+    private IntPtr Reserved348;
+    private IntPtr Reserved349;
+    private IntPtr Reserved350;
+    private IntPtr Reserved351;
+    private IntPtr Reserved352;
+    private IntPtr Reserved353;
+    private IntPtr Reserved354;
+    private IntPtr Reserved355;
+    private IntPtr Reserved356;
+    private IntPtr Reserved357;
+    private IntPtr Reserved358;
+    private IntPtr Reserved359;
+    private IntPtr Reserved360;
+    #endregion Reserved3[61]
+}
+
+/// <summary>NV_ENC_PIC_PARAMS_AV1
+/// struct _NV_ENC_PIC_PARAMS_AV1
+/// AV1 specific enc pic params. sent on a per frame basis.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncPicParamsAv1
+{
+    /// <summary>displayPOCSyntax: [in]: Specifies the display POC syntax This is required to be set if client is handling the picture type decision.</summary>
+    public uint DisplayPOCSyntax;
+    /// <summary>refPicFlag: [in]: Set to 1 for a reference picture. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public uint RefPicFlag;
+    /// <summary>temporalId: [in]: Specifies the temporal id of the picture</summary>
+    public uint TemporalId;
+    /// <summary>forceIntraRefreshWithFrameCnt: [in]: Forces an intra refresh with duration equal to intraRefreshFrameCnt.
+    /// forceIntraRefreshWithFrameCnt cannot be used if B frames are used in the GOP structure specified</summary>
+    public uint ForceIntraRefreshWithFrameCnt;
+    internal uint BitField1;
+    /// <summary>goldenFrameFlag: [in]: Encode frame as Golden Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public bool GoldenFrameFlag {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>arfFrameFlag: [in]: Encode frame as Alternate Reference Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public bool ArfFrameFlag {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>arf2FrameFlag: [in]: Encode frame as Alternate Reference 2 Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public bool Arf2FrameFlag {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>bwdFrameFlag: [in]: Encode frame as Backward Reference Frame. This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public bool BwdFrameFlag {
+        get => ((BitField1 >> 3) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~8U) | (((value ? 1U : 0U) & 1U) << 3));
+    }
+    /// <summary>overlayFrameFlag: [in]: Encode frame as overlay frame. A previously encoded frame with the same displayPOCSyntax value should be present in reference frame buffer.
+    /// This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public bool OverlayFrameFlag {
+        get => ((BitField1 >> 4) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~16U) | (((value ? 1U : 0U) & 1U) << 4));
+    }
+    /// <summary>showExistingFrameFlag: [in]: When ovelayFrameFlag is set to 1, this flag controls the value of the show_existing_frame syntax element associated with the overlay frame.
+    /// This flag is added to the interface as a placeholder. Its value is ignored for now and always assumed to be set to 1.
+    /// This is ignored if NV_ENC_INITIALIZE_PARAMS::enablePTD is set to 1.</summary>
+    public bool ShowExistingFrameFlag {
+        get => ((BitField1 >> 5) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~32U) | (((value ? 1U : 0U) & 1U) << 5));
+    }
+    /// <summary>errorResilientModeFlag: [in]: encode frame independently from previously encoded frames</summary>
+    public bool ErrorResilientModeFlag {
+        get => ((BitField1 >> 6) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~64U) | (((value ? 1U : 0U) & 1U) << 6));
+    }
+    /// <summary>tileConfigUpdate: [in]: Set to 1 if client wants to overwrite the default tile configuration with the tile parameters specified below
+    /// When forceIntraRefreshWithFrameCnt is set it will have priority over tileConfigUpdate setting</summary>
+    public bool TileConfigUpdate {
+        get => ((BitField1 >> 7) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~128U) | (((value ? 1U : 0U) & 1U) << 7));
+    }
+    /// <summary>enableCustomTileConfig: [in]: Set 1 to enable custom tile configuration: numTileColumns and numTileRows must have non zero values and tileWidths and tileHeights must point to a valid address</summary>
+    public bool EnableCustomTileConfig {
+        get => ((BitField1 >> 8) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~256U) | (((value ? 1U : 0U) & 1U) << 8));
+    }
+    /// <summary>filmGrainParamsUpdate: [in]: Set to 1 if client wants to update previous film grain parameters: filmGrainParams must point to a valid address and encoder must have been configured with film grain enabled</summary>
+    public bool FilmGrainParamsUpdate {
+        get => ((BitField1 >> 9) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~512U) | (((value ? 1U : 0U) & 1U) << 9));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
+    /// <summary>numTileColumns: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileWidths[] specifies the way in which the picture is divided into tile columns.
+    /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileColumns tile columns. If numTileColumns is not a power of 2,
+    /// it will be rounded down to the next power of 2 value. If numTileColumns == 0, the picture will be coded with the smallest number of vertical tiles as allowed by standard.
+    /// When enableCustomTileConfig == 1, numTileColumns must be > 0 and <= NV_MAX_TILE_COLS_AV1 and tileWidths must point to a valid array of numTileColumns entries.
+    /// Entry i specifies the width in 64x64 CTU unit of tile colum i. The sum of all the entries should be equal to the picture width in 64x64 CTU units.</summary>
+    public uint NumTileColumns;
+    /// <summary>numTileRows: [in]: This parameter in conjunction with the flag enableCustomTileConfig and the array tileHeights[] specifies the way in which the picture is divided into tiles rows
+    /// When enableCustomTileConfig == 0, the picture will be uniformly divided into numTileRows tile rows. If numTileRows is not a power of 2,
+    /// it will be rounded down to the next power of 2 value. If numTileRows == 0, the picture will be coded with the smallest number of horizontal tiles as allowed by standard.
+    /// When enableCustomTileConfig == 1, numTileRows must be > 0 and <= NV_MAX_TILE_ROWS_AV1 and tileHeights must point to a valid array of numTileRows entries.
+    /// Entry i specifies the height in 64x64 CTU unit of tile row i. The sum of all the entries should be equal to the picture hieght in 64x64 CTU units.</summary>
+    public uint NumTileRows;
+    /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved;
+    /// <summary>*tileWidths: [in]: If enableCustomTileConfig == 1, tileWidths[i] specifies the width of tile column i in 64x64 CTU unit, with 0 <= i <= numTileColumns -1.</summary>
+    public uint *tileWidths;
+    /// <summary>*tileHeights: [in]: If enableCustomTileConfig == 1, tileHeights[i] specifies the height of tile row i in 64x64 CTU unit, with 0 <= i <= numTileRows -1.</summary>
+    public uint *tileHeights;
+    /// <summary>obuPayloadArrayCnt: [in]: Specifies the number of elements allocated in obuPayloadArray array.</summary>
+    public uint ObuPayloadArrayCnt;
+    /// <summary>reserved1: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved1;
+    /// <summary>obuPayloadArray: [in]: Array of OBU payloads which will be inserted for this frame.</summary>
+    public NvEncSeiPayload* ObuPayloadArray;
+    /// <summary>*filmGrainParams: [in]: If filmGrainParamsUpdate == 1, filmGrainParams must point to a valid NV_ENC_FILM_GRAIN_PARAMS_AV1 structure</summary>
+    public NvEncFilmGrainParamsAv1 *filmGrainParams;
+    /// <summary>reserved2[246]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved2[246];
+    /// <summary>reserved3[61]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved3[61]
+    private IntPtr Reserved30;
+    private IntPtr Reserved31;
+    private IntPtr Reserved32;
+    private IntPtr Reserved33;
+    private IntPtr Reserved34;
+    private IntPtr Reserved35;
+    private IntPtr Reserved36;
+    private IntPtr Reserved37;
+    private IntPtr Reserved38;
+    private IntPtr Reserved39;
+    private IntPtr Reserved310;
+    private IntPtr Reserved311;
+    private IntPtr Reserved312;
+    private IntPtr Reserved313;
+    private IntPtr Reserved314;
+    private IntPtr Reserved315;
+    private IntPtr Reserved316;
+    private IntPtr Reserved317;
+    private IntPtr Reserved318;
+    private IntPtr Reserved319;
+    private IntPtr Reserved320;
+    private IntPtr Reserved321;
+    private IntPtr Reserved322;
+    private IntPtr Reserved323;
+    private IntPtr Reserved324;
+    private IntPtr Reserved325;
+    private IntPtr Reserved326;
+    private IntPtr Reserved327;
+    private IntPtr Reserved328;
+    private IntPtr Reserved329;
+    private IntPtr Reserved330;
+    private IntPtr Reserved331;
+    private IntPtr Reserved332;
+    private IntPtr Reserved333;
+    private IntPtr Reserved334;
+    private IntPtr Reserved335;
+    private IntPtr Reserved336;
+    private IntPtr Reserved337;
+    private IntPtr Reserved338;
+    private IntPtr Reserved339;
+    private IntPtr Reserved340;
+    private IntPtr Reserved341;
+    private IntPtr Reserved342;
+    private IntPtr Reserved343;
+    private IntPtr Reserved344;
+    private IntPtr Reserved345;
+    private IntPtr Reserved346;
+    private IntPtr Reserved347;
+    private IntPtr Reserved348;
+    private IntPtr Reserved349;
+    private IntPtr Reserved350;
+    private IntPtr Reserved351;
+    private IntPtr Reserved352;
+    private IntPtr Reserved353;
+    private IntPtr Reserved354;
+    private IntPtr Reserved355;
+    private IntPtr Reserved356;
+    private IntPtr Reserved357;
+    private IntPtr Reserved358;
+    private IntPtr Reserved359;
+    private IntPtr Reserved360;
+    #endregion Reserved3[61]
+}
+
+/// <summary>NV_ENC_PIC_PARAMS
+/// struct _NV_ENC_PIC_PARAMS
+/// Encoding parameters that need to be sent on a per frame basis.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncPicParams
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_PIC_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>inputWidth: [in]: Specifies the input frame width</summary>
+    public uint InputWidth;
+    /// <summary>inputHeight: [in]: Specifies the input frame height</summary>
+    public uint InputHeight;
+    /// <summary>inputPitch: [in]: Specifies the input buffer pitch. If pitch value is not known, set this to inputWidth.</summary>
+    public uint InputPitch;
+    /// <summary>encodePicFlags: [in]: Specifies bit-wise OR of encode picture flags. See ::NV_ENC_PIC_FLAGS enum.</summary>
+    public uint EncodePicFlags;
+    /// <summary>frameIdx: [in]: Specifies the frame index associated with the input frame. It is necessary to pass this as monotonically increasing starting 0 when lookaheadLevel, UHQ Tuning Info
+    /// or encoding same frames multiple times without advancing encoder state feature are enabled</summary>
+    public uint FrameIdx;
+    /// <summary>inputTimeStamp: [in]: Specifies opaque data which is associated with the encoded frame, but not actually encoded in the output bitstream.
+    /// This opaque data can be used later to uniquely refer to the corresponding encoded frame. For example, it can be used
+    /// for identifying the frame to be invalidated in the reference picture buffer, if lost at the client.</summary>
+    public ulong InputTimeStamp;
+    /// <summary>inputDuration: [in]: Specifies duration of the input picture</summary>
+    public ulong InputDuration;
+    /// <summary>inputBuffer: [in]: Specifies the input buffer pointer. Client must use a pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource() APIs.</summary>
+    public NvEncInputPtr InputBuffer;
+    /// <summary>outputBitstream: [in]: Specifies the output buffer pointer.
+    /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 0, specifies the pointer to output buffer. Client should use a pointer obtained from ::NvEncCreateBitstreamBuffer() API.
+    /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 1, client should allocate buffer in video memory for NV_ENC_ENCODE_OUT_PARAMS struct and encoded bitstream data. Client
+    /// should use a pointer obtained from ::NvEncMapInputResource() API, when mapping this output buffer and assign it to NV_ENC_PIC_PARAMS::outputBitstream.
+    /// First 256 bytes of this buffer should be interpreted as NV_ENC_ENCODE_OUT_PARAMS struct followed by encoded bitstream data. Recommended size for output buffer is sum of size of
+    /// NV_ENC_ENCODE_OUT_PARAMS struct and twice the input frame size for lower resolution eg. CIF and 1.5 times the input frame size for higher resolutions. If encoded bitstream size is
+    /// greater than the allocated buffer size for encoded bitstream, then the output buffer will have encoded bitstream data equal to buffer size. All CUDA operations on this buffer must use
+    /// the default stream.</summary>
+    public NvEncOutputPtr OutputBitstream;
+    /// <summary>completionEvent: [in]: Specifies an event to be signaled on completion of encoding of this Frame [only if operating in Asynchronous mode]. Each output buffer should be associated with a distinct event pointer.</summary>
+    public IntPtr CompletionEvent;
+    /// <summary>bufferFmt: [in]: Specifies the input buffer format.</summary>
+    public NvEncBufferFormat BufferFmt;
+    /// <summary>pictureStruct: [in]: Specifies structure of the input picture.</summary>
+    public NvEncPicStruct PictureStruct;
+    /// <summary>pictureType: [in]: Specifies input picture type. Client required to be set explicitly by the client if the client has not set NV_ENC_INITALIZE_PARAMS::enablePTD to 1 while calling NvInitializeEncoder.</summary>
+    public NvEncPicType PictureType;
+    /// <summary>codecPicParams: [in]: Specifies the codec specific per-picture encoding parameters.</summary>
+    public NvEncCodecPicParams CodecPicParams;
+    /// <summary>meHintCountsPerBlock[2]: [in]: For H264 and Hevc, specifies the number of hint candidates per block per direction for the current frame. meHintCountsPerBlock[0] is for L0 predictors and meHintCountsPerBlock[1] is for L1 predictors.
+    /// The candidate count in NV_ENC_PIC_PARAMS::meHintCountsPerBlock[lx] must never exceed NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[lx] provided during encoder initialization.</summary>
+    public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock0;
+    public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock1;
+    /// <summary>*meExternalHints: [in]: For H264 and Hevc, Specifies the pointer to ME external hints for the current frame. The size of ME hint buffer should be equal to number of macroblocks * the total number of candidates per macroblock.
+    /// The total number of candidates per MB per direction = 1*meHintCountsPerBlock[Lx].numCandsPerBlk16x16 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk16x8 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk8x8
+    /// + 4*meHintCountsPerBlock[Lx].numCandsPerBlk8x8. For frames using bidirectional ME , the total number of candidates for single macroblock is sum of total number of candidates per MB for each direction (L0 and L1)</summary>
+    public NvEncExternalMeHint *meExternalHints;
+    /// <summary>reserved2[7]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved2[7];
+    /// <summary>reserved5[2]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved5[2]
+    private IntPtr Reserved50;
+    private IntPtr Reserved51;
+    #endregion Reserved5[2]
+    /// <summary>*qpDeltaMap: [in]: Specifies the pointer to signed byte array containing value per MB for H264, per CTB for HEVC and per SB for AV1 in raster scan order for the current picture, which will be interpreted depending on NV_ENC_RC_PARAMS::qpMapMode.
+    /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_DELTA, qpDeltaMap specifies QP modifier per MB for H264, per CTB for HEVC and per SB for AV1. This QP modifier will be applied on top of the QP chosen by rate control.
+    /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_EMPHASIS, qpDeltaMap specifies Emphasis Level Map per MB for H264. This level value along with QP chosen by rate control is used to
+    /// compute the QP modifier, which in turn is applied on top of QP chosen by rate control.
+    /// If NV_ENC_RC_PARAMS::qpMapMode is NV_ENC_QP_MAP_DISABLED, value in qpDeltaMap will be ignored.</summary>
+    public byte *qpDeltaMap;
+    /// <summary>qpDeltaMapSize: [in]: Specifies the size in bytes of qpDeltaMap surface allocated by client and pointed to by NV_ENC_PIC_PARAMS::qpDeltaMap. Surface (array) should be picWidthInMbs * picHeightInMbs for H264, picWidthInCtbs * picHeightInCtbs for HEVC and
+    /// picWidthInSbs * picHeightInSbs for AV1</summary>
+    public uint QpDeltaMapSize;
+    /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
+    private uint ReservedBitFields;
+    /// <summary>meHintRefPicDist[2]: [in]: Specifies temporal distance for reference picture (NVENC_EXTERNAL_ME_HINT::refidx = 0) used during external ME with NV_ENC_INITALIZE_PARAMS::enablePTD = 1 . meHintRefPicDist[0] is for L0 hints and meHintRefPicDist[1] is for L1 hints.
+    /// If not set, will internally infer distance of 1. Ignored for NV_ENC_INITALIZE_PARAMS::enablePTD = 0</summary>
+    public fixed ushort MeHintRefPicDist[2];
+    /// <summary>reserved4: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved4;
+    /// <summary>alphaBuffer: [in]: Specifies the input alpha buffer pointer. Client must use a pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource() APIs.
+    /// Applicable only when encoding hevc with alpha layer is enabled.</summary>
+    public NvEncInputPtr AlphaBuffer;
+    /// <summary>*meExternalSbHints: [in]: For AV1,Specifies the pointer to ME external SB hints for the current frame. The size of ME hint buffer should be equal to meSbHintsCount.</summary>
+    public NvEncExternalMeSbHint *meExternalSbHints;
+    /// <summary>meSbHintsCount: [in]: For AV1, specifies the total number of external ME SB hint candidates for the frame
+    /// NV_ENC_PIC_PARAMS::meSbHintsCount must never exceed the total number of SBs in frame * the max number of candidates per SB provided during encoder initialization.
+    /// The max number of candidates per SB is maxMeHintCountsPerBlock[0].numCandsPerSb + maxMeHintCountsPerBlock[1].numCandsPerSb</summary>
+    public uint MeSbHintsCount;
+    /// <summary>stateBufferIdx: [in]: Specifies the buffer index in which the encoder state will be saved for current frame encode. It must be in the
+    /// range 0 to NV_ENC_INITIALIZE_PARAMS::numStateBuffers - 1.</summary>
+    public uint StateBufferIdx;
+    /// <summary>outputReconBuffer: [in]: Specifies the reconstructed frame buffer pointer to output reconstructed frame, if enabled by setting NV_ENC_INITIALIZE_PARAMS::enableReconFrameOutput.
+    /// Client must allocate buffers for writing the reconstructed frames and register them with the Nvidia Video Encoder Interface with NV_ENC_REGISTER_RESOURCE::bufferUsage
+    /// set to NV_ENC_OUTPUT_RECON.
+    /// Client must use the pointer obtained from ::NvEncMapInputResource() API and assign it to NV_ENC_PIC_PARAMS::outputReconBuffer.
+    /// Reconstructed output will be in NV_ENC_BUFFER_FORMAT_NV12 format when chromaFormatIDC is set to 1.
+    /// chromaFormatIDC = 3 is not supported.</summary>
+    public NvEncOutputPtr OutputReconBuffer;
+    /// <summary>reserved3[284]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved3[284];
+    /// <summary>reserved6[57]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved6[57]
+    private IntPtr Reserved60;
+    private IntPtr Reserved61;
+    private IntPtr Reserved62;
+    private IntPtr Reserved63;
+    private IntPtr Reserved64;
+    private IntPtr Reserved65;
+    private IntPtr Reserved66;
+    private IntPtr Reserved67;
+    private IntPtr Reserved68;
+    private IntPtr Reserved69;
+    private IntPtr Reserved610;
+    private IntPtr Reserved611;
+    private IntPtr Reserved612;
+    private IntPtr Reserved613;
+    private IntPtr Reserved614;
+    private IntPtr Reserved615;
+    private IntPtr Reserved616;
+    private IntPtr Reserved617;
+    private IntPtr Reserved618;
+    private IntPtr Reserved619;
+    private IntPtr Reserved620;
+    private IntPtr Reserved621;
+    private IntPtr Reserved622;
+    private IntPtr Reserved623;
+    private IntPtr Reserved624;
+    private IntPtr Reserved625;
+    private IntPtr Reserved626;
+    private IntPtr Reserved627;
+    private IntPtr Reserved628;
+    private IntPtr Reserved629;
+    private IntPtr Reserved630;
+    private IntPtr Reserved631;
+    private IntPtr Reserved632;
+    private IntPtr Reserved633;
+    private IntPtr Reserved634;
+    private IntPtr Reserved635;
+    private IntPtr Reserved636;
+    private IntPtr Reserved637;
+    private IntPtr Reserved638;
+    private IntPtr Reserved639;
+    private IntPtr Reserved640;
+    private IntPtr Reserved641;
+    private IntPtr Reserved642;
+    private IntPtr Reserved643;
+    private IntPtr Reserved644;
+    private IntPtr Reserved645;
+    private IntPtr Reserved646;
+    private IntPtr Reserved647;
+    private IntPtr Reserved648;
+    private IntPtr Reserved649;
+    private IntPtr Reserved650;
+    private IntPtr Reserved651;
+    private IntPtr Reserved652;
+    private IntPtr Reserved653;
+    private IntPtr Reserved654;
+    private IntPtr Reserved655;
+    private IntPtr Reserved656;
+    #endregion Reserved6[57]
+}
+
+/// <summary>NV_ENC_MEONLY_PARAMS
+/// struct _NV_ENC_MEONLY_PARAMS
+/// MEOnly parameters that need to be sent on a per motion estimation basis.
+/// NV_ENC_MEONLY_PARAMS::meExternalHints is supported for H264 only.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncMeonlyParams
+{
+    /// <summary>version: [in]: Struct version. Must be set to NV_ENC_MEONLY_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>inputWidth: [in]: Specifies the input frame width</summary>
+    public uint InputWidth;
+    /// <summary>inputHeight: [in]: Specifies the input frame height</summary>
+    public uint InputHeight;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>inputBuffer: [in]: Specifies the input buffer pointer. Client must use a pointer obtained from NvEncCreateInputBuffer() or NvEncMapInputResource() APIs.</summary>
+    public NvEncInputPtr InputBuffer;
+    /// <summary>referenceFrame: [in]: Specifies the reference frame pointer</summary>
+    public NvEncInputPtr ReferenceFrame;
+    /// <summary>mvBuffer: [in]: Specifies the output buffer pointer.
+    /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 0, specifies the pointer to motion vector data buffer allocated by NvEncCreateMVBuffer.
+    /// Client must lock mvBuffer using ::NvEncLockBitstream() API to get the motion vector data.
+    /// If NV_ENC_INITIALIZE_PARAMS::enableOutputInVidmem is set to 1, client should allocate buffer in video memory for storing the motion vector data. The size of this buffer must
+    /// be equal to total number of macroblocks multiplied by size of NV_ENC_H264_MV_DATA struct. Client should use a pointer obtained from ::NvEncMapInputResource() API, when mapping this
+    /// output buffer and assign it to NV_ENC_MEONLY_PARAMS::mvBuffer. All CUDA operations on this buffer must use the default stream.</summary>
+    public NvEncOutputPtr MvBuffer;
+    /// <summary>reserved2: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved2;
+    /// <summary>bufferFmt: [in]: Specifies the input buffer format.</summary>
+    public NvEncBufferFormat BufferFmt;
+    /// <summary>completionEvent: [in]: Specifies an event to be signaled on completion of motion estimation
+    /// of this Frame [only if operating in Asynchronous mode].
+    /// Each output buffer should be associated with a distinct event pointer.</summary>
+    public IntPtr CompletionEvent;
+    /// <summary>viewID: [in]: Specifies left or right viewID if NV_ENC_CONFIG_H264_MEONLY::bStereoEnable is set.
+    /// viewID can be 0,1 if bStereoEnable is set, 0 otherwise.</summary>
+    public uint ViewID;
+    /// <summary>meHintCountsPerBlock[2]: [in]: Specifies the number of hint candidates per block for the current frame. meHintCountsPerBlock[0] is for L0 predictors.
+    /// The candidate count in NV_ENC_PIC_PARAMS::meHintCountsPerBlock[lx] must never exceed NV_ENC_INITIALIZE_PARAMS::maxMEHintCountsPerBlock[lx] provided during encoder initialization.</summary>
+    public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock0;
+    public NvEncExternalMeHintCountsPerBlocktype MeHintCountsPerBlock1;
+    /// <summary>*meExternalHints: [in]: Specifies the pointer to ME external hints for the current frame. The size of ME hint buffer should be equal to number of macroblocks * the total number of candidates per macroblock.
+    /// The total number of candidates per MB per direction = 1*meHintCountsPerBlock[Lx].numCandsPerBlk16x16 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk16x8 + 2*meHintCountsPerBlock[Lx].numCandsPerBlk8x8
+    /// + 4*meHintCountsPerBlock[Lx].numCandsPerBlk8x8. For frames using bidirectional ME , the total number of candidates for single macroblock is sum of total number of candidates per MB for each direction (L0 and L1)</summary>
+    public NvEncExternalMeHint *meExternalHints;
+    /// <summary>reserved1[241]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[241];
+    /// <summary>reserved3[59]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved3[59]
+    private IntPtr Reserved30;
+    private IntPtr Reserved31;
+    private IntPtr Reserved32;
+    private IntPtr Reserved33;
+    private IntPtr Reserved34;
+    private IntPtr Reserved35;
+    private IntPtr Reserved36;
+    private IntPtr Reserved37;
+    private IntPtr Reserved38;
+    private IntPtr Reserved39;
+    private IntPtr Reserved310;
+    private IntPtr Reserved311;
+    private IntPtr Reserved312;
+    private IntPtr Reserved313;
+    private IntPtr Reserved314;
+    private IntPtr Reserved315;
+    private IntPtr Reserved316;
+    private IntPtr Reserved317;
+    private IntPtr Reserved318;
+    private IntPtr Reserved319;
+    private IntPtr Reserved320;
+    private IntPtr Reserved321;
+    private IntPtr Reserved322;
+    private IntPtr Reserved323;
+    private IntPtr Reserved324;
+    private IntPtr Reserved325;
+    private IntPtr Reserved326;
+    private IntPtr Reserved327;
+    private IntPtr Reserved328;
+    private IntPtr Reserved329;
+    private IntPtr Reserved330;
+    private IntPtr Reserved331;
+    private IntPtr Reserved332;
+    private IntPtr Reserved333;
+    private IntPtr Reserved334;
+    private IntPtr Reserved335;
+    private IntPtr Reserved336;
+    private IntPtr Reserved337;
+    private IntPtr Reserved338;
+    private IntPtr Reserved339;
+    private IntPtr Reserved340;
+    private IntPtr Reserved341;
+    private IntPtr Reserved342;
+    private IntPtr Reserved343;
+    private IntPtr Reserved344;
+    private IntPtr Reserved345;
+    private IntPtr Reserved346;
+    private IntPtr Reserved347;
+    private IntPtr Reserved348;
+    private IntPtr Reserved349;
+    private IntPtr Reserved350;
+    private IntPtr Reserved351;
+    private IntPtr Reserved352;
+    private IntPtr Reserved353;
+    private IntPtr Reserved354;
+    private IntPtr Reserved355;
+    private IntPtr Reserved356;
+    private IntPtr Reserved357;
+    private IntPtr Reserved358;
+    #endregion Reserved3[59]
+}
+
+/// <summary>NV_ENC_LOCK_BITSTREAM
+/// struct _NV_ENC_LOCK_BITSTREAM
+/// Bitstream buffer lock parameters.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncLockBitstream
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_LOCK_BITSTREAM_VER.</summary>
+    public uint Version;
+    internal uint BitField1;
+    /// <summary>doNotWait: [in]: If this flag is set, the NvEncodeAPI interface will return buffer pointer even if operation is not completed. If not set, the call will block until operation completes.</summary>
+    public bool DoNotWait {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>ltrFrame: [out]: Flag indicating this frame is marked as LTR frame</summary>
+    public bool LtrFrame {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>getRCStats: [in]: If this flag is set then lockBitstream call will add additional intra-inter MB count and average MVX, MVY</summary>
+    public bool GetRCStats {
+        get => ((BitField1 >> 2) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~4U) | (((value ? 1U : 0U) & 1U) << 2));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
+    /// <summary>outputBitstream: [in]: Pointer to the bitstream buffer being locked.</summary>
+    public IntPtr OutputBitstream;
+    /// <summary>sliceOffsets: [in, out]: Array which receives the slice (H264/HEVC) or tile (AV1) offsets. This is not supported if NV_ENC_CONFIG_H264::sliceMode is 1 on Kepler GPUs. Array size must be equal to size of frame in MBs.</summary>
+    public uint* SliceOffsets;
+    /// <summary>frameIdx: [out]: Frame no. for which the bitstream is being retrieved.</summary>
+    public uint FrameIdx;
+    /// <summary>hwEncodeStatus: [out]: The NvEncodeAPI interface status for the locked picture.</summary>
+    public uint HwEncodeStatus;
+    /// <summary>numSlices: [out]: Number of slices (H264/HEVC) or tiles (AV1) in the encoded picture. Will be reported only if NV_ENC_INITIALIZE_PARAMS::reportSliceOffsets set to 1.</summary>
+    public uint NumSlices;
+    /// <summary>bitstreamSizeInBytes: [out]: Actual number of bytes generated and copied to the memory pointed by bitstreamBufferPtr.
+    /// When HEVC alpha layer encoding is enabled, this field reports the total encoded size in bytes i.e it is the encoded size of the base plus the alpha layer.
+    /// For AV1 when enablePTD is set, this field reports the total encoded size in bytes of all the encoded frames packed into the current output surface i.e. show frame plus all preceding no-show frames</summary>
+    public uint BitstreamSizeInBytes;
+    /// <summary>outputTimeStamp: [out]: Presentation timestamp associated with the encoded output.</summary>
+    public ulong OutputTimeStamp;
+    /// <summary>outputDuration: [out]: Presentation duration associates with the encoded output.</summary>
+    public ulong OutputDuration;
+    /// <summary>bitstreamBufferPtr: [out]: Pointer to the generated output bitstream.
+    /// For MEOnly mode _NV_ENC_LOCK_BITSTREAM::bitstreamBufferPtr should be typecast to
+    /// NV_ENC_H264_MV_DATA/NV_ENC_HEVC_MV_DATA pointer respectively for H264/HEVC</summary>
+    public IntPtr BitstreamBufferPtr;
+    /// <summary>pictureType: [out]: Picture type of the encoded picture.</summary>
+    public NvEncPicType PictureType;
+    /// <summary>pictureStruct: [out]: Structure of the generated output picture.</summary>
+    public NvEncPicStruct PictureStruct;
+    /// <summary>frameAvgQP: [out]: Average QP of the frame.</summary>
+    public uint FrameAvgQP;
+    /// <summary>frameSatd: [out]: Total SATD cost for whole frame.</summary>
+    public uint FrameSatd;
+    /// <summary>ltrFrameIdx: [out]: Frame index associated with this LTR frame.</summary>
+    public uint LtrFrameIdx;
+    /// <summary>ltrFrameBitmap: [out]: Bitmap of LTR frames indices which were used for encoding this frame. Value of 0 if no LTR frames were used.</summary>
+    public uint LtrFrameBitmap;
+    /// <summary>temporalId: [out]: TemporalId value of the frame when using temporalSVC encoding</summary>
+    public uint TemporalId;
+    /// <summary>intraMBCount: [out]: For H264, Number of Intra MBs in the encoded frame. For HEVC, Number of Intra CTBs in the encoded frame. For AV1, Number of Intra SBs in the encoded show frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
+    public uint IntraMBCount;
+    /// <summary>interMBCount: [out]: For H264, Number of Inter MBs in the encoded frame, includes skip MBs. For HEVC, Number of Inter CTBs in the encoded frame. For AV1, Number of Inter SBs in the encoded show frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
+    public uint InterMBCount;
+    /// <summary>averageMVX: [out]: Average Motion Vector in X direction for the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
+    public int AverageMVX;
+    /// <summary>averageMVY: [out]: Average Motion Vector in y direction for the encoded frame. Supported only if _NV_ENC_LOCK_BITSTREAM::getRCStats set to 1.</summary>
+    public int AverageMVY;
+    /// <summary>alphaLayerSizeInBytes: [out]: Number of bytes generated for the alpha layer in the encoded output. Applicable only when HEVC with alpha encoding is enabled.</summary>
+    public uint AlphaLayerSizeInBytes;
+    /// <summary>outputStatsPtrSize: [in]: Size of the buffer pointed by NV_ENC_LOCK_BITSTREAM::outputStatsPtr.</summary>
+    public uint OutputStatsPtrSize;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>outputStatsPtr: [in, out]: Buffer which receives the encoded frame output stats, if NV_ENC_INITIALIZE_PARAMS::enableOutputStats is set to 1.</summary>
+    public IntPtr OutputStatsPtr;
+    /// <summary>frameIdxDisplay: [out]: Frame index in display order</summary>
+    public uint FrameIdxDisplay;
+    /// <summary>reserved1[219]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[219];
+    /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[63]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    #endregion Reserved2[63]
+    /// <summary>reservedInternal[8]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint ReservedInternal[8];
+}
+
+/// <summary>NV_ENC_LOCK_INPUT_BUFFER
+/// struct _NV_ENC_LOCK_INPUT_BUFFER
+/// Uncompressed Input Buffer lock parameters.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncLockInputBuffer
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_LOCK_INPUT_BUFFER_VER.</summary>
+    public uint Version;
+    internal uint BitField1;
+    /// <summary>doNotWait: [in]: Set to 1 to make ::NvEncLockInputBuffer() a unblocking call. If the encoding is not completed, driver will return ::NV_ENC_ERR_ENCODER_BUSY error code.</summary>
+    public bool DoNotWait {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bitfields and must be set to 0</summary>
+    /// <summary>inputBuffer: [in]: Pointer to the input buffer to be locked, client should pass the pointer obtained from ::NvEncCreateInputBuffer() or ::NvEncMapInputResource API.</summary>
+    public NvEncInputPtr InputBuffer;
+    /// <summary>bufferDataPtr: [out]: Pointed to the locked input buffer data. Client can only access input buffer using the \p bufferDataPtr.</summary>
+    public IntPtr BufferDataPtr;
+    /// <summary>pitch: [out]: Pitch of the locked input buffer.</summary>
+    public uint Pitch;
+    /// <summary>reserved1[251]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[251];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_MAP_INPUT_RESOURCE
+/// struct _NV_ENC_MAP_INPUT_RESOURCE
+/// Map an input resource to a Nvidia Encoder Input Buffer</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncMapInputResource
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_MAP_INPUT_RESOURCE_VER.</summary>
+    public uint Version;
+    /// <summary>subResourceIndex: [in]: Deprecated. Do not use.</summary>
+    public uint SubResourceIndex;
+    /// <summary>inputResource: [in]: Deprecated. Do not use.</summary>
+    public IntPtr InputResource;
+    /// <summary>registeredResource: [in]: The Registered resource handle obtained by calling NvEncRegisterInputResource.</summary>
+    public NvEncRegisteredPtr RegisteredResource;
+    /// <summary>mappedResource: [out]: Mapped pointer corresponding to the registeredResource. This pointer must be used in NV_ENC_PIC_PARAMS::inputBuffer parameter in ::NvEncEncodePicture() API.</summary>
+    public NvEncInputPtr MappedResource;
+    /// <summary>mappedBufferFmt: [out]: Buffer format of the outputResource. This buffer format must be used in NV_ENC_PIC_PARAMS::bufferFmt if client using the above mapped resource pointer.</summary>
+    public NvEncBufferFormat MappedBufferFmt;
+    /// <summary>reserved1[251]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[251];
+    /// <summary>reserved2[63]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[63]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    #endregion Reserved2[63]
+}
+
+/// <summary>NV_ENC_INPUT_RESOURCE_OPENGL_TEX
+/// struct _NV_ENC_INPUT_RESOURCE_OPENGL_TEX
+/// NV_ENC_REGISTER_RESOURCE::resourceToRegister must be a pointer to a variable of this type,
+/// when NV_ENC_REGISTER_RESOURCE::resourceType is NV_ENC_INPUT_RESOURCE_TYPE_OPENGL_TEX</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncInputResourceOpenglTex
+{
+    /// <summary>texture: [in]: The name of the texture to be used.</summary>
+    public uint Texture;
+    /// <summary>target: [in]: Accepted values are GL_TEXTURE_RECTANGLE and GL_TEXTURE_2D.</summary>
+    public uint Target;
+}
+
+/// <summary>NV_ENC_FENCE_POINT_D3D12
+/// struct NV_ENC_FENCE_POINT_D3D12
+/// Fence and fence value for synchronization.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncFencePointD3d12
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_FENCE_POINT_D3D12_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved;
+    /// <summary>pFence: [in]: Pointer to ID3D12Fence. This fence object is used for synchronization.</summary>
+    public IntPtr PFence;
+    /// <summary>waitValue: [in]: Fence value to reach or exceed before the GPU operation.</summary>
+    public ulong WaitValue;
+    /// <summary>signalValue: [in]: Fence value to set the fence to, after the GPU operation.</summary>
+    public ulong SignalValue;
+    internal uint BitField1;
+    /// <summary>bWait: [in]: Wait on 'waitValue' if bWait is set to 1, before starting GPU operation.</summary>
+    public bool BWait {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>bSignal: [in]: Signal on 'signalValue' if bSignal is set to 1, after GPU operation is complete.</summary>
+    public bool BSignal {
+        get => ((BitField1 >> 1) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~2U) | (((value ? 1U : 0U) & 1U) << 1));
+    }
+    /// <summary>reservedBitField: [in]: Reserved and must be set to 0.</summary>
+    /// <summary>reserved1[7]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[7];
+}
+
+/// <summary>NV_ENC_INPUT_RESOURCE_D3D12
+/// struct _NV_ENC_INPUT_RESOURCE_D3D12
+/// NV_ENC_PIC_PARAMS::inputBuffer and NV_ENC_PIC_PARAMS::alphaBuffer must be a pointer to a struct of this type,
+/// when D3D12 interface is used</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncInputResourceD3d12
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_INPUT_RESOURCE_D3D12_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved;
+    /// <summary>pInputBuffer: [in]: Specifies the input surface pointer. Client must use a pointer obtained from NvEncMapInputResource() in NV_ENC_MAP_INPUT_RESOURCE::mappedResource
+    /// when mapping the input surface.</summary>
+    public NvEncInputPtr PInputBuffer;
+    /// <summary>inputFencePoint: [in]: Specifies the fence and corresponding fence values to do GPU wait and signal.</summary>
+    public NvEncFencePointD3d12 InputFencePoint;
+    /// <summary>reserved1[16]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[16];
+    /// <summary>reserved2[16]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved2[16]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    #endregion Reserved2[16]
+}
+
+/// <summary>NV_ENC_OUTPUT_RESOURCE_D3D12
+/// struct _NV_ENC_OUTPUT_RESOURCE_D3D12
+/// NV_ENC_PIC_PARAMS::outputBitstream and NV_ENC_LOCK_BITSTREAM::outputBitstream must be a pointer to a struct of this type,
+/// when D3D12 interface is used</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncOutputResourceD3d12
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_OUTPUT_RESOURCE_D3D12_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
+    private uint Reserved;
+    /// <summary>pOutputBuffer: [in]: Specifies the output buffer pointer. Client must use a pointer obtained from NvEncMapInputResource() in NV_ENC_MAP_INPUT_RESOURCE::mappedResource
+    /// when mapping output bitstream buffer</summary>
+    public NvEncInputPtr POutputBuffer;
+    /// <summary>outputFencePoint: [in]: Specifies the fence and corresponding fence values to do GPU wait and signal.</summary>
+    public NvEncFencePointD3d12 OutputFencePoint;
+    /// <summary>reserved1[16]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[16];
+    /// <summary>reserved2[16]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved2[16]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    #endregion Reserved2[16]
+}
+
+/// <summary>NV_ENC_REGISTER_RESOURCE
+/// struct _NV_ENC_REGISTER_RESOURCE
+/// Register a resource for future use with the Nvidia Video Encoder Interface.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncRegisterResource
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_REGISTER_RESOURCE_VER.</summary>
+    public uint Version;
+    /// <summary>resourceType: [in]: Specifies the type of resource to be registered.
+    /// Supported values are
+    /// ::NV_ENC_INPUT_RESOURCE_TYPE_DIRECTX,
+    /// ::NV_ENC_INPUT_RESOURCE_TYPE_CUDADEVICEPTR,
+    /// ::NV_ENC_INPUT_RESOURCE_TYPE_OPENGL_TEX</summary>
+    public NvEncInputResourceType ResourceType;
+    /// <summary>width: [in]: Input frame width.</summary>
+    public uint Width;
+    /// <summary>height: [in]: Input frame height.</summary>
+    public uint Height;
+    /// <summary>pitch: [in]: Input buffer pitch.
+    /// For ::NV_ENC_INPUT_RESOURCE_TYPE_DIRECTX resources, set this to 0.
+    /// For ::NV_ENC_INPUT_RESOURCE_TYPE_CUDADEVICEPTR resources, set this to
+    /// the pitch as obtained from cuMemAllocPitch(), or to the width in
+    /// bytes (if this resource was created by using cuMemAlloc()). This
+    /// value must be a multiple of 4.
+    /// For ::NV_ENC_INPUT_RESOURCE_TYPE_CUDAARRAY resources, set this to the
+    /// width of the allocation in bytes (i.e.
+    /// CUDA_ARRAY3D_DESCRIPTOR::Width * CUDA_ARRAY3D_DESCRIPTOR::NumChannels).
+    /// For ::NV_ENC_INPUT_RESOURCE_TYPE_OPENGL_TEX resources, set this to the
+    /// texture width multiplied by the number of components in the texture
+    /// format.</summary>
+    public uint Pitch;
+    /// <summary>subResourceIndex: [in]: Subresource Index of the DirectX resource to be registered. Should be set to 0 for other interfaces.</summary>
+    public uint SubResourceIndex;
+    /// <summary>resourceToRegister: [in]: Handle to the resource that is being registered.</summary>
+    public IntPtr ResourceToRegister;
+    /// <summary>registeredResource: [out]: Registered resource handle. This should be used in future interactions with the Nvidia Video Encoder Interface.</summary>
+    public NvEncRegisteredPtr RegisteredResource;
+    /// <summary>bufferFormat: [in]: Buffer format of resource to be registered.</summary>
+    public NvEncBufferFormat BufferFormat;
+    /// <summary>bufferUsage: [in]: Usage of resource to be registered.</summary>
+    public NvEncBufferUsage BufferUsage;
+    /// <summary>pInputFencePoint: [in]: Specifies the input fence and corresponding fence values to do GPU wait and signal.
+    /// To be used only when NV_ENC_REGISTER_RESOURCE::resourceToRegister represents D3D12 surface and
+    /// NV_ENC_BUFFER_USAGE::bufferUsage is NV_ENC_INPUT_IMAGE.
+    /// The fence NV_ENC_FENCE_POINT_D3D12::pFence and NV_ENC_FENCE_POINT_D3D12::waitValue will be used to do GPU wait
+    /// before starting GPU operation, if NV_ENC_FENCE_POINT_D3D12::bWait is set.
+    /// The fence NV_ENC_FENCE_POINT_D3D12::pFence and NV_ENC_FENCE_POINT_D3D12::signalValue will be used to do GPU signal
+    /// when GPU operation finishes, if NV_ENC_FENCE_POINT_D3D12::bSignal is set.</summary>
+    public NvEncFencePointD3d12* PInputFencePoint;
+    /// <summary>chromaOffset[2]: [out]: Chroma offset for the reconstructed output buffer when NV_ENC_BUFFER_USAGE::bufferUsage is set
+    /// to NV_ENC_OUTPUT_RECON and D3D11 interface is used.
+    /// When chroma components are interleaved, 'chromaOffset[0]' will contain chroma offset.
+    /// chromaOffset[1] is reserved for future use.</summary>
+    public fixed uint ChromaOffset[2];
+    /// <summary>reserved1[246]: [in]: Reserved and must be set to 0.</summary>
+    private fixed uint Reserved1[246];
+    /// <summary>reserved2[61]: [in]: Reserved and must be set to NULL.</summary>
+    #region Reserved2[61]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    #endregion Reserved2[61]
+}
+
+/// <summary>NV_ENC_STAT
+/// struct _NV_ENC_STAT
+/// Encode Stats structure.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncStat
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_STAT_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>outputBitStream: [in]: Specifies the pointer to output bitstream.</summary>
+    public NvEncOutputPtr OutputBitStream;
+    /// <summary>bitStreamSize: [out]: Size of generated bitstream in bytes.</summary>
+    public uint BitStreamSize;
+    /// <summary>picType: [out]: Picture type of encoded picture. See ::NV_ENC_PIC_TYPE.</summary>
+    public uint PicType;
+    /// <summary>lastValidByteOffset: [out]: Offset of last valid bytes of completed bitstream</summary>
+    public uint LastValidByteOffset;
+    /// <summary>sliceOffsets[16]: [out]: Offsets of each slice</summary>
+    public fixed uint SliceOffsets[16];
+    /// <summary>picIdx: [out]: Picture number</summary>
+    public uint PicIdx;
+    /// <summary>frameAvgQP: [out]: Average QP of the frame.</summary>
+    public uint FrameAvgQP;
+    internal uint BitField1;
+    /// <summary>ltrFrame: [out]: Flag indicating this frame is marked as LTR frame</summary>
+    public bool LtrFrame {
+        get => ((BitField1 >> 0) & 1U) != 0;
+        set => BitField1 = (uint)((BitField1 & ~1U) | (((value ? 1U : 0U) & 1U) << 0));
+    }
+    /// <summary>reservedBitFields: [in]: Reserved bit fields and must be set to 0</summary>
+    /// <summary>ltrFrameIdx: [out]: Frame index associated with this LTR frame.</summary>
+    public uint LtrFrameIdx;
+    /// <summary>intraMBCount: [out]: For H264, Number of Intra MBs in the encoded frame. For HEVC, Number of Intra CTBs in the encoded frame.</summary>
+    public uint IntraMBCount;
+    /// <summary>interMBCount: [out]: For H264, Number of Inter MBs in the encoded frame, includes skip MBs. For HEVC, Number of Inter CTBs in the encoded frame.</summary>
+    public uint InterMBCount;
+    /// <summary>averageMVX: [out]: Average Motion Vector in X direction for the encoded frame.</summary>
+    public int AverageMVX;
+    /// <summary>averageMVY: [out]: Average Motion Vector in y direction for the encoded frame.</summary>
+    public int AverageMVY;
+    /// <summary>reserved1[227]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[227];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_SEQUENCE_PARAM_PAYLOAD
+/// struct _NV_ENC_SEQUENCE_PARAM_PAYLOAD
+/// Sequence and picture paramaters payload.</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncSequenceParamPayload
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_INITIALIZE_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>inBufferSize: [in]: Specifies the size of the spsppsBuffer provided by the client</summary>
+    public uint InBufferSize;
+    /// <summary>spsId: [in]: Specifies the SPS id to be used in sequence header. Default value is 0.</summary>
+    public uint SpsId;
+    /// <summary>ppsId: [in]: Specifies the PPS id to be used in picture header. Default value is 0.</summary>
+    public uint PpsId;
+    /// <summary>spsppsBuffer: [in]: Specifies bitstream header pointer of size NV_ENC_SEQUENCE_PARAM_PAYLOAD::inBufferSize.
+    /// It is the client's responsibility to manage this memory.</summary>
+    public IntPtr SpsppsBuffer;
+    /// <summary>outSPSPPSPayloadSize: [out]: Size of the sequence and picture header in bytes.</summary>
+    public uint* OutSPSPPSPayloadSize;
+    /// <summary>reserved [250]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved [250];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_EVENT_PARAMS</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncEventParams
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_EVENT_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>reserved: [in]: Reserved and must be set to 0</summary>
+    private uint Reserved;
+    /// <summary>completionEvent: [in]: Handle to event to be registered/unregistered with the NvEncodeAPI interface.</summary>
+    public IntPtr CompletionEvent;
+    /// <summary>reserved1[254]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[254];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
+}
+
+/// <summary>NV_ENC_OPEN_ENCODE_SESSIONEX_PARAMS
+/// Encoder Session Creation parameters</summary>
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct NvEncOpenEncodeSessionExParams
+{
+    /// <summary>version: [in]: Struct version. Must be set to ::NV_ENC_OPEN_ENCODE_SESSION_EX_PARAMS_VER.</summary>
+    public uint Version;
+    /// <summary>deviceType: [in]: Specified the device Type</summary>
+    public NvEncDeviceType DeviceType;
+    /// <summary>device: [in]: Pointer to client device.</summary>
+    public IntPtr Device;
+    /// <summary>reserved: [in]: Reserved and must be set to 0.</summary>
+    private IntPtr Reserved;
+    /// <summary>apiVersion: [in]: API version. Should be set to NVENCAPI_VERSION.</summary>
+    public uint ApiVersion;
+    /// <summary>reserved1[253]: [in]: Reserved and must be set to 0</summary>
+    private fixed uint Reserved1[253];
+    /// <summary>reserved2[64]: [in]: Reserved and must be set to NULL</summary>
+    #region Reserved2[64]
+    private IntPtr Reserved20;
+    private IntPtr Reserved21;
+    private IntPtr Reserved22;
+    private IntPtr Reserved23;
+    private IntPtr Reserved24;
+    private IntPtr Reserved25;
+    private IntPtr Reserved26;
+    private IntPtr Reserved27;
+    private IntPtr Reserved28;
+    private IntPtr Reserved29;
+    private IntPtr Reserved210;
+    private IntPtr Reserved211;
+    private IntPtr Reserved212;
+    private IntPtr Reserved213;
+    private IntPtr Reserved214;
+    private IntPtr Reserved215;
+    private IntPtr Reserved216;
+    private IntPtr Reserved217;
+    private IntPtr Reserved218;
+    private IntPtr Reserved219;
+    private IntPtr Reserved220;
+    private IntPtr Reserved221;
+    private IntPtr Reserved222;
+    private IntPtr Reserved223;
+    private IntPtr Reserved224;
+    private IntPtr Reserved225;
+    private IntPtr Reserved226;
+    private IntPtr Reserved227;
+    private IntPtr Reserved228;
+    private IntPtr Reserved229;
+    private IntPtr Reserved230;
+    private IntPtr Reserved231;
+    private IntPtr Reserved232;
+    private IntPtr Reserved233;
+    private IntPtr Reserved234;
+    private IntPtr Reserved235;
+    private IntPtr Reserved236;
+    private IntPtr Reserved237;
+    private IntPtr Reserved238;
+    private IntPtr Reserved239;
+    private IntPtr Reserved240;
+    private IntPtr Reserved241;
+    private IntPtr Reserved242;
+    private IntPtr Reserved243;
+    private IntPtr Reserved244;
+    private IntPtr Reserved245;
+    private IntPtr Reserved246;
+    private IntPtr Reserved247;
+    private IntPtr Reserved248;
+    private IntPtr Reserved249;
+    private IntPtr Reserved250;
+    private IntPtr Reserved251;
+    private IntPtr Reserved252;
+    private IntPtr Reserved253;
+    private IntPtr Reserved254;
+    private IntPtr Reserved255;
+    private IntPtr Reserved256;
+    private IntPtr Reserved257;
+    private IntPtr Reserved258;
+    private IntPtr Reserved259;
+    private IntPtr Reserved260;
+    private IntPtr Reserved261;
+    private IntPtr Reserved262;
+    private IntPtr Reserved263;
+    #endregion Reserved2[64]
 }
