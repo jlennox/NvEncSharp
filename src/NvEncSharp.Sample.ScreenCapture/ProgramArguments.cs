@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Lennox.NvEncSharp.Sample.ScreenCapture
@@ -7,6 +7,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
     {
         public string DisplayName { get; set; }
         public string OutputPath { get; set; }
+        public Guid CodecGuid { get; private set; } = NvEncCodecGuids.H264;
 
         public ProgramArguments(IReadOnlyList<string> args)
         {
@@ -25,6 +26,10 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
                 switch (args[i])
                 {
+                    case "--codec":
+                    case "-c":
+                        CodecGuid = NvEncCodecGuids.FromName(GetNextArgument());
+                        break;
                     case "--display":
                     case "-d":
                         DisplayName = GetNextArgument();

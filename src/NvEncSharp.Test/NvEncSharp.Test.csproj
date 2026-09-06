@@ -92,6 +92,10 @@
     <Compile Include="GenerateEnum.cs" />
     <Compile Include="GenerateStruct.cs" />
     <Compile Include="NalPacketTests.cs" />
+    <Compile Include="Av1ObuReaderTests.cs" />
+    <Compile Include="..\NvEncSharp.Sample.VideoDecode\Av1ObuReader.cs">
+      <Link>Av1ObuReader.cs</Link>
+    </Compile>
     <Compile Include="NativeSizeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

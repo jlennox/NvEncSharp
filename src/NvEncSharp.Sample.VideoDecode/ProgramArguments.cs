@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,6 +7,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
     internal class ProgramArguments
     {
         public string InputPath { get; set; }
+        public CuVideoCodec Codec { get; private set; } = CuVideoCodec.H264;
         public bool UseHostMemory { get; set; }
         public string BitmapPath { get; set; }
         public bool WriteBitmap { get; set; }
@@ -19,8 +20,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                 {
                     if (i + 1 > args.Count - 1)
                     {
-                        throw new ArgumentNullException(
-                            args[i], "Argument required.");
+                        throw new ArgumentNullException(args[i], "Argument required.");
                     }
 
                     return args[++i];
@@ -28,6 +28,10 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
                 switch (args[i])
                 {
+                    case "--codec":
+                    case "-c":
+                        Codec = CuVideoCodec.FromName(GetNextArgument());
+                        break;
                     case "--input":
                     case "-i":
                         InputPath = GetNextArgument();
@@ -46,8 +50,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(
-                            args[i], "Unknown argument.");
+                        throw new ArgumentOutOfRangeException(args[i], "Unknown argument.");
                 }
             }
 

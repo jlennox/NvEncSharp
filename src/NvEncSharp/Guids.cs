@@ -8,6 +8,17 @@ namespace Lennox.NvEncSharp
         public static Guid H264 = Guid.Parse("6BC82762-4E63-4ca4-AA85-1E50F321F6BF");
         public static Guid Hevc = Guid.Parse("790CDC88-4522-4d7b-9425-BDA9975F7603");
         public static Guid Av1 = Guid.Parse("0A352289-0AA7-4759-862D-5D15CD16D254");
+
+        public static Guid FromName(string name)
+        {
+            return CuVideoCodec.FromName(name) switch
+            {
+                CuVideoCodec.H264 => H264,
+                CuVideoCodec.HEVC => Hevc,
+                CuVideoCodec.AV1 => Av1,
+                _ => throw new ArgumentException("Supported codecs: h264, hevc, av1.", nameof(name))
+            };
+        }
     }
 
     public static class NvEncProfileGuids

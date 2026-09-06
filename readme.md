@@ -14,7 +14,7 @@ There's additional CUDA kernels for frame resizing and decoding inside `LibCudaL
 
 - [Add the nuget package.](https://www.nuget.org/packages/Lennox.NvEncSharp)
 - [Reference the encoder sample code: Capturing the screen as a video.](src/NvEncSharp.Sample.ScreenCapture/Program.cs)
-- [Reference the decoder sample code: Decoding container-free h264 NAL packets to .bmp files and the screen.](src/NvEncSharp.Sample.VideoDecode/Program.cs)
+- [Reference the decoder sample code: Decoding container-free H.264, HEVC or AV1 video to .bmp files and the screen.](src/NvEncSharp.Sample.VideoDecode/Program.cs)
 
 # Welcome contributions
 
@@ -25,6 +25,7 @@ Large sections of the CUDA API have not been tested. There's likely transcriptio
 Maintaining forward compatibility with CUDA APIs.
 
 # Building
+
 Sorry, this is way more a mess than it should be.
 
 Note: The CUDA SDK is _only_ needed for the sample projects. And is only needed for GPU based color space conversions.

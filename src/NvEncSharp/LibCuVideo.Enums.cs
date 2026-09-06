@@ -371,6 +371,7 @@ namespace Lennox.NvEncSharp
         HEVC,
         VP8,
         VP9,
+        AV1,
         NumCodecs,
         /// <summary>Uncompressed: Y,U,V (4:2:0)</summary>
         YUV420 = (('I' << 24) | ('Y' << 16) | ('U' << 8) | ('V')),

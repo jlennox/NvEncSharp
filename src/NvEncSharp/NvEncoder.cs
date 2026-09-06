@@ -83,6 +83,20 @@ namespace Lennox.NvEncSharp
             return guids.Slice(0, (int)actualCount).ToArray();
         }
 
+        public bool IsValidGuid(Guid guid)
+        {
+            var count = GetEncodeGuidCount();
+            if (count == 0) return false;
+            Span<Guid> guids = stackalloc Guid[(int)count];
+            GetEncodeGuids(guids, out var actualCount);
+            for (var i = 0; i < actualCount; i++)
+            {
+                if (guids[i] == guid) return true;
+            }
+
+            return false;
+        }
+
         /// <summary>Retrieves the number of supported profile Guids.
         ///
         /// The function returns the number of profile Guids supported for a given codec.

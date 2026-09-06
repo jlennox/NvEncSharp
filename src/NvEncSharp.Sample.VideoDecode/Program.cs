@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -93,7 +93,7 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             var parserParams = new CuVideoParserParams
             {
-                CodecType = CuVideoCodec.H264,
+                CodecType = _args.Codec,
                 MaxNumDecodeSurfaces = 1,
                 MaxDisplayDelay = 0,
                 ErrorThreshold = 100,
@@ -130,6 +130,17 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
 
             while (true)
             {
+                // AV1 uses size-delimited OBUs, not H.264/HEVC NAL start codes.
+                // Submit complete OBUs even when a file read splits a unit.
+                if (_args.Codec == CuVideoCodec.AV1)
+                {
+                    var obu = Av1ObuReader.ReadNext(fs);
+                    if (obu == null) break;
+                    parser.ParseVideoData(obu);
+                    ++count;
+                    continue;
+                }
+
                 var inputBuffer = new Span<byte>(
                     (void*) inputBufferPtr, bufferSize);
 
@@ -326,12 +337,12 @@ namespace Lennox.NvEncSharp.Sample.VideoDecode
         {
             // Display and bitmap conversion only support 8-bit NV12 surfaces.
             // Check every sequence, including changes to an existing decoder.
-            if (format.Codec != CuVideoCodec.H264 ||
+            if (format.Codec != _args.Codec ||
                 format.ChromaFormat != CuVideoChromaFormat.YUV420 ||
                 format.BitDepthLumaMinus8 != 0 || format.BitDepthChromaMinus8 != 0)
             {
                 Console.Error.WriteLine(
-                    $"This sample supports only 8-bit 4:2:0 H.264. Received {format.Codec}, " +
+                    $"This sample requires 8-bit 4:2:0 {_args.Codec}. Received {format.Codec}, " +
                     $"{format.ChromaFormat}, luma {format.BitDepthLumaMinus8 + 8}-bit, " +
                     $"chroma {format.BitDepthChromaMinus8 + 8}-bit.");
                 return CuCallbackResult.Failure;

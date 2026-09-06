@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,6 +12,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
     {
         private bool _initialized = false;
         private NvEncoder _encoder;
+        private Guid _codecGuid;
         private NvEncCreateBitstreamBuffer _bitstreamBuffer;
         private readonly object _writeMutex = new object();
 
@@ -19,11 +20,13 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
         private const int _frameDuration = 1000 / _fps;
 
         // This program captures the full frames of a display using directX,
-        // then uses the hardware NvEnc h264 encoder on Nvidia GPUs to encode
-        // h264 video directly from the GPU texture.
-        // The output is written as containerless h264 frames. Most software
+        // then uses the hardware NvEnc encoder on Nvidia GPUs to encode
+        // H.264, HEVC or AV1 video directly from the GPU texture.
+        // The output is written as containerless frames. Most software
         // does not support playback of containerless formats but ffplay can:
         // ffplay.exe -f h264 sample.264
+        // ffplay.exe -f hevc sample.hevc
+        // ffplay.exe -f obu sample.obu
         public static void Main(string[] args)
         {
             var program = new Program();
@@ -32,6 +35,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
 
         private void Run(ProgramArguments args)
         {
+            _codecGuid = args.CodecGuid;
             using var duplicate = GetDisplayDuplicate(
                 args.DisplayName, out var outputDescription);
             using var output = File.Open(args.OutputPath, FileMode.Create);
@@ -39,6 +43,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
             Console.WriteLine($"Process: {(Environment.Is64BitProcess ? "64" : "32")} bits");
             Console.WriteLine($"Display: {outputDescription.DeviceName}");
             Console.WriteLine($"Output: {output.Name}");
+            Console.WriteLine($"Codec: {(_codecGuid == NvEncCodecGuids.Av1 ? "AV1" : _codecGuid == NvEncCodecGuids.Hevc ? "HEVC" : "H.264")}");
 
             try
             {
@@ -202,7 +207,21 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
             var desc = texture.Description;
             var encoder = OpenEncoderForDirectX(texture.Device.NativePointer);
             _encoder = encoder; // Retain ownership even if initialization fails.
-            var encoderConfig = encoder.GetEncodePresetConfigEx(NvEncCodecGuids.H264, NvEncPresetGuids.P1).PresetCfg;
+            if (!encoder.IsValidGuid(_codecGuid))
+            {
+                throw new NotSupportedException("The selected codec is not supported by this GPU's encoder.");
+            }
+
+            var encoderConfig = encoder.GetEncodePresetConfigEx(_codecGuid, NvEncPresetGuids.P1).PresetCfg;
+            if (_codecGuid == NvEncCodecGuids.Hevc)
+            {
+                encoderConfig.ProfileGuid = NvEncProfileGuids.HevcMain;
+            }
+            else if (_codecGuid == NvEncCodecGuids.Av1)
+            {
+                encoderConfig.ProfileGuid = NvEncProfileGuids.Av1Main;
+                encoderConfig.EncodeCodecConfig.Av1Config.OutputAnnexBFormat = false;
+            }
             // Each mapped texture must finish encoding before this iteration releases it.
             encoderConfig.FrameIntervalP = 1;
             encoderConfig.RcParams.EnableLookahead = false;
@@ -216,7 +235,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                 var initparams = new NvEncInitializeParams
                 {
                     Version = NV_ENC_INITIALIZE_PARAMS_VER,
-                    EncodeGuid = NvEncCodecGuids.H264,
+                    EncodeGuid = _codecGuid,
                     EncodeHeight = (uint)desc.Height,
                     EncodeWidth = (uint)desc.Width,
                     MaxEncodeHeight = (uint)desc.Height,
@@ -230,7 +249,7 @@ namespace Lennox.NvEncSharp.Sample.ScreenCapture
                     PresetGuid = NvEncPresetGuids.P1,
                     EnableEncodeAsync = 0,
                     EnablePTD = 1,
-                    EnableWeightedPrediction = true,
+                    EnableWeightedPrediction = _codecGuid != NvEncCodecGuids.Av1,
                     EncodeConfig = p,
                     TuningInfo = NvEncTuningInfo.HighQuality,
                 };
