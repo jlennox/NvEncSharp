@@ -263,7 +263,7 @@ public unsafe partial class LibCuda
     /// ::cudaGetSymbolAddress,
     /// ::cudaGetSymbolSize
     /// CUresult CUDAAPI cuModuleGetGlobal(CUdeviceptr *dptr, size_t *bytes, CUmodule hmod, const char *name);
-    [DllImport(_dllpath, EntryPoint = "cuModuleGetGlobal", CharSet = CharSet.Ansi)]
+    [DllImport(_dllpath, EntryPoint = "cuModuleGetGlobal" + _ver, CharSet = CharSet.Ansi)]
     public static extern CuResult ModuleGetGlobal(out CuDevicePtr dptr, out IntPtr bytes, CuModule hmod, string name);
 
     /// <summary>Returns a handle to a texture reference
@@ -372,7 +372,7 @@ public unsafe partial class LibCuda
     /// ::cuLinkComplete,
     /// ::cuLinkDestroy
     /// CUresult CUDAAPI cuLinkCreate(unsigned int numOptions, CUjit_option *options, void **optionValues, CUlinkState *stateOut);
-    [DllImport(_dllpath, EntryPoint = "cuLinkCreate")]
+    [DllImport(_dllpath, EntryPoint = "cuLinkCreate" + _ver)]
     public static extern CuResult LinkCreate(int numOptions, JitOption* options, void** optionValues, CuLinkState* stateOut);
 
     /// <summary>Add an input to a pending linker invocation
@@ -409,7 +409,7 @@ public unsafe partial class LibCuda
     /// ::cuLinkComplete,
     /// ::cuLinkDestroy
     /// CUresult CUDAAPI cuLinkAddData(CUlinkState state, CUjitInputType type, void *data, size_t size, const char *name, unsigned int numOptions, CUjit_option *options, void **optionValues);
-    [DllImport(_dllpath, EntryPoint = "cuLinkAddData", CharSet = CharSet.Ansi)]
+    [DllImport(_dllpath, EntryPoint = "cuLinkAddData" + _ver, CharSet = CharSet.Ansi)]
     public static extern CuResult LinkAddData(CuLinkState state, JitInputType type, void* data, IntPtr size, string name, int numOptions, JitOption *options, void** optionValues);
 
     /// <summary>Add a file input to a pending linker invocation
@@ -447,7 +447,7 @@ public unsafe partial class LibCuda
     /// ::cuLinkComplete,
     /// ::cuLinkDestroy
     /// CUresult CUDAAPI cuLinkAddFile(CUlinkState state, CUjitInputType type, const char *path, unsigned int numOptions, CUjit_option *options, void **optionValues);
-    [DllImport(_dllpath, EntryPoint = "cuLinkAddFile", CharSet = CharSet.Ansi)]
+    [DllImport(_dllpath, EntryPoint = "cuLinkAddFile" + _ver, CharSet = CharSet.Ansi)]
     public static extern CuResult LinkAddFile(CuLinkState state, JitInputType type, string path, int numOptions, JitOption *options, void** optionValues);
 
     /// <summary>Complete a pending linker invocation

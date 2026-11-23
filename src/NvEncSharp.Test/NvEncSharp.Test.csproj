@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGeneration.cs" />
+    <Compile Include="CudaEntryPointTests.cs" />
     <Compile Include="GenerateEnum.cs" />
     <Compile Include="GenerateStruct.cs" />
     <Compile Include="NalPacketTests.cs" />
@@ -105,6 +106,7 @@
     <None Include="NativeSizes.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="cuda.h" />
     <EmbeddedResource Include="nvEncodeAPI.h" />
     <EmbeddedResource Include="NativeSizes.windows-x64.txt" />
   </ItemGroup>
