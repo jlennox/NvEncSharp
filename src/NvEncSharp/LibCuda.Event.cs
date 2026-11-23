@@ -185,7 +185,7 @@ public static unsafe partial class LibCuda
     /// ::cuEventElapsedTime,
     /// ::cudaEventDestroy
     /// CUresult CUDAAPI cuEventDestroy(CUevent hEvent);
-    [DllImport(_dllpath, EntryPoint = "cuEventDestroy")]
+    [DllImport(_dllpath, EntryPoint = "cuEventDestroy" + _ver)]
     public static extern CuResult EventDestroy(CuEvent hEvent);
 
     /// <summary>Computes the elapsed time between two events

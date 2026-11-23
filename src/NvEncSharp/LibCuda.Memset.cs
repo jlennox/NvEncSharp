@@ -40,7 +40,7 @@ public static partial class LibCuda
     /// ::cuMemsetD32, ::cuMemsetD32Async,
     /// ::cudaMemset
     /// CUresult CUDAAPI cuMemsetD8(CUdeviceptr dstDevice, unsigned char uc, size_t N);
-    [DllImport(_dllpath, EntryPoint = "cuMemsetD8")]
+    [DllImport(_dllpath, EntryPoint = "cuMemsetD8" + _ver)]
     public static extern CuResult MemsetD8(CuDevicePtr dstDevice, byte uc, IntPtr n);
 
     /// <summary>Initializes device memory
@@ -76,7 +76,7 @@ public static partial class LibCuda
     /// ::cuMemsetD32, ::cuMemsetD32Async,
     /// ::cudaMemset
     /// CUresult CUDAAPI cuMemsetD16(CUdeviceptr dstDevice, unsigned short us, size_t N);
-    [DllImport(_dllpath, EntryPoint = "cuMemsetD16")]
+    [DllImport(_dllpath, EntryPoint = "cuMemsetD16" + _ver)]
     public static extern CuResult MemsetD16(CuDevicePtr dstDevice, short us, IntPtr n);
 
     /// <summary>Initializes device memory
@@ -112,7 +112,7 @@ public static partial class LibCuda
     /// ::cuMemsetD32Async,
     /// ::cudaMemset
     /// CUresult CUDAAPI cuMemsetD32(CUdeviceptr dstDevice, unsigned int ui, size_t N);
-    [DllImport(_dllpath, EntryPoint = "cuMemsetD32")]
+    [DllImport(_dllpath, EntryPoint = "cuMemsetD32" + _ver)]
     public static extern CuResult MemsetD32(CuDevicePtr dstDevice, int ui, IntPtr n);
 
     /// <summary>Initializes device memory
@@ -153,7 +153,7 @@ public static partial class LibCuda
     /// ::cuMemsetD32, ::cuMemsetD32Async,
     /// ::cudaMemset2D
     /// CUresult CUDAAPI cuMemsetD2D8(CUdeviceptr dstDevice, size_t dstPitch, unsigned char uc, size_t Width, size_t Height);
-    [DllImport(_dllpath, EntryPoint = "cuMemsetD2D8")]
+    [DllImport(_dllpath, EntryPoint = "cuMemsetD2D8" + _ver)]
     public static extern CuResult MemsetD2D8(CuDevicePtr dstDevice, IntPtr dstPitch, byte uc, IntPtr width, IntPtr height);
 
     /// <summary>Initializes device memory
@@ -195,7 +195,7 @@ public static partial class LibCuda
     /// ::cuMemsetD32, ::cuMemsetD32Async,
     /// ::cudaMemset2D
     /// CUresult CUDAAPI cuMemsetD2D16(CUdeviceptr dstDevice, size_t dstPitch, unsigned short us, size_t Width, size_t Height);
-    [DllImport(_dllpath, EntryPoint = "cuMemsetD2D16")]
+    [DllImport(_dllpath, EntryPoint = "cuMemsetD2D16" + _ver)]
     public static extern CuResult MemsetD2D16(CuDevicePtr dstDevice, IntPtr dstPitch, short us, IntPtr width, IntPtr height);
 
     /// <summary>Initializes device memory
@@ -237,7 +237,7 @@ public static partial class LibCuda
     /// ::cuMemsetD32, ::cuMemsetD32Async,
     /// ::cudaMemset2D
     /// CUresult CUDAAPI cuMemsetD2D32(CUdeviceptr dstDevice, size_t dstPitch, unsigned int ui, size_t Width, size_t Height);
-    [DllImport(_dllpath, EntryPoint = "cuMemsetD2D32")]
+    [DllImport(_dllpath, EntryPoint = "cuMemsetD2D32" + _ver)]
     public static extern CuResult MemsetD2D32(CuDevicePtr dstDevice, IntPtr dstPitch, int ui, IntPtr width, IntPtr height);
 
     /// <summary>Sets device memory

@@ -305,7 +305,7 @@ public unsafe partial class LibCuda
     /// ::cuTexRefGetFilterMode, ::cuTexRefGetFlags, ::cuTexRefGetFormat,
     /// ::cudaBindTexture
     /// CUresult CUDAAPI cuTexRefSetAddress(size_t *ByteOffset, CUtexref hTexRef, CUdeviceptr dptr, size_t bytes);
-    [DllImport(_dllpath, EntryPoint = "cuTexRefSetAddress")]
+    [DllImport(_dllpath, EntryPoint = "cuTexRefSetAddress" + _ver)]
     public static extern CuResult TexRefSetAddress(out IntPtr byteOffset, CuTextRef hTexRef, CuDevicePtr dptr, IntPtr bytes);
 
     /// <summary>Binds an address as a 2D texture reference
@@ -358,7 +358,7 @@ public unsafe partial class LibCuda
     /// ::cuTexRefGetFilterMode, ::cuTexRefGetFlags, ::cuTexRefGetFormat,
     /// ::cudaBindTexture2D
     /// CUresult CUDAAPI cuTexRefSetAddress2D(CUtexref hTexRef, const CUDA_ARRAY_DESCRIPTOR *desc, CUdeviceptr dptr, size_t Pitch);
-    [DllImport(_dllpath, EntryPoint = "cuTexRefSetAddress2D")]
+    [DllImport(_dllpath, EntryPoint = "cuTexRefSetAddress2D_v3")]
     public static extern CuResult TexRefSetAddress2D(CuTextRef hTexRef, ref CuArrayDescription desc, CuDevicePtr dptr, IntPtr pitch);
 
     /// <summary>Sets the format for a texture reference
@@ -663,7 +663,7 @@ public unsafe partial class LibCuda
     /// ::cuTexRefGetAddressMode, ::cuTexRefGetArray,
     /// ::cuTexRefGetFilterMode, ::cuTexRefGetFlags, ::cuTexRefGetFormat
     /// CUresult CUDAAPI cuTexRefGetAddress(CUdeviceptr *pdptr, CUtexref hTexRef);
-    [DllImport(_dllpath, EntryPoint = "cuTexRefGetAddress")]
+    [DllImport(_dllpath, EntryPoint = "cuTexRefGetAddress" + _ver)]
     public static extern CuResult TexRefGetAddress(out CuDevicePtr pdptr, CuTextRef hTexRef);
 
     /// <summary>Gets the array bound to a texture reference

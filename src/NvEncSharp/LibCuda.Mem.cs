@@ -286,7 +286,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemHostGetDevicePointer, ::cuMemsetD2D8, ::cuMemsetD2D16,
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32
     /// CUresult CUDAAPI cuMemGetAddressRange(CUdeviceptr *pbase, size_t *psize, CUdeviceptr dptr);
-    [DllImport(_dllpath, EntryPoint = "cuMemGetAddressRange")]
+    [DllImport(_dllpath, EntryPoint = "cuMemGetAddressRange" + _ver)]
     public static extern CuResult MemGetAddressRange(out CuDevicePtr pbase, out IntPtr psize, CuDevicePtr dptr);
 
     /// <summary>Allocates page-locked host memory
@@ -334,7 +334,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaMallocHost
     /// CUresult CUDAAPI cuMemAllocHost(void **pp, size_t bytesize);
-    [DllImport(_dllpath, EntryPoint = "cuMemAllocHost")]
+    [DllImport(_dllpath, EntryPoint = "cuMemAllocHost" + _ver)]
     public static extern CuResult MemAllocHost(out CuHostMemory pp, IntPtr bytesize);
 
     /// <summary>Frees page-locked host memory
@@ -502,7 +502,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaHostGetDevicePointer
     /// CUresult CUDAAPI cuMemHostGetDevicePointer(CUdeviceptr *pdptr, void *p, unsigned int Flags);
-    [DllImport(_dllpath, EntryPoint = "cuMemHostGetDevicePointer")]
+    [DllImport(_dllpath, EntryPoint = "cuMemHostGetDevicePointer" + _ver)]
     public static extern CuResult MemHostGetDevicePointer(out CuDevicePtr pdptr, CuHostMemory p, int flags = 0);
 
     /// <summary>Passes back flags that were used for a pinned allocation
@@ -725,7 +725,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemHostGetDevicePointer,
     /// ::cudaHostRegister
     /// CUresult CUDAAPI cuMemHostRegister(void *p, size_t bytesize, unsigned int Flags);
-    [DllImport(_dllpath, EntryPoint = "cuMemHostRegister")]
+    [DllImport(_dllpath, EntryPoint = "cuMemHostRegister" + _ver)]
     public static extern CuResult MemHostRegister(CuHostMemory p, IntPtr bytesize, int Flags);
 
     /// <summary>Unregisters a memory range that was registered with cuMemHostRegister.
@@ -835,7 +835,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaMallocArray
     /// CUresult CUDAAPI cuArrayCreate(CUarray *pHandle, const CUDA_ARRAY_DESCRIPTOR *pAllocateArray);
-    [DllImport(_dllpath, EntryPoint = "cuArrayCreate")]
+    [DllImport(_dllpath, EntryPoint = "cuArrayCreate" + _ver)]
     public static extern CuResult ArrayCreate(out CuArray pHandle, ref CuArrayDescription pAllocateArray);
 
     /// <summary>Get a 1D or 2D CUDA array descriptor
@@ -870,7 +870,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaArrayGetInfo
     /// CUresult CUDAAPI cuArrayGetDescriptor(CUDA_ARRAY_DESCRIPTOR *pArrayDescriptor, CUarray hArray);
-    [DllImport(_dllpath, EntryPoint = "cuArrayGetDescriptor")]
+    [DllImport(_dllpath, EntryPoint = "cuArrayGetDescriptor" + _ver)]
     public static extern CuResult ArrayGetDescriptor(out CuArrayDescription pArrayDescriptor, CuArray hArray);
 
     /// <summary>Destroys a CUDA array
@@ -1055,7 +1055,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaMalloc3DArray
     /// CUresult CUDAAPI cuArray3DCreate(CUarray *pHandle, const CUDA_ARRAY3D_DESCRIPTOR *pAllocateArray);
-    [DllImport(_dllpath, EntryPoint = "cuArray3DCreate")]
+    [DllImport(_dllpath, EntryPoint = "cuArray3DCreate" + _ver)]
     public static extern CuResult Array3DCreate(out CuArray pHandle, ref CuArray3DDescription pAllocateArray);
 
     /// <summary>Get a 3D CUDA array descriptor
@@ -1093,7 +1093,7 @@ public static unsafe partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaArrayGetInfo
     /// CUresult CUDAAPI cuArray3DGetDescriptor(CUDA_ARRAY3D_DESCRIPTOR *pArrayDescriptor, CUarray hArray);
-    [DllImport(_dllpath, EntryPoint = "cuArray3DGetDescriptor")]
+    [DllImport(_dllpath, EntryPoint = "cuArray3DGetDescriptor" + _ver)]
     public static extern CuResult Array3DGetDescriptor(out CuArray3DDescription pArrayDescriptor, CuArray hArray);
 
     /// <summary>Creates a CUDA mipmapped array

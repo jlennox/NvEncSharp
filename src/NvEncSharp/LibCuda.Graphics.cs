@@ -144,7 +144,7 @@ public unsafe partial class LibCuda
     /// ::cuGraphicsSubResourceGetMappedArray,
     /// ::cudaGraphicsResourceGetMappedPointer
     /// CUresult CUDAAPI cuGraphicsResourceGetMappedPointer(CUdeviceptr *pDevPtr, size_t *pSize, CUgraphicsResource resource);
-    [DllImport(_dllpath, EntryPoint = "cuGraphicsResourceGetMappedPointer")]
+    [DllImport(_dllpath, EntryPoint = "cuGraphicsResourceGetMappedPointer" + _ver)]
     public static extern CuResult GraphicsResourceGetMappedPointer(out CuDevicePtr pDevPtr, out IntPtr pSize, CuGraphicsResource resource);
 
     /// <summary>Set usage flags for mapping a graphics resource</summary>

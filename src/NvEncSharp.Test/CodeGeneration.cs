@@ -10,11 +10,15 @@ namespace Lennox.NvEncSharp.Test
 {
     internal static class CodeGeneration
     {
-        public static string LoadNvencHeader()
+        public static string LoadNvencHeader() => LoadHeader("nvEncodeAPI.h");
+
+        public static string LoadCudaHeader() => LoadHeader("cuda.h");
+
+        private static string LoadHeader(string filename)
         {
             var assembly = typeof(CodeGeneration).Assembly;
             var name = assembly.GetManifestResourceNames()
-                .Single(t => t.EndsWith("nvEncodeAPI.h"));
+                .Single(t => t.EndsWith("." + filename));
             using var stream = assembly.GetManifestResourceStream(name);
             using var sr = new StreamReader(stream);
             return sr.ReadToEnd();

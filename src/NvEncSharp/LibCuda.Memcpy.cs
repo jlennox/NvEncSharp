@@ -783,7 +783,7 @@ public static partial class LibCuda
     /// ::cuMemsetD2D32, ::cuMemsetD8, ::cuMemsetD16, ::cuMemsetD32,
     /// ::cudaMemcpy3D
     /// CUresult CUDAAPI cuMemcpy3D(const CUDA_MEMCPY3D *pCopy);
-    [DllImport(_dllpath, EntryPoint = "cuMemcpy3D")]
+    [DllImport(_dllpath, EntryPoint = "cuMemcpy3D" + _ver)]
     public static extern CuResult Memcpy3D(ref CuMemcpy3D pCopy);
 
     /// <summary>Copies memory between contexts
