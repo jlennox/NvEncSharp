@@ -60,13 +60,13 @@ public struct CuMemcopy2D
 public struct CuMemcpy3D
 {
     /// <summary>Source X in bytes</summary>
-    public IntPtr SrcXInBytes;
+    public nint SrcXInBytes;
     /// <summary>Source Y</summary>
-    public IntPtr SrcY;
+    public nint SrcY;
     /// <summary>Source Z</summary>
-    public IntPtr SrcZ;
+    public nint SrcZ;
     /// <summary>Source LOD</summary>
-    public IntPtr SrcLod;
+    public nint SrcLod;
     /// <summary>Source memory type (host, device, array)</summary>
     public CuMemoryType SrcMemoryType;
     /// <summary>Source host pointer</summary>
@@ -78,18 +78,18 @@ public struct CuMemcpy3D
     /// <summary>Must be NULL</summary>
     private IntPtr _reserved0;
     /// <summary>Source pitch (ignored when src is array)</summary>
-    public IntPtr SrcPitch;
+    public nint SrcPitch;
     /// <summary>Source height (ignored when src is array; may be 0 if Depth==1)</summary>
-    public IntPtr SrcHeight;
+    public nint SrcHeight;
 
     /// <summary>Destination X in bytes</summary>
-    public IntPtr DstXInBytes;
+    public nint DstXInBytes;
     /// <summary>Destination Y</summary>
-    public IntPtr DstY;
+    public nint DstY;
     /// <summary>Destination Z</summary>
-    public IntPtr DstZ;
+    public nint DstZ;
     /// <summary>Destination LOD</summary>
-    public IntPtr DstLod;
+    public nint DstLod;
     /// <summary>Destination memory type (host, device, array)</summary>
     public CuMemoryType DstMemoryType;
     /// <summary>Destination host pointer</summary>
@@ -101,16 +101,16 @@ public struct CuMemcpy3D
     /// <summary>Must be NULL</summary>
     public IntPtr Reserved1;
     /// <summary>Destination pitch (ignored when dst is array)</summary>
-    public IntPtr DstPitch;
+    public nint DstPitch;
     /// <summary>Destination height (ignored when dst is array; may be 0 if Depth==1)</summary>
-    public IntPtr DstHeight;
+    public nint DstHeight;
 
     /// <summary>Width of 3D memory copy in bytes</summary>
-    public IntPtr WidthInBytes;
+    public nint WidthInBytes;
     /// <summary>Height of 3D memory copy</summary>
-    public IntPtr Height;
+    public nint Height;
     /// <summary>Depth of 3D memory copy</summary>
-    public IntPtr Depth;
+    public nint Depth;
 }
 
 public struct CuMemcpy3DPeer
@@ -172,9 +172,9 @@ public struct CuMemcpy3DPeer
 public struct CuArrayDescription
 {
     /// <summary>Width of array</summary>
-    public IntPtr Width;
+    public nint Width;
     /// <summary>Height of array</summary>
-    public IntPtr Height;
+    public nint Height;
 
     /// <summary>Array format</summary>
     public CuArrayFormat Format;
@@ -185,11 +185,11 @@ public struct CuArrayDescription
 public struct CuArray3DDescription
 {
     /// <summary>Width of 3D array</summary>
-    public IntPtr Width;
+    public nint Width;
     /// <summary>Height of 3D array</summary>
-    public IntPtr Height;
+    public nint Height;
     /// <summary>Depth of 3D array</summary>
-    public IntPtr Depth;
+    public nint Depth;
 
     /// <summary>Array format</summary>
     public CuArrayFormat Format;
